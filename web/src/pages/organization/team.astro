@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ContinentStats from '../../components/blocks/ContinentStats.astro'
+import ListingHeader from '../../components/blocks/ListingHeader.astro'
+import PageHero from '../../components/blocks/PageHero.astro'
+import TeamCard from '../../components/cards/TeamCard.astro'
+import TeamGlobe from '../../components/interactive/TeamGlobe.astro'
+import FilterTabs from '../../components/ui/FilterTabs.astro'
+import Pagination from '../../components/ui/Pagination.astro'
+import SectionHeading from '../../components/ui/SectionHeading.astro'
+import SortControl from '../../components/ui/SortControl.astro'
+import Employees from '../../icons/employees.svg'
+import GlobeAlt from '../../icons/globe-alt.svg'
+import ModelCubeSpace from '../../icons/model-cube-space.svg'
+import { routes } from '../../data/routes'
+import {
+  continents,
+  countries,
+  filterGroups,
+  globe,
+  members,
+  mobilePageSize,
+  teamPage,
+} from '../../data/team'
+import { defaultLocale } from '../../i18n/config'
+import { sortOptions } from '../../i18n/groups'
+import { t } from '../../i18n/ui'
+
+const { meta, hero, intro, listing } = teamPage
+const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
+const statIcons = [
+  { icon: GlobeAlt, tone: 'brand' as const },
+  { icon: Employees, tone: 'light' as const },
+  { icon: ModelCubeSpace, tone: 'light' as const },
+]
+const statGroups = hero.stats.map((stat, index) => [
+  { kind: 'icon' as const, ...statIcons[index] },
+  { kind: 'count' as const, ...stat, tone: 'outline' as const },
+])
+const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  headerTheme="dark"
+  initialHeaderTheme="light"
+>
+  <main id="main">
+    <PageHero
+      layout="photo-left"
+      title={hero.title}
+      titleSize="display-2"
+      titleSizeMobile="display-5"
+      eyebrow={null}
+      lead={hero.lead}
+      links={[]}
+      stats={{ groups: statGroups, action: null }}
+      person={null}
+      image={hero.image}
+      background="brand-600"
+      textLeft={96}
+      mobileAnchor="bottom-30"
+      ornament="photo-both-sides"
+      headerTheme="light"
+    />
+
+    <section class="max-w-page lg:px-gutter-lg mx-auto w-full">
+      <div class="outline-neutral-100 lg:outline lg:-outline-offset-1">
+        <div class="mx-gutter border-l border-neutral-100 pt-[180px] pb-10 pl-5 lg:mx-0 lg:border-l-0 lg:pt-[120px] lg:pb-0 lg:pl-0">
+          <SectionHeading
+            layout="stack"
+            tag={intro.tag}
+            title={intro.title}
+            level="h2"
+            gap={8}
+            width="narrow"
+            titleTone="neutral-900"
+            linkTone="brand"
+            align="center"
+            subline={intro.subline}
+            columns={[]}
+            columnStyle="body-lg"
+            actions={intro.actions}
+            class="pt-3 pb-6 lg:pr-3 lg:pl-5"
+          />
+        </div>
+        <TeamGlobe
+          variant="team"
+          view={globe.view}
+          label={t(defaultLocale, 'globe.label')}
+          hint={t(defaultLocale, 'globe.hint')}
+          countries={countries}
+          selected={globe.selected}
+          unit={t(defaultLocale, 'globe.unit')}
+          photo={globe.photo}
+          photoAlt={globe.photoAlt}
+        />
+        <ContinentStats id="continent-stats" label={continents.label} items={continents.items} />
+      </div>
+    </section>
+
+    <section>
+      <ListingHeader
+        layout="split"
+        title={listing.title}
+        description={listing.mobileDescription}
+        descriptionStyle="body-md-medium-mobile"
+        tabsWidth="wide"
+        topSpace={120}
+        id={listing.id}
+      >
+        <FilterTabs
+          slot="tabs"
+          label={t(defaultLocale, 'tabs.teamGroup')}
+          layout="wrap"
+          options={filterGroups}
+        />
+        <SortControl
+          slot="controls"
+          id={listing.sort.id}
+          label={t(defaultLocale, 'sort.team')}
+          options={sortOptions(defaultLocale, listing.sort.values)}
+          selected={listing.sort.selected}
+          prefix={t(defaultLocale, 'filter.sort')}
+          icon="sort"
+          align="right"
+        />
+      </ListingHeader>
+      <div class={container}>
+        <div class="relative pt-5 pb-[180px] before:absolute before:inset-y-0 before:left-0 before:border-l before:border-neutral-100 lg:pb-0">
+          <Pagination
+            class="pt-5 pb-10 lg:hidden"
+            current={listing.pagination.current}
+            total={listing.pagination.total}
+            hrefFor={hrefFor}
+            locale={defaultLocale}
+          />
+          <ul class="grid md:grid-cols-2 lg:grid-cols-4 lg:gap-y-5">
+            {members.map((member, index) => (
+              <li class:list={['min-w-0', index >= mobilePageSize && 'max-lg:hidden']}>
+                <TeamCard {...member} locale={defaultLocale} />
+              </li>
+            ))}
+          </ul>
+          <Pagination
+            class="pt-10 pb-5 lg:mx-auto lg:w-[372px] lg:py-12"
+            current={listing.pagination.current}
+            total={listing.pagination.total}
+            hrefFor={hrefFor}
+            locale={defaultLocale}
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
