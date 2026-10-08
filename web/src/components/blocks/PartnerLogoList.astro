@@ -1,0 +1,29 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+interface Props {
+  title: string
+  logos: { name: string; image: ImageMetadata }[]
+}
+
+const { title, logos } = Astro.props
+---
+
+<section class="flex flex-col gap-1">
+  <h2 class="text-heading-3 font-medium text-neutral-800">{title}</h2>
+  <ul class="grid grid-cols-3 gap-x-2 gap-y-1 pt-2">
+    {logos.map((logo) => (
+      <li class="aspect-square overflow-clip">
+        <Image
+          src={logo.image}
+          alt={logo.name}
+          widths={[88, 108, 176, 264]}
+          sizes="(min-width: 1024px) 86px, 88px"
+          loading="lazy"
+          class="size-[88px] object-cover lg:size-full"
+        />
+      </li>
+    ))}
+  </ul>
+</section>

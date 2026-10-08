@@ -1,0 +1,101 @@
+---
+import type { SvgComponent } from 'astro/types'
+
+type Tone = 'brand-400' | 'brand-500' | 'brand-800' | 'brand-900'
+
+interface Column {
+  output: string
+  description: string
+  outcome: string
+  icon: SvgComponent
+  tone: Tone
+}
+
+interface Props {
+  label: string
+  columns: Column[]
+  class?: string
+}
+
+const { label, columns, class: className } = Astro.props
+
+const tones: Record<Tone, string> = {
+  'brand-400': 'text-brand-400',
+  'brand-500': 'text-brand-500',
+  'brand-800': 'text-brand-800',
+  'brand-900': 'text-brand-900',
+}
+
+const cell = 'border-x border-neutral-100 px-[11px] text-neutral-800'
+const rule = 'pointer-events-none absolute inset-x-0 h-[2px] bg-neutral-100'
+---
+
+<oet-outcome-matrix
+  class:list={['focus-inset block overflow-x-auto lg:overflow-x-visible', className]}
+  role="region"
+  aria-label={label}
+  tabindex="0"
+>
+  <div class="relative w-[1061px] border-neutral-100 lg:w-full lg:border-l lg:py-20">
+    <ul class="grid grid-flow-col grid-cols-4 grid-rows-[120px_auto_120px] px-5 lg:px-10">
+      {columns.map((column) => (
+        <li class="contents">
+          <div class:list={['flex flex-col gap-1 py-5', cell]}>
+            <h3 class="text-body-lg font-semibold">{column.output}</h3>
+            <p class="text-body-sm">{column.description}</p>
+          </div>
+          <div class:list={['matrix-middle flex items-center justify-center overflow-clip', cell]}>
+            <column.icon class:list={['size-12', tones[column.tone]]} aria-hidden="true" />
+          </div>
+          <p class:list={['text-body-lg flex items-center font-medium', cell]}>{column.outcome}</p>
+        </li>
+      ))}
+    </ul>
+    <span class:list={[rule, 'top-[119px] lg:top-[199px]']}></span>
+    <span class:list={[rule, 'bottom-[119px] lg:bottom-[199px]']}></span>
+  </div>
+</oet-outcome-matrix>
+
+<style>
+  .matrix-middle {
+    height: 281px;
+    transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .matrix-middle :global(svg) {
+    transition: opacity 0.5s ease 0.2s;
+  }
+
+  oet-outcome-matrix[data-collapsed] .matrix-middle {
+    height: 41px;
+  }
+
+  oet-outcome-matrix[data-collapsed] .matrix-middle :global(svg) {
+    opacity: 0;
+    transition-delay: 0s;
+  }
+</style>
+
+<script>
+  class OutcomeMatrix extends HTMLElement {
+    connectedCallback() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      this.setAttribute('data-collapsed', '')
+      const expand = () => {
+        this.removeAttribute('data-collapsed')
+        observer.disconnect()
+        this.removeEventListener('pointerenter', expand)
+      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) expand()
+        },
+        { threshold: 0.6 },
+      )
+      observer.observe(this)
+      this.addEventListener('pointerenter', expand)
+    }
+  }
+
+  customElements.define('oet-outcome-matrix', OutcomeMatrix)
+</script>
