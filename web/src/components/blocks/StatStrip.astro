@@ -1,0 +1,52 @@
+---
+import Blueprint from '../../icons/blueprint.svg'
+import Employees from '../../icons/employees.svg'
+import FolderEdit from '../../icons/folder-edit.svg'
+import Handshake from '../../icons/heart-partner-handshake.svg'
+import License from '../../icons/license.svg'
+import World from '../../icons/world.svg'
+
+type IconName = 'blueprint' | 'handshake' | 'employees' | 'world' | 'folder-edit' | 'license'
+
+interface Stat {
+  value: string
+  label: string
+  icon: IconName
+}
+
+interface Props {
+  stats: Stat[]
+}
+
+const { stats } = Astro.props
+
+const icons = {
+  blueprint: { component: Blueprint, tone: 'text-brand-500' },
+  handshake: { component: Handshake, tone: 'text-neutral-400' },
+  employees: { component: Employees, tone: 'text-brand-800' },
+  world: { component: World, tone: 'text-neutral-400' },
+  'folder-edit': { component: FolderEdit, tone: 'text-black' },
+  license: { component: License, tone: 'text-brand-500' },
+}
+---
+
+<div class="max-w-page px-gutter-lg mx-auto -mt-6 hidden w-full lg:block">
+  <ul class="grid grid-cols-6">
+    {stats.map((stat) => {
+      const Icon = icons[stat.icon].component
+      return (
+        <li class="flex h-[72px] min-w-0 items-center gap-[10px] border border-neutral-100 px-5 py-3 text-neutral-800 first:pl-10">
+          <div class="flex min-w-0 flex-1 flex-col gap-1">
+            <span class="text-[1.5rem] leading-none font-semibold tracking-[-0.01em]">
+              {stat.value}
+            </span>
+            <span class="text-[1rem] leading-[20px] font-medium tracking-[-0.01em]">
+              {stat.label}
+            </span>
+          </div>
+          <Icon class:list={['size-6 shrink-0', icons[stat.icon].tone]} aria-hidden="true" />
+        </li>
+      )
+    })}
+  </ul>
+</div>

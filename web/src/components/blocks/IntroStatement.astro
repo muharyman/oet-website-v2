@@ -1,0 +1,88 @@
+---
+import Button from '../ui/Button.astro'
+import Tag from '../ui/Tag.astro'
+
+type Variant = 'home' | 'service'
+
+interface Action {
+  label: string
+  href: string
+  variant: 'primary' | 'outline'
+  arrow: boolean
+}
+
+interface Props {
+  variant: Variant
+  tag: string
+  title: string
+  paragraphs: readonly string[]
+  actions: readonly Action[]
+}
+
+const { variant, tag, title, paragraphs, actions } = Astro.props
+
+const variants: Record<Variant, { section: string; column: string; media: string; text: string }> =
+  {
+    home: {
+      section: '',
+      column: 'gap-4 pt-[160px] pb-20',
+      media: 'aspect-[630/509] w-full',
+      text: 'text-body-sm lg:text-body-md gap-3 lg:gap-[10px]',
+    },
+    service: {
+      section: 'lg:pt-[7px]',
+      column: 'gap-2 pt-[192px] lg:pb-20',
+      media:
+        'order-last -ml-10 aspect-[412/301] w-[calc(100%+60px)] lg:order-none lg:ml-0 lg:aspect-[630/460]',
+      text: 'text-body-md mb-24 flex-col gap-5 whitespace-pre-line lg:mb-0 lg:flex-row lg:gap-5',
+    },
+  }
+
+const styles = variants[variant]
+---
+
+<section class:list={['max-w-page px-gutter lg:px-gutter-lg mx-auto w-full', styles.section]}>
+  <div class="relative">
+    <div
+      class:list={[
+        'flex flex-col items-start border-l border-neutral-100 pl-[19px] lg:w-[calc(50%-10px)] lg:gap-3 lg:pt-[240px] lg:pr-10 lg:pl-[39px]',
+        styles.column,
+      ]}
+    >
+      <Tag label={tag} tone="dark" />
+      <h2 class="text-display-5 lg:text-display-3 font-medium whitespace-pre-line text-neutral-800 lg:max-w-[550px]">
+        {title}
+      </h2>
+      <div
+        class:list={['lg:absolute lg:top-[240px] lg:right-0 lg:w-[calc(50%-10px)]', styles.media]}
+      >
+        <slot name="media" />
+      </div>
+      <div
+        class:list={[
+          'flex w-full items-start text-neutral-800 lg:min-h-[161px] lg:max-w-[550px] lg:pt-2',
+          styles.text,
+        ]}
+      >
+        {paragraphs.map((paragraph) => (
+          <p class="min-w-0 flex-1">{paragraph}</p>
+        ))}
+      </div>
+      {actions.length > 0 && (
+        <div class="flex flex-col items-start">
+          {actions.map((action) => (
+            <Button
+              href={action.href}
+              label={action.label}
+              variant={action.variant}
+              size="md"
+              arrow={action.arrow}
+              newTab={false}
+              class="h-10"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

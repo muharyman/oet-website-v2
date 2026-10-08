@@ -1,0 +1,129 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+type Columns = 4 | 5
+type Mobile = 'grid' | 'scroll'
+
+interface Step {
+  number: string
+  title: string
+  text: string
+  image: ImageMetadata | null
+}
+
+interface Props {
+  columns: Columns
+  steps: readonly Step[]
+  illustration: ImageMetadata | null
+  mobile: Mobile
+  placeholder?: string
+  class?: string
+}
+
+const { columns, steps, illustration, mobile, placeholder, class: className } = Astro.props
+
+const widths: Record<Mobile, string> = {
+  grid: 'w-full',
+  scroll: 'w-[1280px] lg:w-full',
+}
+
+const tracks: Record<Mobile, Record<Columns, string>> = {
+  grid: { 4: 'grid-cols-2 lg:grid-cols-4', 5: 'grid-cols-2 lg:grid-cols-5' },
+  scroll: { 4: 'grid-cols-4', 5: 'grid-cols-5' },
+}
+
+const captions: Record<
+  Columns,
+  { item: string; cell: string; number: string; title: string; text: string }
+> = {
+  4: {
+    item: 'self-start',
+    cell: 'p-4',
+    number: 'text-body-sm',
+    title: 'text-heading-4',
+    text: 'text-body-sm',
+  },
+  5: {
+    item: '',
+    cell: 'flex-1 py-4 pr-4 pl-2 lg:min-h-[150px]',
+    number: 'text-body-xs',
+    title: 'text-body-md',
+    text: 'text-body-xs font-medium',
+  },
+}
+
+const edges: Record<Mobile, string> = {
+  grid: 'max-lg:nth-[-n+2]:before:border-t max-lg:odd:before:border-l lg:before:border-t lg:first:before:border-l',
+  scroll: 'before:border-t first:before:border-l',
+}
+
+const caption = captions[columns]
+const cell =
+  'relative flex gap-[10px] after:pointer-events-none after:absolute after:inset-0 after:border-r after:border-b after:border-neutral-200'
+---
+
+<div
+  class:list={[
+    mobile === 'scroll' && 'focus-inset overflow-x-auto lg:overflow-x-visible',
+    className,
+  ]}
+  tabindex={mobile === 'scroll' ? 0 : undefined}
+>
+  <div class:list={['relative', widths[mobile]]}>
+    {illustration !== null && (
+      <Image
+        src={illustration}
+        alt=""
+        widths={[1073, 2146]}
+        sizes="(min-width: 1440px) 1073px, (min-width: 1024px) 84vw, 1073px"
+        loading="lazy"
+        class="pointer-events-none absolute top-[7px] left-[9.297%] h-[409px] w-[83.828%] object-cover object-bottom mix-blend-multiply"
+      />
+    )}
+    <ol class:list={['relative grid', tracks[mobile][columns]]}>
+      {steps.map((step) => (
+        <li
+          class:list={[
+            'relative flex min-w-0 flex-col before:pointer-events-none before:absolute before:inset-0 before:z-10 before:border-neutral-200',
+            edges[mobile],
+            caption.item,
+          ]}
+        >
+          <div class:list={['h-[416px] items-center p-4', cell]}>
+            {step.image !== null && (
+              <Image
+                src={step.image}
+                alt=""
+                widths={[256, 320, 512, 640]}
+                sizes="(min-width: 1024px) 320px, 50vw"
+                loading="lazy"
+                class="absolute inset-0 size-full object-cover"
+              />
+            )}
+            <span
+              class="text-body-sm relative w-5 shrink-0 self-stretch text-right font-medium text-neutral-800"
+              aria-hidden="true"
+            >
+              {step.number}
+            </span>
+            {step.image === null && placeholder !== undefined && (
+              <span class="text-heading-4 relative min-w-0 flex-1 text-center font-bold text-neutral-800 opacity-20">
+                {placeholder}
+              </span>
+            )}
+          </div>
+          <div class:list={['bg-neutral-50 text-neutral-800', cell, caption.cell]}>
+            <span class:list={['w-5 shrink-0 text-right font-medium', caption.number]}>
+              {step.number}
+            </span>
+            <div class="flex min-w-0 flex-1 flex-col gap-[10px]">
+              <h3 class:list={['font-medium whitespace-pre-line', caption.title]}>{step.title}</h3>
+              <p class={caption.text}>{step.text}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
