@@ -1,0 +1,88 @@
+---
+import AngleDouble from '../../icons/angle-double-small-up.svg'
+import AngleLeft from '../../icons/angle-left.svg'
+import AngleRight from '../../icons/angle-right.svg'
+import type { Locale } from '../../i18n/config'
+import { t } from '../../i18n/ui'
+
+interface Props {
+  current: number
+  total: number
+  hrefFor: (page: number) => string
+  locale: Locale
+  class?: string
+}
+
+const { current, total, hrefFor, locale, class: className } = Astro.props
+
+const visible = [...new Set([1, current - 1, current, current + 1, total])]
+  .filter((page) => page >= 1 && page <= total)
+  .sort((a, b) => a - b)
+const pages = visible.flatMap((page, index) =>
+  index > 0 && page - visible[index - 1] > 1 ? [0, page] : [page],
+)
+
+const cell = 'text-body-2xs flex h-6 min-w-6 items-center justify-center rounded-sm'
+const link = 'hover:bg-neutral-100'
+const step = (
+  page: number,
+  label: string,
+  enabled: boolean,
+  icon: typeof AngleLeft,
+  rotate: string,
+) => ({
+  kind: 'step' as const,
+  page,
+  label,
+  enabled,
+  icon,
+  rotate,
+})
+const items = [
+  step(1, t(locale, 'pagination.first'), current > 1, AngleDouble, '-rotate-90'),
+  step(current - 1, t(locale, 'pagination.previous'), current > 1, AngleLeft, ''),
+  ...pages.map((page) => ({ kind: 'page' as const, page })),
+  step(current + 1, t(locale, 'pagination.next'), current < total, AngleRight, ''),
+  step(total, t(locale, 'pagination.last'), current < total, AngleDouble, 'rotate-90'),
+]
+---
+
+<nav aria-label={t(locale, 'pagination.label')} class={className}>
+  <ul class="flex items-center justify-between gap-1 text-neutral-600">
+    {items.map((item) => (
+      <li>
+        {item.kind === 'step' && item.enabled && (
+          <a href={hrefFor(item.page)} class:list={[cell, link]} aria-label={item.label}>
+            <item.icon class:list={['size-4', item.rotate]} aria-hidden="true" />
+          </a>
+        )}
+        {item.kind === 'step' && !item.enabled && (
+          <span class={cell} role="link" aria-disabled="true" aria-label={item.label}>
+            <item.icon class:list={['size-4', item.rotate]} aria-hidden="true" />
+          </span>
+        )}
+        {item.kind === 'page' && item.page === 0 && (
+          <span class:list={[cell, 'px-2 text-neutral-800']} aria-hidden="true">
+            ...
+          </span>
+        )}
+        {item.kind === 'page' && item.page !== 0 && (
+          <a
+            href={hrefFor(item.page)}
+            class:list={[
+              cell,
+              link,
+              item.page === current
+                ? 'border-brand-200 text-brand-500 border bg-neutral-100 px-[7px]'
+                : 'px-2 text-neutral-800',
+            ]}
+            aria-current={item.page === current ? 'page' : undefined}
+            aria-label={`${t(locale, 'pagination.page')} ${item.page}`}
+          >
+            {item.page}
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
