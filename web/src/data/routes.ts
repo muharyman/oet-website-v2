@@ -1,0 +1,44 @@
+export const routes = {
+  home: '/',
+  toolsAndData: '/tools-and-data',
+  toolsCategory: (slug: string) => `/tools-and-data/${slug}`,
+  services: '/services',
+  service: (slug: string) => `/services/${slug}`,
+  successStories: '/outputs/success-stories',
+  successStoriesByStatus: (status: string) => `/outputs/success-stories?status=${status}`,
+  successStory: (slug: string) => `/outputs/success-stories/${slug}`,
+  publications: '/outputs/publications',
+  publication: (slug: string) => `/outputs/publications/${slug}`,
+  blogs: '/outputs/blogs',
+  policyBriefs: '/outputs/policy-briefs',
+  reports: '/outputs/reports',
+  legal: '/legal',
+  privacyStatement: '/privacy-statement',
+  disclaimer: '/disclaimer',
+  about: '/organization/about',
+  departments: '/organization/departments',
+  department: (slug: string) => `/organization/departments/${slug}`,
+  partners: '/organization/partners',
+  team: '/organization/team',
+  career: '/organization/career',
+  theoryOfChange: '/organization/theory-of-change',
+  newsAndEvents: '/organization/news-and-events',
+  event: (slug: string) => `/organization/news-and-events/${slug}`,
+  contact: 'mailto:info@openenergytransition.org',
+} as const
+
+export const serviceSlugs = [
+  'system-operators-and-utilities',
+  'regulators-and-public-authorities',
+  'consultancies-and-engineering-firms',
+  'foundations-and-development-partners',
+  'think-tanks-ngos-and-research-organizations',
+  'technology-developers-and-investors',
+] as const
+
+export const departmentSlugs = [
+  'energy-system-modeling',
+  'modeling-tools-and-data',
+  'software-engineering',
+  'research-and-market-development',
+] as const
