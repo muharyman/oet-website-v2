@@ -1,0 +1,48 @@
+---
+import '../styles/global.css'
+import Preloader from '../components/layout/Preloader.astro'
+import SiteFooter from '../components/layout/SiteFooter.astro'
+import SiteHeader from '../components/layout/SiteHeader.astro'
+import { footer } from '../data/footer'
+import { navigation, type HeaderTheme } from '../data/navigation'
+import { locales } from '../i18n/config'
+import { t } from '../i18n/ui'
+
+interface Props {
+  title: string
+  description: string
+  headerTheme: HeaderTheme
+  initialHeaderTheme: HeaderTheme
+}
+
+const { title, description, headerTheme, initialHeaderTheme } = Astro.props
+const locale = locales.find((code) => code === Astro.currentLocale)
+if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <slot name="head" />
+  </head>
+  <body>
+    <Preloader />
+    <a href="#main" class="skip-link">
+      {t(locale, 'nav.skip')}
+    </a>
+    <SiteHeader
+      navigation={navigation}
+      theme={headerTheme}
+      initialTheme={initialHeaderTheme}
+      locale={locale}
+      locales={locales}
+    />
+    <slot />
+    <SiteFooter content={footer} locale={locale} />
+  </body>
+</html>
