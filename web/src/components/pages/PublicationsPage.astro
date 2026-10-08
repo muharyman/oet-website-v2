@@ -1,0 +1,192 @@
+---
+import heroDesktop from '../../assets/heroes/publications-desktop.webp'
+import heroMobile from '../../assets/heroes/publications-mobile.webp'
+import ListingHeader from '../blocks/ListingHeader.astro'
+import PageHero from '../blocks/PageHero.astro'
+import PublicationCard from '../cards/PublicationCard.astro'
+import FilterBar from '../ui/FilterBar.astro'
+import FilterTabs from '../ui/FilterTabs.astro'
+import Pagination from '../ui/Pagination.astro'
+import { filters, pagination, sort } from '../../data/outputs'
+import {
+  publicationBySlug,
+  publicationsPage,
+  type PublicationTypeId,
+} from '../../data/publications'
+import { routes } from '../../data/routes'
+import { defaultLocale } from '../../i18n/config'
+import { t } from '../../i18n/ui'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+interface Props {
+  type: PublicationTypeId | null
+}
+
+const { type } = Astro.props
+const locale = defaultLocale
+const { meta, hero, listing, outputs } = publicationsPage
+
+const activeTab = listing.typeTabs.find((tab) => tab.type === type)
+if (type !== null && !activeTab) throw new Error(`Unknown publication type: ${type}`)
+const base = activeTab ? activeTab.href : routes.publications
+const title = activeTab ? `${activeTab.label} | ${meta.title}` : meta.title
+const tabs = [
+  { label: t(locale, 'tabs.showAll'), href: routes.publications, active: type === null },
+  ...listing.typeTabs.map((tab) => ({
+    label: tab.label,
+    href: `${tab.href}#${listing.id}`,
+    active: tab.type === type,
+  })),
+]
+const ofType = (slugs: string[]) =>
+  slugs.map(publicationBySlug).filter((item) => type === null || item.type === type)
+const listed = ofType(listing.items)
+const outputItems = ofType(outputs.items)
+const hrefFor = (page: number) => `${base}?page=${page}`
+const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
+const sizes =
+  '(min-width: 1440px) 367px, (min-width: 1024px) calc((100vw - 340px) / 3), calc(100vw - 80px)'
+const grid = 'grid gap-5 border-t border-neutral-100 pt-5 lg:grid-cols-3 lg:border-l lg:pl-5'
+---
+
+<BaseLayout
+  title={title}
+  description={meta.description}
+  headerTheme="dark"
+  initialHeaderTheme="light"
+>
+  <main id="main">
+    <PageHero
+      layout="listing"
+      title={hero.title}
+      titleSize="display-2"
+      titleSizeMobile="display-5"
+      eyebrow={null}
+      lead={[]}
+      links={hero.links}
+      stats={null}
+      person={null}
+      image={{ desktop: heroDesktop, mobile: heroMobile }}
+      background="brand-900"
+      chipsBottomMobile={62}
+      ornament="right-upper"
+      headerTheme="light"
+    />
+
+    <ListingHeader
+      layout="split"
+      title={listing.title}
+      description={null}
+      descriptionStyle="body-lg"
+      tabsWidth="column"
+      topSpace={180}
+      id={listing.id}
+    >
+      <FilterTabs
+        slot="tabs"
+        label={t(locale, 'tabs.publicationType')}
+        layout="compact"
+        options={tabs}
+      />
+      <FilterBar
+        slot="controls"
+        locale={locale}
+        filters={filters(locale, 'publications')}
+        sort={sort(locale, 'publications')}
+      />
+      <Pagination
+        class="py-5 lg:hidden"
+        current={pagination.current}
+        total={pagination.total}
+        hrefFor={hrefFor}
+        locale={locale}
+      />
+    </ListingHeader>
+
+    <div class={container}>
+      {listed.length > 0 ? (
+        <>
+          <ul class:list={[grid, 'pb-5 lg:gap-y-10']}>
+            {listed.map((publication, index) => {
+              return (
+                <li class:list={[index >= listing.mobilePageSize && 'max-lg:hidden']}>
+                  <PublicationCard
+                    title={publication.title}
+                    excerpt={publication.excerpt}
+                    date={publication.date}
+                    category={publication.category}
+                    href={routes.publication(publication.slug)}
+                    linkLabel={t(locale, 'card.read')}
+                    media={{
+                      image: publication.thumbnail,
+                      alt: publication.alt,
+                      sizes,
+                      frame: publication.frame,
+                      mobileFrame: 'fixed',
+                    }}
+                    height="fixed"
+                    class="h-full"
+                  />
+                </li>
+              )
+            })}
+          </ul>
+          <div class="flex justify-center border-neutral-100 pt-10 pb-[60px] lg:border-l">
+            <Pagination
+              class="w-full lg:w-[372px]"
+              current={pagination.current}
+              total={pagination.total}
+              hrefFor={hrefFor}
+              locale={locale}
+            />
+          </div>
+        </>
+      ) : (
+        <p class="text-body-md border-t border-neutral-100 py-10 pl-5 font-medium text-neutral-800 lg:border-l">
+          {t(locale, 'publications.empty')}
+        </p>
+      )}
+
+      {outputItems.length > 0 ? (
+        <>
+          <div class="flex flex-col gap-3 border-l border-neutral-100 pt-[180px] pb-10 pl-5 font-medium text-neutral-800">
+            <h2 class="text-display-5">{outputs.title}</h2>
+            <p class="text-[1rem] leading-[21px] tracking-[-0.01em] whitespace-pre-line">
+              {outputs.description}
+            </p>
+          </div>
+          <ul class={grid}>
+            {outputItems.map((publication, index) => {
+              return (
+                <li class:list={[index >= outputs.mobilePageSize && 'max-lg:hidden']}>
+                  <PublicationCard
+                    title={publication.title}
+                    excerpt={publication.excerpt}
+                    date={publication.date}
+                    category={publication.category}
+                    href={routes.publication(publication.slug)}
+                    linkLabel={t(locale, 'card.read')}
+                    media={null}
+                    height="natural"
+                    class="h-full"
+                  />
+                </li>
+              )
+            })}
+          </ul>
+          <div class="flex justify-center border-neutral-100 pt-[60px] pb-[160px] lg:border-l lg:pb-[120px]">
+            <Pagination
+              class="w-full lg:w-[372px]"
+              current={pagination.current}
+              total={pagination.total}
+              hrefFor={hrefFor}
+              locale={locale}
+            />
+          </div>
+        </>
+      ) : (
+        <div class="h-[160px] border-neutral-100 lg:h-[120px] lg:border-l" />
+      )}
+    </div>
+  </main>
+</BaseLayout>
