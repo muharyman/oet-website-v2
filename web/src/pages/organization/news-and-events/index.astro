@@ -1,0 +1,273 @@
+---
+import CtaBanner from '../../../components/blocks/CtaBanner.astro'
+import ListingHeader from '../../../components/blocks/ListingHeader.astro'
+import PageHero from '../../../components/blocks/PageHero.astro'
+import EventCard from '../../../components/cards/EventCard.astro'
+import FilterTabs from '../../../components/ui/FilterTabs.astro'
+import Pagination from '../../../components/ui/Pagination.astro'
+import SortControl from '../../../components/ui/SortControl.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { events, eventsPage, eventStatus, eventTypes, formatEventDay } from '../../../data/events'
+import { routes } from '../../../data/routes'
+import { locales } from '../../../i18n/config'
+import { eventLabels, sortOptions } from '../../../i18n/groups'
+import { t } from '../../../i18n/ui'
+
+const locale = locales.find((code) => code === Astro.currentLocale)
+if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
+
+const { meta, hero, listing, stateTabs, sort, mobilePagination, cta } = eventsPage
+const labels = eventLabels(locale)
+const now = new Date()
+
+const cards = events
+  .flatMap((event) => {
+    const status = eventStatus(event, now)
+    return status === 'archived' ? [] : [{ event, status }]
+  })
+  .sort((a, b) => a.event.title.localeCompare(b.event.title, locale))
+
+const stateOptions = stateTabs.map((tab) => ({
+  label: tab.label,
+  href: `?state=${tab.id}#${listing.id}`,
+  active: tab.id === 'all',
+}))
+const typeOptions = [
+  { label: t(locale, 'tabs.showAll'), href: `?type=all#${listing.id}`, active: true },
+  ...eventTypes.map((type) => ({
+    label: type.label,
+    href: `?type=${type.id}#${listing.id}`,
+    active: false,
+  })),
+]
+const statusLabels = { upcoming: labels.upcoming, highlighted: labels.highlighted }
+const linkLabels = { upcoming: labels.register, highlighted: labels.recap }
+const hrefFor = (page: number) => `?page=${page}#${listing.id}`
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  headerTheme="dark"
+  initialHeaderTheme="light"
+>
+  <main id="main">
+    <PageHero
+      layout="listing"
+      title={hero.title}
+      titleSize="display-2"
+      titleSizeMobile="display-3"
+      eyebrow={null}
+      lead={[]}
+      links={[hero.link]}
+      stats={null}
+      person={null}
+      image={hero.image}
+      background="brand-900"
+      chipsBottomMobile={30}
+      ornament="right-bottom"
+      headerTheme="light"
+    />
+
+    <oet-event-filter class="block">
+      <ListingHeader
+        layout="split"
+        title={listing.title}
+        description={listing.description}
+        descriptionStyle="body-md-medium-to-lg"
+        tabsWidth="column"
+        topSpace={180}
+        id={listing.id}
+      >
+        <div slot="tabs" data-filter="state">
+          <FilterTabs
+            label={t(locale, 'tabs.eventState')}
+            layout="compact"
+            options={stateOptions}
+          />
+        </div>
+        <div slot="controls" data-filter="type">
+          <FilterTabs label={t(locale, 'tabs.eventType')} layout="compact" options={typeOptions} />
+        </div>
+        <SortControl
+          slot="controls"
+          id="sort-events"
+          label={t(locale, 'filter.sort')}
+          prefix={t(locale, 'filter.sort')}
+          icon="sort"
+          options={sortOptions(locale, sort.values)}
+          selected={sort.selected}
+          align="right"
+          class="lg:-ml-px"
+        />
+        <Pagination
+          class="py-5 lg:hidden"
+          current={mobilePagination.current}
+          total={mobilePagination.total}
+          hrefFor={hrefFor}
+          locale={locale}
+        />
+      </ListingHeader>
+
+      <div class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
+        <div class="border-t border-l border-neutral-100 pt-[19px] pb-[60px] lg:border-t-0 lg:py-5 lg:pl-[19px]">
+          <ul
+            data-events
+            class="-ml-px grid gap-5 lg:ml-0 lg:grid-cols-3 lg:gap-y-[50px]"
+            aria-live="polite"
+          >
+            {cards.map(({ event, status }) => (
+              <li
+                class="flex"
+                data-state={status}
+                data-type={event.type}
+                data-title={event.title}
+                data-start={event.start}
+              >
+                <EventCard
+                  status={status}
+                  statusLabel={statusLabels[status]}
+                  date={formatEventDay(locale, event.timeZone, event.start)}
+                  dateTime={event.start}
+                  title={event.title}
+                  excerpt={event.excerpt}
+                  registration={
+                    status === 'upcoming' && event.registrationClosesAt !== null
+                      ? `${labels.registrationCloses} ${formatEventDay(locale, event.timeZone, event.registrationClosesAt)}`
+                      : null
+                  }
+                  href={routes.event(event.slug)}
+                  linkLabel={linkLabels[status]}
+                  poster={event.poster.image}
+                  posterAlt={event.poster.alt}
+                  posterFit={event.posterFit}
+                  sizes="(min-width: 1440px) 407px, (min-width: 1024px) 30vw, 100vw"
+                  class="w-full"
+                />
+              </li>
+            ))}
+          </ul>
+          <p data-empty class="text-body-lg py-10 text-neutral-800 lg:px-5" hidden>
+            {labels.empty}
+          </p>
+          <Pagination
+            class="pt-10 lg:hidden"
+            current={mobilePagination.current}
+            total={mobilePagination.total}
+            hrefFor={hrefFor}
+            locale={locale}
+          />
+        </div>
+      </div>
+    </oet-event-filter>
+
+    <div class="max-w-page lg:px-gutter-lg mx-auto hidden w-full lg:block" aria-hidden="true">
+      <div class="h-43 border-l border-neutral-100"></div>
+    </div>
+    <div class="hidden lg:block">
+      <CtaBanner {...cta.support} />
+    </div>
+    <div class="lg:hidden">
+      <CtaBanner {...cta.discuss} />
+    </div>
+    <CtaBanner {...cta.updates} />
+    <div class="max-w-page lg:px-gutter-lg mx-auto hidden w-full lg:block" aria-hidden="true">
+      <div class="h-40 border-l border-neutral-100"></div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  type FilterKey = 'state' | 'type'
+  type Sorter = (a: HTMLElement, b: HTMLElement) => number
+
+  class OetEventFilter extends HTMLElement {
+    connectedCallback() {
+      const list = this.querySelector<HTMLElement>('[data-events]')
+      const empty = this.querySelector<HTMLElement>('[data-empty]')
+      const select = this.querySelector<HTMLElement>('oet-select')
+      if (!list || !empty || !select) throw new Error('oet-event-filter: missing parts')
+      const items = [...list.querySelectorAll<HTMLElement>(':scope > li')]
+      const keys: FilterKey[] = ['state', 'type']
+
+      const read = (item: HTMLElement, key: string) => {
+        const value = item.dataset[key]
+        if (value === undefined) throw new Error(`oet-event-filter: item without data-${key}`)
+        return value
+      }
+      const valueOf = (link: HTMLAnchorElement, key: FilterKey) => {
+        const value = new URL(link.href).searchParams.get(key)
+        if (value === null) throw new Error(`oet-event-filter: tab without "${key}" parameter`)
+        return value
+      }
+      const groups = keys.map((key) => {
+        const links = [...this.querySelectorAll<HTMLAnchorElement>(`[data-filter="${key}"] a`)]
+        const on = links.find((link) => link.hasAttribute('aria-current'))
+        const off = links.find((link) => !link.hasAttribute('aria-current'))
+        if (!on || !off) throw new Error(`oet-event-filter: tabs for "${key}" are incomplete`)
+        return { key, links, onClass: on.className, offClass: off.className }
+      })
+
+      const sorters: Record<string, Sorter> = {
+        'a-z': (a, b) => read(a, 'title').localeCompare(read(b, 'title')),
+        'z-a': (a, b) => read(b, 'title').localeCompare(read(a, 'title')),
+        newest: (a, b) => Date.parse(read(b, 'start')) - Date.parse(read(a, 'start')),
+        oldest: (a, b) => Date.parse(read(a, 'start')) - Date.parse(read(b, 'start')),
+      }
+      const sorterFor = (value: unknown) => {
+        if (typeof value !== 'string' || !(value in sorters)) {
+          throw new Error(`oet-event-filter: unknown sort "${value}"`)
+        }
+        return sorters[value]
+      }
+
+      const params = new URLSearchParams(location.search)
+      const filters: Record<FilterKey, string> = { state: 'all', type: 'all' }
+      for (const group of groups) {
+        const requested = params.get(group.key)
+        const known = group.links.some((link) => valueOf(link, group.key) === requested)
+        if (requested !== null && known) filters[group.key] = requested
+      }
+      let sorter = sorterFor(select.dataset.value)
+
+      const apply = () => {
+        for (const group of groups) {
+          for (const link of group.links) {
+            const selected = valueOf(link, group.key) === filters[group.key]
+            link.className = selected ? group.onClass : group.offClass
+            if (selected) link.setAttribute('aria-current', 'true')
+            else link.removeAttribute('aria-current')
+          }
+        }
+        for (const item of items) {
+          item.hidden = keys.some(
+            (key) => filters[key] !== 'all' && read(item, key) !== filters[key],
+          )
+        }
+        empty.hidden = items.some((item) => !item.hidden)
+        list.append(...[...items].sort(sorter))
+      }
+
+      for (const group of groups) {
+        for (const link of group.links) {
+          link.addEventListener('click', (event) => {
+            event.preventDefault()
+            filters[group.key] = valueOf(link, group.key)
+            const next = new URL(location.href)
+            next.searchParams.set(group.key, filters[group.key])
+            history.replaceState(null, '', next)
+            apply()
+          })
+        }
+      }
+      select.addEventListener('oet-select:change', (event) => {
+        if (!(event instanceof CustomEvent)) return
+        sorter = sorterFor(event.detail.value)
+        apply()
+      })
+      apply()
+    }
+  }
+
+  customElements.define('oet-event-filter', OetEventFilter)
+</script>
