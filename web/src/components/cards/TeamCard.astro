@@ -1,0 +1,131 @@
+---
+import type { ImageMetadata } from 'astro'
+import type { SvgComponent } from 'astro/types'
+import { Image } from 'astro:assets'
+import type { Locale } from '../../i18n/config'
+import { t, type UiKey } from '../../i18n/ui'
+import ArrowRight from '../../icons/arrow-right.svg'
+import CommentHeart from '../../icons/comment-heart.svg'
+import Envelope from '../../icons/envelope.svg'
+import Github from '../../icons/github.svg'
+import Linkedin from '../../icons/linkedin.svg'
+
+type SocialKind = 'email' | 'github' | 'linkedin' | 'message'
+type Box = { x: number; y: number; width: number; height: number }
+
+interface Props {
+  name: string
+  role: string
+  portrait: { image: ImageMetadata; desktop: Box; mobile: Box; rotate: number }
+  glow: 'center' | 'right'
+  links: { kind: SocialKind; href: string }[]
+  profile: { label: string; href: string }
+  tags: string[]
+  locale: Locale
+  class?: string
+}
+
+const { name, role, portrait, glow, links, profile, tags, locale, class: className } = Astro.props
+
+const socialLabels: Record<SocialKind, UiKey> = {
+  email: 'social.email',
+  github: 'social.github',
+  linkedin: 'social.linkedin',
+  message: 'social.message',
+}
+
+const icons: Record<SocialKind, SvgComponent> = {
+  email: Envelope,
+  github: Github,
+  linkedin: Linkedin,
+  message: CommentHeart,
+}
+
+const glows: Record<Props['glow'], string> = {
+  center: 'left-[calc(50%-128px)]',
+  right: 'left-[calc(50%-111px)] lg:left-[calc(50%-85px)]',
+}
+
+const frames = { desktop: 280, mobile: 332 }
+const placed = (box: Box, frame: number) => ({
+  x: `${box.x - frame / 2}px`,
+  y: `${box.y}px`,
+  width: `${box.width}px`,
+  height: `${box.height}px`,
+})
+const desktop = placed(portrait.desktop, frames.desktop)
+const mobile = placed(portrait.mobile, frames.mobile)
+const rendered = Math.ceil(
+  Math.max(
+    portrait.desktop.width,
+    portrait.desktop.height,
+    portrait.mobile.width,
+    portrait.mobile.height,
+  ),
+)
+
+const section = 'w-full border border-neutral-100'
+---
+
+<article class:list={['flex flex-col', className]}>
+  <div class:list={['relative h-[258px] overflow-clip bg-neutral-50', section]}>
+    <div class="absolute inset-x-[19px] top-[19px] h-[238px]">
+      <div
+        class:list={[
+          'absolute top-[98px] h-[280.11px] w-[256.63px] rounded-full bg-[#f7c7bf] opacity-60 blur-[27.4px]',
+          glows[glow],
+        ]}
+      ></div>
+      <Image
+        src={portrait.image}
+        alt=""
+        widths={[rendered, rendered * 2]}
+        sizes={`${rendered}px`}
+        loading="lazy"
+        class="absolute top-(--my) left-[calc(50%+var(--mx))] h-(--mh) w-(--mw) max-w-none object-cover lg:top-(--dy) lg:left-[calc(50%+var(--dx))] lg:h-(--dh) lg:w-(--dw)"
+        style={{
+          '--mx': mobile.x,
+          '--my': mobile.y,
+          '--mw': mobile.width,
+          '--mh': mobile.height,
+          '--dx': desktop.x,
+          '--dy': desktop.y,
+          '--dw': desktop.width,
+          '--dh': desktop.height,
+          rotate: `${portrait.rotate}deg`,
+        }}
+      />
+    </div>
+  </div>
+  <div class:list={['flex flex-col gap-3 p-[19px]', section]}>
+    <div class="flex h-[46px] flex-col gap-1 font-medium">
+      <h3 class="text-heading-4 truncate text-neutral-800">{name}</h3>
+      <p class="text-body-sm truncate text-neutral-600">{role}</p>
+    </div>
+    <div class="flex items-start gap-1">
+      <ul class="text-brand-500 flex gap-1">
+        {links.map((link) => {
+          const Icon = icons[link.kind]
+          return (
+            <li class="flex">
+              <a href={link.href} aria-label={`${t(locale, socialLabels[link.kind])}: ${name}`}>
+                <Icon class="size-[14px]" aria-hidden="true" />
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+      <a
+        href={profile.href}
+        aria-label={`${profile.label}: ${name}`}
+        class="ml-auto flex h-[14px] items-center gap-[6px] text-[0.875rem] leading-none font-semibold tracking-[-0.01em] text-[#ee2042] hover:underline"
+      >
+        {profile.label}
+        <ArrowRight class="h-2 w-[15px]" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+  <p class:list={['text-body-sm h-[41px] truncate py-[11px] pl-[19px] text-neutral-600', section]}>
+    {tags.join(' | ')}
+  </p>
+</article>
