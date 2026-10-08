@@ -1,0 +1,41 @@
+---
+import RichText from '../ui/RichText.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { legalPages, type LegalPageId } from '../../data/legal'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+interface Props {
+  page: LegalPageId
+}
+
+const { page } = Astro.props
+const { meta, tag, title, body } = legalPages[page]
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  headerTheme="dark"
+  initialHeaderTheme="dark"
+>
+  <main id="main" class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
+    <div class="flex flex-col gap-10 border-l border-neutral-100 pt-[180px] pr-5 pb-[120px] pl-[19px] lg:pt-[200px] lg:pb-[160px]">
+      <SectionHeading
+        layout="stack"
+        tag={tag}
+        title={title}
+        level="h1"
+        gap={12}
+        width="medium"
+        titleTone="neutral-900"
+        linkTone="brand"
+        align="center"
+        subline={null}
+        columns={[]}
+        columnStyle="body-md"
+        actions={[]}
+      />
+      <RichText html={body} size="md" class="lg:max-w-[727px]" />
+    </div>
+  </main>
+</BaseLayout>
