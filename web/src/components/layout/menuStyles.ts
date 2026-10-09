@@ -5,4 +5,4 @@ export const listPanel =
 
 export const listLink = `block rounded-sm p-2 text-center text-body-xs font-medium text-neutral-900 transition-colors hover:text-brand-500 motion-reduce:transition-none ${focusRing}`
 
-export const barCell = `flex items-center justify-center text-body-sm font-medium transition-[color,box-shadow] motion-reduce:transition-none aria-expanded:text-(--h-active) ${focusRing}`
+export const barCell = `flex items-center justify-center text-body-sm font-medium transition-[color,box-shadow] duration-300 ease-out motion-reduce:transition-none aria-expanded:text-(--h-active) ${focusRing}`

@@ -51,7 +51,7 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
 >
   <div class="mx-auto w-full max-w-page px-5 lg:px-10">
     <div
-      class="pointer-events-auto relative flex h-[62px] rounded-sm bg-(--h-bg) backdrop-blur-[6px] ring-1 ring-(--h-frame) transition-[background-color,box-shadow] ring-inset motion-reduce:transition-none lg:px-5"
+      class="pointer-events-auto relative flex h-[62px] rounded-sm bg-(--h-bg) backdrop-blur-[6px] ring-1 ring-(--h-frame) transition-[background-color,box-shadow] duration-300 ease-out ring-inset motion-reduce:transition-none lg:px-5"
       data-bar
     >
       <a
@@ -304,6 +304,31 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
 
   oet-header:not([data-js]) [data-dropdown]:is(:hover, :focus-within) > [data-panel] {
     display: flex;
+  }
+
+  oet-header [data-panel] {
+    opacity: 0;
+    transition:
+      opacity 0.3s ease-out,
+      display 0.3s allow-discrete;
+  }
+
+  oet-header [aria-expanded='true'] ~ [data-panel],
+  oet-header:not([data-js]) [data-dropdown]:is(:hover, :focus-within) > [data-panel] {
+    opacity: 1;
+  }
+
+  @starting-style {
+    oet-header [aria-expanded='true'] ~ [data-panel],
+    oet-header:not([data-js]) [data-dropdown]:is(:hover, :focus-within) > [data-panel] {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    oet-header [data-panel] {
+      transition: none;
+    }
   }
 
   oet-header [data-mobile-menu] ul:has(> [data-drill] > details[open]) > li:not([data-drill]) {
