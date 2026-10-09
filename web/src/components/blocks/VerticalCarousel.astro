@@ -75,15 +75,14 @@ const { tag, title, steps } = Astro.props
       position: sticky;
       top: min(20px, calc(100vh - 820px));
       height: 800px;
-      transition: background-color 0.4s ease-out;
-    }
-
-    oet-steps[data-enhanced][data-step='1'] .steps-panel {
-      background-color: var(--color-brand-700);
-    }
-
-    oet-steps[data-enhanced][data-step='2'] .steps-panel {
-      background-color: var(--color-brand-900);
+      background-image: linear-gradient(
+        var(--color-brand-600) 0 33.333%,
+        var(--color-brand-700) 0 66.667%,
+        var(--color-brand-900) 0
+      );
+      background-size: 100% 300%;
+      background-position-y: calc(var(--step, 0) * 50%);
+      transition: background-position-y 0.3s ease-out;
     }
 
     oet-steps[data-enhanced] .steps-view {
@@ -96,7 +95,7 @@ const { tag, title, steps } = Astro.props
       height: 100%;
       gap: 0;
       transform: translateY(calc(var(--step, 0) * -100%));
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.3s ease-out;
     }
 
     oet-steps[data-enhanced] .steps-list > li {
