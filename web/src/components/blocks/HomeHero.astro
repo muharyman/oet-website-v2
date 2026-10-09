@@ -12,6 +12,7 @@ interface Slide {
   image: ImageMetadata
   imageMobile: ImageMetadata
   thumbnail: ImageMetadata
+  pattern: { image: ImageMetadata; left: number; top: number }
   alt: string
 }
 
@@ -75,13 +76,36 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
               class="slide-image absolute inset-0 size-full object-cover"
             />
           </picture>
+          <div
+            class="absolute top-0 left-1/2 hidden h-[780px] w-[1400px] -translate-x-1/2 lg:block"
+            aria-hidden="true"
+          >
+            <Image
+              src={slide.pattern.image}
+              alt=""
+              width={slide.pattern.image.width / 2}
+              height={slide.pattern.image.height / 2}
+              densities={[1, 2]}
+              loading="lazy"
+              class="slide-pattern absolute max-w-none"
+              style={`left:${slide.pattern.left}px;top:${slide.pattern.top}px`}
+            />
+          </div>
           <div class="slide-text absolute inset-0">
-            <Heading class="text-display-3 lg:text-display-2 absolute top-[130px] right-5 left-5 font-medium whitespace-pre-line text-white lg:top-[131px] lg:right-auto lg:left-10 lg:w-[650px]">
+            <Heading class="slide-title text-display-3 lg:text-display-2 absolute top-[130px] right-5 left-5 font-medium whitespace-pre-line text-white lg:top-[131px] lg:right-auto lg:left-10 lg:w-[650px]">
               {slide.title}
             </Heading>
             <div class="absolute right-5 bottom-[123px] left-5 flex flex-col text-[1rem] leading-[20px] font-medium tracking-[-0.01em] text-white lg:right-auto lg:bottom-[94px] lg:left-10 lg:w-[315px] lg:leading-[19px]">
-              {slide.paragraphs.map((paragraph) => (
-                <p class:list={[box, 'p-3 whitespace-pre-line']}>{paragraph}</p>
+              {slide.paragraphs.map((paragraph, position) => (
+                <p
+                  class:list={[
+                    box,
+                    'px-[11px] pt-3 pb-[11px] whitespace-pre-line',
+                    position > 0 && '-mt-px',
+                  ]}
+                >
+                  {paragraph}
+                </p>
               ))}
             </div>
           </div>
@@ -144,7 +168,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
           <span class="grid">
             {slides.map((_, index) => (
               <span
-                class="fade col-start-1 row-start-1 text-right whitespace-nowrap"
+                class="fade label col-start-1 row-start-1 text-right whitespace-nowrap"
                 data-slide={index}
                 data-active={index === 0 ? '' : undefined}
               >
@@ -158,11 +182,12 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
       <div class:list={[box, 'relative h-2 lg:-mt-px']} aria-hidden="true">
         {slides.map((_, index) => (
           <span
-            class="bar absolute -inset-px origin-left bg-[#bdb2ad]"
+            class="bar absolute -inset-px origin-left"
             data-slide={index}
-            data-bar
             data-active={index === 0 ? '' : undefined}
-          />
+          >
+            <span class="bar-fill block size-full origin-left bg-[#bdb2ad]" data-bar />
+          </span>
         ))}
       </div>
     </div>
@@ -184,9 +209,12 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
       visibility: visible;
     }
 
-    oet-hero:not([data-ready]) .slide .slide-text {
+    oet-hero:not([data-ready]) .slide .slide-text,
+    oet-hero:not([data-ready]) .slide .slide-title,
+    oet-hero:not([data-ready]) .slide .slide-pattern {
       opacity: 1;
       transform: none;
+      animation: none;
     }
 
     oet-hero:not([data-ready]) [data-controls] {
@@ -223,45 +251,99 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
     display: none;
   }
 
+  oet-hero {
+    --hero-delay: 0.8s;
+  }
+
+  .oet-first-visit oet-hero {
+    --hero-delay: 2.9s;
+  }
+
+  oet-hero[data-cycled] {
+    --hero-delay: 1.3s;
+  }
+
   oet-hero .slide-text {
     opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  oet-hero .slide-title {
     transform: translateX(40px);
+    transition: transform 0.5s ease-out;
+  }
+
+  oet-hero .slide[data-active] .slide-text {
+    opacity: 1;
+    transition: none;
+    animation: hero-fade-in 0.5s ease-out var(--hero-delay) backwards;
+  }
+
+  oet-hero .slide[data-active] .slide-title {
+    transform: none;
+    transition: none;
+    animation: hero-title-in 0.5s ease-out var(--hero-delay) backwards;
+  }
+
+  oet-hero .slide[data-active] .slide-pattern {
+    animation: hero-pattern-in 0.5s ease-out var(--hero-delay) backwards;
+  }
+
+  oet-hero .label[data-active] {
+    transition: none;
+    animation: hero-fade-in 0.5s ease-out var(--hero-delay) backwards;
+  }
+
+  oet-hero .bar {
+    opacity: 0;
+    transform: scaleX(0.0885);
     transition:
       opacity 0.5s ease-out,
       transform 0.5s ease-out;
   }
 
-  oet-hero .slide[data-active] .slide-text {
+  oet-hero .bar[data-active] {
     opacity: 1;
     transform: none;
-    transition-delay: 0.8s;
+    transition: none;
+    animation: hero-fade-in 0.5s ease-out var(--hero-delay) backwards;
   }
 
-  oet-hero .bar {
-    transform: scaleX(0);
+  oet-hero .bar[data-active] .bar-fill {
+    animation: hero-progress 7.1s linear var(--hero-delay) both;
   }
 
-  oet-hero .bar[data-active] {
-    transform: scaleX(0.0885);
-    animation: hero-progress 6.6s linear 1.3s forwards;
-  }
-
-  oet-hero:hover .bar[data-active],
-  oet-hero:focus-within .bar[data-active] {
+  oet-hero:hover .bar[data-active] .bar-fill,
+  oet-hero:focus-within .bar[data-active] .bar-fill {
     animation-play-state: paused;
   }
 
-  @keyframes hero-progress {
-    0% {
-      transform: scaleX(0.0885);
+  @keyframes hero-title-in {
+    from {
+      transform: translateX(-40px);
     }
-    12% {
+  }
+
+  @keyframes hero-pattern-in {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+  }
+
+  @keyframes hero-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-progress {
+    0%,
+    18.31% {
       transform: scaleX(0.0885);
       animation-timing-function: ease-out;
     }
-    88% {
-      transform: scaleX(1);
-    }
+    88.73%,
     100% {
       transform: scaleX(1);
     }
@@ -270,16 +352,23 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
   @media (prefers-reduced-motion: reduce) {
     oet-hero .slide,
     oet-hero .fade,
-    oet-hero .slide-text {
+    oet-hero .slide-text,
+    oet-hero .slide-title,
+    oet-hero .bar {
       transition: none;
     }
 
-    oet-hero .slide[data-active] .slide-text {
-      transition-delay: 0s;
+    oet-hero .slide[data-active] .slide-text,
+    oet-hero .slide[data-active] .slide-title,
+    oet-hero .slide[data-active] .slide-pattern,
+    oet-hero .label[data-active],
+    oet-hero .bar[data-active],
+    oet-hero .bar[data-active] .bar-fill {
+      animation: none;
     }
 
-    oet-hero .bar[data-active] {
-      animation: none;
+    oet-hero .bar-fill {
+      transform: scaleX(0.0885);
     }
   }
 </style>
@@ -292,6 +381,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
       let current = 0
       const show = (index: number) => {
         current = index % total
+        this.toggleAttribute('data-cycled', true)
         for (const part of parts) {
           part.toggleAttribute('data-active', Number(part.dataset.slide) === current)
         }
