@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, envField } from 'astro/config'
+import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import vercel from '@astrojs/vercel'
 import sitemap from '@astrojs/sitemap'
@@ -14,12 +14,6 @@ export default defineConfig({
     locales: ['en'],
     routing: {
       prefixDefaultLocale: false,
-    },
-  },
-  env: {
-    schema: {
-      DIRECTUS_URL: envField.string({ context: 'server', access: 'public' }),
-      DIRECTUS_TOKEN: envField.string({ context: 'server', access: 'secret' }),
     },
   },
   devToolbar: {
