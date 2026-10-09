@@ -8,6 +8,9 @@ import hero2 from '../assets/home/hero-2.jpg'
 import hero2Mobile from '../assets/home/hero-2-mobile.jpg'
 import hero3 from '../assets/home/hero-3.jpg'
 import hero3Mobile from '../assets/home/hero-3-mobile.jpg'
+import heroPattern1 from '../assets/home/hero-pattern-1.png'
+import heroPattern2 from '../assets/home/hero-pattern-2.png'
+import heroPattern3 from '../assets/home/hero-pattern-3.png'
 import heroThumb1 from '../assets/home/hero-thumb-1.jpg'
 import heroThumb2 from '../assets/home/hero-thumb-2.jpg'
 import heroThumb3 from '../assets/home/hero-thumb-3.jpg'
@@ -64,6 +67,7 @@ export interface HeroSlide {
   image: ImageMetadata
   imageMobile: ImageMetadata
   thumbnail: ImageMetadata
+  pattern: { image: ImageMetadata; left: number; top: number }
   alt: string
 }
 
@@ -130,6 +134,7 @@ export const hero = {
       image: hero1,
       imageMobile: hero1Mobile,
       thumbnail: heroThumb1,
+      pattern: { image: heroPattern1, left: 1173, top: 302 },
       alt: 'Wind turbines at sunset',
     },
     {
@@ -142,6 +147,7 @@ export const hero = {
       image: hero2,
       imageMobile: hero2Mobile,
       thumbnail: heroThumb2,
+      pattern: { image: heroPattern2, left: 1, top: 365 },
       alt: 'High-voltage transmission tower against a cloudy sky',
     },
     {
@@ -154,6 +160,7 @@ export const hero = {
       image: hero3,
       imageMobile: hero3Mobile,
       thumbnail: heroThumb3,
+      pattern: { image: heroPattern3, left: 1, top: 365 },
       alt: 'Statue with a European flag in front of a government building',
     },
   ] satisfies HeroSlide[],
