@@ -67,6 +67,20 @@ File key `r1JkQxEVEQ86vGHZ2X2OE7`, Figma MCP registered for this project (`https
 - Screenshots: `MSYS_NO_PATHCONV=1 node scripts/shoot.mjs /route name 1440 412` from `web/` (Git Bash rewrites a leading slash otherwise). Output in `web/.screenshots/`.
 - The Astro background dev server dies when dependencies change; restart with `pnpm astro dev --background`.
 
+## Home hero prototype (checked 2026-10-09)
+
+The prototype on "Handoff: Home Page" is the motion spec; read it with a read-only `use_figma` script over `node.reactions` (`get_motion_context` needs a desktop selection and does not work remotely).
+
+- Flow: `162:1389` (preloader, 1.5 s hold, dissolve 0.6 s) → `162:1330` (hero alone) → `162:686` (home page).
+- Hero component set `162:1395`, variants `1a → 1b → 1c → 2a → 2b → 2c → 1a`; every step waits 0.8 s, then smart-animates with ease-out: 0.5 s for in and out, 5 s for the progress fill. The loop has two slides; `3c` exists but is not linked.
+- In (`a → b`): title moves 40 px from the left and fades in; paragraph boxes, next label and progress bar (27 of 305 px) only fade in; the three-rectangle pattern moves 40 px and fades in.
+- Out (`c → a` of the next slide): photo crossfades, title moves 40 px to the right and fades, boxes and label fade, bar shrinks and fades.
+- `HomeHero.astro` follows these values (uncommitted): `--hero-delay` 0.8 s on load, 2.9 s on a first visit (preloader 2.1 s + 0.8 s), 1.3 s after a change; progress bar is a track span (`.bar`, fade and shrink by transition) with a fill span (`.bar-fill`, 7.1 s keyframes). Chromium does not start a transition on a property that an animation is still filling, which is why the two are separate elements.
+- Pattern: the hero photos no longer contain the three rectangles. `hero-2.jpg` is the 2x export of variant `2a` (`162:1654`, pattern at opacity 0); `hero-1.jpg` and `hero-3.jpg` are the exports of `162:1397` and `179:885` with the rectangles painted out (column interpolation plus grain, there is no Figma state without them). `hero-pattern-N.png` is the cut-out of the graded rectangles; each slide has `pattern: { image, left, top }` in `data/home.ts`, drawn in a centred 1400 x 780 frame from `lg` only (on mobile the pattern is outside the crop). Exports at 2x: `download_assets` with `defaultScale: 2` on the variant's `img-filter` node; `get_screenshot` stays at 1x.
+- Paragraph boxes share one border line as in Figma (`-mt-px`, padding 11 / 12 / 11): 523 + 63 and 585 + 101 on desktop, 508 + 65 and 572 + 105 at 412.
+- Preloader follows the prototype on user request (2026-10-09): 1.5 s hold, 0.6 s fade, still CSS only. Not re-measured in Lighthouse.
+- Not matched: variant `1a` has a greyer grade than `1b` (colour-grading opacity 0.44 → 0.9), so in the prototype photo 1 warms up as the text enters. `1a` shares the layer stack of the slide 2 variants, so this reads as a prototype artefact; reproducing it needs a second photo for slide 1. The preloader frame also has a slightly darker gradient at the bottom; ours is plain `brand-500`.
+
 ## Reconciliation backlog
 
 Reconciliation pass done 2026-10-08; full record in `docs/reports/reconcile.md`.
