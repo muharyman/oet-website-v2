@@ -31,12 +31,10 @@ const captions: Record<CaptionKey, { content: Caption; rule: string; details: st
 
 const panels: {
   state: State
-  progress: string
   captions: { key: CaptionKey; hidden: boolean; silent: boolean }[]
 }[] = [
   {
     state: 'initial',
-    progress: '--p1:0;--p2:0',
     captions: [
       { key: 'challenge', hidden: false, silent: false },
       { key: 'goal', hidden: true, silent: false },
@@ -44,12 +42,10 @@ const panels: {
   },
   {
     state: 'transition',
-    progress: '--p1:1;--p2:0',
     captions: [{ key: 'goal', hidden: false, silent: false }],
   },
   {
     state: 'end',
-    progress: '--p1:1;--p2:1',
     captions: [{ key: 'goal', hidden: false, silent: true }],
   },
 ]
@@ -65,11 +61,7 @@ const face = 'scene-face absolute'
 
 <oet-theory-scene id={id} class="block" data-header-theme="light">
   {panels.map((panel) => (
-    <div
-      class="scene-panel relative h-[900px] overflow-clip"
-      data-state={panel.state}
-      style={panel.progress}
-    >
+    <div class="scene-panel relative h-[900px] overflow-clip" data-state={panel.state}>
       <div class="scene-stage absolute bottom-0 left-1/2 h-[900px] w-[1440px] origin-bottom">
         <span
           class="scene-line absolute top-[454.2px] left-[155px] w-[1130.24px]"
@@ -161,6 +153,27 @@ const face = 'scene-face absolute'
 </oet-theory-scene>
 
 <style>
+  @property --p1 {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @property --p2 {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  .scene-panel[data-state='transition'] {
+    --p1: 1;
+  }
+
+  .scene-panel[data-state='end'] {
+    --p1: 1;
+    --p2: 1;
+  }
+
   .scene-panel {
     --lift: 160px;
     --spread: 150px;
@@ -230,7 +243,7 @@ const face = 'scene-face absolute'
   }
 
   oet-theory-scene[data-enhanced] {
-    height: calc(100svh + 1400px);
+    height: calc(100svh + 800px);
   }
 
   oet-theory-scene[data-enhanced] .scene-panel {
@@ -242,15 +255,25 @@ const face = 'scene-face absolute'
     top: 0;
     display: block;
     height: 100svh;
+    transition:
+      --p1 0.5s ease-out,
+      --p2 0.5s ease-out;
+  }
+
+  oet-theory-scene[data-enhanced]:is([data-phase='1'], [data-phase='2'])
+    .scene-panel[data-state='initial'] {
+    --p1: 1;
+    transition:
+      --p1 0.3s ease-out,
+      --p2 0.6s cubic-bezier(0.45, 1.45, 0.8, 1);
+  }
+
+  oet-theory-scene[data-enhanced][data-phase='2'] .scene-panel[data-state='initial'] {
+    --p2: 1;
   }
 </style>
 
 <script>
-  const ease = (value: number) => {
-    const t = Math.min(1, Math.max(0, value))
-    return t * t * (3 - 2 * t)
-  }
-
   class TheoryScene extends HTMLElement {
     connectedCallback() {
       const panel = this.querySelector<HTMLElement>('[data-state="initial"]')
@@ -259,14 +282,23 @@ const face = 'scene-face absolute'
       if (!panel || !goal || !words) throw new Error('TheoryScrollScene: missing initial panel')
       const still = window.matchMedia('(prefers-reduced-motion: reduce)')
       let frame = 0
+      let timer = 0
 
       const update = () => {
         frame = 0
         const rect = this.getBoundingClientRect()
-        const progress = -rect.top / (rect.height - window.innerHeight)
-        panel.style.setProperty('--p1', String(ease((progress - 0.05) / 0.4)))
-        panel.style.setProperty('--p2', String(ease((progress - 0.55) / 0.4)))
+        const entered = -rect.top / (rect.height - window.innerHeight) > 0.15
         panel.style.setProperty('--scene-scale', String(Math.min(1, window.innerHeight / 900)))
+        if (entered === this.hasAttribute('data-phase')) return
+        window.clearTimeout(timer)
+        if (!entered) {
+          this.removeAttribute('data-phase')
+          return
+        }
+        this.dataset.phase = '1'
+        timer = window.setTimeout(() => {
+          this.dataset.phase = '2'
+        }, 1300)
       }
       const request = () => {
         if (frame === 0) frame = requestAnimationFrame(update)
@@ -296,9 +328,9 @@ const face = 'scene-face absolute'
         observer.disconnect()
         listen(false)
         cancelAnimationFrame(frame)
+        window.clearTimeout(timer)
         frame = 0
-        panel.style.setProperty('--p1', '0')
-        panel.style.setProperty('--p2', '0')
+        this.removeAttribute('data-phase')
         panel.style.setProperty('--scene-scale', '1')
       }
 
