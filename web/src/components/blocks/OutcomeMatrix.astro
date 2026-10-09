@@ -59,11 +59,11 @@ const rule = 'pointer-events-none absolute inset-x-0 h-[2px] bg-neutral-100'
 <style>
   .matrix-middle {
     height: 281px;
-    transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: height 0.5s ease-out;
   }
 
   .matrix-middle :global(svg) {
-    transition: opacity 0.5s ease 0.2s;
+    transition: opacity 0.5s ease-out;
   }
 
   oet-outcome-matrix[data-collapsed] .matrix-middle {
@@ -72,7 +72,6 @@ const rule = 'pointer-events-none absolute inset-x-0 h-[2px] bg-neutral-100'
 
   oet-outcome-matrix[data-collapsed] .matrix-middle :global(svg) {
     opacity: 0;
-    transition-delay: 0s;
   }
 </style>
 
