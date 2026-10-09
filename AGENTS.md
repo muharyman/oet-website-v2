@@ -82,6 +82,22 @@ The prototype on "Handoff: Home Page" is the motion spec; read it with a read-on
 - Height (user request, 2026-10-09: the hero must fit one screen like the scaled prototype; the user's laptop is 1280 x 800 CSS px with a viewport of about 650): from `lg` the hero is `clamp(560px, 100svh - 40px, 780px)` tall instead of a fixed 780. Buttons and the next control are anchored to the bottom, the title top is 16.8 % and its size `100cqh * 56 / 780` (40 to 56 px, width in `em`), each `.slide` is a size container, and the pattern frame follows the photo's `object-cover` box in `cqw` / `cqh`. At a viewport height of 820 or more the layout equals Figma. Mobile keeps 800 px. Between 1024 and 1440 wide with full height the photo is cropped at the sides, which clips the pattern of slide 1 at the right edge.
 - Not matched: variant `1a` has a greyer grade than `1b` (colour-grading opacity 0.44 → 0.9), so in the prototype photo 1 warms up as the text enters. `1a` shares the layer stack of the slide 2 variants, so this reads as a prototype artefact; reproducing it needs a second photo for slide 1. The preloader frame also has a slightly darker gradient at the bottom; ours is plain `brand-500`.
 
+## Prototype audit, all handoff pages (2026-10-09)
+
+Read from `node.reactions` on all eight handoff pages. Besides the home hero the file defines only these interactions:
+
+| Prototype | Value | Site |
+| --- | --- | --- |
+| `top-nav` state changes (menu open, light / dark) | dissolve 0.3 s ease-out | `SiteHeader`: panels fade 0.3 s both ways (`allow-discrete` + `@starting-style`), bar and cells 0.3 s ease-out. Logo swap is still instant |
+| `menu-service-section` (home accordion) | smart animate 0.3 s ease-out | `ServiceAccordion` already matched |
+| `carousel-vertical` a / b / c | whole card moves 800 px, 0.3 s ease-out | `VerticalCarousel`: list 0.3 s ease-out, background is a gradient that slides with the step. Heading stays in place. Still scroll-driven; the prototype uses a click on the scroll bar |
+| `about-theory-of-change-initial` | drag → 0.3 s ease-out; 1 s hold → 0.6 s ease-out-back (`cubic-bezier(0.45, 1.45, 0.8, 1)`); drag back → 0.5 s ease-out | `TheoryScrollScene`: phases triggered at 15 % of the pinned track, `--p1` / `--p2` registered with `@property` and transitioned; track 800 px |
+| `outputs-interact` (theory of change) | mouse enter, 0.5 s ease-out | `OutcomeMatrix`: 0.5 s ease-out, no icon delay. Also opens at 60 % in view, for touch and keyboard |
+| Navigation between frames | dissolve 0.6 s ease-out | `global.css`: cross-document view transition, 0.6 s ease-out, off for reduced motion. No effect in browsers without support |
+| `menu_item` hover | instant | `listLink` keeps its 150 ms colour transition |
+
+Every page also holds a copy of the preloader frame with the home hero instance (`1a → 1b`); it adds nothing page-specific. Success stories, publications, tools and data, services, news and events, about, partners, team and career have no other interactions. Not checked in Firefox or Safari.
+
 ## Reconciliation backlog
 
 Reconciliation pass done 2026-10-08; full record in `docs/reports/reconcile.md`.
