@@ -154,7 +154,8 @@ export const mount = async (root: HTMLElement) => {
 
   const idle = () => {
     cancelAnimationFrame(spin)
-    if (!visible || engaged || selected !== null || still.matches) return
+    const picked = selected !== null && root.hasAttribute('data-touched')
+    if (!visible || engaged || picked || still.matches) return
     let last = performance.now()
     const step = (now: number) => {
       lon += (now - last) * IDLE_SPEED
