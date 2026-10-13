@@ -6,9 +6,12 @@ import PageHero from '../../components/blocks/PageHero.astro'
 import ServiceCard from '../../components/cards/ServiceCard.astro'
 import ValueCard from '../../components/cards/ValueCard.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
-import { approach, ctaActions, services, servicesPage } from '../../data/services'
+import { loadServicesPage } from '../../data/services'
+import { defaultLocale } from '../../i18n/config'
 
-const { meta, hero, intro, values, cta } = servicesPage
+const servicesPage = await loadServicesPage(defaultLocale)
+const { meta, hero, intro, values, cta, cards, shared } = servicesPage
+const { approach, ctaActions } = shared
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
 const rail =
   'relative isolate before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:-z-10 before:border-l before:border-neutral-100'
@@ -64,13 +67,13 @@ const topRuleDesktop = 'lg:shadow-[inset_0_1px_0_var(--color-neutral-100)]'
             topRuleMobile,
           ]}
         >
-          {services.map((service) => (
+          {cards.map((card) => (
             <li class="lg:before:pointer-events-none lg:relative lg:flex lg:pt-5 lg:odd:before:absolute lg:odd:before:top-0 lg:odd:before:left-0 lg:odd:before:w-[calc(200%+20px)] lg:odd:before:border-t lg:odd:before:border-neutral-100">
               <ServiceCard
-                title={service.card.title}
-                paragraphs={service.card.paragraphs}
-                link={service.card.link}
-                image={service.card.image}
+                title={card.title}
+                paragraphs={card.paragraphs}
+                link={card.link}
+                image={card.image}
                 class="w-full"
               />
             </li>
