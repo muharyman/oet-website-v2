@@ -1,6 +1,4 @@
 ---
-import heroDesktop from '../../../assets/heroes/success-stories-desktop.webp'
-import heroMobile from '../../../assets/heroes/success-stories-mobile.webp'
 import ListingHeader from '../../../components/blocks/ListingHeader.astro'
 import PageHero from '../../../components/blocks/PageHero.astro'
 import TestimonialSlider from '../../../components/blocks/TestimonialSlider.astro'
@@ -8,15 +6,18 @@ import ProjectCard from '../../../components/cards/ProjectCard.astro'
 import FilterBar from '../../../components/ui/FilterBar.astro'
 import FilterTabs from '../../../components/ui/FilterTabs.astro'
 import Pagination from '../../../components/ui/Pagination.astro'
-import { filters, pagination, sort, testimonials } from '../../../data/outputs'
-import { projectBySlug, successStories } from '../../../data/projects'
+import { loadFilters, pagination, sort } from '../../../data/outputs'
+import { loadSuccessStories } from '../../../data/projects'
 import { routes } from '../../../data/routes'
 import { defaultLocale } from '../../../i18n/config'
 import { t } from '../../../i18n/ui'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 
 const locale = defaultLocale
-const { meta, hero, listing } = successStories
+const [{ meta, hero, listing, testimonials }, filters] = await Promise.all([
+  loadSuccessStories(locale),
+  loadFilters(locale, 'projects'),
+])
 const hrefFor = (page: number) => `${routes.successStories}?page=${page}`
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
 ---
@@ -38,7 +39,7 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
       links={hero.links}
       stats={null}
       person={null}
-      image={{ desktop: heroDesktop, mobile: heroMobile }}
+      image={hero.image}
       background="brand-700"
       chipsBottomMobile={62}
       ornament="left-upper"
@@ -63,7 +64,7 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
       <FilterBar
         slot="controls"
         locale={locale}
-        filters={filters(locale, 'projects')}
+        filters={filters}
         sort={sort(locale, 'projects')}
       />
       <Pagination
@@ -77,8 +78,7 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
 
     <div class={container}>
       <ul class="grid gap-5 border-t border-neutral-100 py-5 lg:grid-cols-3 lg:gap-y-10 lg:border-l lg:pl-5">
-        {listing.items.map((slug, index) => {
-          const project = projectBySlug(slug)
+        {listing.items.map((project, index) => {
           return (
             <li class:list={[index >= listing.mobilePageSize && 'max-lg:hidden']}>
               <ProjectCard
