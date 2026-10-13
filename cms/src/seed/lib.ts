@@ -14,7 +14,7 @@ import type {
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const contentDir = path.resolve(dirname, '../../seed/content')
-const assetRoot = path.resolve(dirname, '../../../web/src/assets')
+const assetRoot = path.resolve(dirname, '../../seed/assets')
 
 export interface Asset {
   __asset: string
