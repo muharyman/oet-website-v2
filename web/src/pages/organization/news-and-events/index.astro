@@ -7,7 +7,13 @@ import FilterTabs from '../../../components/ui/FilterTabs.astro'
 import Pagination from '../../../components/ui/Pagination.astro'
 import SortControl from '../../../components/ui/SortControl.astro'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
-import { events, eventsPage, eventStatus, eventTypes, formatEventDay } from '../../../data/events'
+import {
+  eventStatus,
+  formatEventDay,
+  loadEvents,
+  loadEventsPage,
+  loadEventTypes,
+} from '../../../data/events'
 import { routes } from '../../../data/routes'
 import { locales } from '../../../i18n/config'
 import { eventLabels, sortOptions } from '../../../i18n/groups'
@@ -16,6 +22,11 @@ import { t } from '../../../i18n/ui'
 const locale = locales.find((code) => code === Astro.currentLocale)
 if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
 
+const [events, eventTypes, eventsPage] = await Promise.all([
+  loadEvents(locale),
+  loadEventTypes(locale),
+  loadEventsPage(locale),
+])
 const { meta, hero, listing, stateTabs, sort, mobilePagination, cta } = eventsPage
 const labels = eventLabels(locale)
 const now = new Date()
@@ -25,7 +36,10 @@ const cards = events
     const status = eventStatus(event, now)
     return status === 'archived' ? [] : [{ event, status }]
   })
-  .sort((a, b) => a.event.title.localeCompare(b.event.title, locale))
+  .sort((a, b) => {
+    const byTitle = a.event.title.localeCompare(b.event.title, locale)
+    return byTitle === 0 ? a.event.slug.localeCompare(b.event.slug, locale) : byTitle
+  })
 
 const stateOptions = stateTabs.map((tab) => ({
   label: tab.label,
