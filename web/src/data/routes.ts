@@ -26,19 +26,3 @@ export const routes = {
   event: (slug: string) => `/organization/news-and-events/${slug}`,
   contact: 'mailto:info@openenergytransition.org',
 } as const
-
-export const serviceSlugs = [
-  'system-operators-and-utilities',
-  'regulators-and-public-authorities',
-  'consultancies-and-engineering-firms',
-  'foundations-and-development-partners',
-  'think-tanks-ngos-and-research-organizations',
-  'technology-developers-and-investors',
-] as const
-
-export const departmentSlugs = [
-  'energy-system-modeling',
-  'modeling-tools-and-data',
-  'software-engineering',
-  'research-and-market-development',
-] as const

@@ -5,7 +5,7 @@ import { sortOptions } from '../i18n/groups'
 import { t, type UiKey } from '../i18n/ui'
 import { findAll, required, resolved, richHtml, texts, type Doc } from '../lib/cms'
 import { icon, image, optionalImage } from '../lib/media'
-import { routes, serviceSlugs } from './routes'
+import { routes } from './routes'
 
 export interface Testimonial {
   quote: string
@@ -50,7 +50,7 @@ export interface PartnerLogo {
   image: ImageMetadata
 }
 
-export type ServiceSlug = (typeof serviceSlugs)[number]
+export type ServiceSlug = string
 
 export interface ServiceCta {
   icon: SvgComponent
