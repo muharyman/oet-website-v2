@@ -10,7 +10,7 @@ type Link = { kind: LinkKind; href: string; label: string }
 
 interface Props {
   name: string
-  title: string
+  title: string | null
   photo: ImageMetadata
   role: string | null
   links: Link[]
@@ -37,7 +37,7 @@ const icons: Record<LinkKind, typeof CircleUser> = {
   <div class="flex min-w-0 flex-1 flex-col">
     {role && <p class="text-body-2xs font-medium text-neutral-800">{role}</p>}
     <p class="text-body-sm line-clamp-2 font-medium text-neutral-800">{name}</p>
-    <p class="text-body-2xs truncate text-neutral-600">{title}</p>
+    {title !== null && <p class="text-body-2xs truncate text-neutral-600">{title}</p>}
     {links.length > 0 && (
       <ul class="flex gap-1 pt-2">
         {links.map((link) => {

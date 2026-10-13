@@ -10,7 +10,12 @@ const slugify = (text: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-const plain = (html: string) => html.replace(/<[^>]+>/g, '').trim()
+const plain = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/g, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 
 export const headingId = (label: string) => slugify(label)
 
