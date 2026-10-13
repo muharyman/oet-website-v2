@@ -1,3 +1,11 @@
 import type { Payload } from 'payload'
 
-export const seed = async (_payload: Payload) => {}
+import { seedProjects } from './seedProjects'
+import { seedPublications } from './seedPublications'
+import { seedTaxonomies } from './seedTaxonomies'
+
+export const seed = async (payload: Payload) => {
+  await seedTaxonomies(payload)
+  await seedProjects(payload)
+  await seedPublications(payload)
+}
