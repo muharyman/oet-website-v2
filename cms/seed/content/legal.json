@@ -1,0 +1,31 @@
+{
+  "legalPages": {
+    "legal": {
+      "meta": {
+        "title": "Legal | Open Energy Transition",
+        "description": "Legal notice of Open Energy Transition."
+      },
+      "tag": "Legal",
+      "title": "Legal",
+      "body": "<p>[Placeholder] The legal notice of Open Energy Transition has not been written or designed yet. This text marks the position of the final content and must be replaced before launch.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the first section.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the second section.</p>"
+    },
+    "privacy-statement": {
+      "meta": {
+        "title": "Privacy Statement | Open Energy Transition",
+        "description": "Privacy statement of Open Energy Transition."
+      },
+      "tag": "Legal",
+      "title": "Privacy Statement",
+      "body": "<p>[Placeholder] The privacy statement of Open Energy Transition has not been written or designed yet. This text marks the position of the final content and must be replaced before launch.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the first section.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the second section.</p>"
+    },
+    "disclaimer": {
+      "meta": {
+        "title": "Disclaimer | Open Energy Transition",
+        "description": "Disclaimer of Open Energy Transition."
+      },
+      "tag": "Legal",
+      "title": "Disclaimer",
+      "body": "<p>[Placeholder] The disclaimer of Open Energy Transition has not been written or designed yet. This text marks the position of the final content and must be replaced before launch.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the first section.</p><h2>[Placeholder] Section heading</h2><p>[Placeholder] Body text of the second section.</p>"
+    }
+  }
+}
