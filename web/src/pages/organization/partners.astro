@@ -3,10 +3,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import LogoGrid from '../../components/blocks/LogoGrid.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
 import FilterTabs from '../../components/ui/FilterTabs.astro'
-import { filter, hero, intro, logos, logosMobile, meta } from '../../data/partners'
+import { loadPartnersPage } from '../../data/partners'
 import { routes } from '../../data/routes'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
+
+const { meta, hero, intro, filter, logos, logosMobile } = await loadPartnersPage(defaultLocale)
 ---
 
 <BaseLayout

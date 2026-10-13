@@ -6,16 +6,13 @@ import PageHero from '../../components/blocks/PageHero.astro'
 import ValueCard from '../../components/cards/ValueCard.astro'
 import Button from '../../components/ui/Button.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
-import { featuredDepartments, hero, infoCards, intro, meta, values } from '../../data/about'
-import { departmentCard, departments, departmentsHeading } from '../../data/departments'
+import { loadAboutPage } from '../../data/about'
+import { departmentCard } from '../../data/departments'
 import { defaultLocale } from '../../i18n/config'
 
-const cards = departments
-  .filter(
-    (department) =>
-      department.detail !== null && featuredDepartments.includes(department.detail.slug),
-  )
-  .map((department) => departmentCard(defaultLocale, department))
+const { meta, hero, intro, infoCards, departmentsHeading, featuredDepartments, values } =
+  await loadAboutPage(defaultLocale)
+const cards = featuredDepartments.map((department) => departmentCard(defaultLocale, department))
 const cardPlacement = ['self-start', 'self-end lg:mt-[145px] lg:self-start']
 ---
 
