@@ -1,15 +1,14 @@
 ---
 import RichText from '../ui/RichText.astro'
 import SectionHeading from '../ui/SectionHeading.astro'
-import { legalPages, type LegalPageId } from '../../data/legal'
+import type { LegalPageContent } from '../../data/legal'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 
 interface Props {
-  page: LegalPageId
+  content: LegalPageContent
 }
 
-const { page } = Astro.props
-const { meta, tag, title, body } = legalPages[page]
+const { meta, tag, title, body } = Astro.props.content
 ---
 
 <BaseLayout
