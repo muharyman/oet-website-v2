@@ -1,5 +1,6 @@
-import heroDesktop from '../assets/heroes/theory-of-change-desktop.webp'
-import heroMobile from '../assets/heroes/theory-of-change-mobile.webp'
+import type { Locale } from '../i18n/config'
+import { findGlobal, required, texts, type GlobalDoc } from '../lib/cms'
+import { image, optionalImage } from '../lib/media'
 
 export type OutcomeIcon = 'medical-star' | 'employees' | 'referral-alt' | 'book-open-reader'
 export type OutcomeTone = 'brand-400' | 'brand-500' | 'brand-800' | 'brand-900'
@@ -13,132 +14,79 @@ export interface SceneCaption {
   details: [string, string]
 }
 
-const sceneId = 'theory'
+type Caption = GlobalDoc<'theory-of-change-page'>['scene']['challenge']
 
-export const theoryPage = {
-  meta: {
-    title: 'Theory of Change — Open Energy Transition',
-    description:
-      'How Open Energy Transition drives global impact: transparent, accessible, collaborative and adoptable energy planning with open-source models and data.',
-  },
-  hero: {
-    title: 'Our Theory of Change:\nDriving Global Impact',
-    lead: [
-      'At Open Energy Transition (OET), we transform global energy planning by promoting the use of open-source models and data.',
-      'Our focus is on creating a global impact through promoting transparency, flexibility, accessibility, and collaboration in energy planning.',
-    ],
-    links: [{ label: 'Read Our Theory of Change', href: `#${sceneId}` }],
-    image: { desktop: heroDesktop, mobile: heroMobile },
-  },
-  scene: {
-    id: sceneId,
-    challenge: {
-      label: 'The Challenge',
-      statement:
-        "Traditional 'black-box' modelling approach in energy planning lacks transparency and ",
-      emphasis: 'slows down the global energy transition.',
-      details: [
-        'Furthermore, there are challenges in getting open-source tools adopted',
-        'in companies due to the lack of support and software requirement gaps.',
-      ],
-    } satisfies SceneCaption,
-    goal: {
-      label: 'Our Goal',
-      statement: 'Is to address these challenges and accelerate the global energy transition.',
-      emphasis: null,
-      details: [
-        'We aim to make energy planning more transparent, accessible, and collaborative',
-        'and to make open-source tools more adoptable for companies, thus driving a global impact.',
-      ],
-    } satisfies SceneCaption,
-    values: ['Transparent', 'Accessible', 'Collaborative', 'Adoptable'],
-  },
-  approach: {
-    mobileTag: 'Departments',
-    title: 'Our Approach',
-    subline: 'Facilitate. Advance. Provide. Build. Expand.',
-    placeholder: 'IMG-PLACEHOLDER',
-    steps: [
-      {
-        number: '01',
-        title: 'Facilitate Standardization of Open Data',
-        text: 'We promote the creation and use of robust, open datasets that can be used in energy system models.',
-        image: null,
+const sceneId = 'theory'
+const approachPlaceholder = 'IMG-PLACEHOLDER'
+
+const toCaption = (caption: Caption, what: string): SceneCaption => {
+  const details = texts(caption.details, `${what} details`)
+  if (details.length !== 2) throw new Error(`${what} needs exactly two detail lines`)
+  return {
+    label: caption.label,
+    statement: caption.statement,
+    emphasis: caption.emphasis === undefined ? null : caption.emphasis,
+    details: [details[0], details[1]],
+  }
+}
+
+export const loadTheoryPage = async (locale: Locale) => {
+  const page = await findGlobal('theory-of-change-page', locale, 1)
+  return {
+    meta: page.meta,
+    hero: {
+      title: page.hero.title,
+      lead: texts(page.hero.lead, 'theory of change hero lead'),
+      links: required(page.hero.links, 'theory of change hero links').map(({ label, href }) => ({
+        label,
+        href,
+      })),
+      image: {
+        desktop: image(page.hero.image.desktop, 'theory of change hero image desktop'),
+        mobile: image(page.hero.image.mobile, 'theory of change hero image mobile'),
       },
-      {
-        number: '02',
-        title: 'Advance Open-Source Planning Tools',
-        text: 'We facilitate technical advancements in OS tools and support development of enterprise-grade tools to software maturity.',
-        image: null,
-      },
-      {
-        number: '03',
-        title: 'Provide Reliable\nSupport',
-        text: 'We offer reliable support for the use, scalability and security of the open planning solution to increase utility and trust for users.',
-        image: null,
-      },
-      {
-        number: '04',
-        title: 'Build Credibility & Regulatory Support',
-        text: 'We build credibility and regulatory support for OS grid planning tools and scale the adoption for industry and regulatory decisions.',
-        image: null,
-      },
-      {
-        number: '05',
-        title: 'Expand User & Developer Community',
-        text: 'Bolster the pool of analytical talent to collaboratively improve tools, expand the base of users who can integrate and apply these tools.',
-        image: null,
-      },
-    ],
-  },
-  outcomes: {
-    title: 'Output and Outcomes',
-    columns: [
-      {
-        output: 'Open Data Quality',
-        description: 'Increased number of studies using open data and increased open data quality.',
-        outcome: 'More robust and sustainable energy systems.',
-        icon: 'medical-star' as OutcomeIcon,
-        tone: 'brand-500' as OutcomeTone,
-      },
-      {
-        output: 'Users of Open Source',
-        description: 'Increased number of users and downloads of the open-source tools.',
-        outcome: 'Increased public acceptance of energy infrastructure upgrades.',
-        icon: 'employees' as OutcomeIcon,
-        tone: 'brand-900' as OutcomeTone,
-      },
-      {
-        output: 'Adoptions',
-        description:
-          'Increased number of companies and institutions adopting open-source tools for energy planning.',
-        outcome: 'Lower costs of the whole energy infrastructure.',
-        icon: 'referral-alt' as OutcomeIcon,
-        tone: 'brand-400' as OutcomeTone,
-      },
-      {
-        output: 'Studies',
-        description:
-          'Increased number of energy planning studies created using the open-source tools.',
-        outcome: 'Increased adoption of inclusive open-source tools.',
-        icon: 'book-open-reader' as OutcomeIcon,
-        tone: 'brand-800' as OutcomeTone,
-      },
-    ],
-  },
-  impact: {
-    title: 'Impact',
-    text: 'Ultimately, our work will lead to more companies around the world adopting open-source tools for energy planning. This is how we aim to create a global impact.',
-  },
-  globe: {
-    view: { lon: -91.5, lat: 8 },
-    pins: [
-      { icon: 'code-merge' as GlobeIcon, lon: 143, lat: 43.5, scale: 0.9536 },
-      { icon: 'code-fork' as GlobeIcon, lon: -111.15, lat: 61.6, scale: 1.5 },
-      { icon: 'people-group' as GlobeIcon, lon: -99.25, lat: 20, scale: 1 },
-      { icon: 'link-horizontal' as GlobeIcon, lon: 68.5, lat: 49.4, scale: 0.6357 },
-      { icon: 'box-connection' as GlobeIcon, lon: 33.4, lat: 38.2, scale: 0.7947 },
-      { icon: 'tools' as GlobeIcon, lon: 1.2, lat: 18.4, scale: 0.9536 },
-    ],
-  },
+    },
+    scene: {
+      id: sceneId,
+      challenge: toCaption(page.scene.challenge, 'theory of change challenge'),
+      goal: toCaption(page.scene.goal, 'theory of change goal'),
+      values: texts(page.scene.values, 'theory of change values'),
+    },
+    approach: {
+      mobileTag: page.approach.mobileTag,
+      title: page.approach.title,
+      subline: page.approach.subline,
+      placeholder: approachPlaceholder,
+      steps: required(page.approach.steps, 'theory of change approach steps').map(
+        (step, index) => ({
+          number: String(index + 1).padStart(2, '0'),
+          title: step.title,
+          text: step.text,
+          image: optionalImage(step.image, `theory of change approach step ${index + 1} image`),
+        }),
+      ),
+    },
+    outcomes: {
+      title: page.outcomes.title,
+      columns: required(page.outcomes.columns, 'theory of change outcome columns').map(
+        ({ output, description, outcome, icon, tone }) => ({
+          output,
+          description,
+          outcome,
+          icon,
+          tone,
+        }),
+      ),
+    },
+    impact: page.impact,
+    globe: {
+      view: { lon: page.globe.view.longitude, lat: page.globe.view.latitude },
+      pins: required(page.globe.pins, 'theory of change globe pins').map((pin) => ({
+        icon: pin.icon,
+        lon: pin.longitude,
+        lat: pin.latitude,
+        scale: pin.scale,
+      })),
+    },
+  }
 }

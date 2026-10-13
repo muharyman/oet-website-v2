@@ -1,20 +1,8 @@
 import type { ImageMetadata } from 'astro'
-import heroDesktop from '../assets/heroes/about-desktop.webp'
-import heroMobile from '../assets/heroes/about-mobile.webp'
-import mountain from '../assets/organization/about/mountain.jpg'
-import autonomy from '../assets/organization/values/autonomy.jpg'
-import collaboration from '../assets/organization/values/collaboration.jpg'
-import humility from '../assets/organization/values/humility.jpg'
-import recognition from '../assets/organization/values/recognition.jpg'
-import transparency from '../assets/organization/values/transparency.jpg'
-import trust from '../assets/organization/values/trust.jpg'
-import transparencyMobile from '../assets/organization/values/transparency-186.webp'
-import collaborationMobile from '../assets/organization/values/collaboration-186.webp'
-import humilityMobile from '../assets/organization/values/humility-186.webp'
-import trustMobile from '../assets/organization/values/trust-186.webp'
-import autonomyMobile from '../assets/organization/values/autonomy-186.webp'
-import recognitionMobile from '../assets/organization/values/recognition-186.webp'
-import { departmentSlugs, routes } from './routes'
+import type { Locale } from '../i18n/config'
+import { findGlobal, required, resolved, texts } from '../lib/cms'
+import { altOf, image } from '../lib/media'
+import { loadDepartments } from './departments'
 
 export interface AboutAction {
   label: string
@@ -39,103 +27,80 @@ export interface Value {
   body: string
 }
 
-export const meta = {
-  title: 'About Us | Open Energy Transition',
-  description:
-    'Our vision is to accelerate the energy transition by enabling better, faster, and more trusted energy decisions globally with open-source software and open data solutions.',
+const introId = 'about'
+
+const cardAction = (
+  action: { label?: string | null; href?: string | null } | undefined,
+  what: string,
+): InfoCard['action'] => {
+  const { label, href } = required(action, what)
+  const hasLabel = label !== null && label !== undefined
+  const hasHref = href !== null && href !== undefined
+  if (hasLabel && hasHref) return { label, href }
+  if (hasLabel || hasHref) throw new Error(`${what} needs both a label and a target`)
+  return null
 }
 
-export const hero = {
-  title: 'Committed to Building Solutions For a Sustainable Global Future.',
-  links: [{ label: 'About Us', href: '#about' }],
-  image: { desktop: heroDesktop, mobile: heroMobile },
-}
-
-export const intro = {
-  id: 'about',
-  statement:
-    'Our vision is to accelerate the energy transition by enabling better, faster, and more trusted energy decisions globally with open-source software and open data solutions.',
-  paragraphs: [
-    'We conduct research, develop open-source tools, and provide training to inform decision-making and address energy planning challenges. Founded in 2023, we have grown into a fully remote team of 50+ people across 21 countries',
-    'Our team includes award-winning researchers and experienced energy modelers, united by a culture of transparency and collaboration. Registered in Germany, we are committed to building solutions for a sustainable global future.',
-  ],
-  actions: [
-    { label: 'Our Team', href: routes.team, variant: 'primary', arrow: true },
-    { label: 'Departments', href: routes.departments, variant: 'primary', arrow: true },
-    { label: 'OET’s Handbook', href: routes.contact, variant: 'secondary', arrow: false },
-  ] satisfies AboutAction[],
-}
-
-export const infoCards: InfoCard[] = [
-  {
-    image: mountain,
-    alt: '',
-    title: 'Aim',
-    paragraphs: [
-      'We aim to make open source the standard in energy planning by 2030. Ambitious, yet possible.',
-    ],
-    action: null,
-  },
-  {
-    image: mountain,
-    alt: '',
-    title: 'Offers',
-    paragraphs: [
-      'We offer energy transition studies, open-source platforms, and training and support.',
-      'If you are interested a collaboration, please reach out to us.',
-    ],
-    action: { label: 'Career', href: routes.career },
-  },
-]
-
-export const featuredDepartments: readonly string[] = departmentSlugs
-
-export const values = {
-  tag: 'Core Values',
-  title: 'At Open Energy Transition,\nWe Have 6 Main Values\nThat Guide Everything We Do.',
-  subline: 'These serve as the foundation of why we are here and how we have an impact on society.',
-  items: [
-    {
-      thumbnail: transparency,
-      thumbnailMobile: transparencyMobile,
-      label: 'Transparency',
-      title: 'We strive to be as forthcoming with information as possible',
-      body: 'With open, fluid communication channels, and clear feedback that travels in all directions. In this way, we remain internally aligned, and aligned with our clients and partners, such that we all have the opportunity to learn and grow.',
+export const loadAboutPage = async (locale: Locale) => {
+  const [page, departments] = await Promise.all([
+    findGlobal('about-page', locale, 1),
+    loadDepartments(locale),
+  ])
+  return {
+    meta: page.meta,
+    hero: {
+      title: page.hero.title,
+      links: required(page.hero.links, 'about page hero links').map(({ label, href }) => ({
+        label,
+        href,
+      })),
+      image: {
+        desktop: image(page.hero.image.desktop, 'about page hero image desktop'),
+        mobile: image(page.hero.image.mobile, 'about page hero image mobile'),
+      },
     },
-    {
-      thumbnail: collaboration,
-      thumbnailMobile: collaborationMobile,
-      label: 'Collaboration',
-      title: 'We consist of autonomous and self-managed individuals.',
-      body: 'OET is a fully independent organization where collaboration is core to our identity.  We are willing to work with anyone who shares our vision, and internally foster a culture of collaboration across roles, Teams, Departments, and projects.',
+    intro: {
+      id: introId,
+      statement: page.intro.statement,
+      paragraphs: texts(page.intro.paragraphs, 'about page intro paragraphs'),
+      actions: required(page.intro.actions, 'about page intro actions').map(
+        (action): AboutAction => ({
+          label: action.label,
+          href: action.href,
+          variant: action.variant,
+          arrow: action.arrow === true,
+        }),
+      ),
     },
-    {
-      thumbnail: humility,
-      thumbnailMobile: humilityMobile,
-      label: 'Humility',
-      title: 'We try our best to always remain modest.',
-      body: 'And, even if we know we are the best at something, to always remember that someone else might have a great idea we did not think of, and that their input is still valued. We are all about open discussions, continuous growth, open-mindedness, mutual respect, and being humble about our achievements.',
+    infoCards: required(page.infoCards, 'about page info cards').map((card): InfoCard => ({
+      image: image(card.image, `about page info card ${card.title} image`),
+      alt: altOf(card.image, `about page info card ${card.title} image`),
+      title: card.title,
+      paragraphs: texts(card.paragraphs, `about page info card ${card.title} paragraphs`),
+      action: cardAction(card.action, `about page info card ${card.title} action`),
+    })),
+    departmentsHeading: page.departments,
+    featuredDepartments: page.featuredDepartments.map((featured) => {
+      const { id, slug } = resolved(featured, 'about page featured department')
+      return required(
+        departments.find((department) => department.id === id),
+        `about page featured department ${slug}`,
+      )
+    }),
+    values: {
+      tag: page.values.tag,
+      title: page.values.title,
+      subline: page.values.subline,
+      items: required(page.values.items, 'about page values').map((item): Value => ({
+        thumbnail: image(item.thumbnail, `about page value ${item.label} thumbnail`),
+        thumbnailMobile: image(
+          item.thumbnailMobile,
+          `about page value ${item.label} mobile thumbnail`,
+        ),
+        label: item.label,
+        title: item.title,
+        body: item.body,
+      })),
     },
-    {
-      thumbnail: trust,
-      thumbnailMobile: trustMobile,
-      label: 'Trust',
-      title: 'We trust our partners, our clients, and our team members inherently.',
-      body: 'We are building an open-source ecosystem, which requires many different organizations and people to play their part. This can only happen if we trust each other.',
-    },
-    {
-      thumbnail: autonomy,
-      thumbnailMobile: autonomyMobile,
-      label: 'Autonomy',
-      title: 'We give the freedom to do what we do best.',
-      body: 'OET team members are highly skilled, with many holding PhDs. Team members have a very high level of autonomy. We give them the freedom to do what they do best.',
-    },
-    {
-      thumbnail: recognition,
-      thumbnailMobile: recognitionMobile,
-      label: 'Recognition',
-      title: 'Across our teams, our culture is about uplifting one another.',
-      body: 'We make a point of publicly and privately voicing our appreciation contributions and successes – whether mutual or individual. Across our teams, our culture is about uplifting one another, celebrating our wins, and giving credit where it is due.',
-    },
-  ] satisfies Value[],
+  }
 }

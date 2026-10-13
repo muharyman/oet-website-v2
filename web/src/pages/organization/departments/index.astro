@@ -5,14 +5,16 @@ import PageHero from '../../../components/blocks/PageHero.astro'
 import SectionHeading from '../../../components/ui/SectionHeading.astro'
 import {
   departmentCard,
-  departments,
-  departmentsHeading,
-  departmentsIndex,
   heroStats,
+  loadDepartments,
+  loadDepartmentsPage,
 } from '../../../data/departments'
-
-const { meta, hero } = departmentsIndex
 import { defaultLocale } from '../../../i18n/config'
+
+const [{ meta, hero, heading: departmentsHeading }, departments] = await Promise.all([
+  loadDepartmentsPage(defaultLocale),
+  loadDepartments(defaultLocale),
+])
 ---
 
 <BaseLayout

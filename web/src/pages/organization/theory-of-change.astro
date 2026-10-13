@@ -19,9 +19,9 @@ import MedicalStar from '../../icons/medical-star.svg'
 import PeopleGroup from '../../icons/people-group.svg'
 import ReferralAlt from '../../icons/referral-alt.svg'
 import Tools from '../../icons/tools.svg'
-import { theoryPage, type GlobeIcon, type OutcomeIcon } from '../../data/theory-of-change'
+import { loadTheoryPage, type GlobeIcon, type OutcomeIcon } from '../../data/theory-of-change'
 
-const { meta, hero, scene, approach, outcomes, impact, globe } = theoryPage
+const { meta, hero, scene, approach, outcomes, impact, globe } = await loadTheoryPage(defaultLocale)
 
 const outcomeIcons: Record<OutcomeIcon, SvgComponent> = {
   'medical-star': MedicalStar,
