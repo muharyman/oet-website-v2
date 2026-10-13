@@ -1,6 +1,7 @@
 node_modules
 .next
 .env
+.env.production
 database
 /media*
 next-env.d.ts
