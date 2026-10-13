@@ -1,16 +1,14 @@
 ---
-import heroDesktop from '../../assets/heroes/publications-desktop.webp'
-import heroMobile from '../../assets/heroes/publications-mobile.webp'
 import ListingHeader from '../blocks/ListingHeader.astro'
 import PageHero from '../blocks/PageHero.astro'
 import PublicationCard from '../cards/PublicationCard.astro'
 import FilterBar from '../ui/FilterBar.astro'
 import FilterTabs from '../ui/FilterTabs.astro'
 import Pagination from '../ui/Pagination.astro'
-import { filters, pagination, sort } from '../../data/outputs'
+import { loadFilters, pagination, sort } from '../../data/outputs'
 import {
-  publicationBySlug,
-  publicationsPage,
+  loadPublicationsPage,
+  type Publication,
   type PublicationTypeId,
 } from '../../data/publications'
 import { routes } from '../../data/routes'
@@ -24,7 +22,10 @@ interface Props {
 
 const { type } = Astro.props
 const locale = defaultLocale
-const { meta, hero, listing, outputs } = publicationsPage
+const [{ meta, hero, listing, outputs }, filters] = await Promise.all([
+  loadPublicationsPage(locale),
+  loadFilters(locale, 'publications'),
+])
 
 const activeTab = listing.typeTabs.find((tab) => tab.type === type)
 if (type !== null && !activeTab) throw new Error(`Unknown publication type: ${type}`)
@@ -38,8 +39,7 @@ const tabs = [
     active: tab.type === type,
   })),
 ]
-const ofType = (slugs: string[]) =>
-  slugs.map(publicationBySlug).filter((item) => type === null || item.type === type)
+const ofType = (items: Publication[]) => items.filter((item) => type === null || item.type === type)
 const listed = ofType(listing.items)
 const outputItems = ofType(outputs.items)
 const hrefFor = (page: number) => `${base}?page=${page}`
@@ -66,7 +66,7 @@ const grid = 'grid gap-5 border-t border-neutral-100 pt-5 lg:grid-cols-3 lg:bord
       links={hero.links}
       stats={null}
       person={null}
-      image={{ desktop: heroDesktop, mobile: heroMobile }}
+      image={hero.image}
       background="brand-900"
       chipsBottomMobile={62}
       ornament="right-upper"
@@ -91,7 +91,7 @@ const grid = 'grid gap-5 border-t border-neutral-100 pt-5 lg:grid-cols-3 lg:bord
       <FilterBar
         slot="controls"
         locale={locale}
-        filters={filters(locale, 'publications')}
+        filters={filters}
         sort={sort(locale, 'publications')}
       />
       <Pagination

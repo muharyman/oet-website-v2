@@ -13,8 +13,7 @@ import PublicationCard from '../../../components/cards/PublicationCard.astro'
 import ServiceCtaCard from '../../../components/cards/ServiceCtaCard.astro'
 import PersonRow from '../../../components/ui/PersonRow.astro'
 import RichText from '../../../components/ui/RichText.astro'
-import { serviceCtas } from '../../../data/outputs'
-import { publicationBySlug, publications, type Publication } from '../../../data/publications'
+import { loadPublications, publicationBySlug, type Publication } from '../../../data/publications'
 import { routes } from '../../../data/routes'
 import { defaultLocale } from '../../../i18n/config'
 import { detailLabels, sidebarLabels } from '../../../i18n/groups'
@@ -23,15 +22,21 @@ import BaseLayout from '../../../layouts/BaseLayout.astro'
 
 interface Props {
   publication: Publication
+  related: Publication[]
 }
 
-export const getStaticPaths = () =>
-  publications.map((publication) => ({
+export const getStaticPaths = async () => {
+  const publications = await loadPublications(defaultLocale)
+  return publications.map((publication) => ({
     params: { slug: publication.slug },
-    props: { publication },
+    props: {
+      publication,
+      related: publication.detail.related.map((slug) => publicationBySlug(publications, slug)),
+    },
   }))
+}
 
-const { publication } = Astro.props
+const { publication, related: relatedPublications } = Astro.props
 const { detail } = publication
 const locale = defaultLocale
 const labels = detailLabels(locale)
@@ -121,60 +126,63 @@ const tocItems = blocks.flatMap((block) => block.items)
             </>
           ))}
           <LinkListGroup groups={detail.linkGroups} class="px-5 pt-5 pb-[60px]" />
-          <section class="pb-20" aria-labelledby="related-publications" data-print="hide">
-            <CardCarousel
-              label={sidebar.relatedPublications}
-              header="above"
-              controls="none"
-              gap={20}
-              bleed="viewport"
-              trailing="flush"
-              locale={locale}
-            >
-              <h2
-                slot="header"
-                id="related-publications"
-                class="text-heading-4 px-5 pb-5 font-medium text-neutral-800"
+          {relatedPublications.length > 0 && (
+            <section class="pb-20" aria-labelledby="related-publications" data-print="hide">
+              <CardCarousel
+                label={sidebar.relatedPublications}
+                header="above"
+                controls="none"
+                gap={20}
+                bleed="viewport"
+                trailing="flush"
+                locale={locale}
               >
-                {sidebar.relatedPublications}
-              </h2>
-              {detail.related.map((slug) => {
-                const related = publicationBySlug(slug)
-                return (
-                  <li class="shrink-0 snap-start">
-                    <PublicationCard
-                      title={related.title}
-                      excerpt={related.excerpt}
-                      date={related.date}
-                      category={related.category}
-                      href={routes.publication(related.slug)}
-                      linkLabel={t(locale, 'card.read')}
-                      media={{
-                        image: related.thumbnail,
-                        alt: related.alt,
-                        sizes: '367px',
-                        frame: related.frame,
-                        mobileFrame: 'scaled',
-                      }}
-                      height="natural"
-                      class="w-[406px]"
-                    />
-                  </li>
-                )
-              })}
-            </CardCarousel>
-          </section>
+                <h2
+                  slot="header"
+                  id="related-publications"
+                  class="text-heading-4 px-5 pb-5 font-medium text-neutral-800"
+                >
+                  {sidebar.relatedPublications}
+                </h2>
+                {relatedPublications.map((related) => {
+                  return (
+                    <li class="shrink-0 snap-start">
+                      <PublicationCard
+                        title={related.title}
+                        excerpt={related.excerpt}
+                        date={related.date}
+                        category={related.category}
+                        href={routes.publication(related.slug)}
+                        linkLabel={t(locale, 'card.read')}
+                        media={{
+                          image: related.thumbnail,
+                          alt: related.alt,
+                          sizes: '367px',
+                          frame: related.frame,
+                          mobileFrame: 'scaled',
+                        }}
+                        height="natural"
+                        class="w-[406px]"
+                      />
+                    </li>
+                  )
+                })}
+              </CardCarousel>
+            </section>
+          )}
         </div>
         <aside
           class="flex flex-col gap-5 border-neutral-100 pt-20 pb-5 max-lg:order-first max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0 lg:border-l"
           data-print="hide"
         >
-          <section class="flex flex-col gap-4 pr-3 pl-5">
-            <h2 class="text-body-lg font-medium text-neutral-800">{sidebar.authors}</h2>
-            {detail.authors.map((author) => (
-              <PersonRow {...author} />
-            ))}
-          </section>
+          {detail.authors.length > 0 && (
+            <section class="flex flex-col gap-4 pr-3 pl-5">
+              <h2 class="text-body-lg font-medium text-neutral-800">{sidebar.authors}</h2>
+              {detail.authors.map((author) => (
+                <PersonRow {...author} />
+              ))}
+            </section>
+          )}
           <div class="border-t border-neutral-100 pt-5 pr-3 pl-5">
             <TableOfContents title={sidebar.tableOfContents} items={tocItems} />
           </div>
@@ -187,7 +195,7 @@ const tocItems = blocks.flatMap((block) => block.items)
 
     <div data-print="hide">
       <ServiceCtaBand tone="brand-600" {...detail.cta}>
-        <ServiceCtaCard {...serviceCtas[detail.service]} class="w-full lg:w-[559px]" />
+        <ServiceCtaCard {...detail.serviceCta} class="w-full lg:w-[559px]" />
       </ServiceCtaBand>
       <div class={container}>
         <div class="h-[240px] border-l border-neutral-100 lg:h-[119px]"></div>
