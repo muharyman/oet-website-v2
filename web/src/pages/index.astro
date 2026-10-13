@@ -14,7 +14,12 @@ import { homeHeroSources } from '../components/layout/heroSources'
 import BrandImage from '../components/ui/BrandImage.astro'
 import Button from '../components/ui/Button.astro'
 import Tag from '../components/ui/Tag.astro'
-import {
+import { loadHomePage } from '../data/home'
+import { defaultLocale } from '../i18n/config'
+import { t } from '../i18n/ui'
+
+const locale = defaultLocale
+const {
   hero,
   intro,
   meta,
@@ -25,11 +30,7 @@ import {
   stats,
   steps,
   tools,
-} from '../data/home'
-import { defaultLocale } from '../i18n/config'
-import { t } from '../i18n/ui'
-
-const locale = defaultLocale
+} = await loadHomePage(locale)
 const heroPreload = await homeHeroSources(hero.slides[0].image, hero.slides[0].imageMobile)
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
 ---
