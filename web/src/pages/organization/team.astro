@@ -9,33 +9,18 @@ import FilterTabs from '../../components/ui/FilterTabs.astro'
 import Pagination from '../../components/ui/Pagination.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
 import SortControl from '../../components/ui/SortControl.astro'
-import Employees from '../../icons/employees.svg'
-import GlobeAlt from '../../icons/globe-alt.svg'
-import ModelCubeSpace from '../../icons/model-cube-space.svg'
 import { routes } from '../../data/routes'
-import {
-  continents,
-  countries,
-  filterGroups,
-  globe,
-  members,
-  mobilePageSize,
-  teamPage,
-} from '../../data/team'
+import { loadTeamPage, mobilePageSize } from '../../data/team'
 import { defaultLocale } from '../../i18n/config'
 import { sortOptions } from '../../i18n/groups'
 import { t } from '../../i18n/ui'
 
-const { meta, hero, intro, listing } = teamPage
+const { meta, hero, intro, listing, globe, countries, continents, filterGroups, members } =
+  await loadTeamPage(defaultLocale)
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
-const statIcons = [
-  { icon: GlobeAlt, tone: 'brand' as const },
-  { icon: Employees, tone: 'light' as const },
-  { icon: ModelCubeSpace, tone: 'light' as const },
-]
-const statGroups = hero.stats.map((stat, index) => [
-  { kind: 'icon' as const, ...statIcons[index] },
-  { kind: 'count' as const, ...stat, tone: 'outline' as const },
+const statGroups = hero.stats.map((stat) => [
+  { kind: 'icon' as const, icon: stat.icon, tone: stat.tone },
+  { kind: 'count' as const, value: stat.value, label: stat.label, tone: 'outline' as const },
 ])
 const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
 ---

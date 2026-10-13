@@ -4,9 +4,10 @@ import NumberedStepList from '../../components/blocks/NumberedStepList.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
 import JobCard from '../../components/cards/JobCard.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
-import { hero, hiring, meta, roles } from '../../data/career'
+import { loadCareerPage } from '../../data/career'
 import { defaultLocale } from '../../i18n/config'
 
+const { meta, hero, roles, hiring } = await loadCareerPage(defaultLocale)
 const rowLine =
   'lg:nth-[3n+1]:before:absolute lg:nth-[3n+1]:before:top-0 lg:nth-[3n+1]:before:left-0 lg:nth-[3n+1]:before:h-px lg:nth-[3n+1]:before:w-[300%] lg:nth-[3n+1]:before:bg-neutral-100'
 ---
