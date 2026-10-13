@@ -1,0 +1,983 @@
+{
+  "continents": {
+    "label": "Where OET’s at Across The World",
+    "items": [
+      {
+        "value": "99",
+        "label": "Africa"
+      },
+      {
+        "value": "99",
+        "label": "Antarctica"
+      },
+      {
+        "value": "99",
+        "label": "Asia"
+      },
+      {
+        "value": "99",
+        "label": "Europe"
+      },
+      {
+        "value": "99",
+        "label": "North America"
+      },
+      {
+        "value": "99",
+        "label": "South America"
+      },
+      {
+        "value": "99",
+        "label": "Australia/Oceania"
+      }
+    ]
+  },
+  "countries": [
+    {
+      "code": "USA",
+      "name": "USA",
+      "count": "12",
+      "lon": -98,
+      "lat": 39
+    },
+    {
+      "code": "CAN",
+      "name": "Canada",
+      "count": "12",
+      "lon": -109,
+      "lat": 61.7
+    },
+    {
+      "code": "MEX",
+      "name": "Mexico",
+      "count": "12",
+      "lon": -98.2,
+      "lat": 20
+    },
+    {
+      "code": "MLI",
+      "name": "Mali",
+      "count": "12",
+      "lon": 1.2,
+      "lat": 18.4
+    },
+    {
+      "code": "TUR",
+      "name": "Türkiye",
+      "count": "12",
+      "lon": 33.4,
+      "lat": 38.2
+    },
+    {
+      "code": "KAZ",
+      "name": "Kazakhstan",
+      "count": "12",
+      "lon": 68.5,
+      "lat": 49.4
+    },
+    {
+      "code": "JPN",
+      "name": "Japan",
+      "count": "12",
+      "lon": 143,
+      "lat": 43.5
+    }
+  ],
+  "filterGroups": [
+    {
+      "label": "Show All",
+      "href": "/organization/team#team",
+      "active": true
+    },
+    {
+      "label": "Senior Leadership",
+      "href": "/organization/team?group=senior-leadership#team",
+      "active": false
+    },
+    {
+      "label": "Finance",
+      "href": "/organization/team?group=finance#team",
+      "active": false
+    },
+    {
+      "label": "People & Culture",
+      "href": "/organization/team?group=people-and-culture#team",
+      "active": false
+    },
+    {
+      "label": "Software Engineering",
+      "href": "/organization/team?group=software-engineering#team",
+      "active": false
+    },
+    {
+      "label": "Modelling Tools & Data",
+      "href": "/organization/team?group=modelling-tools-and-data#team",
+      "active": false
+    },
+    {
+      "label": "Energy System Modeling",
+      "href": "/organization/team?group=energy-system-modeling#team",
+      "active": false
+    },
+    {
+      "label": "Grid Data",
+      "href": "/organization/team?group=grid-data#team",
+      "active": false
+    },
+    {
+      "label": "Research & Market Development",
+      "href": "/organization/team?group=research-and-market-development#team",
+      "active": false
+    }
+  ],
+  "globe": {
+    "view": {
+      "lon": -91.5,
+      "lat": 8
+    },
+    "selected": "USA",
+    "photo": {
+      "__asset": "team/country-card.webp"
+    },
+    "photoAlt": ""
+  },
+  "members": [
+    {
+      "name": "Dr. Siddharth Krishna",
+      "role": "Head of Software Engineering",
+      "portrait": {
+        "image": {
+          "__asset": "team/siddharth-krishna.webp"
+        },
+        "desktop": {
+          "x": 17.82,
+          "y": -19,
+          "width": 242.84,
+          "height": 318
+        },
+        "mobile": {
+          "x": 21.13,
+          "y": -19,
+          "width": 287.93,
+          "height": 318
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Shanti Chellaram",
+      "role": "Senior Full-Stack Engineer",
+      "portrait": {
+        "image": {
+          "__asset": "team/shanti-chellaram.webp"
+        },
+        "desktop": {
+          "x": 49.13,
+          "y": -18,
+          "width": 208.47,
+          "height": 273
+        },
+        "mobile": {
+          "x": 58.25,
+          "y": -18,
+          "width": 247.19,
+          "height": 273
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Lauren Clisby",
+      "role": "Product Owner",
+      "portrait": {
+        "image": {
+          "__asset": "team/lauren-clisby.webp"
+        },
+        "desktop": {
+          "x": 18.84,
+          "y": -27,
+          "width": 222.22,
+          "height": 291
+        },
+        "mobile": {
+          "x": 22.33,
+          "y": -27,
+          "width": 263.49,
+          "height": 291
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Kristijan Faust",
+      "role": "Software Engineer",
+      "portrait": {
+        "image": {
+          "__asset": "team/kristijan-faust.webp"
+        },
+        "desktop": {
+          "x": 21.38,
+          "y": -31,
+          "width": 254.29,
+          "height": 333
+        },
+        "mobile": {
+          "x": 25.35,
+          "y": -31,
+          "width": 301.52,
+          "height": 333
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Dr. Maximilian Parzen",
+      "role": "CEO, Co-Founder",
+      "portrait": {
+        "image": {
+          "__asset": "team/maximilian-parzen.webp"
+        },
+        "desktop": {
+          "x": -6,
+          "y": -19,
+          "width": 303,
+          "height": 281
+        },
+        "mobile": {
+          "x": -7.11,
+          "y": -45.09,
+          "width": 359.27,
+          "height": 333.19
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership"
+      ]
+    },
+    {
+      "name": "Dr. Hazem Abdel-Khalek",
+      "role": "Head of Modeling Tools & Data, Co-Founder",
+      "portrait": {
+        "image": {
+          "__asset": "team/hazem-abdel-khalek.webp"
+        },
+        "desktop": {
+          "x": 5,
+          "y": -21,
+          "width": 275,
+          "height": 294
+        },
+        "mobile": {
+          "x": 5.93,
+          "y": -48.3,
+          "width": 326.07,
+          "height": 348.6
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Modeling Tools & Data"
+      ]
+    },
+    {
+      "name": "Dr. Martha Maria Frysztacki",
+      "role": "Head of Energy System Modeling, Co-Founder",
+      "portrait": {
+        "image": {
+          "__asset": "team/martha-maria-frysztacki.webp"
+        },
+        "desktop": {
+          "x": -18,
+          "y": -19,
+          "width": 317,
+          "height": 257
+        },
+        "mobile": {
+          "x": 8,
+          "y": -19,
+          "width": 317,
+          "height": 257
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Energy System Modeling"
+      ]
+    },
+    {
+      "name": "Quintin Coetzee",
+      "role": "Head of People",
+      "portrait": {
+        "image": {
+          "__asset": "team/quintin-coetzee.webp"
+        },
+        "desktop": {
+          "x": 0,
+          "y": -19,
+          "width": 280,
+          "height": 297
+        },
+        "mobile": {
+          "x": 0,
+          "y": -46.58,
+          "width": 332,
+          "height": 352.16
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "People And Culture"
+      ]
+    },
+    {
+      "name": "Dr. Siddharth Krishna",
+      "role": "Head of Software Engineering",
+      "portrait": {
+        "image": {
+          "__asset": "team/siddharth-krishna.webp"
+        },
+        "desktop": {
+          "x": 17.82,
+          "y": -19,
+          "width": 242.84,
+          "height": 318
+        },
+        "mobile": {
+          "x": 21.13,
+          "y": -19,
+          "width": 287.93,
+          "height": 318
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Dr. Harry van der Weijde",
+      "role": "Head of Research & Market Development",
+      "portrait": {
+        "image": {
+          "__asset": "team/harry-van-der-weijde.webp"
+        },
+        "desktop": {
+          "x": -5,
+          "y": -19,
+          "width": 295,
+          "height": 295
+        },
+        "mobile": {
+          "x": 21,
+          "y": -19,
+          "width": 295,
+          "height": 295
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Research & Market Development"
+      ]
+    },
+    {
+      "name": "Dr. Tobias Augspurger",
+      "role": "Head of Grid Data",
+      "portrait": {
+        "image": {
+          "__asset": "team/tobias-augspurger.webp"
+        },
+        "desktop": {
+          "x": -12,
+          "y": -19,
+          "width": 303,
+          "height": 322
+        },
+        "mobile": {
+          "x": 14,
+          "y": -19,
+          "width": 303,
+          "height": 322
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Grid Data"
+      ]
+    },
+    {
+      "name": "Andris Prindulis",
+      "role": "Head of Finance",
+      "portrait": {
+        "image": {
+          "__asset": "team/andris-prindulis.webp"
+        },
+        "desktop": {
+          "x": 0,
+          "y": -19,
+          "width": 294,
+          "height": 305
+        },
+        "mobile": {
+          "x": 26,
+          "y": -19,
+          "width": 294,
+          "height": 305
+        },
+        "rotate": 0
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership",
+        "Finance"
+      ]
+    },
+    {
+      "name": "Dr. Fabrizio Finozzi",
+      "role": "Software Engineer & Energy System Modeler",
+      "portrait": {
+        "image": {
+          "__asset": "team/fabrizio-finozzi.webp"
+        },
+        "desktop": {
+          "x": 18.58,
+          "y": -40,
+          "width": 242.84,
+          "height": 318
+        },
+        "mobile": {
+          "x": 44.58,
+          "y": -40,
+          "width": 242.84,
+          "height": 318
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Jatmiko Herjati",
+      "role": "Geospatial Software Engineer",
+      "portrait": {
+        "image": {
+          "__asset": "team/jatmiko-herjati.webp"
+        },
+        "desktop": {
+          "x": 41.75,
+          "y": -34,
+          "width": 225.27,
+          "height": 295
+        },
+        "mobile": {
+          "x": 67.75,
+          "y": -34,
+          "width": 225.27,
+          "height": 295
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read Profile",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Stefan Radnev",
+      "role": "DevSecOps Engineer",
+      "portrait": {
+        "image": {
+          "__asset": "team/stefan-radnev.webp"
+        },
+        "desktop": {
+          "x": 13.75,
+          "y": -13,
+          "width": 251.24,
+          "height": 329
+        },
+        "mobile": {
+          "x": 39.75,
+          "y": -13,
+          "width": 251.24,
+          "height": 329
+        },
+        "rotate": 0
+      },
+      "glow": "right",
+      "links": [
+        {
+          "kind": "email",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "github",
+          "href": "mailto:info@openenergytransition.org"
+        },
+        {
+          "kind": "linkedin",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "name": "Snoopy F",
+      "role": "Visionary, Head of Wellbeing",
+      "portrait": {
+        "image": {
+          "__asset": "team/snoopy-f.webp"
+        },
+        "desktop": {
+          "x": -10.55,
+          "y": 2.72,
+          "width": 276.69,
+          "height": 370.23
+        },
+        "mobile": {
+          "x": 15.45,
+          "y": 2.72,
+          "width": 276.69,
+          "height": 370.23
+        },
+        "rotate": 18.44
+      },
+      "glow": "center",
+      "links": [
+        {
+          "kind": "message",
+          "href": "mailto:info@openenergytransition.org"
+        }
+      ],
+      "profile": {
+        "label": "Read",
+        "href": "mailto:info@openenergytransition.org"
+      },
+      "tags": [
+        "Senior Leadership"
+      ]
+    }
+  ],
+  "mobilePageSize": 8,
+  "teamPage": {
+    "meta": {
+      "title": "Team — Open Energy Transition",
+      "description": "A fully remote team of 50+ people across 21 countries: award-winning researchers and experienced energy modelers."
+    },
+    "hero": {
+      "title": "Built on a Culture of Transparency, Collaboration, & Trust.",
+      "lead": [
+        "Registered in Germany, since our founding in 2023, we have grown to a team of over 50 experts working remotely across multiple continents. We are led by award-winning energy modelers who are shaping the future of global energy planning."
+      ],
+      "stats": [
+        {
+          "value": "9",
+          "label": "Continents"
+        },
+        {
+          "value": "50+",
+          "label": "Experts"
+        },
+        {
+          "value": "8",
+          "label": "Department"
+        }
+      ],
+      "image": {
+        "desktop": {
+          "__asset": "heroes/team-desktop.webp"
+        },
+        "mobile": {
+          "__asset": "heroes/team-mobile.webp"
+        }
+      }
+    },
+    "intro": {
+      "tag": "Team",
+      "title": "A Fully remote team of 50+ people across 21 countries",
+      "subline": "Our team includes award-winning researchers and experienced energy modelers, united by a culture of transparency and collaboration.",
+      "actions": [
+        {
+          "label": "Work With Us",
+          "href": "/organization/career",
+          "variant": "primary",
+          "size": "sm-tall",
+          "arrow": true
+        },
+        {
+          "label": "Explore Departments",
+          "href": "/organization/departments",
+          "variant": "secondary",
+          "size": "sm-tall",
+          "arrow": false
+        }
+      ]
+    },
+    "listing": {
+      "id": "team",
+      "title": "Meet The Team",
+      "mobileDescription": "Discover our innovative projects driving the energy transition  towards a sustainable future with open-source and open data",
+      "sort": {
+        "id": "sort-team",
+        "values": [
+          "a-z",
+          "z-a"
+        ],
+        "selected": "a-z"
+      },
+      "pagination": {
+        "current": 1,
+        "total": 10
+      }
+    }
+  }
+}
