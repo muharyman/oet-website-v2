@@ -2,44 +2,18 @@ name: oet-cms
 
 services:
   database:
-    image: postgis/postgis:16-3.4-alpine
+    image: postgres:16-alpine
+    ports:
+      - '5433:5432'
     volumes:
       - ./database:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: directus
+      POSTGRES_USER: payload
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: directus
+      POSTGRES_DB: oet_cms
     healthcheck:
-      test: ['CMD', 'pg_isready', '--host=localhost', '--username=directus']
+      test: ['CMD', 'pg_isready', '--host=localhost', '--username=payload', '--dbname=oet_cms']
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  directus:
-    image: directus/directus:11.17.4
-    ports:
-      - '8055:8055'
-    volumes:
-      - ./uploads:/directus/uploads
-      - ./extensions:/directus/extensions
-    depends_on:
-      database:
-        condition: service_healthy
-    environment:
-      KEY: ${DIRECTUS_KEY}
-      SECRET: ${DIRECTUS_SECRET}
-      DB_CLIENT: pg
-      DB_HOST: database
-      DB_PORT: '5432'
-      DB_DATABASE: directus
-      DB_USER: directus
-      DB_PASSWORD: ${DB_PASSWORD}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      PUBLIC_URL: ${PUBLIC_URL}
-      CORS_ENABLED: 'true'
-      CORS_ORIGIN: ${WEB_URL}
-      WEBSOCKETS_ENABLED: 'false'
-      CACHE_ENABLED: 'false'
-      CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_ANCESTORS: ${WEB_URL}
