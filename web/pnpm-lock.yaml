@@ -14,9 +14,6 @@ importers:
       '@astrojs/vercel':
         specifier: ^11.0.12
         version: 11.0.12(astro@7.3.6(@types/node@24.19.1)(@vercel/functions@3.9.11)(jiti@2.7.0)(yaml@2.9.1))
-      '@directus/sdk':
-        specifier: ^26.0.0
-        version: 26.0.0
       '@fontsource-variable/plus-jakarta-sans':
         specifier: ^5.3.0
         version: 5.3.0
@@ -320,10 +317,6 @@ packages:
   '@clack/prompts@1.8.1':
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
-
-  '@directus/sdk@26.0.0':
-    resolution: {integrity: sha512-t6G900Rx43bTPPFtSrIX0EE6awIeJSoLbictRAVC0P/Eh4Nmud9lLfFodMAikFWe5IbocJ33Y3eio+hLZMqLTA==}
-    engines: {node: '>=22'}
 
   '@emmetio/abbreviation@2.3.3':
     resolution: {integrity: sha512-mgv58UrU3rh4YgbE/TzgLQwJ3pFsHHhCLqY20aJq+9comytTXUDNGG/SMtSeMJdkpxgXSXunBGLD8Boka3JyVA==}
@@ -2732,8 +2725,6 @@ snapshots:
       fast-string-width: 3.0.2
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
-
-  '@directus/sdk@26.0.0': {}
 
   '@emmetio/abbreviation@2.3.3':
     dependencies:

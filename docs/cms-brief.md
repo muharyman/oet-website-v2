@@ -83,6 +83,24 @@ pnpm check
 - `pnpm generate:types` writes `cms/src/payload-types.ts` and copies it to `web/src/lib/payload-types.ts`. Other agents regenerate it too; if it fails or `pnpm check` reports errors in another area's files, wait a minute and retry, and never fix another area's file.
 - To inspect what you seeded, write a throwaway script under `cms/scripts/_<area>-*.ts` and run it with `pnpm payload run scripts/_<area>-x.ts`; delete it when you are done.
 
+## Wiring rules (connecting `web/` pages)
+
+This phase starts after every area is modelled and seeded. One Payload server runs at http://localhost:3000 on the database `oet_cms`, and one Astro dev server at http://localhost:4321; use both, start neither.
+
+- A data module `web/src/data/<name>.ts` keeps its exported **types** and pure functions. Its content constants are replaced by async loaders (`loadHomePage(locale)`, `loadProjects(locale)`, …) that read the CMS through `web/src/lib/cms.ts` and return the same view-model types the components already take. The mapping from CMS documents to view models lives in the data module, nowhere else.
+- Pages call the loaders in their frontmatter (`await`), `getStaticPaths` included. Components keep receiving resolved data as props and never fetch. Change a component only when a view model genuinely has to change, and keep its props typed.
+- Images: `image(doc.field, 'what')` returns the `ImageMetadata` of the file the build has synced into `src/assets/cms`; `altOf` gives the alternative text; `icon(name)` gives the SVG component. Never build an image URL by hand.
+- Missing data throws: use `resolved`, `required`, `texts`. No `??`, no `||`, no optional chaining to skip a missing value. A field the model marks optional is handled as the explicit variant the component already has (`null`).
+- Link targets that are a document's own page come from `routes` and the slug. Other targets are the stored `href`.
+- Request the smallest `depth` that populates what the page reads.
+- Delete the content constants and the asset imports you replaced. Do not delete files under `web/src/assets`; the coordinator moves them afterwards.
+- Schema changes in this phase: only additions inside your own area (a new field or collection), never a rename or removal, because the shared server pushes the schema while it runs. After adding, extend your seed, run `SEED_AREAS=<area> pnpm seed` and `pnpm generate:types` from `cms/` with the default environment, and list the addition in your report.
+- Verify every route you own:
+  - `node scripts/compare-content.mjs .screenshots/cms-before-html http://localhost:4321 <route prefix>` from `web/` diffs the visible text, link targets and image alternatives against the static site. Every reported difference must be explained in your report (a relation replacing filler, a real count replacing a placeholder) or fixed.
+  - `MSYS_NO_PATHCONV=1 node scripts/shoot.mjs /route name 1440 412` and compare with the same route in `.screenshots/cms-before/` (same naming as `scripts/snapshot-all.mjs`); look at both images.
+  - `pnpm check` passes for your files. Run `pnpm exec prettier --write` on the files you changed.
+- A new media file uploaded while the Astro dev server runs is not visible to it until `node -e "import('./scripts/cms-media.mjs').then((m) => m.syncMedia())"` has run from `web/`.
+
 ## Report
 
 Write `docs/reports/cms-<area>.md`:

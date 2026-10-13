@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # scratch scripts
 scripts/_*
+
+# media downloaded from the CMS
+src/assets/cms/
