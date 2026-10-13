@@ -6,6 +6,7 @@ import type { Locale } from '../i18n/config'
 import { t } from '../i18n/ui'
 import { findAll, findGlobal, required, resolved, richHtml, type Doc } from '../lib/cms'
 import { altOf, icon, image } from '../lib/media'
+import { partnerTag, projectPeriod } from './projects'
 import { routes } from './routes'
 
 export type DepartmentAccent = 'red' | 'dark-red' | 'charcoal' | 'plum'
@@ -135,32 +136,15 @@ const toDepartment = (doc: DepartmentDoc): Department => {
   }
 }
 
-const monthAndYear = (value: string): string => {
-  const date = new Date(value)
-  return `${String(date.getUTCMonth() + 1).padStart(2, '0')}/${date.getUTCFullYear()}`
-}
-
-const toPartnerTag = (doc: ProjectDoc): PartnerTag | null => {
-  if (doc.partnerTag === null || doc.partnerTag === undefined) return null
-  const partner = resolved(doc.partnerTag, `project ${doc.slug} partner tag`)
-  const size = required(partner.tagSize, `partner ${partner.name} tag size`)
-  return {
-    name: partner.name,
-    logo: image(partner.tagLogo, `partner ${partner.name} tag logo`),
-    width: size.width,
-    height: size.height,
-  }
-}
-
 const toProject = (doc: ProjectDoc): DepartmentProject => ({
   title: doc.title,
   excerpt: doc.excerpt,
-  period: `${monthAndYear(doc.startDate)} - ${monthAndYear(doc.endDate)}`,
+  period: projectPeriod(doc),
   href: routes.successStory(doc.slug),
   image: image(doc.thumbnail, `project ${doc.slug} thumbnail`),
   alt: altOf(doc.thumbnail, `project ${doc.slug} thumbnail`),
   frame: doc.frame,
-  partnerTag: toPartnerTag(doc),
+  partnerTag: partnerTag(doc.partnerTag, `project ${doc.slug} partner tag`),
 })
 
 export const loadDepartments = async (locale: Locale): Promise<Department[]> => {

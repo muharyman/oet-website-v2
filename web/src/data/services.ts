@@ -6,12 +6,12 @@ import {
   findAll,
   findGlobal,
   required,
-  resolved,
   texts,
   type Doc,
   type GlobalDoc,
 } from '../lib/cms'
 import { altOf, icon, image, optionalImage } from '../lib/media'
+import { partnerTag, projectPeriod } from './projects'
 import { routes } from './routes'
 
 export type ServiceSlug = string
@@ -134,14 +134,6 @@ const valueColumns = { '5': 5, '6': 6 } as const
 const optionalTexts = (rows: Rows): string[] =>
   rows === null || rows === undefined ? [] : rows.map((row) => row.text)
 
-const monthYear = (date: string): string => {
-  const value = new Date(date)
-  return `${String(value.getUTCMonth() + 1).padStart(2, '0')}/${value.getUTCFullYear()}`
-}
-
-const projectPeriod = (start: string, end: string): string =>
-  `${monthYear(start)} - ${monthYear(end)}`
-
 const valueItems = (items: PageDoc['values']['items'], what: string): ValueItem[] =>
   items.map((item) => ({
     thumbnail: image(item.thumbnail, `${what} thumbnail of ${item.label}`),
@@ -182,22 +174,10 @@ const serviceApproach = (approach: ServiceDoc['approach'], what: string): Servic
       }
     : null
 
-const partnerTag = (partner: ProjectDoc['partnerTag'], what: string): PartnerTag | null => {
-  if (partner === null || partner === undefined) return null
-  const doc = resolved(partner, what)
-  const size = required(doc.tagSize, `tag size of partner ${doc.name}`)
-  return {
-    name: doc.name,
-    logo: image(doc.tagLogo, `tag logo of partner ${doc.name}`),
-    width: size.width,
-    height: size.height,
-  }
-}
-
 const relatedProject = (project: ProjectDoc): RelatedProject => ({
   title: project.title,
   excerpt: project.excerpt,
-  period: projectPeriod(project.startDate, project.endDate),
+  period: projectPeriod(project),
   href: routes.successStory(project.slug),
   image: image(project.thumbnail, `thumbnail of project ${project.slug}`),
   alt: altOf(project.thumbnail, `thumbnail of project ${project.slug}`),
