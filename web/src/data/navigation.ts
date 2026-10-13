@@ -1,4 +1,7 @@
+import type { Locale } from '../i18n/config'
+import { findAll, findGlobal, required } from '../lib/cms'
 import { routes } from './routes'
+
 export type HeaderTheme = 'light' | 'dark' | 'solid' | 'on-red'
 
 export type ServiceIcon = 'pylon' | 'government' | 'engineer' | 'column' | 'research' | 'monitor'
@@ -48,133 +51,91 @@ export interface Navigation {
   copyright: string
 }
 
-const toolsAndData: NavListGroup = {
-  kind: 'list',
-  id: 'tools-and-data',
-  label: 'Tools & Data',
-  links: [
-    { label: 'Our Tools', href: routes.toolsAndData },
-    { label: 'Models', href: routes.toolsCategory('models') },
-    { label: 'Data', href: routes.toolsCategory('data') },
-    { label: 'Open-Source Solver', href: routes.toolsCategory('open-source-solvers') },
-    { label: 'Community', href: routes.toolsCategory('community') },
-  ],
+const SERVICE_COLUMNS = 3
+
+export const byColumn = <Item>(items: Item[], columns: number): Item[] => {
+  const rows = Math.ceil(items.length / columns)
+  const full = items.length - (rows - 1) * columns
+  return Array.from({ length: rows }).flatMap((_, row) =>
+    Array.from({ length: columns }).flatMap((_, column) => {
+      const size = column < full ? rows : rows - 1
+      const start = column * rows - Math.max(column - full, 0)
+      return row < size ? [items[start + row]] : []
+    }),
+  )
 }
 
-const services: NavMegaGroup = {
-  kind: 'mega',
-  id: 'services',
-  label: 'Services',
-  links: [
-    {
-      label: 'System Operators & Utilities',
-      description:
-        'We support model and data development, software deployment, validation, benchmarking, training, maintenance',
-      href: routes.service('system-operators-and-utilities'),
-      icon: 'pylon',
-    },
-    {
-      label: 'Consultancies & Engineering Firm',
-      description:
-        'Add specialist open-source modelling, software and data capabilities to your client offer.',
-      href: routes.service('consultancies-and-engineering-firms'),
-      icon: 'engineer',
-    },
-    {
-      label: 'Think Tanks, NGOs & Research Organizations',
-      description:
-        'We support model and data development, software deployment, validation, benchmarking, training, maintenance',
-      href: routes.service('think-tanks-ngos-and-research-organizations'),
-      icon: 'research',
-    },
-    {
-      label: 'Regulators & Public Authorities',
-      description:
-        'Build independent and transparent analytical capabilities for energy policy, regulation and infrastructure assessment.',
-      href: routes.service('regulators-and-public-authorities'),
-      icon: 'government',
-    },
-    {
-      label: 'Foundations & Development Partners',
-      description:
-        'Strengthen the shared tools, data and institutional capacity needed for transparent energy planning to spread.',
-      href: routes.service('foundations-and-development-partners'),
-      icon: 'column',
-    },
-    {
-      label: 'Technology Developers & Investors',
-      description:
-        'We support model and data development, software deployment, validation, benchmarking, training, maintenance',
-      href: routes.service('technology-developers-and-investors'),
-      icon: 'monitor',
-    },
-  ],
-  more: {
-    label: 'Learn More About Our Service',
-    description:
-      'We support the full journey, from assessing suitable tools and use cases to building and integrating the components required for institutional use',
-    href: routes.services,
-  },
+export const links = (
+  rows: { label: string; href: string }[] | null | undefined,
+  what: string,
+): NavLink[] => required(rows, what).map(({ label, href }) => ({ label, href }))
+
+export const loadServiceLinks = async (locale: Locale): Promise<NavServiceLink[]> => {
+  const services = await findAll('services', locale, { depth: 0, sort: 'order' })
+  return services.map((service) => ({
+    label: service.navigation.label,
+    description: service.navigation.description,
+    icon: service.navigation.icon,
+    href: routes.service(service.slug),
+  }))
 }
 
-const servicesStacked: NavMegaGroup = {
-  ...services,
-  links: [0, 3, 1, 4, 2, 5].map((index) => services.links[index]),
-}
+export const serviceLinksByColumn = (services: NavServiceLink[]): NavServiceLink[] =>
+  byColumn(services, SERVICE_COLUMNS)
 
-const outputs: NavListGroup = {
-  kind: 'list',
-  id: 'outputs',
-  label: 'Outputs',
-  links: [
-    { label: 'Success Stories', href: routes.successStories },
-    { label: 'Publications', href: routes.publications },
-    { label: 'Blogs', href: routes.blogs },
-    { label: 'Policy Briefs', href: routes.policyBriefs },
-    { label: 'Reports', href: routes.reports },
-  ],
-}
+export const loadNavigation = async (locale: Locale): Promise<Navigation> => {
+  const [header, footer, services] = await Promise.all([
+    findGlobal('site-header', locale, 0),
+    findGlobal('site-footer', locale, 0),
+    loadServiceLinks(locale),
+  ])
 
-const organization: NavListGroup = {
-  kind: 'list',
-  id: 'organization',
-  label: 'Organization',
-  links: [
-    { label: 'About Us', href: routes.about },
-    { label: 'Department', href: routes.departments },
-    { label: 'Partner', href: routes.partners },
-    { label: 'Our Team', href: routes.team },
-    { label: 'Career', href: routes.career },
-    { label: 'News & Events', href: routes.newsAndEvents },
-    { label: 'Theory of Change', href: routes.theoryOfChange },
-  ],
-}
+  const entries = header.menu.map((block): { desktop: NavGroup[]; mobile: MobileNavEntry[] } => {
+    const id = required(block.id, `site-header menu entry "${block.label}" id`)
+    if (block.blockType === 'servicesGroup') {
+      const mega = (items: NavServiceLink[]): NavMegaGroup => ({
+        kind: 'mega',
+        id,
+        label: block.label,
+        links: items,
+        more: {
+          label: block.more.label,
+          description: block.more.description,
+          href: block.more.href,
+        },
+      })
+      return {
+        desktop: [mega(serviceLinksByColumn(services))],
+        mobile: [mega(services)],
+      }
+    }
+    const list: NavListGroup = {
+      kind: 'list',
+      id,
+      label: block.label,
+      links: links(block.links, `site-header menu entry "${block.label}" links`),
+    }
+    const mobile = (): MobileNavEntry[] => {
+      if (block.mobile === 'hidden') return []
+      if (block.mobile === 'menu') return [list]
+      return [
+        {
+          kind: 'link',
+          id,
+          label: block.label,
+          href: required(block.mobileHref, `site-header menu entry "${block.label}" mobile target`),
+        },
+      ]
+    }
+    return { desktop: block.desktop === 'menu' ? [list] : [], mobile: mobile() }
+  })
 
-const solutions: NavListGroup = {
-  kind: 'list',
-  id: 'solutions',
-  label: 'Solutions',
-  links: [
-    { label: 'Projects', href: routes.successStories },
-    { label: 'Success Stories', href: routes.successStories },
-  ],
-}
-
-export const navigation: Navigation = {
-  desktop: [toolsAndData, services, outputs, organization],
-  mobile: [
-    { kind: 'link', id: 'tools-and-data', label: 'Tools & Data', href: routes.toolsAndData },
-    solutions,
-    servicesStacked,
-    outputs,
-    organization,
-  ],
-  contact: { label: 'Contact Us', href: 'mailto:info@openenergytransition.org' },
-  legal: [
-    { label: 'Legal', href: routes.legal },
-    { label: 'Privacy Statement', href: routes.privacyStatement },
-    { label: 'Disclaimer', href: routes.disclaimer },
-  ],
-  consentLabel: 'Cookie Settings',
-  copyright: '© 2026 Open Energy Transition gGmbH. All rights reserved.',
+  return {
+    desktop: entries.flatMap((entry) => entry.desktop),
+    mobile: entries.flatMap((entry) => entry.mobile),
+    contact: { label: header.contact.label, href: header.contact.href },
+    legal: links(footer.legal, 'site-footer legal links'),
+    consentLabel: footer.consentLabelCompact,
+    copyright: footer.copyright,
+  }
 }

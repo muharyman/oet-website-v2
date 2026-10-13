@@ -107,7 +107,9 @@ const theme = (page) => page.locator('oet-header').getAttribute('data-theme')
   await page.keyboard.press('Escape')
   await page.keyboard.press('ArrowDown')
   report.checks.arrowDownFocusesFirstLink = await page.evaluate(
-    () => document.activeElement === document.querySelector('#nav-tools-and-data a'),
+    () =>
+      document.activeElement ===
+      document.querySelector('oet-header [data-dropdown] [data-panel] a'),
   )
   for (let step = 0; step < 5; step += 1) await page.keyboard.press('Tab')
   report.checks.tabLeavesAndCloses =
