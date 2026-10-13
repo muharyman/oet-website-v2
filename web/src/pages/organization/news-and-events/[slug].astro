@@ -9,15 +9,15 @@ import VideoPoster from '../../../components/blocks/VideoPoster.astro'
 import RichText from '../../../components/ui/RichText.astro'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import {
-  events,
-  eventsPage,
   eventStatus,
   formatEventPublished,
   formatEventTimes,
   formatEventWeekday,
+  loadEvents,
+  loadEventsPage,
   type EventItem,
 } from '../../../data/events'
-import { locales } from '../../../i18n/config'
+import { defaultLocale, locales } from '../../../i18n/config'
 import { eventLabels } from '../../../i18n/groups'
 
 interface Props {
@@ -25,7 +25,8 @@ interface Props {
   status: 'upcoming' | 'highlighted'
 }
 
-export const getStaticPaths = (() => {
+export const getStaticPaths = (async () => {
+  const events = await loadEvents(defaultLocale)
   const now = new Date()
   return events.flatMap((event) => {
     const status = eventStatus(event, now)
@@ -34,10 +35,11 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths
 
 const { event, status } = Astro.props
-const { cta } = eventsPage
 
 const locale = locales.find((code) => code === Astro.currentLocale)
 if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
+
+const { cta } = await loadEventsPage(locale)
 
 const labels = eventLabels(locale)
 

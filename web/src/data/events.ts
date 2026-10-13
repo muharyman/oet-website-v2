@@ -1,18 +1,19 @@
 import type { ImageMetadata } from 'astro'
-import documentationSubstation from '../assets/events/documentation-substation.webp'
-import highlightSession from '../assets/events/highlight-session.webp'
-import posterSquare from '../assets/events/poster-pypsa-support.webp'
-import posterTall from '../assets/events/poster-pypsa-support-tall.webp'
-import newsDesktop from '../assets/heroes/news-and-events-desktop.webp'
-import newsMobile from '../assets/heroes/news-and-events-mobile.webp'
-import personPlaceholder from '../assets/shared/person-placeholder.png'
+import type { Locale } from '../i18n/config'
 import type { SortValue } from '../i18n/groups'
-import { routes } from './routes'
+import { findAll, findGlobal, required, resolved, richHtml, type Doc } from '../lib/cms'
+import { altOf, image } from '../lib/media'
+import type { CtaBanner, Media } from '../lib/payload-types'
 
-export type EventTypeId = 'webinars' | 'events' | 'support-meetups' | 'open-calls'
 export type EventStatus = 'upcoming' | 'highlighted' | 'archived'
+export type EventStateId = 'all' | 'highlighted' | 'upcoming'
 
 export type PosterFit = 'cover' | 'contain'
+
+export interface EventType {
+  id: string
+  label: string
+}
 
 export interface EventImage {
   image: ImageMetadata
@@ -41,7 +42,7 @@ export interface EventItem {
   excerpt: string
   brief: string
   descriptionHtml: string
-  type: EventTypeId
+  type: string
   timeZone: string
   start: string
   end: string
@@ -60,106 +61,170 @@ export interface EventItem {
   gallery: EventImage[]
 }
 
-export const eventTypes: { id: EventTypeId; label: string }[] = [
-  { id: 'webinars', label: 'Webinars' },
-  { id: 'events', label: 'Events' },
-  { id: 'support-meetups', label: 'Support Meetups' },
-  { id: 'open-calls', label: 'Open Calls' },
-]
-
-const contributor: EventContributor = {
-  name: 'Dr. Martha Maria Frysztacki Name Here 2 Line Max',
-  title: 'Title in OET/Company Here 1 Line Maximum Lorem ipsum dolor',
-  photo: personPlaceholder,
+export interface EventBanner {
+  tone: CtaBanner['tone']
+  heading: string
+  lead: string | null
+  text: string
+  actions: { label: string; href: string; emphasis: 'primary' | 'secondary'; newTab: boolean }[]
+  collage: CtaBanner['collage']
+  breakout: boolean
 }
 
-const brief =
-  'Get support from OET’s experts on your questions about:  The PyPSA ecosystem (PyPSA, Linopy, Atlite, PyPSA-Eur, Open-TYNDP, Snakemake, etc. Implementation details  IT infrastructure and self-hosting requirements Lorem Ipsum Dolor Sit Amet'
-
-const descriptionHtml = `<p>Energy grid planning is one of the most critical components in shaping the future of global energy systems. As modern societies become increasingly dependent on electricity for everything from communication and transportation to healthcare and industry, ensuring a stable, efficient, and sustainable power supply has become a top priority.</p>
-<p>Ultimately, energy grid planning is not just a technical discipline; it’s a vital part of national development strategy. It links energy policy with environmental goals, industrial growth, and social welfare.</p>
-<p>Ultimately, energy grid planning is not just a technical discipline; it’s a vital part of national development strategy. It links energy policy with environmental goals, industrial growth, and social welfare.</p>`
-
-const locationAddress =
-  'Location, Country, Address, Additional Location Detail Here No Maximum Line Lorem Ipsum Dolor Sit Amet'
-
-const shared = {
-  brief,
-  descriptionHtml,
-  timeZone: 'Europe/Berlin',
-  publishedAt: '2025-11-02T13:07:00+01:00',
-  locationRegion: 'Online',
-  locationAddress,
-  mapHref: routes.contact,
-  calendarHref: routes.contact,
-  joinHref: routes.contact,
+export interface EventsPage {
+  meta: { title: string; description: string }
+  hero: {
+    title: string
+    link: { label: string; href: string }
+    image: { desktop: ImageMetadata; mobile: ImageMetadata }
+  }
+  listing: { id: string; title: string; description: string }
+  stateTabs: { id: EventStateId; label: string }[]
+  sort: { selected: SortValue; values: SortValue[] }
+  mobilePagination: { current: number; total: number }
+  cta: { support: EventBanner; discuss: EventBanner; updates: EventBanner }
 }
 
-const support = {
-  ...shared,
-  title: 'Free Monthly PyPSA Support for European Transmission System Operators',
-  excerpt:
-    'Get support from OET’s experts on your questions about:  The PyPSA ecosystem (PyPSA, Linopy, Atlite, PyPSA-Eur, Open-TYNDP, Snakemake, etc.) Implementation details IT infrastructure and self-hosting requirements',
-  type: 'support-meetups' as const,
-  start: '2026-12-03T10:00:00+01:00',
-  end: '2026-12-03T11:00:00+01:00',
-  registrationClosesAt: '2026-10-01T12:00:00+02:00',
-  featuredAsHighlight: false,
-  contributors: [contributor, contributor],
-  highlight: null,
-  gallery: [],
+const listingId = 'news-and-events'
+
+const optional = <Value>(value: Value | null | undefined, what: string): Value | null => {
+  if (value === undefined) throw new Error(`${what} is missing from the CMS answer`)
+  return value
 }
 
-const posterAlt =
-  'Poster: Online Sessions, Free Monthly PyPSA Support for European Transmission System Operators'
+const picture = (media: number | Media, what: string): EventImage => ({
+  image: image(media, what),
+  alt: altOf(media, what),
+})
 
-const documentation: EventImage = {
-  image: documentationSubstation,
-  alt: 'Electrical substation under a cloudy sky',
+const contributorOf = (
+  block: NonNullable<Doc<'events'>['contributors']>[number],
+  what: string,
+): EventContributor => {
+  if (block.blockType === 'external')
+    return { name: block.name, title: block.title, photo: image(block.photo, `${what} photo`) }
+  const member = resolved(block.member, `${what} team member`)
+  return {
+    name: member.name,
+    title: member.role,
+    photo: image(member.photo, `${what} team member photo`),
+  }
 }
 
-const recap = {
-  ...shared,
-  title: 'Sharing Session: Communication on Energy-Efficient and Flexible Buildings with Eurima',
-  excerpt:
-    'The flattening of the peak energy demand study gave Eurima material for effective communications',
-  type: 'webinars' as const,
-  start: '2026-08-10T10:00:00+02:00',
-  end: '2026-08-10T11:00:00+02:00',
-  registrationClosesAt: null,
-  featuredAsHighlight: true,
-  contributors: [contributor, contributor, contributor],
-  poster: { image: posterSquare, alt: posterAlt },
-  posterFit: 'cover' as const,
-  highlight: {
-    image: highlightSession,
-    alt: 'Three participants at a table during the session',
-    video: {
-      embedUrl: 'https://www.youtube-nocookie.com/embed/VIDEO_ID?autoplay=1',
-      watchUrl: 'https://www.youtube.com/watch?v=VIDEO_ID',
-      title: 'Event recap video',
+const videoOf = (
+  video: NonNullable<NonNullable<Doc<'events'>['highlight']>['video']>,
+  what: string,
+): EventVideo | null => {
+  const embedUrl = optional(video.embedUrl, `${what} embedUrl`)
+  if (embedUrl === null) return null
+  return {
+    embedUrl,
+    watchUrl: required(video.watchUrl, `${what} watchUrl`),
+    title: required(video.title, `${what} title`),
+  }
+}
+
+const highlightOf = (doc: Doc<'events'>, what: string): EventHighlight | null => {
+  const highlight = required(doc.highlight, `${what} highlight`)
+  const media = optional(highlight.image, `${what} highlight image`)
+  if (media === null) return null
+  return {
+    ...picture(media, `${what} highlight image`),
+    video: videoOf(required(highlight.video, `${what} highlight video`), `${what} highlight video`),
+  }
+}
+
+const eventOf = (doc: Doc<'events'>): EventItem => {
+  const what = `Event ${doc.slug}`
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    excerpt: doc.excerpt,
+    brief: doc.brief,
+    descriptionHtml: richHtml(doc.descriptionHtml, `${what} description`),
+    type: resolved(doc.type, `${what} type`).slug,
+    timeZone: doc.timeZone,
+    start: doc.start,
+    end: doc.end,
+    publishedAt: doc.publishedAt,
+    registrationClosesAt: optional(doc.registrationClosesAt, `${what} registrationClosesAt`),
+    featuredAsHighlight: doc.featuredAsHighlight,
+    locationRegion: doc.locationRegion,
+    locationAddress: doc.locationAddress,
+    mapHref: doc.mapHref,
+    calendarHref: doc.calendarHref,
+    joinHref: doc.joinHref,
+    contributors: required(doc.contributors, `${what} contributors`).map((block, index) =>
+      contributorOf(block, `${what} contributor ${index + 1}`),
+    ),
+    poster: picture(doc.poster, `${what} poster`),
+    posterFit: doc.posterFit,
+    highlight: highlightOf(doc, what),
+    gallery: required(doc.gallery, `${what} gallery`).map((row, index) =>
+      picture(row.image, `${what} gallery image ${index + 1}`),
+    ),
+  }
+}
+
+const bannerOf = (banner: number | CtaBanner, what: string): EventBanner => {
+  const doc = resolved(banner, what)
+  return {
+    tone: doc.tone,
+    heading: doc.heading,
+    lead: optional(doc.lead, `${what} lead`),
+    text: doc.text,
+    actions: required(doc.actions, `${what} actions`).map((action) => ({
+      label: action.label,
+      href: action.href,
+      emphasis: action.emphasis,
+      newTab: action.newTab,
+    })),
+    collage: doc.collage,
+    breakout: doc.breakout,
+  }
+}
+
+export const loadEventTypes = async (locale: Locale): Promise<EventType[]> => {
+  const docs = await findAll('event-types', locale, { depth: 0, sort: 'order' })
+  return docs.map((doc) => ({ id: doc.slug, label: doc.label }))
+}
+
+export const loadEvents = async (locale: Locale): Promise<EventItem[]> => {
+  const docs = await findAll('events', locale, { depth: 2, sort: '-start' })
+  return docs.map(eventOf)
+}
+
+export const loadEventsPage = async (locale: Locale): Promise<EventsPage> => {
+  const page = await findGlobal('news-events-page', locale, 1)
+  return {
+    meta: { title: page.meta.title, description: page.meta.description },
+    hero: {
+      title: page.hero.title,
+      link: { label: page.hero.linkLabel, href: `#${listingId}` },
+      image: {
+        desktop: image(page.hero.image, 'News and events hero image'),
+        mobile: image(page.hero.imageMobile, 'News and events hero mobile image'),
+      },
     },
-  },
-  gallery: [documentation, documentation, documentation, documentation, documentation],
+    listing: {
+      id: listingId,
+      title: page.listing.title,
+      description: page.listing.description,
+    },
+    stateTabs: [
+      { id: 'all', label: page.listing.stateLabels.all },
+      { id: 'highlighted', label: page.listing.stateLabels.highlighted },
+      { id: 'upcoming', label: page.listing.stateLabels.upcoming },
+    ],
+    sort: { selected: 'a-z', values: ['a-z', 'z-a', 'newest', 'oldest'] },
+    mobilePagination: { current: 1, total: 10 },
+    cta: {
+      support: bannerOf(page.cta.support, 'News and events support banner'),
+      discuss: bannerOf(page.cta.discuss, 'News and events discuss banner'),
+      updates: bannerOf(page.cta.updates, 'News and events updates banner'),
+    },
+  }
 }
-
-export const events: EventItem[] = [
-  {
-    ...support,
-    slug: 'free-monthly-pypsa-support-for-european-transmission-system-operators',
-    poster: { image: posterSquare, alt: posterAlt },
-    posterFit: 'cover',
-  },
-  {
-    ...support,
-    slug: 'free-monthly-pypsa-support-for-european-transmission-system-operators-2',
-    poster: { image: posterTall, alt: posterAlt },
-    posterFit: 'contain',
-  },
-  { ...recap, slug: 'sharing-session-energy-efficient-and-flexible-buildings-with-eurima' },
-  { ...recap, slug: 'sharing-session-energy-efficient-and-flexible-buildings-with-eurima-2' },
-  { ...recap, slug: 'sharing-session-energy-efficient-and-flexible-buildings-with-eurima-3' },
-]
 
 export const eventStatus = (event: EventItem, now: Date): EventStatus => {
   if (new Date(event.end).getTime() > now.getTime()) return 'upcoming'
@@ -224,92 +289,4 @@ export const formatEventPublished = (locale: string, timeZone: string, iso: stri
     iso,
   )
   return `${part('month')} ${part('day')}, ${part('year')}, ${part('hour')}:${part('minute')} ${part('dayPeriod')} ${part('timeZoneName')}`
-}
-
-const cta = {
-  support: {
-    tone: 'brand-600' as const,
-    heading: 'Book OET\nfor Support Sessions',
-    lead: 'Connect directly with the OET team for practical guidance, technical support, and expert insight.',
-    text: 'Whether you’re exploring our tools, working through a challenge, or looking for ways to contribute, book a session tailored to your needs.',
-    actions: [
-      {
-        label: 'Sign Up for a Call',
-        href: routes.contact,
-        emphasis: 'primary' as const,
-        newTab: false,
-      },
-      {
-        label: 'Request a Demo',
-        href: routes.contact,
-        emphasis: 'secondary' as const,
-        newTab: false,
-      },
-    ],
-    collage: 'wind' as const,
-    breakout: true,
-  },
-  discuss: {
-    tone: 'brand-600' as const,
-    heading: 'Discuss a Technology Modelling Need',
-    lead: null,
-    text: 'If you are interested in collaborating with us on energy transition studies, open-source platforms, and training and support, please contact us.',
-    actions: [
-      { label: 'Contact Us', href: routes.contact, emphasis: 'primary' as const, newTab: false },
-      {
-        label: 'Request a Demo',
-        href: routes.contact,
-        emphasis: 'secondary' as const,
-        newTab: false,
-      },
-    ],
-    collage: 'wind' as const,
-    breakout: true,
-  },
-  updates: {
-    tone: 'light' as const,
-    heading: 'Monthly Updates\nOpen Call',
-    lead: 'Open call for the latest OET updates, project insights, and opportunities to connect and contribute.',
-    text: 'A recurring monthly event where you can hear the latest from OET, connect with the community, and join the conversation.',
-    actions: [
-      {
-        label: 'New Updates Every 7th of The Month',
-        href: routes.contact,
-        emphasis: 'secondary' as const,
-        newTab: false,
-      },
-    ],
-    collage: 'thermalpower' as const,
-    breakout: false,
-  },
-}
-
-export const eventsPage = {
-  meta: {
-    title: 'News and Events',
-    description:
-      'From community meetups to industry forums: upcoming and highlighted events from Open Energy Transition.',
-  },
-  hero: {
-    title: 'News and Events from Community Meetups to Industry Forums',
-    link: { label: 'News & Events', href: '#news-and-events' },
-    image: { desktop: newsDesktop, mobile: newsMobile },
-  },
-  listing: {
-    id: 'news-and-events',
-    title: 'News and Events',
-    description:
-      'From community meetups to industry forums, each event reflects our commitment to advancing open, transparent, and collaborative solutions for the energy transition.',
-  },
-  stateTabs: [
-    { id: 'all', label: 'All Events' },
-    { id: 'highlighted', label: 'Highlighted Events' },
-    { id: 'upcoming', label: 'Upcoming Events' },
-  ],
-  sort: {
-    selected: 'a-z',
-    values: ['a-z', 'z-a', 'newest', 'oldest'] satisfies SortValue[],
-  },
-  mobilePagination: { current: 1, total: 10 },
-  cta,
 }
