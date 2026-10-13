@@ -107,6 +107,9 @@ const en = {
   'social.github': 'GitHub',
   'social.linkedin': 'LinkedIn',
   'social.message': 'Message',
+  'tool.role.maintainer': 'Maintainer',
+  'tool.role.co-maintainer': 'Co-maintainer',
+  'tool.role.maintainers': 'Maintainers',
 } as const
 
 export type UiKey = keyof typeof en
