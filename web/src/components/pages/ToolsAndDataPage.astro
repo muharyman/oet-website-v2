@@ -8,25 +8,26 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { routes } from '../../data/routes'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
-import { toolCategories, tools, toolsPage, type ToolCategoryId } from '../../data/tools'
+import type { ToolsPage } from '../../data/tools'
 
 interface Props {
-  category: ToolCategoryId | null
+  page: ToolsPage
+  category: string | null
 }
 
-const { category } = Astro.props
-const { meta, hero, intro, mobilePagination, cta } = toolsPage
+const { page, category } = Astro.props
+const { meta, hero, intro, mobilePagination, cta, categories, tools } = page
 const locale = defaultLocale
 
-const active = toolCategories.find((item) => item.id === category)
+const active = categories.find((item) => item.slug === category)
 if (category !== null && !active) throw new Error(`Unknown tool category: ${category}`)
 
 const columns = 4
-const groups = toolCategories
-  .filter((item) => category === null || item.id === category)
+const groups = categories
+  .filter((item) => category === null || item.slug === category)
   .map((item) => ({
     category: item,
-    tools: tools.filter((tool) => tool.categories.includes(item.id)),
+    tools: tools.filter((tool) => tool.categories.includes(item.slug)),
   }))
 const rows = groups.flatMap((group) =>
   Array.from({ length: Math.ceil(group.tools.length / columns) }, (_, index) => ({
@@ -41,10 +42,10 @@ const tabs = [
     href: `${routes.toolsAndData}#${intro.id}`,
     active: category === null,
   },
-  ...toolCategories.map((item) => ({
+  ...categories.map((item) => ({
     label: item.tabLabel,
-    href: `${routes.toolsCategory(item.slug)}#${intro.id}`,
-    active: item.id === category,
+    href: `${item.href}#${intro.id}`,
+    active: item.slug === category,
   })),
 ]
 

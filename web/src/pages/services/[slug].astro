@@ -1,5 +1,5 @@
 ---
-import type { SvgComponent } from 'astro/types'
+import type { GetStaticPaths } from 'astro'
 import { Image } from 'astro:assets'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import ApproachSteps from '../../components/blocks/ApproachSteps.astro'
@@ -12,60 +12,32 @@ import ProjectCard from '../../components/cards/ProjectCard.astro'
 import ValueCard from '../../components/cards/ValueCard.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
 import {
-  approach,
-  ctaActions,
-  serviceDetail,
-  services,
-  type OfferingIcon,
+  loadServiceShared,
+  loadServices,
   type Service,
+  type ServiceShared,
 } from '../../data/services'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
-import BallotCheck from '../../icons/ballot-check.svg'
-import BookOpenReader from '../../icons/book-open-reader.svg'
-import ComplianceDocument from '../../icons/compliance-document.svg'
-import DataMigration from '../../icons/data-migration.svg'
-import DataModel from '../../icons/data-model.svg'
-import Handshake from '../../icons/handshake.svg'
-import LaptopCode from '../../icons/laptop-code.svg'
-import LeadershipAlt from '../../icons/leadership-alt.svg'
-import PlanStrategy from '../../icons/plan-strategy.svg'
-import SearchAlt from '../../icons/search-alt.svg'
-import SoftwareDevelopment from '../../icons/software-development.svg'
-import SolarSystem from '../../icons/solar-system.svg'
-import Team from '../../icons/team.svg'
-import TeamCheck from '../../icons/team-check.svg'
 import UserHeadset from '../../icons/user-headset.svg'
-import Workshop from '../../icons/workshop.svg'
 
-export const getStaticPaths = () =>
-  services.map((service) => ({ params: { slug: service.slug }, props: { service } }))
+export const getStaticPaths = (async () => {
+  const [services, shared] = await Promise.all([
+    loadServices(defaultLocale),
+    loadServiceShared(defaultLocale),
+  ])
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service, shared } }))
+}) satisfies GetStaticPaths
 
 interface Props {
   service: Service
+  shared: ServiceShared
 }
 
-const { service } = Astro.props
+const { service, shared } = Astro.props
+const { eyebrow, approach, ctaActions } = shared
 const locale = defaultLocale
 const { meta, hero, intro, offerings, values, related, cta } = service
-
-const icons: Record<OfferingIcon, SvgComponent> = {
-  'ballot-check': BallotCheck,
-  'book-open-reader': BookOpenReader,
-  'compliance-document': ComplianceDocument,
-  'data-migration': DataMigration,
-  'data-model': DataModel,
-  handshake: Handshake,
-  'laptop-code': LaptopCode,
-  'leadership-alt': LeadershipAlt,
-  'plan-strategy': PlanStrategy,
-  'search-alt': SearchAlt,
-  'software-development': SoftwareDevelopment,
-  'solar-system': SolarSystem,
-  team: Team,
-  'team-check': TeamCheck,
-  workshop: Workshop,
-}
 
 const valueColumns: Record<Service['values']['columns'], string> = {
   5: 'lg:grid-cols-5',
@@ -92,7 +64,7 @@ const topRuleDesktop = 'lg:shadow-[inset_0_1px_0_var(--color-neutral-100)]'
       title={hero.title}
       titleSize="display-3"
       titleSizeMobile="display-3"
-      eyebrow={serviceDetail.eyebrow}
+      eyebrow={eyebrow}
       lead={[hero.lead]}
       links={[]}
       stats={{ groups: [[{ kind: 'icon', icon: UserHeadset, tone: 'brand' }]], action: null }}
@@ -125,11 +97,7 @@ const topRuleDesktop = 'lg:shadow-[inset_0_1px_0_var(--color-neutral-100)]'
 
     <section class="max-w-page lg:px-gutter-lg mx-auto w-full">
       <div class:list={[railDesktop, 'lg:pt-[160px] lg:pb-10']}>
-        <OfferingList
-          tag={offerings.tag}
-          title={offerings.title}
-          items={offerings.items.map((item) => ({ ...item, icon: icons[item.icon] }))}
-        />
+        <OfferingList tag={offerings.tag} title={offerings.title} items={offerings.items} />
       </div>
     </section>
 
