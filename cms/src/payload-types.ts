@@ -67,6 +67,15 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    services: Service;
+    tools: Tool;
+    'tool-categories': ToolCategory;
+    'cta-banners': CtaBanner;
+    'team-members': TeamMember;
+    departments: Department;
+    countries: Country;
+    partners: Partner;
+    jobs: Job;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -76,6 +85,15 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    tools: ToolsSelect<false> | ToolsSelect<true>;
+    'tool-categories': ToolCategoriesSelect<false> | ToolCategoriesSelect<true>;
+    'cta-banners': CtaBannersSelect<false> | CtaBannersSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    departments: DepartmentsSelect<false> | DepartmentsSelect<true>;
+    countries: CountriesSelect<false> | CountriesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    jobs: JobsSelect<false> | JobsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -87,8 +105,26 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'en' | 'en'[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'services-page': ServicesPage;
+    'tools-page': ToolsPage;
+    'about-page': AboutPage;
+    'departments-page': DepartmentsPage;
+    'team-page': TeamPage;
+    'partners-page': PartnersPage;
+    'career-page': CareerPage;
+    'theory-of-change-page': TheoryOfChangePage;
+  };
+  globalsSelect: {
+    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
+    'tools-page': ToolsPageSelect<false> | ToolsPageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'departments-page': DepartmentsPageSelect<false> | DepartmentsPageSelect<true>;
+    'team-page': TeamPageSelect<false> | TeamPageSelect<true>;
+    'partners-page': PartnersPageSelect<false> | PartnersPageSelect<true>;
+    'career-page': CareerPageSelect<false> | CareerPageSelect<true>;
+    'theory-of-change-page': TheoryOfChangePageSelect<false> | TheoryOfChangePageSelect<true>;
+  };
   locale: 'en';
   widgets: {
     collections: CollectionsWidget;
@@ -118,6 +154,518 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * One document per audience OET serves. Each has its own page at /services/<slug> and appears on /services, the home page, the navigation, the footer and on project and publication pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  /**
+   * Full name of the service, used wherever the site refers to it in running text.
+   */
+  name: string;
+  /**
+   * URL segment. Lowercase letters, digits and hyphens, derived from the name.
+   */
+  slug: string;
+  /**
+   * Position in every list of services (/services, home accordion, navigation, footer), lowest first.
+   */
+  order: number;
+  hero: {
+    /**
+     * Hero title. A line break here is a line break on the site.
+     */
+    title: string;
+    /**
+     * Only when the title needs different line breaks on narrow screens. Empty: the title above is used at every width.
+     */
+    titleMobile?: string | null;
+    /**
+     * Paragraph under the hero title.
+     */
+    lead: string;
+    /**
+     * Pre-graded hero illustration for wide screens.
+     */
+    image: number | Media;
+    /**
+     * Pre-graded hero illustration for narrow screens.
+     */
+    imageMobile: number | Media;
+    /**
+     * Colour of the hero panel behind the title.
+     */
+    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
+  };
+  intro: {
+    /**
+     * Tag above the heading.
+     */
+    tag: string;
+    /**
+     * Heading of the intro.
+     */
+    title: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Photo next to the intro text.
+     */
+    image: number | Media;
+  };
+  offerings: {
+    /**
+     * Tag above the heading.
+     */
+    tag: string;
+    /**
+     * Heading of the list.
+     */
+    title: string;
+    /**
+     * Shown in this order; the number is the position in this list.
+     */
+    items: {
+      title: string;
+      /**
+       * Icon from the site icon set (web/src/icons). The name is the file name.
+       */
+      icon:
+        | 'angle-circle-right'
+        | 'angle-double-small-up'
+        | 'angle-left'
+        | 'angle-right'
+        | 'architect-plan'
+        | 'arrow-down'
+        | 'arrow-right'
+        | 'attribution-pen'
+        | 'ballot-check'
+        | 'blueprint'
+        | 'book-open-reader'
+        | 'box-connection'
+        | 'calendars'
+        | 'check-circle'
+        | 'chevron-down'
+        | 'chevron-right'
+        | 'circle-bolt'
+        | 'circle-dashed'
+        | 'circle-user'
+        | 'clock-ten'
+        | 'close'
+        | 'close-small'
+        | 'code-fork'
+        | 'code-merge'
+        | 'comment-heart'
+        | 'compliance-document'
+        | 'data-migration'
+        | 'data-model'
+        | 'dictionary-alt'
+        | 'digital-id'
+        | 'diploma'
+        | 'discussion-idea'
+        | 'document'
+        | 'download'
+        | 'employees'
+        | 'envelope'
+        | 'family-law'
+        | 'folder-edit'
+        | 'github'
+        | 'globe'
+        | 'globe-alt'
+        | 'globe-lines'
+        | 'grid'
+        | 'handshake'
+        | 'heart-partner-handshake'
+        | 'land-location'
+        | 'laptop'
+        | 'laptop-code'
+        | 'leadership-alt'
+        | 'license'
+        | 'link-horizontal'
+        | 'linkedin'
+        | 'magnifying-glass-eye'
+        | 'map-pin'
+        | 'marker'
+        | 'medical-star'
+        | 'meeting'
+        | 'menu'
+        | 'model-cube-space'
+        | 'online-interview'
+        | 'paper-plane'
+        | 'people-group'
+        | 'person-rays'
+        | 'person-through-window'
+        | 'personal-finance'
+        | 'plan-strategy'
+        | 'play-circle'
+        | 'population-globe'
+        | 'referral-alt'
+        | 'search-alt'
+        | 'service-column'
+        | 'service-engineer'
+        | 'service-government'
+        | 'service-monitor'
+        | 'service-pylon'
+        | 'service-research'
+        | 'software-development'
+        | 'solar-system'
+        | 'sort'
+        | 'square-bolt'
+        | 'table-list'
+        | 'tags'
+        | 'tasks'
+        | 'team'
+        | 'team-check'
+        | 'time-quarter-to'
+        | 'tools'
+        | 'user-headset'
+        | 'woman-scientist'
+        | 'workshop'
+        | 'world'
+        | 'worldwide-network'
+        | 'yoga-ball';
+      /**
+       * Colour of the icon tile of this offering.
+       */
+      accent: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
+      /**
+       * Paragraphs and bullet lists, in the order they appear.
+       */
+      text: (
+        | {
+            text: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'paragraph';
+          }
+        | {
+            /**
+             * One row per bullet.
+             */
+            items?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'list';
+          }
+      )[];
+      /**
+       * Optional "More About …" link under the text. Leave both parts empty for an offering without a link.
+       */
+      link?: {
+        label?: string | null;
+        /**
+         * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+         */
+        href?: string | null;
+      };
+      /**
+       * One row per entry of the deliverables list on the right. No rows: the offering has no list.
+       */
+      deliverables?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+      id?: string | null;
+    }[];
+  };
+  values: {
+    /**
+     * Tag above the heading.
+     */
+    tag: string;
+    /**
+     * Heading of the row.
+     */
+    title: string;
+    /**
+     * Five cards per row use 248 px thumbnails, six use 207 px thumbnails. Match the number of cards.
+     */
+    columns: '5' | '6';
+    /**
+     * Cards of the row, in this order.
+     */
+    items: {
+      /**
+       * Small label above the card title.
+       */
+      label: string;
+      /**
+       * Card title. A line break here is a line break on the site.
+       */
+      title: string;
+      /**
+       * Card text.
+       */
+      body: string;
+      /**
+       * Pre-composed square illustration: 248 px wide in a five-column row, 207 px in a six-column row.
+       */
+      thumbnail: number | Media;
+      /**
+       * Pre-composed square illustration, 186 px wide.
+       */
+      thumbnailMobile: number | Media;
+      id?: string | null;
+    }[];
+  };
+  approach: {
+    /**
+     * Unchecked: the service page has no "How We Work" section.
+     */
+    show: boolean;
+    /**
+     * Tag above the heading.
+     */
+    tag?: string | null;
+    /**
+     * Heading of the section.
+     */
+    title?: string | null;
+    /**
+     * One row per column of text next to the heading.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    /**
+     * Heading of the banner. A line break here is a line break on the site.
+     */
+    heading: string;
+    /**
+     * Paragraph next to the heading.
+     */
+    text: string;
+    /**
+     * Background of the text panel.
+     */
+    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
+    /**
+     * Photo collage next to the text panel.
+     */
+    collage: 'wind' | 'thermalpower' | 'biz';
+  };
+  card: {
+    /**
+     * Card title. A line break here is a line break on the site.
+     */
+    title: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    linkLabel: string;
+    /**
+     * Pre-composed illustration, 172 px wide on the site.
+     */
+    image: number | Media;
+    /**
+     * Pre-composed illustration, 372 px wide on the site.
+     */
+    imageMobile: number | Media;
+  };
+  ctaCard: {
+    /**
+     * Card title.
+     */
+    title: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    linkLabel: string;
+    /**
+     * Icon from the site icon set (web/src/icons). The name is the file name.
+     */
+    icon:
+      | 'angle-circle-right'
+      | 'angle-double-small-up'
+      | 'angle-left'
+      | 'angle-right'
+      | 'architect-plan'
+      | 'arrow-down'
+      | 'arrow-right'
+      | 'attribution-pen'
+      | 'ballot-check'
+      | 'blueprint'
+      | 'book-open-reader'
+      | 'box-connection'
+      | 'calendars'
+      | 'check-circle'
+      | 'chevron-down'
+      | 'chevron-right'
+      | 'circle-bolt'
+      | 'circle-dashed'
+      | 'circle-user'
+      | 'clock-ten'
+      | 'close'
+      | 'close-small'
+      | 'code-fork'
+      | 'code-merge'
+      | 'comment-heart'
+      | 'compliance-document'
+      | 'data-migration'
+      | 'data-model'
+      | 'dictionary-alt'
+      | 'digital-id'
+      | 'diploma'
+      | 'discussion-idea'
+      | 'document'
+      | 'download'
+      | 'employees'
+      | 'envelope'
+      | 'family-law'
+      | 'folder-edit'
+      | 'github'
+      | 'globe'
+      | 'globe-alt'
+      | 'globe-lines'
+      | 'grid'
+      | 'handshake'
+      | 'heart-partner-handshake'
+      | 'land-location'
+      | 'laptop'
+      | 'laptop-code'
+      | 'leadership-alt'
+      | 'license'
+      | 'link-horizontal'
+      | 'linkedin'
+      | 'magnifying-glass-eye'
+      | 'map-pin'
+      | 'marker'
+      | 'medical-star'
+      | 'meeting'
+      | 'menu'
+      | 'model-cube-space'
+      | 'online-interview'
+      | 'paper-plane'
+      | 'people-group'
+      | 'person-rays'
+      | 'person-through-window'
+      | 'personal-finance'
+      | 'plan-strategy'
+      | 'play-circle'
+      | 'population-globe'
+      | 'referral-alt'
+      | 'search-alt'
+      | 'service-column'
+      | 'service-engineer'
+      | 'service-government'
+      | 'service-monitor'
+      | 'service-pylon'
+      | 'service-research'
+      | 'software-development'
+      | 'solar-system'
+      | 'sort'
+      | 'square-bolt'
+      | 'table-list'
+      | 'tags'
+      | 'tasks'
+      | 'team'
+      | 'team-check'
+      | 'time-quarter-to'
+      | 'tools'
+      | 'user-headset'
+      | 'woman-scientist'
+      | 'workshop'
+      | 'world'
+      | 'worldwide-network'
+      | 'yoga-ball';
+    /**
+     * Background of the square behind the icon.
+     */
+    iconTone: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800';
+    /**
+     * Colour of the frame around the illustration.
+     */
+    frame: 'brand-500' | 'brand-600';
+    /**
+     * Pre-composed illustration of the card.
+     */
+    image: number | Media;
+    /**
+     * Optional separate crop for narrow screens. Empty: the illustration above is used at every width.
+     */
+    imageMobile?: (number | null) | Media;
+  };
+  home: {
+    /**
+     * Title of the accordion row.
+     */
+    title: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Photo shown while the row is open.
+     */
+    image: number | Media;
+  };
+  navigation: {
+    /**
+     * Menu label; also the link label in the footer.
+     */
+    label: string;
+    /**
+     * Short text under the label in the header menu.
+     */
+    description: string;
+    /**
+     * Illustration next to the label in the header menu.
+     */
+    icon: 'pylon' | 'government' | 'engineer' | 'column' | 'research' | 'monitor';
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -138,6 +686,751 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * Open models, software and data sets shown as cards on the Tools and Data page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools".
+ */
+export interface Tool {
+  id: number;
+  /**
+   * Card title.
+   */
+  name: string;
+  /**
+   * The card appears once in the group of every category chosen here, with the tag of that group.
+   */
+  categories: (number | ToolCategory)[];
+  /**
+   * Shown before the first paragraph of the description, separated by a vertical bar ("Maintainer | …"). Leave empty for a tool without a stated role.
+   */
+  role?: ('maintainer' | 'co-maintainer' | 'maintainers') | null;
+  /**
+   * One row per paragraph of the card text. Do not repeat the role here.
+   */
+  description?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Target of the "Source Code" text link on the card.
+   */
+  sourceHref: string;
+  /**
+   * Target of the globe icon on the card.
+   */
+  websiteHref: string;
+  /**
+   * Target of the GitHub icon on the card.
+   */
+  githubHref: string;
+  /**
+   * Position of the card inside its category group, lowest first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Groups of the Tools and Data page. Each category is a filter tab with its own URL and a tag on the tool cards.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tool-categories".
+ */
+export interface ToolCategory {
+  id: number;
+  /**
+   * Shown as the tag on every tool card of this category.
+   */
+  label: string;
+  /**
+   * Shown on the filter tab of the Tools and Data page and in the browser title of the filtered page.
+   */
+  tabLabel: string;
+  /**
+   * Background colour of the tag on the tool cards of this category.
+   */
+  tone: 'brand' | 'brand-700' | 'neutral-900' | 'neutral-700' | 'brand-900';
+  /**
+   * URL segment. Lowercase letters, digits and hyphens, derived from the label.
+   */
+  slug: string;
+  /**
+   * Position of the tab and of the group of cards on the Tools and Data page, lowest first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Reusable call-to-action banners. A page shows a banner by referring to it; the Tools and Data page and the News and Events page use them.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cta-banners".
+ */
+export interface CtaBanner {
+  id: number;
+  /**
+   * Name the pages use to find this banner. Lowercase letters, digits and hyphens. Changing it detaches the banner from pages that look it up by key.
+   */
+  key: string;
+  /**
+   * Large heading. A line break here is a line break on the site.
+   */
+  heading: string;
+  /**
+   * Optional emphasised sentence above the text. Leave empty for a banner without it.
+   */
+  lead?: string | null;
+  /**
+   * Paragraph of the banner.
+   */
+  text: string;
+  actions?:
+    | {
+        label: string;
+        /**
+         * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+         */
+        href: string;
+        /**
+         * primary is the filled button, secondary the outlined one.
+         */
+        emphasis: 'primary' | 'secondary';
+        /**
+         * Opens the target in a new browser tab.
+         */
+        newTab: boolean;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Background of the text panel. "light" is the pale panel with dark text and red buttons.
+   */
+  tone: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900' | 'light';
+  /**
+   * Photo collage next to the text panel.
+   */
+  collage: 'wind' | 'thermalpower' | 'biz';
+  /**
+   * When checked the collage extends above the top edge of the banner.
+   */
+  breakout: boolean;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  /**
+   * Full name with title, as shown on cards and person rows.
+   */
+  name: string;
+  /**
+   * Job title under the name on the team card, department card and hero.
+   */
+  role: string;
+  /**
+   * Square photo for small avatars: department cards, the department page hero and person rows. Required for department heads.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Departments this person belongs to. Each one adds a tag to the team card and puts the person under that tab of the team filter.
+   */
+  departments?: (number | Department)[] | null;
+  /**
+   * Country the person works from.
+   */
+  country?: (number | null) | Country;
+  /**
+   * Icon buttons on the team card, in this order.
+   */
+  socialLinks?:
+    | {
+        kind: 'email' | 'github' | 'linkedin' | 'message';
+        /**
+         * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Text link at the bottom of the team card. The design shortens the label to "Read" on some cards.
+   */
+  profile: {
+    label: string;
+    /**
+     * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+     */
+    href: string;
+  };
+  /**
+   * Portrait with a transparent background, shown on the team page card.
+   */
+  portrait: number | Media;
+  /**
+   * Offset and size inside the 280 px frame.
+   */
+  portraitDesktop: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  /**
+   * Offset and size inside the 332 px frame.
+   */
+  portraitMobile: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  /**
+   * Clockwise. 0 for an upright portrait.
+   */
+  portraitRotation: number;
+  /**
+   * Where the red glow sits behind the portrait.
+   */
+  glow: 'center' | 'right';
+  /**
+   * Adds the senior leadership tag and lists the person under that filter tab.
+   */
+  seniorLeadership?: boolean | null;
+  /**
+   * Position in the team list before the visitor sorts it. Lower comes first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments".
+ */
+export interface Department {
+  id: number;
+  /**
+   * Department name: card title on the about and departments pages, page title of the detail page.
+   */
+  name: string;
+  /**
+   * First text on the department card, under the name.
+   */
+  lead: string;
+  /**
+   * Grey text on the department card, clamped to three lines.
+   */
+  summary: string;
+  /**
+   * Shown with head photo, name and role on the card and in the detail page hero.
+   */
+  head: number | TeamMember;
+  /**
+   * Department icon: card square, departments page and detail page hero.
+   */
+  icon:
+    | 'angle-circle-right'
+    | 'angle-double-small-up'
+    | 'angle-left'
+    | 'angle-right'
+    | 'architect-plan'
+    | 'arrow-down'
+    | 'arrow-right'
+    | 'attribution-pen'
+    | 'ballot-check'
+    | 'blueprint'
+    | 'book-open-reader'
+    | 'box-connection'
+    | 'calendars'
+    | 'check-circle'
+    | 'chevron-down'
+    | 'chevron-right'
+    | 'circle-bolt'
+    | 'circle-dashed'
+    | 'circle-user'
+    | 'clock-ten'
+    | 'close'
+    | 'close-small'
+    | 'code-fork'
+    | 'code-merge'
+    | 'comment-heart'
+    | 'compliance-document'
+    | 'data-migration'
+    | 'data-model'
+    | 'dictionary-alt'
+    | 'digital-id'
+    | 'diploma'
+    | 'discussion-idea'
+    | 'document'
+    | 'download'
+    | 'employees'
+    | 'envelope'
+    | 'family-law'
+    | 'folder-edit'
+    | 'github'
+    | 'globe'
+    | 'globe-alt'
+    | 'globe-lines'
+    | 'grid'
+    | 'handshake'
+    | 'heart-partner-handshake'
+    | 'land-location'
+    | 'laptop'
+    | 'laptop-code'
+    | 'leadership-alt'
+    | 'license'
+    | 'link-horizontal'
+    | 'linkedin'
+    | 'magnifying-glass-eye'
+    | 'map-pin'
+    | 'marker'
+    | 'medical-star'
+    | 'meeting'
+    | 'menu'
+    | 'model-cube-space'
+    | 'online-interview'
+    | 'paper-plane'
+    | 'people-group'
+    | 'person-rays'
+    | 'person-through-window'
+    | 'personal-finance'
+    | 'plan-strategy'
+    | 'play-circle'
+    | 'population-globe'
+    | 'referral-alt'
+    | 'search-alt'
+    | 'service-column'
+    | 'service-engineer'
+    | 'service-government'
+    | 'service-monitor'
+    | 'service-pylon'
+    | 'service-research'
+    | 'software-development'
+    | 'solar-system'
+    | 'sort'
+    | 'square-bolt'
+    | 'table-list'
+    | 'tags'
+    | 'tasks'
+    | 'team'
+    | 'team-check'
+    | 'time-quarter-to'
+    | 'tools'
+    | 'user-headset'
+    | 'woman-scientist'
+    | 'workshop'
+    | 'world'
+    | 'worldwide-network'
+    | 'yoga-ball';
+  accent: 'red' | 'dark-red' | 'charcoal' | 'plum';
+  /**
+   * Filter tab above the team list and tag on the cards of its members.
+   */
+  teamLabel: string;
+  /**
+   * Lower comes first, after the senior leadership tab.
+   */
+  teamOrder: number;
+  /**
+   * Content of /organization/departments/<slug>.
+   */
+  detail?: {
+    /**
+     * Photo at the bottom of the department card. Only departments with a detail page show one.
+     */
+    cardImage: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+    hero: {
+      /**
+       * Hero title. A line break starts a new line.
+       */
+      title: string;
+      /**
+       * Paragraph under the hero title. Also used as the search result description.
+       */
+      lead: string;
+      /**
+       * Map illustration on the right of the hero.
+       */
+      image: {
+        desktop: number | Media;
+        mobile: number | Media;
+      };
+      /**
+       * Number next to "People" in the hero. Shown as written; not counted from the team.
+       */
+      peopleCount: string;
+      background: 'brand-600' | 'brand-900' | 'neutral-900';
+      /**
+       * Pattern drawn over the hero background.
+       */
+      ornament: 'department' | 'department-inverse';
+    };
+    /**
+     * Text of the "About Department" section.
+     */
+    about: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    aboutHtml?: string | null;
+    /**
+     * Text of the "Works" section above the topic grid.
+     */
+    worksIntro: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    worksIntroHtml?: string | null;
+    /**
+     * Grid of topics between the two texts. Leave empty for no grid.
+     */
+    topics?:
+      | {
+          /**
+           * A line break starts a new line.
+           */
+          title: string;
+          description?: string | null;
+          /**
+           * Icon from the site icon set (web/src/icons). The name is the file name.
+           */
+          icon:
+            | 'angle-circle-right'
+            | 'angle-double-small-up'
+            | 'angle-left'
+            | 'angle-right'
+            | 'architect-plan'
+            | 'arrow-down'
+            | 'arrow-right'
+            | 'attribution-pen'
+            | 'ballot-check'
+            | 'blueprint'
+            | 'book-open-reader'
+            | 'box-connection'
+            | 'calendars'
+            | 'check-circle'
+            | 'chevron-down'
+            | 'chevron-right'
+            | 'circle-bolt'
+            | 'circle-dashed'
+            | 'circle-user'
+            | 'clock-ten'
+            | 'close'
+            | 'close-small'
+            | 'code-fork'
+            | 'code-merge'
+            | 'comment-heart'
+            | 'compliance-document'
+            | 'data-migration'
+            | 'data-model'
+            | 'dictionary-alt'
+            | 'digital-id'
+            | 'diploma'
+            | 'discussion-idea'
+            | 'document'
+            | 'download'
+            | 'employees'
+            | 'envelope'
+            | 'family-law'
+            | 'folder-edit'
+            | 'github'
+            | 'globe'
+            | 'globe-alt'
+            | 'globe-lines'
+            | 'grid'
+            | 'handshake'
+            | 'heart-partner-handshake'
+            | 'land-location'
+            | 'laptop'
+            | 'laptop-code'
+            | 'leadership-alt'
+            | 'license'
+            | 'link-horizontal'
+            | 'linkedin'
+            | 'magnifying-glass-eye'
+            | 'map-pin'
+            | 'marker'
+            | 'medical-star'
+            | 'meeting'
+            | 'menu'
+            | 'model-cube-space'
+            | 'online-interview'
+            | 'paper-plane'
+            | 'people-group'
+            | 'person-rays'
+            | 'person-through-window'
+            | 'personal-finance'
+            | 'plan-strategy'
+            | 'play-circle'
+            | 'population-globe'
+            | 'referral-alt'
+            | 'search-alt'
+            | 'service-column'
+            | 'service-engineer'
+            | 'service-government'
+            | 'service-monitor'
+            | 'service-pylon'
+            | 'service-research'
+            | 'software-development'
+            | 'solar-system'
+            | 'sort'
+            | 'square-bolt'
+            | 'table-list'
+            | 'tags'
+            | 'tasks'
+            | 'team'
+            | 'team-check'
+            | 'time-quarter-to'
+            | 'tools'
+            | 'user-headset'
+            | 'woman-scientist'
+            | 'workshop'
+            | 'world'
+            | 'worldwide-network'
+            | 'yoga-ball';
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Text under the topic grid.
+     */
+    worksOutro?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    worksOutroHtml?: string | null;
+    /**
+     * Width of the text column at 412 px, set by hand per page in the design.
+     */
+    mobileColumn: '326' | '332';
+  };
+  /**
+   * URL segment. Lowercase letters, digits and hyphens, derived from the name.
+   */
+  slug: string;
+  /**
+   * On: the card links to /organization/departments/<slug> and shows a photo, and the detail page fields are required. Off: compact card without link.
+   */
+  hasDetailPage?: boolean | null;
+  /**
+   * Position on the departments page. Lower comes first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Countries with a pin on the team page globe.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "countries".
+ */
+export interface Country {
+  id: number;
+  /**
+   * Three-letter country code (ISO 3166-1 alpha-3), for example USA.
+   */
+  code: string;
+  /**
+   * Country name on the globe pin and the country card.
+   */
+  name: string;
+  /**
+   * Continent the country is counted under.
+   */
+  continent?: ('africa' | 'antarctica' | 'asia' | 'europe' | 'north-america' | 'south-america' | 'oceania') | null;
+  /**
+   * Position of the pin on the globe. Degrees east, -180 to 180.
+   */
+  longitude: number;
+  /**
+   * Position of the pin on the globe. Degrees north, -90 to 90.
+   */
+  latitude: number;
+  /**
+   * Number on the country card next to "OET Teammates". Shown as written; not counted from the team.
+   */
+  teammates: string;
+  /**
+   * Photo on the country card that opens when the pin is selected.
+   */
+  photo: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Partner, funder and client organisations. One document per organisation; logo grids and card tags refer to it.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  /**
+   * Name of the organisation. Read out as the text of its logo.
+   */
+  name: string;
+  /**
+   * Full URL of the organisation website (https://…).
+   */
+  website?: string | null;
+  /**
+   * Group on the home page logo section. A partner without a group is left out of grouped grids.
+   */
+  group?: ('trusted-partner' | 'network-affiliation') | null;
+  /**
+   * Listed under the "Funders" tab of the partners page.
+   */
+  isFunder?: boolean | null;
+  /**
+   * Listed under the "Partners" tab of the partners page.
+   */
+  isPartner?: boolean | null;
+  /**
+   * Adds the logo to the grid on /organization/partners.
+   */
+  showOnPartnersPage?: boolean | null;
+  /**
+   * Adds the logo to the partner section of the home page.
+   */
+  showOnHome?: boolean | null;
+  /**
+   * Lower comes first.
+   */
+  order?: number | null;
+  /**
+   * Lower comes first, within its group.
+   */
+  homeOrder?: number | null;
+  /**
+   * Logo for the grids on the home and partners pages. Dark on a transparent or white background.
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Home page and partners page from 1024 px. The partners page also uses this size on mobile, limited to the cell width.
+   */
+  logoDesktop?: {
+    width: number;
+    height: number;
+  };
+  /**
+   * Home page below 1024 px, where the cells are narrower.
+   */
+  logoMobile?: {
+    width: number;
+    height: number;
+  };
+  /**
+   * Small logo in the tag on project and publication cards that name this organisation as partner.
+   */
+  tagLogo?: (number | null) | Media;
+  /**
+   * Box of the tag logo in CSS pixels, set by hand per logo in the design.
+   */
+  tagSize?: {
+    width: number;
+    height: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Open roles on the career page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs".
+ */
+export interface Job {
+  id: number;
+  /**
+   * Role title on the job card.
+   */
+  title: string;
+  /**
+   * Where the hire must be based, next to the marker icon.
+   */
+  location: string;
+  /**
+   * Required languages, next to the dictionary icon.
+   */
+  languages: string;
+  /**
+   * For example "Fully Remote", next to the laptop icon.
+   */
+  workMode: string;
+  /**
+   * For example "Full-Time", next to the diploma icon.
+   */
+  employmentType: string;
+  /**
+   * Where the card leads: the job posting or a mailto: address.
+   */
+  href: string;
+  /**
+   * Turn on for postings on another site.
+   */
+  newTab?: boolean | null;
+  /**
+   * Selects the card thumbnail. The eight thumbnails are part of the site, one per department plus a general one.
+   */
+  theme:
+    | 'finance'
+    | 'people-and-culture'
+    | 'software-engineering'
+    | 'research-and-market-development'
+    | 'modeling-tools-and-data'
+    | 'energy-system-modeling'
+    | 'grid-data'
+    | 'miscellaneous';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -196,6 +1489,42 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'tools';
+        value: number | Tool;
+      } | null)
+    | ({
+        relationTo: 'tool-categories';
+        value: number | ToolCategory;
+      } | null)
+    | ({
+        relationTo: 'cta-banners';
+        value: number | CtaBanner;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'departments';
+        value: number | Department;
+      } | null)
+    | ({
+        relationTo: 'countries';
+        value: number | Country;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'jobs';
+        value: number | Job;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -244,6 +1573,417 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  order?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        titleMobile?: T;
+        lead?: T;
+        image?: T;
+        imageMobile?: T;
+        background?: T;
+      };
+  intro?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        image?: T;
+      };
+  offerings?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              icon?: T;
+              accent?: T;
+              text?:
+                | T
+                | {
+                    paragraph?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    list?:
+                      | T
+                      | {
+                          items?:
+                            | T
+                            | {
+                                text?: T;
+                                id?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              link?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              deliverables?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  values?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        columns?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              title?: T;
+              body?: T;
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              id?: T;
+            };
+      };
+  approach?:
+    | T
+    | {
+        show?: T;
+        tag?: T;
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+        background?: T;
+        collage?: T;
+      };
+  card?:
+    | T
+    | {
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
+  ctaCard?:
+    | T
+    | {
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        linkLabel?: T;
+        icon?: T;
+        iconTone?: T;
+        frame?: T;
+        image?: T;
+        imageMobile?: T;
+      };
+  home?:
+    | T
+    | {
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        image?: T;
+      };
+  navigation?:
+    | T
+    | {
+        label?: T;
+        description?: T;
+        icon?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools_select".
+ */
+export interface ToolsSelect<T extends boolean = true> {
+  name?: T;
+  categories?: T;
+  role?: T;
+  description?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  sourceHref?: T;
+  websiteHref?: T;
+  githubHref?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tool-categories_select".
+ */
+export interface ToolCategoriesSelect<T extends boolean = true> {
+  label?: T;
+  tabLabel?: T;
+  tone?: T;
+  slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cta-banners_select".
+ */
+export interface CtaBannersSelect<T extends boolean = true> {
+  key?: T;
+  heading?: T;
+  lead?: T;
+  text?: T;
+  actions?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        emphasis?: T;
+        newTab?: T;
+        id?: T;
+      };
+  tone?: T;
+  collage?: T;
+  breakout?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  photo?: T;
+  departments?: T;
+  country?: T;
+  socialLinks?:
+    | T
+    | {
+        kind?: T;
+        href?: T;
+        id?: T;
+      };
+  profile?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  portrait?: T;
+  portraitDesktop?:
+    | T
+    | {
+        x?: T;
+        y?: T;
+        width?: T;
+        height?: T;
+      };
+  portraitMobile?:
+    | T
+    | {
+        x?: T;
+        y?: T;
+        width?: T;
+        height?: T;
+      };
+  portraitRotation?: T;
+  glow?: T;
+  seniorLeadership?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments_select".
+ */
+export interface DepartmentsSelect<T extends boolean = true> {
+  name?: T;
+  lead?: T;
+  summary?: T;
+  head?: T;
+  icon?: T;
+  accent?: T;
+  teamLabel?: T;
+  teamOrder?: T;
+  detail?:
+    | T
+    | {
+        cardImage?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+        hero?:
+          | T
+          | {
+              title?: T;
+              lead?: T;
+              image?:
+                | T
+                | {
+                    desktop?: T;
+                    mobile?: T;
+                  };
+              peopleCount?: T;
+              background?: T;
+              ornament?: T;
+            };
+        about?: T;
+        aboutHtml?: T;
+        worksIntro?: T;
+        worksIntroHtml?: T;
+        topics?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
+        worksOutro?: T;
+        worksOutroHtml?: T;
+        mobileColumn?: T;
+      };
+  slug?: T;
+  hasDetailPage?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "countries_select".
+ */
+export interface CountriesSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  continent?: T;
+  longitude?: T;
+  latitude?: T;
+  teammates?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  website?: T;
+  group?: T;
+  isFunder?: T;
+  isPartner?: T;
+  showOnPartnersPage?: T;
+  showOnHome?: T;
+  order?: T;
+  homeOrder?: T;
+  logo?: T;
+  logoDesktop?:
+    | T
+    | {
+        width?: T;
+        height?: T;
+      };
+  logoMobile?:
+    | T
+    | {
+        width?: T;
+        height?: T;
+      };
+  tagLogo?: T;
+  tagSize?:
+    | T
+    | {
+        width?: T;
+        height?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs_select".
+ */
+export interface JobsSelect<T extends boolean = true> {
+  title?: T;
+  location?: T;
+  languages?: T;
+  workMode?: T;
+  employmentType?: T;
+  href?: T;
+  newTab?: T;
+  theme?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -331,6 +2071,2071 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Fixed content of /services and the parts every service page shares. The service cards come from Services.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page".
+ */
+export interface ServicesPage {
+  id: number;
+  hero: {
+    /**
+     * Hero title of /services.
+     */
+    title: string;
+    /**
+     * Label of the chip in the hero that jumps to the service list.
+     */
+    linkLabel: string;
+    /**
+     * Pre-graded hero illustration for wide screens.
+     */
+    image: number | Media;
+    /**
+     * Pre-graded hero illustration for narrow screens.
+     */
+    imageMobile: number | Media;
+  };
+  intro: {
+    /**
+     * Tag above the heading of the service list.
+     */
+    tag: string;
+    /**
+     * Heading above the service cards.
+     */
+    title: string;
+    /**
+     * One row per column of text next to the heading.
+     */
+    columns?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  approach: {
+    /**
+     * Tag above the heading on /services.
+     */
+    tag: string;
+    /**
+     * Heading on /services.
+     */
+    title: string;
+    /**
+     * Shown in this order on /services and on service pages. The step number is the position in this list.
+     */
+    steps: {
+      title: string;
+      text: string;
+      /**
+       * Optional picture of the step. Without it the site shows the placeholder box.
+       */
+      image?: (number | null) | Media;
+      id?: string | null;
+    }[];
+    /**
+     * Wide illustration that runs behind the steps.
+     */
+    illustration: number | Media;
+  };
+  values: {
+    /**
+     * Tag above the heading on /services.
+     */
+    tag: string;
+    /**
+     * Heading on /services.
+     */
+    title: string;
+    /**
+     * Cards of the "Why OET" row on /services, five in a row on desktop.
+     */
+    items: {
+      /**
+       * Small label above the card title.
+       */
+      label: string;
+      /**
+       * Card title. A line break here is a line break on the site.
+       */
+      title: string;
+      /**
+       * Card text.
+       */
+      body: string;
+      /**
+       * Pre-composed square illustration: 248 px wide in a five-column row, 207 px in a six-column row.
+       */
+      thumbnail: number | Media;
+      /**
+       * Pre-composed square illustration, 186 px wide.
+       */
+      thumbnailMobile: number | Media;
+      id?: string | null;
+    }[];
+  };
+  cta: {
+    /**
+     * Heading of the banner at the end of /services. A line break here is a line break on the site.
+     */
+    heading: string;
+    /**
+     * Paragraph next to the heading.
+     */
+    text: string;
+  };
+  /**
+   * Small label above the hero title of every service page.
+   */
+  detailEyebrow: string;
+  ctaActions?:
+    | {
+        label: string;
+        /**
+         * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+         */
+        href: string;
+        /**
+         * primary is the filled button, secondary the outlined one.
+         */
+        emphasis: 'primary' | 'secondary';
+        /**
+         * Opens the target in a new browser tab.
+         */
+        newTab: boolean;
+        id?: string | null;
+      }[]
+    | null;
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Fixed content of /tools-and-data and its category pages. The cards come from Tools, the tabs from Tool categories.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools-page".
+ */
+export interface ToolsPage {
+  id: number;
+  hero: {
+    /**
+     * Small label above the hero title (desktop only).
+     */
+    eyebrow: string;
+    /**
+     * Hero title.
+     */
+    title: string;
+    /**
+     * Label of the chip in the hero that jumps to the tool list.
+     */
+    linkLabel: string;
+    /**
+     * Pre-graded hero illustration for wide screens.
+     */
+    image: number | Media;
+    /**
+     * Pre-graded hero illustration for narrow screens.
+     */
+    imageMobile: number | Media;
+  };
+  intro: {
+    /**
+     * Heading above the filter tabs. A line break here is a line break on the site.
+     */
+    title: string;
+    /**
+     * One row per paragraph; on desktop they sit side by side.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Banner shown below the tool list.
+   */
+  cta: number | CtaBanner;
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/about.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  hero: {
+    /**
+     * Centred title over the photo.
+     */
+    title: string;
+    links?:
+      | {
+          label: string;
+          /**
+           * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+           */
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Full-width photo behind the title, with the grading baked in.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
+  intro: {
+    /**
+     * Large vision statement at the left of the section.
+     */
+    statement: string;
+    /**
+     * Columns of text under the statement. One row per column.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Buttons under the text, stacked.
+     */
+    actions?:
+      | {
+          label: string;
+          /**
+           * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+           */
+          href: string;
+          variant: 'primary' | 'secondary';
+          arrow?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Cards with a photo next to the introduction ("Aim", "Offers").
+   */
+  infoCards?:
+    | {
+        image: number | Media;
+        title: string;
+        /**
+         * One row per paragraph.
+         */
+        paragraphs?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Optional button at the bottom of the card.
+         */
+        action?: {
+          label?: string | null;
+          /**
+           * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+           */
+          href?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Heading above the department cards.
+   */
+  departments: {
+    /**
+     * Small label above the title.
+     */
+    tag: string;
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+  };
+  /**
+   * Departments shown as cards on this page, in this order. Pick departments that have a detail page.
+   */
+  featuredDepartments: (number | Department)[];
+  values: {
+    /**
+     * Small label above the title.
+     */
+    tag: string;
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+    /**
+     * Text under the title.
+     */
+    subline: string;
+    items?:
+      | {
+          thumbnail: number | Media;
+          /**
+           * Narrower crop for the two-column mobile grid.
+           */
+          thumbnailMobile: number | Media;
+          /**
+           * Name of the value.
+           */
+          label: string;
+          /**
+           * Bold sentence on the card.
+           */
+          title: string;
+          /**
+           * Text under the sentence.
+           */
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/departments. The cards are all published departments in their order.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments-page".
+ */
+export interface DepartmentsPage {
+  id: number;
+  hero: {
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+    /**
+     * Paragraph under the title.
+     */
+    lead: string;
+    /**
+     * Map illustration on the right of the hero.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+    /**
+     * Figure and label in the hero, next to the icons.
+     */
+    count: {
+      /**
+       * Shown as written; not counted from the documents.
+       */
+      value: string;
+      label: string;
+    };
+    /**
+     * Icon in the red square of the hero.
+     */
+    icon:
+      | 'angle-circle-right'
+      | 'angle-double-small-up'
+      | 'angle-left'
+      | 'angle-right'
+      | 'architect-plan'
+      | 'arrow-down'
+      | 'arrow-right'
+      | 'attribution-pen'
+      | 'ballot-check'
+      | 'blueprint'
+      | 'book-open-reader'
+      | 'box-connection'
+      | 'calendars'
+      | 'check-circle'
+      | 'chevron-down'
+      | 'chevron-right'
+      | 'circle-bolt'
+      | 'circle-dashed'
+      | 'circle-user'
+      | 'clock-ten'
+      | 'close'
+      | 'close-small'
+      | 'code-fork'
+      | 'code-merge'
+      | 'comment-heart'
+      | 'compliance-document'
+      | 'data-migration'
+      | 'data-model'
+      | 'dictionary-alt'
+      | 'digital-id'
+      | 'diploma'
+      | 'discussion-idea'
+      | 'document'
+      | 'download'
+      | 'employees'
+      | 'envelope'
+      | 'family-law'
+      | 'folder-edit'
+      | 'github'
+      | 'globe'
+      | 'globe-alt'
+      | 'globe-lines'
+      | 'grid'
+      | 'handshake'
+      | 'heart-partner-handshake'
+      | 'land-location'
+      | 'laptop'
+      | 'laptop-code'
+      | 'leadership-alt'
+      | 'license'
+      | 'link-horizontal'
+      | 'linkedin'
+      | 'magnifying-glass-eye'
+      | 'map-pin'
+      | 'marker'
+      | 'medical-star'
+      | 'meeting'
+      | 'menu'
+      | 'model-cube-space'
+      | 'online-interview'
+      | 'paper-plane'
+      | 'people-group'
+      | 'person-rays'
+      | 'person-through-window'
+      | 'personal-finance'
+      | 'plan-strategy'
+      | 'play-circle'
+      | 'population-globe'
+      | 'referral-alt'
+      | 'search-alt'
+      | 'service-column'
+      | 'service-engineer'
+      | 'service-government'
+      | 'service-monitor'
+      | 'service-pylon'
+      | 'service-research'
+      | 'software-development'
+      | 'solar-system'
+      | 'sort'
+      | 'square-bolt'
+      | 'table-list'
+      | 'tags'
+      | 'tasks'
+      | 'team'
+      | 'team-check'
+      | 'time-quarter-to'
+      | 'tools'
+      | 'user-headset'
+      | 'woman-scientist'
+      | 'workshop'
+      | 'world'
+      | 'worldwide-network'
+      | 'yoga-ball';
+  };
+  /**
+   * Heading above the department cards.
+   */
+  listing: {
+    /**
+     * Small label above the title.
+     */
+    tag: string;
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/team. The cards are all team members; the filter tabs are senior leadership and the departments.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-page".
+ */
+export interface TeamPage {
+  id: number;
+  hero: {
+    title: string;
+    /**
+     * Paragraphs under the title.
+     */
+    lead?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Figures in the hero. The design has three.
+     */
+    stats?:
+      | {
+          /**
+           * Shown as written; not counted from the documents.
+           */
+          value: string;
+          label: string;
+          /**
+           * Icon from the site icon set (web/src/icons). The name is the file name.
+           */
+          icon:
+            | 'angle-circle-right'
+            | 'angle-double-small-up'
+            | 'angle-left'
+            | 'angle-right'
+            | 'architect-plan'
+            | 'arrow-down'
+            | 'arrow-right'
+            | 'attribution-pen'
+            | 'ballot-check'
+            | 'blueprint'
+            | 'book-open-reader'
+            | 'box-connection'
+            | 'calendars'
+            | 'check-circle'
+            | 'chevron-down'
+            | 'chevron-right'
+            | 'circle-bolt'
+            | 'circle-dashed'
+            | 'circle-user'
+            | 'clock-ten'
+            | 'close'
+            | 'close-small'
+            | 'code-fork'
+            | 'code-merge'
+            | 'comment-heart'
+            | 'compliance-document'
+            | 'data-migration'
+            | 'data-model'
+            | 'dictionary-alt'
+            | 'digital-id'
+            | 'diploma'
+            | 'discussion-idea'
+            | 'document'
+            | 'download'
+            | 'employees'
+            | 'envelope'
+            | 'family-law'
+            | 'folder-edit'
+            | 'github'
+            | 'globe'
+            | 'globe-alt'
+            | 'globe-lines'
+            | 'grid'
+            | 'handshake'
+            | 'heart-partner-handshake'
+            | 'land-location'
+            | 'laptop'
+            | 'laptop-code'
+            | 'leadership-alt'
+            | 'license'
+            | 'link-horizontal'
+            | 'linkedin'
+            | 'magnifying-glass-eye'
+            | 'map-pin'
+            | 'marker'
+            | 'medical-star'
+            | 'meeting'
+            | 'menu'
+            | 'model-cube-space'
+            | 'online-interview'
+            | 'paper-plane'
+            | 'people-group'
+            | 'person-rays'
+            | 'person-through-window'
+            | 'personal-finance'
+            | 'plan-strategy'
+            | 'play-circle'
+            | 'population-globe'
+            | 'referral-alt'
+            | 'search-alt'
+            | 'service-column'
+            | 'service-engineer'
+            | 'service-government'
+            | 'service-monitor'
+            | 'service-pylon'
+            | 'service-research'
+            | 'software-development'
+            | 'solar-system'
+            | 'sort'
+            | 'square-bolt'
+            | 'table-list'
+            | 'tags'
+            | 'tasks'
+            | 'team'
+            | 'team-check'
+            | 'time-quarter-to'
+            | 'tools'
+            | 'user-headset'
+            | 'woman-scientist'
+            | 'workshop'
+            | 'world'
+            | 'worldwide-network'
+            | 'yoga-ball';
+          tone: 'brand' | 'light';
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Photo on the right of the hero, with the grading baked in.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
+  intro: {
+    /**
+     * Small label above the title.
+     */
+    tag: string;
+    title: string;
+    /**
+     * Text under the title.
+     */
+    subline: string;
+    /**
+     * Buttons under the text.
+     */
+    actions?:
+      | {
+          label: string;
+          /**
+           * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+           */
+          href: string;
+          variant: 'primary' | 'secondary';
+          arrow?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * The pins are the documents of the Countries collection. These fields set how the globe opens.
+   */
+  globe: {
+    /**
+     * Point of the earth at the centre of the globe when the page opens.
+     */
+    view: {
+      /**
+       * Degrees east, -180 to 180.
+       */
+      longitude: number;
+      /**
+       * Degrees north, -90 to 90.
+       */
+      latitude: number;
+    };
+    /**
+     * Its card is open when the page loads.
+     */
+    selectedCountry: number | Country;
+  };
+  /**
+   * Row of figures under the globe.
+   */
+  continents: {
+    /**
+     * First cell of the row.
+     */
+    label: string;
+    items?:
+      | {
+          /**
+           * Shown as written; not counted from the team.
+           */
+          value: string;
+          /**
+           * Continent name.
+           */
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  listing: {
+    /**
+     * Heading of the team list.
+     */
+    title: string;
+    /**
+     * Text under the heading, shown below 1024 px only.
+     */
+    mobileDescription: string;
+    /**
+     * First filter tab after "Show All" and the tag on the cards of people flagged as senior leadership.
+     */
+    seniorLeadershipLabel: string;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/partners. The logos are the partners marked "Show on the partners page".
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners-page".
+ */
+export interface PartnersPage {
+  id: number;
+  hero: {
+    title: string;
+    /**
+     * Figures in the hero. The design has three.
+     */
+    stats?:
+      | {
+          /**
+           * Shown as written; not counted from the documents.
+           */
+          value: string;
+          label: string;
+          /**
+           * Icon from the site icon set (web/src/icons). The name is the file name.
+           */
+          icon:
+            | 'angle-circle-right'
+            | 'angle-double-small-up'
+            | 'angle-left'
+            | 'angle-right'
+            | 'architect-plan'
+            | 'arrow-down'
+            | 'arrow-right'
+            | 'attribution-pen'
+            | 'ballot-check'
+            | 'blueprint'
+            | 'book-open-reader'
+            | 'box-connection'
+            | 'calendars'
+            | 'check-circle'
+            | 'chevron-down'
+            | 'chevron-right'
+            | 'circle-bolt'
+            | 'circle-dashed'
+            | 'circle-user'
+            | 'clock-ten'
+            | 'close'
+            | 'close-small'
+            | 'code-fork'
+            | 'code-merge'
+            | 'comment-heart'
+            | 'compliance-document'
+            | 'data-migration'
+            | 'data-model'
+            | 'dictionary-alt'
+            | 'digital-id'
+            | 'diploma'
+            | 'discussion-idea'
+            | 'document'
+            | 'download'
+            | 'employees'
+            | 'envelope'
+            | 'family-law'
+            | 'folder-edit'
+            | 'github'
+            | 'globe'
+            | 'globe-alt'
+            | 'globe-lines'
+            | 'grid'
+            | 'handshake'
+            | 'heart-partner-handshake'
+            | 'land-location'
+            | 'laptop'
+            | 'laptop-code'
+            | 'leadership-alt'
+            | 'license'
+            | 'link-horizontal'
+            | 'linkedin'
+            | 'magnifying-glass-eye'
+            | 'map-pin'
+            | 'marker'
+            | 'medical-star'
+            | 'meeting'
+            | 'menu'
+            | 'model-cube-space'
+            | 'online-interview'
+            | 'paper-plane'
+            | 'people-group'
+            | 'person-rays'
+            | 'person-through-window'
+            | 'personal-finance'
+            | 'plan-strategy'
+            | 'play-circle'
+            | 'population-globe'
+            | 'referral-alt'
+            | 'search-alt'
+            | 'service-column'
+            | 'service-engineer'
+            | 'service-government'
+            | 'service-monitor'
+            | 'service-pylon'
+            | 'service-research'
+            | 'software-development'
+            | 'solar-system'
+            | 'sort'
+            | 'square-bolt'
+            | 'table-list'
+            | 'tags'
+            | 'tasks'
+            | 'team'
+            | 'team-check'
+            | 'time-quarter-to'
+            | 'tools'
+            | 'user-headset'
+            | 'woman-scientist'
+            | 'workshop'
+            | 'world'
+            | 'worldwide-network'
+            | 'yoga-ball';
+          tone: 'brand' | 'light';
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Photo on the right of the hero, with the grading baked in.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
+  intro: {
+    /**
+     * Large statement at the left of the logo grid.
+     */
+    statement: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Tabs above the logo grid, after "Show All".
+   */
+  filter: {
+    /**
+     * Shows the partners flagged as funder.
+     */
+    fundersLabel: string;
+    /**
+     * Shows the partners flagged as partner.
+     */
+    partnersLabel: string;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/career. The job cards are the Jobs collection.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "career-page".
+ */
+export interface CareerPage {
+  id: number;
+  hero: {
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+    /**
+     * Paragraphs under the title.
+     */
+    lead?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Photo on the right of the hero, with the grading baked in.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+    /**
+     * Icon next to the open roles figure.
+     */
+    icon:
+      | 'angle-circle-right'
+      | 'angle-double-small-up'
+      | 'angle-left'
+      | 'angle-right'
+      | 'architect-plan'
+      | 'arrow-down'
+      | 'arrow-right'
+      | 'attribution-pen'
+      | 'ballot-check'
+      | 'blueprint'
+      | 'book-open-reader'
+      | 'box-connection'
+      | 'calendars'
+      | 'check-circle'
+      | 'chevron-down'
+      | 'chevron-right'
+      | 'circle-bolt'
+      | 'circle-dashed'
+      | 'circle-user'
+      | 'clock-ten'
+      | 'close'
+      | 'close-small'
+      | 'code-fork'
+      | 'code-merge'
+      | 'comment-heart'
+      | 'compliance-document'
+      | 'data-migration'
+      | 'data-model'
+      | 'dictionary-alt'
+      | 'digital-id'
+      | 'diploma'
+      | 'discussion-idea'
+      | 'document'
+      | 'download'
+      | 'employees'
+      | 'envelope'
+      | 'family-law'
+      | 'folder-edit'
+      | 'github'
+      | 'globe'
+      | 'globe-alt'
+      | 'globe-lines'
+      | 'grid'
+      | 'handshake'
+      | 'heart-partner-handshake'
+      | 'land-location'
+      | 'laptop'
+      | 'laptop-code'
+      | 'leadership-alt'
+      | 'license'
+      | 'link-horizontal'
+      | 'linkedin'
+      | 'magnifying-glass-eye'
+      | 'map-pin'
+      | 'marker'
+      | 'medical-star'
+      | 'meeting'
+      | 'menu'
+      | 'model-cube-space'
+      | 'online-interview'
+      | 'paper-plane'
+      | 'people-group'
+      | 'person-rays'
+      | 'person-through-window'
+      | 'personal-finance'
+      | 'plan-strategy'
+      | 'play-circle'
+      | 'population-globe'
+      | 'referral-alt'
+      | 'search-alt'
+      | 'service-column'
+      | 'service-engineer'
+      | 'service-government'
+      | 'service-monitor'
+      | 'service-pylon'
+      | 'service-research'
+      | 'software-development'
+      | 'solar-system'
+      | 'sort'
+      | 'square-bolt'
+      | 'table-list'
+      | 'tags'
+      | 'tasks'
+      | 'team'
+      | 'team-check'
+      | 'time-quarter-to'
+      | 'tools'
+      | 'user-headset'
+      | 'woman-scientist'
+      | 'workshop'
+      | 'world'
+      | 'worldwide-network'
+      | 'yoga-ball';
+    /**
+     * Figure and label in the hero.
+     */
+    count: {
+      /**
+       * Shown as written; not counted from the documents.
+       */
+      value: string;
+      label: string;
+    };
+    /**
+     * Button next to the figure; leads to the open roles section.
+     */
+    action: {
+      label: string;
+      /**
+       * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+       */
+      href: string;
+    };
+  };
+  roles: {
+    /**
+     * Small label above the title.
+     */
+    tag: string;
+    title: string;
+    /**
+     * Columns of text under the title, above the job cards. Links are allowed.
+     */
+    columns?:
+      | {
+          text: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          };
+          textHtml?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  hiring: {
+    title: string;
+    /**
+     * One row per paragraph.
+     */
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Numbered list. The numbers (01, 02, …) follow the order here.
+     */
+    steps?:
+      | {
+          /**
+           * A line break starts a new line.
+           */
+          text: string;
+          /**
+           * Icon from the site icon set (web/src/icons). The name is the file name.
+           */
+          icon:
+            | 'angle-circle-right'
+            | 'angle-double-small-up'
+            | 'angle-left'
+            | 'angle-right'
+            | 'architect-plan'
+            | 'arrow-down'
+            | 'arrow-right'
+            | 'attribution-pen'
+            | 'ballot-check'
+            | 'blueprint'
+            | 'book-open-reader'
+            | 'box-connection'
+            | 'calendars'
+            | 'check-circle'
+            | 'chevron-down'
+            | 'chevron-right'
+            | 'circle-bolt'
+            | 'circle-dashed'
+            | 'circle-user'
+            | 'clock-ten'
+            | 'close'
+            | 'close-small'
+            | 'code-fork'
+            | 'code-merge'
+            | 'comment-heart'
+            | 'compliance-document'
+            | 'data-migration'
+            | 'data-model'
+            | 'dictionary-alt'
+            | 'digital-id'
+            | 'diploma'
+            | 'discussion-idea'
+            | 'document'
+            | 'download'
+            | 'employees'
+            | 'envelope'
+            | 'family-law'
+            | 'folder-edit'
+            | 'github'
+            | 'globe'
+            | 'globe-alt'
+            | 'globe-lines'
+            | 'grid'
+            | 'handshake'
+            | 'heart-partner-handshake'
+            | 'land-location'
+            | 'laptop'
+            | 'laptop-code'
+            | 'leadership-alt'
+            | 'license'
+            | 'link-horizontal'
+            | 'linkedin'
+            | 'magnifying-glass-eye'
+            | 'map-pin'
+            | 'marker'
+            | 'medical-star'
+            | 'meeting'
+            | 'menu'
+            | 'model-cube-space'
+            | 'online-interview'
+            | 'paper-plane'
+            | 'people-group'
+            | 'person-rays'
+            | 'person-through-window'
+            | 'personal-finance'
+            | 'plan-strategy'
+            | 'play-circle'
+            | 'population-globe'
+            | 'referral-alt'
+            | 'search-alt'
+            | 'service-column'
+            | 'service-engineer'
+            | 'service-government'
+            | 'service-monitor'
+            | 'service-pylon'
+            | 'service-research'
+            | 'software-development'
+            | 'solar-system'
+            | 'sort'
+            | 'square-bolt'
+            | 'table-list'
+            | 'tags'
+            | 'tasks'
+            | 'team'
+            | 'team-check'
+            | 'time-quarter-to'
+            | 'tools'
+            | 'user-headset'
+            | 'woman-scientist'
+            | 'workshop'
+            | 'world'
+            | 'worldwide-network'
+            | 'yoga-ball';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Content of /organization/theory-of-change.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theory-of-change-page".
+ */
+export interface TheoryOfChangePage {
+  id: number;
+  hero: {
+    /**
+     * A line break starts a new line.
+     */
+    title: string;
+    /**
+     * Paragraphs under the title.
+     */
+    lead?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    links?:
+      | {
+          label: string;
+          /**
+           * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+           */
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Image behind the centred hero text.
+     */
+    image: {
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
+  /**
+   * Pinned section that moves from the challenge to the goal while the visitor scrolls.
+   */
+  scene: {
+    /**
+     * First caption of the scene.
+     */
+    challenge: {
+      /**
+       * Small label above the statement.
+       */
+      label: string;
+      /**
+       * Large sentence.
+       */
+      statement: string;
+      /**
+       * Optional end of the sentence, set in red directly after the statement.
+       */
+      emphasis?: string | null;
+      /**
+       * Two lines of smaller text under the statement. One row per line.
+       */
+      details?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    /**
+     * Second caption of the scene.
+     */
+    goal: {
+      /**
+       * Small label above the statement.
+       */
+      label: string;
+      /**
+       * Large sentence.
+       */
+      statement: string;
+      /**
+       * Optional end of the sentence, set in red directly after the statement.
+       */
+      emphasis?: string | null;
+      /**
+       * Two lines of smaller text under the statement. One row per line.
+       */
+      details?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    /**
+     * The four words around the circle. One row per word.
+     */
+    values?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  approach: {
+    /**
+     * Small label above the title, shown below 1024 px only.
+     */
+    mobileTag: string;
+    title: string;
+    /**
+     * Line under the title.
+     */
+    subline: string;
+    /**
+     * Columns of the approach. The numbers (01, 02, …) follow the order here.
+     */
+    steps?:
+      | {
+          /**
+           * A line break starts a new line.
+           */
+          title: string;
+          text: string;
+          /**
+           * Illustration above the step. Without one the step shows the placeholder box.
+           */
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  outcomes: {
+    title: string;
+    /**
+     * One column per output with the outcome it leads to.
+     */
+    columns?:
+      | {
+          /**
+           * Name of the output.
+           */
+          output: string;
+          /**
+           * Text under the output.
+           */
+          description: string;
+          /**
+           * Outcome shown when the column opens.
+           */
+          outcome: string;
+          /**
+           * The matrix draws these four icons only.
+           */
+          icon: 'medical-star' | 'employees' | 'referral-alt' | 'book-open-reader';
+          tone: 'brand-400' | 'brand-500' | 'brand-800' | 'brand-900';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  impact: {
+    title: string;
+    text: string;
+  };
+  /**
+   * Decorative globe at the end of the page.
+   */
+  globe: {
+    /**
+     * Point of the earth at the centre of the globe.
+     */
+    view: {
+      /**
+       * Degrees east, -180 to 180.
+       */
+      longitude: number;
+      /**
+       * Degrees north, -90 to 90.
+       */
+      latitude: number;
+    };
+    /**
+     * Icon pins on the globe.
+     */
+    pins?:
+      | {
+          /**
+           * The globe draws these six icons only.
+           */
+          icon: 'code-merge' | 'code-fork' | 'people-group' | 'link-horizontal' | 'box-connection' | 'tools';
+          /**
+           * Degrees east.
+           */
+          longitude: number;
+          /**
+           * Degrees north.
+           */
+          latitude: number;
+          /**
+           * Size of the pin; 1 is the standard size.
+           */
+          scale: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta: {
+    /**
+     * Browser tab and search result title.
+     */
+    title: string;
+    /**
+     * Search result description.
+     */
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page_select".
+ */
+export interface ServicesPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
+  intro?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        columns?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  approach?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              image?: T;
+              id?: T;
+            };
+        illustration?: T;
+      };
+  values?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              title?: T;
+              body?: T;
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+      };
+  detailEyebrow?: T;
+  ctaActions?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        emphasis?: T;
+        newTab?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools-page_select".
+ */
+export interface ToolsPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
+  intro?:
+    | T
+    | {
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  cta?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+      };
+  intro?:
+    | T
+    | {
+        statement?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        actions?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              variant?: T;
+              arrow?: T;
+              id?: T;
+            };
+      };
+  infoCards?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        action?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        id?: T;
+      };
+  departments?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+      };
+  featuredDepartments?: T;
+  values?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        subline?: T;
+        items?:
+          | T
+          | {
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              label?: T;
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments-page_select".
+ */
+export interface DepartmentsPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        lead?: T;
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+        count?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+            };
+        icon?: T;
+      };
+  listing?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-page_select".
+ */
+export interface TeamPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        lead?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        stats?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+      };
+  intro?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        subline?: T;
+        actions?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              variant?: T;
+              arrow?: T;
+              id?: T;
+            };
+      };
+  globe?:
+    | T
+    | {
+        view?:
+          | T
+          | {
+              longitude?: T;
+              latitude?: T;
+            };
+        selectedCountry?: T;
+      };
+  continents?:
+    | T
+    | {
+        label?: T;
+        items?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+              id?: T;
+            };
+      };
+  listing?:
+    | T
+    | {
+        title?: T;
+        mobileDescription?: T;
+        seniorLeadershipLabel?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners-page_select".
+ */
+export interface PartnersPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        stats?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+      };
+  intro?:
+    | T
+    | {
+        statement?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  filter?:
+    | T
+    | {
+        fundersLabel?: T;
+        partnersLabel?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "career-page_select".
+ */
+export interface CareerPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        lead?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+        icon?: T;
+        count?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+            };
+        action?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  roles?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        columns?:
+          | T
+          | {
+              text?: T;
+              textHtml?: T;
+              id?: T;
+            };
+      };
+  hiring?:
+    | T
+    | {
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        steps?:
+          | T
+          | {
+              text?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theory-of-change-page_select".
+ */
+export interface TheoryOfChangePageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        lead?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        links?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        image?:
+          | T
+          | {
+              desktop?: T;
+              mobile?: T;
+            };
+      };
+  scene?:
+    | T
+    | {
+        challenge?:
+          | T
+          | {
+              label?: T;
+              statement?: T;
+              emphasis?: T;
+              details?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        goal?:
+          | T
+          | {
+              label?: T;
+              statement?: T;
+              emphasis?: T;
+              details?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        values?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  approach?:
+    | T
+    | {
+        mobileTag?: T;
+        title?: T;
+        subline?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  outcomes?:
+    | T
+    | {
+        title?: T;
+        columns?:
+          | T
+          | {
+              output?: T;
+              description?: T;
+              outcome?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
+      };
+  impact?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+      };
+  globe?:
+    | T
+    | {
+        view?:
+          | T
+          | {
+              longitude?: T;
+              latitude?: T;
+            };
+        pins?:
+          | T
+          | {
+              icon?: T;
+              longitude?: T;
+              latitude?: T;
+              scale?: T;
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
