@@ -13,6 +13,7 @@ import * as site from './areas/site'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
 import { env } from './env'
+import { rebuildOnPublish } from './plugins/rebuildOnPublish'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -39,6 +40,7 @@ export default buildConfig({
   secret: env('PAYLOAD_SECRET'),
   serverURL: env('PAYLOAD_PUBLIC_URL'),
   cors: [env('WEB_URL')],
+  plugins: [rebuildOnPublish(process.env.WEB_DEPLOY_HOOK_URL)],
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
