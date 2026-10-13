@@ -12,6 +12,7 @@ import * as site from './areas/site'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
 import { env } from './env'
+import { migrations } from './migrations'
 import { rebuildOnPublish } from './plugins/rebuildOnPublish'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -30,6 +31,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: { connectionString: env('DATABASE_URL') },
     migrationDir: path.resolve(dirname, 'migrations'),
+    prodMigrations: migrations,
   }),
   localization: {
     locales: [{ code: 'en', label: 'English' }],
