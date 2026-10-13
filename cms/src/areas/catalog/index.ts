@@ -1,5 +1,12 @@
 import type { CollectionConfig, GlobalConfig } from 'payload'
 
-export const collections: CollectionConfig[] = []
+import { CtaBanners } from './CtaBanners'
+import { Services } from './Services'
+import { ServicesPage } from './ServicesPage'
+import { ToolCategories } from './ToolCategories'
+import { Tools } from './Tools'
+import { ToolsPage } from './ToolsPage'
 
-export const globals: GlobalConfig[] = []
+export const collections: CollectionConfig[] = [Services, Tools, ToolCategories, CtaBanners]
+
+export const globals: GlobalConfig[] = [ServicesPage, ToolsPage]
