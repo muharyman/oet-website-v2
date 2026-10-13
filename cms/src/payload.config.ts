@@ -3,7 +3,6 @@ import { fileURLToPath } from 'url'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
-import sharp from 'sharp'
 
 import * as catalog from './areas/catalog'
 import * as events from './areas/events'
@@ -41,7 +40,6 @@ export default buildConfig({
   serverURL: env('PAYLOAD_PUBLIC_URL'),
   cors: [env('WEB_URL')],
   plugins: [rebuildOnPublish(process.env.WEB_DEPLOY_HOOK_URL)],
-  sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
     declare: false,
