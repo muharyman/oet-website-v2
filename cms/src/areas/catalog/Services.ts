@@ -1,6 +1,7 @@
 import type { Block, CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
+import { always, preview } from '../../preview'
 import { icon, image, link, paragraphs, select, seo, slug, text, textarea } from '../../fields'
 import { accents, brandTones, checkbox, closingCta, collages, order, valueItems } from './fields'
 
@@ -51,6 +52,7 @@ export const Services: CollectionConfig = {
   defaultSort: 'order',
   admin: {
     group: 'Catalog',
+    preview: preview((slug) => `/services/${slug}`, always),
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'order', '_status'],
     description:

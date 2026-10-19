@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
+import { preview } from '../../preview'
 import { icon, plainText, richText, slug, text, textarea } from '../../fields'
 import { checkbox, choice, number, responsiveImage, tab } from './fields'
 
@@ -33,6 +34,10 @@ export const Departments: CollectionConfig = {
   versions: { drafts: true },
   admin: {
     group: 'Organization',
+    preview: preview(
+      (slug) => `/organization/departments/${slug}`,
+      (doc) => doc.hasDetailPage === true,
+    ),
     useAsTitle: 'name',
     defaultColumns: ['name', 'head', 'hasDetailPage', 'order', '_status'],
   },

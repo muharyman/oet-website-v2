@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
+import { always, preview } from '../../preview'
 import { href, image, paragraphs, richText, slug, text, textarea } from '../../fields'
 import {
   cardAppearance,
@@ -52,6 +53,7 @@ export const Projects: CollectionConfig = {
   defaultSort: '-startDate',
   admin: {
     group: 'Outputs',
+    preview: preview((slug) => `/outputs/success-stories/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'projectStatus', 'region', 'startDate', '_status'],
     description:

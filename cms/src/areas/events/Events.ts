@@ -1,6 +1,7 @@
 import type { Block, CollectionConfig, PayloadRequest } from 'payload'
 
 import { publishedRead } from '../../access'
+import { always, preview } from '../../preview'
 import { href, image, plainText, richText, select, slug, text, textarea } from '../../fields'
 import { checkbox, dateTime, filled } from './fields'
 
@@ -124,6 +125,7 @@ export const Events: CollectionConfig = {
   defaultSort: '-start',
   admin: {
     group: 'Events',
+    preview: preview((slug) => `/organization/news-and-events/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'start', 'featuredAsHighlight', '_status'],
     description:
