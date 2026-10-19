@@ -3,6 +3,7 @@ import CtaBanner from '../../../components/blocks/CtaBanner.astro'
 import ListingHeader from '../../../components/blocks/ListingHeader.astro'
 import PageHero from '../../../components/blocks/PageHero.astro'
 import EventCard from '../../../components/cards/EventCard.astro'
+import ListingFilter from '../../../components/interactive/ListingFilter.astro'
 import FilterTabs from '../../../components/ui/FilterTabs.astro'
 import Pagination from '../../../components/ui/Pagination.astro'
 import SortControl from '../../../components/ui/SortControl.astro'
@@ -18,6 +19,7 @@ import { routes } from '../../../data/routes'
 import { locales } from '../../../i18n/config'
 import { eventLabels, sortOptions } from '../../../i18n/groups'
 import { t } from '../../../i18n/ui'
+import { firstPageClass, type PageSize } from '../../../lib/listing'
 
 const locale = locales.find((code) => code === Astro.currentLocale)
 if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
@@ -27,7 +29,8 @@ const [events, eventTypes, eventsPage] = await Promise.all([
   loadEventTypes(locale),
   loadEventsPage(locale),
 ])
-const { meta, hero, listing, stateTabs, sort, mobilePagination, cta } = eventsPage
+const { meta, hero, listing, stateTabs, sort, cta } = eventsPage
+const pageSize: PageSize = { desktop: null, mobile: 4 }
 const labels = eventLabels(locale)
 const now = new Date()
 
@@ -54,6 +57,7 @@ const typeOptions = [
     active: false,
   })),
 ]
+const totalPages = Math.ceil(cards.length / pageSize.mobile)
 const statusLabels = { upcoming: labels.upcoming, highlighted: labels.highlighted }
 const linkLabels = { upcoming: labels.register, highlighted: labels.recap }
 const hrefFor = (page: number) => `?page=${page}#${listing.id}`
@@ -83,7 +87,7 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
       headerTheme="light"
     />
 
-    <oet-event-filter class="block">
+    <ListingFilter pageSize={pageSize}>
       <ListingHeader
         layout="split"
         title={listing.title}
@@ -93,7 +97,7 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
         topSpace={180}
         id={listing.id}
       >
-        <div slot="tabs" data-filter="state">
+        <div slot="tabs" data-listing-tabs="state">
           <FilterTabs
             label={t(locale, 'tabs.eventState')}
             layout="compact"
@@ -101,7 +105,7 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
             options={stateOptions}
           />
         </div>
-        <div slot="controls" data-filter="type">
+        <div slot="controls" data-listing-tabs="type">
           <FilterTabs
             label={t(locale, 'tabs.eventType')}
             layout="compact"
@@ -118,12 +122,13 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
           options={sortOptions(locale, sort.values)}
           selected={sort.selected}
           align="right"
+          listing="sort"
           class="lg:-ml-px"
         />
         <Pagination
           class="py-5 lg:hidden"
-          current={mobilePagination.current}
-          total={mobilePagination.total}
+          current={1}
+          total={totalPages}
           hrefFor={hrefFor}
           locale={locale}
         />
@@ -132,17 +137,18 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
       <div class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
         <div class="border-t border-l border-neutral-100 pt-[19px] pb-[60px] lg:border-t-0 lg:py-5 lg:pl-[19px]">
           <ul
-            data-events
+            data-listing-items
             class="-ml-px grid gap-5 lg:ml-0 lg:grid-cols-3 lg:gap-y-[50px]"
             aria-live="polite"
           >
-            {cards.map(({ event, status }) => (
+            {cards.map(({ event, status }, index) => (
               <li
-                class="flex"
-                data-state={status}
-                data-type={event.type}
+                class:list={['flex', firstPageClass(index, pageSize)]}
+                data-listing-item
+                data-facet-state={status}
+                data-facet-type={event.type}
                 data-title={event.title}
-                data-start={event.start}
+                data-date={event.start}
               >
                 <EventCard
                   status={status}
@@ -167,19 +173,19 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
               </li>
             ))}
           </ul>
-          <p data-empty class="text-body-lg py-10 text-neutral-800 lg:px-5" hidden>
+          <p data-listing-empty class="text-body-lg py-10 text-neutral-800 lg:px-5" hidden>
             {labels.empty}
           </p>
           <Pagination
             class="pt-10 lg:hidden"
-            current={mobilePagination.current}
-            total={mobilePagination.total}
+            current={1}
+            total={totalPages}
             hrefFor={hrefFor}
             locale={locale}
           />
         </div>
       </div>
-    </oet-event-filter>
+    </ListingFilter>
 
     <div class="max-w-page lg:px-gutter-lg mx-auto hidden w-full lg:block" aria-hidden="true">
       <div class="h-43 border-l border-neutral-100"></div>
@@ -196,98 +202,3 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
     </div>
   </main>
 </BaseLayout>
-
-<script>
-  type FilterKey = 'state' | 'type'
-  type Sorter = (a: HTMLElement, b: HTMLElement) => number
-
-  class OetEventFilter extends HTMLElement {
-    connectedCallback() {
-      const list = this.querySelector<HTMLElement>('[data-events]')
-      const empty = this.querySelector<HTMLElement>('[data-empty]')
-      const select = this.querySelector<HTMLElement>('oet-select')
-      if (!list || !empty || !select) throw new Error('oet-event-filter: missing parts')
-      const items = [...list.querySelectorAll<HTMLElement>(':scope > li')]
-      const keys: FilterKey[] = ['state', 'type']
-
-      const read = (item: HTMLElement, key: string) => {
-        const value = item.dataset[key]
-        if (value === undefined) throw new Error(`oet-event-filter: item without data-${key}`)
-        return value
-      }
-      const valueOf = (link: HTMLAnchorElement, key: FilterKey) => {
-        const value = new URL(link.href).searchParams.get(key)
-        if (value === null) throw new Error(`oet-event-filter: tab without "${key}" parameter`)
-        return value
-      }
-      const groups = keys.map((key) => {
-        const links = [...this.querySelectorAll<HTMLAnchorElement>(`[data-filter="${key}"] a`)]
-        const on = links.find((link) => link.hasAttribute('aria-current'))
-        const off = links.find((link) => !link.hasAttribute('aria-current'))
-        if (!on || !off) throw new Error(`oet-event-filter: tabs for "${key}" are incomplete`)
-        return { key, links, onClass: on.className, offClass: off.className }
-      })
-
-      const sorters: Record<string, Sorter> = {
-        'a-z': (a, b) => read(a, 'title').localeCompare(read(b, 'title')),
-        'z-a': (a, b) => read(b, 'title').localeCompare(read(a, 'title')),
-        newest: (a, b) => Date.parse(read(b, 'start')) - Date.parse(read(a, 'start')),
-        oldest: (a, b) => Date.parse(read(a, 'start')) - Date.parse(read(b, 'start')),
-      }
-      const sorterFor = (value: unknown) => {
-        if (typeof value !== 'string' || !(value in sorters)) {
-          throw new Error(`oet-event-filter: unknown sort "${value}"`)
-        }
-        return sorters[value]
-      }
-
-      const params = new URLSearchParams(location.search)
-      const filters: Record<FilterKey, string> = { state: 'all', type: 'all' }
-      for (const group of groups) {
-        const requested = params.get(group.key)
-        const known = group.links.some((link) => valueOf(link, group.key) === requested)
-        if (requested !== null && known) filters[group.key] = requested
-      }
-      let sorter = sorterFor(select.dataset.value)
-
-      const apply = () => {
-        for (const group of groups) {
-          for (const link of group.links) {
-            const selected = valueOf(link, group.key) === filters[group.key]
-            link.className = selected ? group.onClass : group.offClass
-            if (selected) link.setAttribute('aria-current', 'true')
-            else link.removeAttribute('aria-current')
-          }
-        }
-        for (const item of items) {
-          item.hidden = keys.some(
-            (key) => filters[key] !== 'all' && read(item, key) !== filters[key],
-          )
-        }
-        empty.hidden = items.some((item) => !item.hidden)
-        list.append(...[...items].sort(sorter))
-      }
-
-      for (const group of groups) {
-        for (const link of group.links) {
-          link.addEventListener('click', (event) => {
-            event.preventDefault()
-            filters[group.key] = valueOf(link, group.key)
-            const next = new URL(location.href)
-            next.searchParams.set(group.key, filters[group.key])
-            history.replaceState(null, '', next)
-            apply()
-          })
-        }
-      }
-      select.addEventListener('oet-select:change', (event) => {
-        if (!(event instanceof CustomEvent)) return
-        sorter = sorterFor(event.detail.value)
-        apply()
-      })
-      apply()
-    }
-  }
-
-  customElements.define('oet-event-filter', OetEventFilter)
-</script>

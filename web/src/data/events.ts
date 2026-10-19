@@ -81,7 +81,6 @@ export interface EventsPage {
   listing: { id: string; title: string; description: string }
   stateTabs: { id: EventStateId; label: string }[]
   sort: { selected: SortValue; values: SortValue[] }
-  mobilePagination: { current: number; total: number }
   cta: { support: EventBanner; discuss: EventBanner; updates: EventBanner }
 }
 
@@ -217,7 +216,6 @@ export const loadEventsPage = async (locale: Locale): Promise<EventsPage> => {
       { id: 'upcoming', label: page.listing.stateLabels.upcoming },
     ],
     sort: { selected: 'a-z', values: ['a-z', 'z-a', 'newest', 'oldest'] },
-    mobilePagination: { current: 1, total: 10 },
     cta: {
       support: bannerOf(page.cta.support, 'News and events support banner'),
       discuss: bannerOf(page.cta.discuss, 'News and events discuss banner'),

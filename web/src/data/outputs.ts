@@ -77,6 +77,7 @@ export interface FilterOption {
 
 export interface Filter {
   id: string
+  facet: string
   label: string
   selected: string
   options: FilterOption[]
@@ -86,12 +87,14 @@ export type PersonSource = Doc<'publications'>['authors'][number]
 
 const filter = (
   locale: Locale,
-  id: string,
+  prefix: string,
+  facet: string,
   label: UiKey,
   all: UiKey,
   options: FilterOption[],
 ): Filter => ({
-  id,
+  id: `${prefix}-filter-${facet}`,
+  facet,
   label: t(locale, label),
   selected: 'all',
   options: [{ value: 'all', label: t(locale, all) }, ...options],
@@ -106,28 +109,24 @@ export const loadFilters = async (locale: Locale, prefix: string): Promise<Filte
   ])
   const named = ({ slug, name }: { slug: string; name: string }) => ({ value: slug, label: name })
   return [
+    filter(locale, prefix, 'region', 'filter.region', 'filter.region.all', regions.map(named)),
     filter(
       locale,
-      `${prefix}-filter-region`,
-      'filter.region',
-      'filter.region.all',
-      regions.map(named),
-    ),
-    filter(
-      locale,
-      `${prefix}-filter-service`,
+      prefix,
+      'service',
       'filter.services',
       'filter.services.all',
       services.map(named),
     ),
     filter(
       locale,
-      `${prefix}-filter-product`,
+      prefix,
+      'product',
       'filter.products',
       'filter.products.all',
       tools.map(({ id, name }) => ({ value: String(id), label: name })),
     ),
-    filter(locale, `${prefix}-filter-tag`, 'filter.tags', 'filter.tags.all', tags.map(named)),
+    filter(locale, prefix, 'tag', 'filter.tags', 'filter.tags.all', tags.map(named)),
   ]
 }
 
