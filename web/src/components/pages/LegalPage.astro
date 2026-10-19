@@ -14,6 +14,7 @@ const { meta, tag, title, body } = Astro.props.content
 <BaseLayout
   title={meta.title}
   description={meta.description}
+  share={{ image: null, type: 'website' }}
   headerTheme="dark"
   initialHeaderTheme="dark"
 >
