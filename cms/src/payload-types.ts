@@ -2517,7 +2517,10 @@ export interface Job {
 export interface User {
   id: number;
   name: string;
-  role: 'admin' | 'editor';
+  /**
+   * Admin manages everything including users. Editor manages content. Preview only reads, including drafts; it is the role of the API key the website uses for draft previews.
+   */
+  role: 'admin' | 'editor' | 'preview';
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
