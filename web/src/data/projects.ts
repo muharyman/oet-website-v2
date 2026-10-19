@@ -11,6 +11,7 @@ import {
   type Doc,
   type GlobalDoc,
 } from '../lib/cms'
+import { facet, type PageSize } from '../lib/listing'
 import { altOf, image } from '../lib/media'
 import {
   articleHtml,
@@ -68,6 +69,8 @@ export interface Project {
   frame: FrameTone
   partnerTag: PartnerTag | null
   partnerLink: PartnerLink | null
+  facets: Record<'status' | 'region' | 'service' | 'product' | 'tag', string>
+  date: string
   detail: ProjectDetail
 }
 
@@ -126,6 +129,24 @@ const project = (
     frame: doc.frame,
     partnerTag: partnerTag(doc.partnerTag, `${what} partner tag`),
     partnerLink: partnerLink(doc.partnerLink, `${what} partner link`),
+    facets: {
+      status: doc.projectStatus,
+      region: resolved(doc.region, `${what} region`).slug,
+      service: facet(
+        required(doc.services, `${what} services`).map(
+          (service) => resolved(service, `${what} service`).slug,
+        ),
+      ),
+      product: facet(
+        required(doc.tools, `${what} tools`).map((tool) =>
+          String(resolved(tool, `${what} tool`).id),
+        ),
+      ),
+      tag: facet(
+        required(doc.tags, `${what} tags`).map((tag) => resolved(tag, `${what} tag`).slug),
+      ),
+    },
+    date: doc.startDate,
     detail: {
       highlights: texts(doc.highlights, `${what} highlights`),
       tools: required(doc.tools, `${what} tools`).map(
@@ -210,10 +231,18 @@ export const loadSuccessStories = async (locale: Locale) => {
       title: page.listing.title,
       description: page.listing.description,
       tabs: [
-        { label: page.listing.tabs.completed, href: routes.successStories, active: true },
-        { label: page.listing.tabs.inProgress, href: routes.successStories, active: false },
+        {
+          label: page.listing.tabs.completed,
+          href: `?status=completed#${listingId}`,
+          active: true,
+        },
+        {
+          label: page.listing.tabs.inProgress,
+          href: `?status=in-progress#${listingId}`,
+          active: false,
+        },
       ],
-      mobilePageSize: 6,
+      pageSize: { desktop: 12, mobile: 6 } satisfies PageSize,
       items: fromDocs(locale, docs, page),
     },
     testimonials: {
