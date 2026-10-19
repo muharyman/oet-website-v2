@@ -73,6 +73,7 @@ const en = {
   'share.citationCopied': 'Citation copied',
   'projects.empty': 'No success stories match these filters.',
   'team.empty': 'No team members in this group yet.',
+  'partners.empty': 'No partners in this group yet.',
   'publications.empty': 'No publications of this type yet.',
   'publications.noMatch': 'No publications match these filters.',
   'tool.source': 'Source Code',

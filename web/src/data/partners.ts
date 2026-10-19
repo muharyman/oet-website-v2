@@ -1,7 +1,9 @@
 import type { ImageMetadata } from 'astro'
 import type { SvgComponent } from 'astro/types'
 import type { Locale } from '../i18n/config'
+import { t } from '../i18n/ui'
 import { findAll, findGlobal, required, texts, type Doc } from '../lib/cms'
+import { facet } from '../lib/listing'
 import { icon, image } from '../lib/media'
 import { routes } from './routes'
 
@@ -46,6 +48,12 @@ export const loadPartnersPage = async (locale: Locale) => {
     }),
   ])
   const logos = partners.map(toLogo)
+  const types = partners.map((partner) => ({
+    type: facet([
+      ...(partner.isFunder === true ? ['funders'] : []),
+      ...(partner.isPartner === true ? ['partners'] : []),
+    ]),
+  }))
   return {
     meta: page.meta,
     hero: {
@@ -67,6 +75,7 @@ export const loadPartnersPage = async (locale: Locale) => {
     },
     filter: {
       options: [
+        { label: t(locale, 'tabs.showAll'), href: `${routes.partners}?type=all`, active: true },
         {
           label: page.filter.fundersLabel,
           href: `${routes.partners}?type=funders`,
@@ -81,5 +90,7 @@ export const loadPartnersPage = async (locale: Locale) => {
     },
     logos,
     logosMobile: columnByColumn(logos, logoColumns),
+    types,
+    typesMobile: columnByColumn(types, logoColumns),
   }
 }
