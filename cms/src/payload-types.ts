@@ -1783,6 +1783,14 @@ export interface Publication {
    */
   tags?: (number | Tag)[] | null;
   /**
+   * Services the publication belongs to, for the service filter of the listing.
+   */
+  services?: (number | Service)[] | null;
+  /**
+   * Tools the publication is about, for the products filter of the listing.
+   */
+  tools?: (number | Tool)[] | null;
+  /**
    * In this order. Every name is listed under "Authors" in the page header; authors with a photo also get a row in the sidebar.
    */
   authors: {
@@ -2805,6 +2813,8 @@ export interface PublicationsSelect<T extends boolean = true> {
   showInOutputs?: T;
   region?: T;
   tags?: T;
+  services?: T;
+  tools?: T;
   authors?:
     | T
     | {
