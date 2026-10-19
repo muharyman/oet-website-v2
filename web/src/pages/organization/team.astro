@@ -4,16 +4,18 @@ import ContinentStats from '../../components/blocks/ContinentStats.astro'
 import ListingHeader from '../../components/blocks/ListingHeader.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
 import TeamCard from '../../components/cards/TeamCard.astro'
+import ListingFilter from '../../components/interactive/ListingFilter.astro'
 import TeamGlobe from '../../components/interactive/TeamGlobe.astro'
 import FilterTabs from '../../components/ui/FilterTabs.astro'
 import Pagination from '../../components/ui/Pagination.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
 import SortControl from '../../components/ui/SortControl.astro'
 import { routes } from '../../data/routes'
-import { loadTeamPage, mobilePageSize } from '../../data/team'
+import { loadTeamPage } from '../../data/team'
 import { defaultLocale } from '../../i18n/config'
 import { sortOptions } from '../../i18n/groups'
 import { t } from '../../i18n/ui'
+import { firstPageClass } from '../../lib/listing'
 
 const { meta, hero, intro, listing, globe, countries, continents, filterGroups, members } =
   await loadTeamPage(defaultLocale)
@@ -23,6 +25,7 @@ const statGroups = hero.stats.map((stat) => [
   { kind: 'count' as const, value: stat.value, label: stat.label, tone: 'outline' as const },
 ])
 const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
+const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
 ---
 
 <BaseLayout
@@ -85,60 +88,79 @@ const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
       </div>
     </section>
 
-    <section>
-      <ListingHeader
-        layout="split"
-        title={listing.title}
-        description={listing.mobileDescription}
-        descriptionStyle="body-md-medium-mobile"
-        tabsWidth="wide"
-        topSpace={120}
-        id={listing.id}
-      >
-        <FilterTabs
-          slot="tabs"
-          label={t(defaultLocale, 'tabs.teamGroup')}
-          layout="wrap"
-          mobileBreakAfter={null}
-          options={filterGroups}
-        />
-        <SortControl
-          slot="controls"
-          id={listing.sort.id}
-          label={t(defaultLocale, 'sort.team')}
-          options={sortOptions(defaultLocale, listing.sort.values)}
-          selected={listing.sort.selected}
-          prefix={t(defaultLocale, 'filter.sort')}
-          icon="sort"
-          align="right"
-          listing={null}
-        />
-      </ListingHeader>
-      <div class={container}>
-        <div class="relative pt-5 pb-[180px] before:absolute before:inset-y-0 before:left-0 before:border-l before:border-neutral-100 lg:pb-0">
-          <Pagination
-            class="pt-5 pb-10 lg:hidden"
-            current={listing.pagination.current}
-            total={listing.pagination.total}
-            hrefFor={hrefFor}
-            locale={defaultLocale}
+    <ListingFilter pageSize={listing.pageSize}>
+      <section>
+        <ListingHeader
+          layout="split"
+          title={listing.title}
+          description={listing.mobileDescription}
+          descriptionStyle="body-md-medium-mobile"
+          tabsWidth="wide"
+          topSpace={120}
+          id={listing.id}
+        >
+          <div slot="tabs" data-listing-tabs="group">
+            <FilterTabs
+              label={t(defaultLocale, 'tabs.teamGroup')}
+              layout="wrap"
+              mobileBreakAfter={null}
+              options={filterGroups}
+            />
+          </div>
+          <SortControl
+            slot="controls"
+            id={listing.sort.id}
+            label={t(defaultLocale, 'sort.team')}
+            options={sortOptions(defaultLocale, listing.sort.values)}
+            selected={listing.sort.selected}
+            prefix={t(defaultLocale, 'filter.sort')}
+            icon="sort"
+            align="right"
+            listing="sort"
           />
-          <ul class="grid md:grid-cols-2 lg:grid-cols-4 lg:gap-y-5">
-            {members.map((member, index) => (
-              <li class:list={['min-w-0', index >= mobilePageSize && 'max-lg:hidden']}>
-                <TeamCard {...member} locale={defaultLocale} />
-              </li>
-            ))}
-          </ul>
-          <Pagination
-            class="pt-10 pb-5 lg:mx-auto lg:w-[372px] lg:py-12"
-            current={listing.pagination.current}
-            total={listing.pagination.total}
-            hrefFor={hrefFor}
-            locale={defaultLocale}
-          />
+        </ListingHeader>
+        <div class={container}>
+          <div class="relative pt-5 pb-[180px] before:absolute before:inset-y-0 before:left-0 before:border-l before:border-neutral-100 lg:pb-0">
+            <Pagination
+              class="pt-5 pb-10 lg:hidden"
+              current={1}
+              total={pages(listing.pageSize.mobile)}
+              hrefFor={hrefFor}
+              locale={defaultLocale}
+            />
+            <ul
+              data-listing-items
+              aria-live="polite"
+              class="grid scroll-mt-32 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-5"
+            >
+              {members.map((member, index) => (
+                <li
+                  class:list={['min-w-0', firstPageClass(index, listing.pageSize)]}
+                  data-listing-item
+                  data-facet-group={member.group}
+                  data-title={member.card.name}
+                >
+                  <TeamCard {...member.card} locale={defaultLocale} />
+                </li>
+              ))}
+            </ul>
+            <p
+              data-listing-empty
+              class="text-body-md py-10 pl-5 font-medium text-neutral-800"
+              hidden
+            >
+              {t(defaultLocale, 'team.empty')}
+            </p>
+            <Pagination
+              class="pt-10 pb-5 lg:mx-auto lg:w-[372px] lg:py-12"
+              current={1}
+              total={pages(listing.pageSize.desktop)}
+              hrefFor={hrefFor}
+              locale={defaultLocale}
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ListingFilter>
   </main>
 </BaseLayout>
