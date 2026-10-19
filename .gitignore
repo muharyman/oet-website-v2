@@ -9,3 +9,4 @@ dist
 /playwright-report/
 cms/uploads/
 cms/database/
+cms/.env.local
