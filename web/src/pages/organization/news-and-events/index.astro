@@ -30,7 +30,7 @@ const [events, eventTypes, eventsPage] = await Promise.all([
   loadEventsPage(locale),
 ])
 const { meta, hero, listing, stateTabs, sort, cta } = eventsPage
-const pageSize: PageSize = { desktop: null, mobile: 4 }
+const pageSize = { desktop: null, mobile: 4 } satisfies PageSize
 const labels = eventLabels(locale)
 const now = new Date()
 

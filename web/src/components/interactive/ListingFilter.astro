@@ -12,7 +12,7 @@ const { pageSize, class: className } = Astro.props
 <oet-listing
   class:list={['block', className]}
   data-page-size-desktop={pageSize.desktop === null ? 'all' : pageSize.desktop}
-  data-page-size-mobile={pageSize.mobile}
+  data-page-size-mobile={pageSize.mobile === null ? 'all' : pageSize.mobile}
 >
   <slot />
 </oet-listing>
@@ -25,9 +25,14 @@ const { pageSize, class: className } = Astro.props
 
   class OetListing extends HTMLElement {
     connectedCallback() {
-      const list = this.querySelector<HTMLElement>('[data-listing-items]')
-      if (!list) throw new Error('oet-listing: missing [data-listing-items]')
-      const items = [...list.querySelectorAll<HTMLElement>(':scope > [data-listing-item]')]
+      const lists = [...this.querySelectorAll<HTMLElement>('[data-listing-items]')].map(
+        (element) => ({
+          element,
+          items: [...element.querySelectorAll<HTMLElement>(':scope > [data-listing-item]')],
+        }),
+      )
+      const [primary] = lists
+      if (!primary) throw new Error('oet-listing: missing [data-listing-items]')
       const empty = this.querySelector<HTMLElement>('[data-listing-empty]')
       const paginations = [
         ...this.querySelectorAll<
@@ -121,7 +126,9 @@ const { pageSize, class: className } = Astro.props
       const requestedPage = Number(params.get('page'))
       let page = Number.isInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1
 
-      for (const item of items) item.classList.remove('max-lg:hidden', 'lg:hidden')
+      for (const { items } of lists) {
+        for (const item of items) item.classList.remove('max-lg:hidden', 'lg:hidden')
+      }
       if (filters.size > 0 && !empty) throw new Error('oet-listing: missing [data-listing-empty]')
 
       const matches = (item: HTMLElement) =>
@@ -153,15 +160,20 @@ const { pageSize, class: className } = Astro.props
             else link.removeAttribute('aria-current')
           }
         }
-        const ordered = sorter ? [...items].sort(sorter) : items
-        const shown = ordered.filter(matches)
+        const results = lists.map(({ element, items }) => {
+          const ordered = sorter ? [...items].sort(sorter) : items
+          element.append(...ordered)
+          return { items, shown: ordered.filter(matches) }
+        })
+        const count = results[0].shown.length
         const size = pageSize()
-        const total = Math.max(1, Math.ceil(shown.length / size))
+        const total = Math.max(1, Math.ceil(count / size))
         page = Math.min(page, total)
-        const visible = new Set(shown.slice((page - 1) * size, page * size))
-        for (const item of items) item.hidden = !visible.has(item)
-        list.append(...ordered)
-        if (empty) empty.hidden = shown.length > 0
+        for (const { items, shown } of results) {
+          const visible = new Set(shown.slice((page - 1) * size, page * size))
+          for (const item of items) item.hidden = !visible.has(item)
+        }
+        if (empty) empty.hidden = count > 0
         for (const pagination of paginations) pagination.render(page, total)
       }
 
@@ -201,7 +213,8 @@ const { pageSize, class: className } = Astro.props
           event.preventDefault()
           page = Number(link.dataset.page)
           update()
-          list.scrollIntoView({ block: 'start' })
+          const shownList = lists.find(({ element }) => element.offsetParent !== null)
+          if (shownList) shownList.element.scrollIntoView({ block: 'start' })
         })
       }
       desktop.addEventListener('change', apply)

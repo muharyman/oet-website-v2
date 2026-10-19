@@ -1,10 +1,10 @@
 export interface PageSize {
   desktop: number | null
-  mobile: number
+  mobile: number | null
 }
 
 export const firstPageClass = (index: number, size: PageSize) => [
-  index >= size.mobile && 'max-lg:hidden',
+  size.mobile !== null && index >= size.mobile && 'max-lg:hidden',
   size.desktop !== null && index >= size.desktop && 'lg:hidden',
 ]
 
