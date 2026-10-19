@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { globalRead } from '../../access'
-import { href, plainText, select, seo } from '../../fields'
+import { href, image, plainText, select, seo } from '../../fields'
 
 export const socialKinds = ['linkedin', 'github', 'x', 'youtube', 'bluesky', 'mastodon'] as const
 
@@ -43,7 +43,15 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'Search and sharing',
           description: 'Used by a page that has no title or description of its own.',
-          fields: [seo()],
+          fields: [
+            seo(),
+            image('shareImage', {
+              required: true,
+              label: 'Share image',
+              description:
+                'Picture shown when a page without its own picture is shared on social media or in chat apps. It is cropped to 1200 × 630.',
+            }),
+          ],
         },
         {
           label: 'Social profiles',
