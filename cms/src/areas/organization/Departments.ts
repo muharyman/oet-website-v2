@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
-import { preview } from '../../preview'
+import { draftVersions, previewOptions } from '../../preview'
 import { icon, plainText, richText, slug, text, textarea } from '../../fields'
 import { checkbox, choice, number, responsiveImage, tab } from './fields'
 
@@ -31,10 +31,10 @@ export const mobileColumns = [
 export const Departments: CollectionConfig = {
   slug: 'departments',
   access: publishedRead,
-  versions: { drafts: true },
+  versions: draftVersions,
   admin: {
     group: 'Organization',
-    preview: preview(
+    ...previewOptions(
       (slug) => `/organization/departments/${slug}`,
       (doc) => doc.hasDetailPage === true,
     ),

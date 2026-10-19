@@ -1,7 +1,7 @@
 import type { Block, CollectionConfig, PayloadRequest } from 'payload'
 
 import { publishedRead } from '../../access'
-import { always, preview } from '../../preview'
+import { always, draftVersions, previewOptions } from '../../preview'
 import { href, image, plainText, richText, select, slug, text, textarea } from '../../fields'
 import { checkbox, dateTime, filled } from './fields'
 
@@ -121,11 +121,11 @@ const externalBlock: Block = {
 export const Events: CollectionConfig = {
   slug: 'events',
   access: publishedRead,
-  versions: { drafts: true },
+  versions: draftVersions,
   defaultSort: '-start',
   admin: {
     group: 'Events',
-    preview: preview((slug) => `/organization/news-and-events/${slug}`, always),
+    ...previewOptions((slug) => `/organization/news-and-events/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'start', 'featuredAsHighlight', '_status'],
     description:
