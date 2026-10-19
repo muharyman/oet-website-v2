@@ -59,136 +59,135 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji'
+  | 'Pacific/Fiji';
 
 export interface Config {
   auth: {
-    users: UserAuthOperations
-  }
-  blocks: {}
+    users: UserAuthOperations;
+  };
+  blocks: {};
   collections: {
-    projects: Project
-    publications: Publication
-    testimonials: Testimonial
-    regions: Region
-    tags: Tag
-    'publication-categories': PublicationCategory
-    services: Service
-    tools: Tool
-    'tool-categories': ToolCategory
-    'cta-banners': CtaBanner
-    events: Event
-    'event-types': EventType
-    pages: Page
-    redirects: Redirect
-    'form-submissions': FormSubmission
-    'team-members': TeamMember
-    departments: Department
-    countries: Country
-    partners: Partner
-    jobs: Job
-    media: Media
-    users: User
-    'payload-kv': PayloadKv
-    'payload-locked-documents': PayloadLockedDocument
-    'payload-preferences': PayloadPreference
-    'payload-migrations': PayloadMigration
-  }
-  collectionsJoins: {}
+    projects: Project;
+    publications: Publication;
+    testimonials: Testimonial;
+    regions: Region;
+    tags: Tag;
+    'publication-categories': PublicationCategory;
+    services: Service;
+    tools: Tool;
+    'tool-categories': ToolCategory;
+    'cta-banners': CtaBanner;
+    events: Event;
+    'event-types': EventType;
+    pages: Page;
+    redirects: Redirect;
+    'form-submissions': FormSubmission;
+    'team-members': TeamMember;
+    departments: Department;
+    countries: Country;
+    partners: Partner;
+    jobs: Job;
+    media: Media;
+    users: User;
+    'payload-kv': PayloadKv;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
+  };
+  collectionsJoins: {};
   collectionsSelect: {
-    projects: ProjectsSelect<false> | ProjectsSelect<true>
-    publications: PublicationsSelect<false> | PublicationsSelect<true>
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>
-    regions: RegionsSelect<false> | RegionsSelect<true>
-    tags: TagsSelect<false> | TagsSelect<true>
-    'publication-categories': PublicationCategoriesSelect<false> | PublicationCategoriesSelect<true>
-    services: ServicesSelect<false> | ServicesSelect<true>
-    tools: ToolsSelect<false> | ToolsSelect<true>
-    'tool-categories': ToolCategoriesSelect<false> | ToolCategoriesSelect<true>
-    'cta-banners': CtaBannersSelect<false> | CtaBannersSelect<true>
-    events: EventsSelect<false> | EventsSelect<true>
-    'event-types': EventTypesSelect<false> | EventTypesSelect<true>
-    pages: PagesSelect<false> | PagesSelect<true>
-    redirects: RedirectsSelect<false> | RedirectsSelect<true>
-    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>
-    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>
-    departments: DepartmentsSelect<false> | DepartmentsSelect<true>
-    countries: CountriesSelect<false> | CountriesSelect<true>
-    partners: PartnersSelect<false> | PartnersSelect<true>
-    jobs: JobsSelect<false> | JobsSelect<true>
-    media: MediaSelect<false> | MediaSelect<true>
-    users: UsersSelect<false> | UsersSelect<true>
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
-    'payload-locked-documents':
-      PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
-  }
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    publications: PublicationsSelect<false> | PublicationsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    regions: RegionsSelect<false> | RegionsSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    'publication-categories': PublicationCategoriesSelect<false> | PublicationCategoriesSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    tools: ToolsSelect<false> | ToolsSelect<true>;
+    'tool-categories': ToolCategoriesSelect<false> | ToolCategoriesSelect<true>;
+    'cta-banners': CtaBannersSelect<false> | CtaBannersSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'event-types': EventTypesSelect<false> | EventTypesSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    departments: DepartmentsSelect<false> | DepartmentsSelect<true>;
+    countries: CountriesSelect<false> | CountriesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    jobs: JobsSelect<false> | JobsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
-    defaultIDType: number
-  }
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | 'en' | 'en'[]
+    defaultIDType: number;
+  };
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | 'en' | 'en'[];
   globals: {
-    'home-page': HomePage
-    'site-header': SiteHeader
-    'site-footer': SiteFooter
-    'site-settings': SiteSetting
-    'success-stories-page': SuccessStoriesPage
-    'publications-page': PublicationsPage
-    'services-page': ServicesPage
-    'tools-page': ToolsPage
-    'news-events-page': NewsEventsPage
-    'about-page': AboutPage
-    'departments-page': DepartmentsPage
-    'team-page': TeamPage
-    'partners-page': PartnersPage
-    'career-page': CareerPage
-    'theory-of-change-page': TheoryOfChangePage
-  }
+    'home-page': HomePage;
+    'site-header': SiteHeader;
+    'site-footer': SiteFooter;
+    'site-settings': SiteSetting;
+    'success-stories-page': SuccessStoriesPage;
+    'publications-page': PublicationsPage;
+    'services-page': ServicesPage;
+    'tools-page': ToolsPage;
+    'news-events-page': NewsEventsPage;
+    'about-page': AboutPage;
+    'departments-page': DepartmentsPage;
+    'team-page': TeamPage;
+    'partners-page': PartnersPage;
+    'career-page': CareerPage;
+    'theory-of-change-page': TheoryOfChangePage;
+  };
   globalsSelect: {
-    'home-page': HomePageSelect<false> | HomePageSelect<true>
-    'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>
-    'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>
-    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>
-    'success-stories-page': SuccessStoriesPageSelect<false> | SuccessStoriesPageSelect<true>
-    'publications-page': PublicationsPageSelect<false> | PublicationsPageSelect<true>
-    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>
-    'tools-page': ToolsPageSelect<false> | ToolsPageSelect<true>
-    'news-events-page': NewsEventsPageSelect<false> | NewsEventsPageSelect<true>
-    'about-page': AboutPageSelect<false> | AboutPageSelect<true>
-    'departments-page': DepartmentsPageSelect<false> | DepartmentsPageSelect<true>
-    'team-page': TeamPageSelect<false> | TeamPageSelect<true>
-    'partners-page': PartnersPageSelect<false> | PartnersPageSelect<true>
-    'career-page': CareerPageSelect<false> | CareerPageSelect<true>
-    'theory-of-change-page': TheoryOfChangePageSelect<false> | TheoryOfChangePageSelect<true>
-  }
-  locale: 'en'
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
+    'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'success-stories-page': SuccessStoriesPageSelect<false> | SuccessStoriesPageSelect<true>;
+    'publications-page': PublicationsPageSelect<false> | PublicationsPageSelect<true>;
+    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
+    'tools-page': ToolsPageSelect<false> | ToolsPageSelect<true>;
+    'news-events-page': NewsEventsPageSelect<false> | NewsEventsPageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'departments-page': DepartmentsPageSelect<false> | DepartmentsPageSelect<true>;
+    'team-page': TeamPageSelect<false> | TeamPageSelect<true>;
+    'partners-page': PartnersPageSelect<false> | PartnersPageSelect<true>;
+    'career-page': CareerPageSelect<false> | CareerPageSelect<true>;
+    'theory-of-change-page': TheoryOfChangePageSelect<false> | TheoryOfChangePageSelect<true>;
+  };
+  locale: 'en';
   widgets: {
-    collections: CollectionsWidget
-  }
-  user: User
+    collections: CollectionsWidget;
+  };
+  user: User;
   jobs: {
-    tasks: unknown
-    workflows: unknown
-  }
+    tasks: unknown;
+    workflows: unknown;
+  };
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   login: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   registerFirstUser: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   unlock: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
 }
 /**
  * Projects. Each has its own page at /outputs/success-stories/<slug> and a card on the success stories listing, the home page, department pages and service pages.
@@ -197,44 +196,44 @@ export interface UserAuthOperations {
  * via the `definition` "projects".
  */
 export interface Project {
-  id: number
+  id: number;
   /**
    * Card title, page title and browser tab title.
    */
-  title: string
+  title: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the title.
    */
-  slug: string
+  slug: string;
   /**
    * Tab of the success stories listing the project is listed under, and the status next to the dates on its page.
    */
-  projectStatus: 'completed' | 'in-progress'
+  projectStatus: 'completed' | 'in-progress';
   /**
    * Text on the card. Also the search result description of the page.
    */
-  excerpt: string
+  excerpt: string;
   /**
    * First day of the project. The card shows month and year, the page the full date.
    */
-  startDate: string
+  startDate: string;
   /**
    * Last day of the project, or the planned one while it is in progress.
    */
-  endDate: string
+  endDate: string;
   /**
    * Bullet list in the page header. One row per bullet, four at most.
    */
   highlights?:
     | {
-        text: string
-        id?: string | null
+        text: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Pre-composed picture made with the Thumbnail Maker Guide, 734 × 476 px. Used by every card of the project.
    */
-  thumbnail: number | Media
+  thumbnail: number | Media;
   /**
    * Colour of the frame around the thumbnail, chosen to match the picture.
    */
@@ -247,64 +246,64 @@ export interface Project {
     | 'brand-900'
     | 'neutral-800'
     | 'neutral-900'
-    | 'neutral-950'
+    | 'neutral-950';
   /**
    * Partner whose tag logo is laid over the thumbnail. Only partners with a tag logo can be chosen.
    */
-  partnerTag?: (number | null) | Partner
+  partnerTag?: (number | null) | Partner;
   /**
    * Link in the card footer. Fill in both the label and the target, or neither.
    */
   partnerLink?: {
-    label?: string | null
+    label?: string | null;
     /**
      * Full URL of the partner (https://…).
      */
-    href?: string | null
-  }
+    href?: string | null;
+  };
   /**
    * Region in the page header and in the region filter of the listing.
    */
-  region: number | Region
+  region: number | Region;
   /**
    * Tags in the page header, in this order, and the tag filter of the listing.
    */
-  tags?: (number | Tag)[] | null
+  tags?: (number | Tag)[] | null;
   /**
    * "Tools" list in the page header, in this order, and the products filter of the listing.
    */
-  tools?: (number | Tool)[] | null
+  tools?: (number | Tool)[] | null;
   /**
    * "Service" list in the page header and the service filter of the listing. The project is also shown as a related card on the page of each service chosen here.
    */
-  services?: (number | Service)[] | null
+  services?: (number | Service)[] | null;
   /**
    * The project is shown in the "Department Projects" carousel on the page of each department chosen here.
    */
-  departments?: (number | Department)[] | null
+  departments?: (number | Department)[] | null;
   /**
    * Wide picture under the page header.
    */
-  hero: number | Media
+  hero: number | Media;
   /**
    * Article text. Use heading 2 for the opening line and heading 3 below it.
    */
   body: {
     root: {
-      type: string
+      type: string;
       children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  }
-  bodyHtml?: string | null
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  bodyHtml?: string | null;
   /**
    * Lists of links under the article, for example "Tools", "Data" and "Links". Leave empty for none.
    */
@@ -313,7 +312,7 @@ export interface Project {
         /**
          * Heading of the group, for example "Data".
          */
-        title: string
+        title: string;
         links: {
           /**
            * The label is written as one or more parts in a row. Underline the part that reads as the link: "DOI: " without underline followed by the address with underline.
@@ -322,42 +321,42 @@ export interface Project {
             /**
              * Text of this part, with its own spaces and punctuation.
              */
-            text: string
+            text: string;
             /**
              * Draws this part with the link underline.
              */
-            underline: boolean
-            id?: string | null
-          }[]
+            underline: boolean;
+            id?: string | null;
+          }[];
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
+          href: string;
           /**
            * Cuts a long label with an ellipsis instead of wrapping it.
            */
-          truncate: boolean
+          truncate: boolean;
           /**
            * Opens the target in a new browser tab.
            */
-          newTab: boolean
+          newTab: boolean;
           /**
            * Shows the label greyed out and not clickable, for something announced.
            */
-          disabled: boolean
-          id?: string | null
-        }[]
-        id?: string | null
+          disabled: boolean;
+          id?: string | null;
+        }[];
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Quote shown under the links. Leave empty for a page without one.
    */
-  testimonial?: (number | null) | Testimonial
+  testimonial?: (number | null) | Testimonial;
   /**
    * Cards in the "Related Projects" carousel, in this order. Leave empty for a page without it.
    */
-  related?: (number | Project)[] | null
+  related?: (number | Project)[] | null;
   /**
    * Person in the "Contact" box next to the article.
    */
@@ -365,44 +364,44 @@ export interface Project {
     /**
      * Small line above the name, for example "Project Lead".
      */
-    role?: string | null
+    role?: string | null;
     /**
      * Team member: name, role, head photo and links come from the Team members document. Someone else: fill in the fields below.
      */
-    kind: 'team-member' | 'external'
+    kind: 'team-member' | 'external';
     /**
      * The row shows the head photo of the team member; choose someone who has one, or add it to their document.
      */
-    member?: (number | null) | TeamMember
+    member?: (number | null) | TeamMember;
     /**
      * Full name with academic title.
      */
-    name?: string | null
+    name?: string | null;
     /**
      * Position and organisation, one line under the name.
      */
-    title?: string | null
+    title?: string | null;
     /**
      * Square head photo, shown at 44 px.
      */
-    photo?: (number | null) | Media
+    photo?: (number | null) | Media;
     /**
      * Target of the profile icon. Leave empty for no icon.
      */
-    profileHref?: string | null
+    profileHref?: string | null;
     /**
      * Target of the GitHub icon. Leave empty for no icon.
      */
-    githubHref?: string | null
+    githubHref?: string | null;
     /**
      * Target of the LinkedIn icon. Leave empty for no icon.
      */
-    linkedinHref?: string | null
-  }
+    linkedinHref?: string | null;
+  };
   /**
    * Logos in the "Partners" box next to the article, in this order. Only partners with a logo can be chosen. Leave empty for a page without the box.
    */
-  partners?: (number | Partner)[] | null
+  partners?: (number | Partner)[] | null;
   /**
    * Red band at the end of the project page, left of the service card.
    */
@@ -410,34 +409,34 @@ export interface Project {
     /**
      * Heading of the band.
      */
-    heading: string
+    heading: string;
     /**
      * Paragraph under the heading.
      */
-    primary: string
+    primary: string;
     /**
      * Smaller paragraph under the buttons that points to the service card.
      */
-    secondary: string
+    secondary: string;
     actions?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
+          href: string;
           /**
            * Filled or outlined button.
            */
-          emphasis: 'primary' | 'secondary'
-          id?: string | null
+          emphasis: 'primary' | 'secondary';
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * Service whose card is shown in the band. The card content is edited on the service, tab "Project and publication pages".
    */
-  ctaService: number | Service
+  ctaService: number | Service;
   /**
    * The "Projects" carousel on the home page is a hand-picked set.
    */
@@ -445,43 +444,43 @@ export interface Project {
     /**
      * Adds the card of this project to the carousel.
      */
-    showOnHome: boolean
+    showOnHome: boolean;
     /**
      * Lower comes first.
      */
-    order?: number | null
+    order?: number | null;
     /**
      * Lines reserved for the title on the home card. Use three for a title that does not fit on two.
      */
-    titleLines?: ('2' | '3') | null
-  }
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    titleLines?: ('2' | '3') | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: number
+  id: number;
   /**
    * Text alternative read by screen readers. Leave empty only for decorative images.
    */
-  alt?: string | null
-  prefix?: string | null
-  _objectKey?: string | null
-  updatedAt: string
-  createdAt: string
-  url?: string | null
-  thumbnailURL?: string | null
-  filename?: string | null
-  mimeType?: string | null
-  filesize?: number | null
-  width?: number | null
-  height?: number | null
-  focalX?: number | null
-  focalY?: number | null
+  alt?: string | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * Partner, funder and client organisations. One document per organisation; logo grids and card tags refer to it.
@@ -490,74 +489,74 @@ export interface Media {
  * via the `definition` "partners".
  */
 export interface Partner {
-  id: number
+  id: number;
   /**
    * Name of the organisation. Read out as the text of its logo.
    */
-  name: string
+  name: string;
   /**
    * Full URL of the organisation website (https://…).
    */
-  website?: string | null
+  website?: string | null;
   /**
    * Group on the home page logo section. A partner without a group is left out of grouped grids.
    */
-  group?: ('trusted-partner' | 'network-affiliation') | null
+  group?: ('trusted-partner' | 'network-affiliation') | null;
   /**
    * Listed under the "Funders" tab of the partners page.
    */
-  isFunder?: boolean | null
+  isFunder?: boolean | null;
   /**
    * Listed under the "Partners" tab of the partners page.
    */
-  isPartner?: boolean | null
+  isPartner?: boolean | null;
   /**
    * Adds the logo to the grid on /organization/partners.
    */
-  showOnPartnersPage?: boolean | null
+  showOnPartnersPage?: boolean | null;
   /**
    * Adds the logo to the partner section of the home page.
    */
-  showOnHome?: boolean | null
+  showOnHome?: boolean | null;
   /**
    * Lower comes first.
    */
-  order?: number | null
+  order?: number | null;
   /**
    * Lower comes first, within its group.
    */
-  homeOrder?: number | null
+  homeOrder?: number | null;
   /**
    * Logo for the grids on the home and partners pages. Dark on a transparent or white background.
    */
-  logo?: (number | null) | Media
+  logo?: (number | null) | Media;
   /**
    * Home page and partners page from 1024 px. The partners page also uses this size on mobile, limited to the cell width.
    */
   logoDesktop?: {
-    width: number
-    height: number
-  }
+    width: number;
+    height: number;
+  };
   /**
    * Home page below 1024 px, where the cells are narrower.
    */
   logoMobile?: {
-    width: number
-    height: number
-  }
+    width: number;
+    height: number;
+  };
   /**
    * Small logo in the tag on project and publication cards that name this organisation as partner.
    */
-  tagLogo?: (number | null) | Media
+  tagLogo?: (number | null) | Media;
   /**
    * Box of the tag logo in CSS pixels, set by hand per logo in the design.
    */
   tagSize?: {
-    width: number
-    height: number
-  }
-  updatedAt: string
-  createdAt: string
+    width: number;
+    height: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Regions of the world a project or publication is about. They are the options of the region filter on the listings.
@@ -566,17 +565,17 @@ export interface Partner {
  * via the `definition` "regions".
  */
 export interface Region {
-  id: number
+  id: number;
   /**
    * Shown in the page header of a project or publication and in the region filter.
    */
-  name: string
+  name: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the name.
    */
-  slug: string
-  updatedAt: string
-  createdAt: string
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Topic tags of projects and publications. They are the options of the tag filter on the listings.
@@ -585,17 +584,17 @@ export interface Region {
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: number
+  id: number;
   /**
    * Written without the leading #. The page header adds it; the tag filter shows the name as it is.
    */
-  name: string
+  name: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the name.
    */
-  slug: string
-  updatedAt: string
-  createdAt: string
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Open models, software and data sets shown as cards on the Tools and Data page.
@@ -604,46 +603,46 @@ export interface Tag {
  * via the `definition` "tools".
  */
 export interface Tool {
-  id: number
+  id: number;
   /**
    * Card title.
    */
-  name: string
+  name: string;
   /**
    * The card appears once in the group of every category chosen here, with the tag of that group.
    */
-  categories: (number | ToolCategory)[]
+  categories: (number | ToolCategory)[];
   /**
    * Shown before the first paragraph of the description, separated by a vertical bar ("Maintainer | …"). Leave empty for a tool without a stated role.
    */
-  role?: ('maintainer' | 'co-maintainer' | 'maintainers') | null
+  role?: ('maintainer' | 'co-maintainer' | 'maintainers') | null;
   /**
    * One row per paragraph of the card text. Do not repeat the role here.
    */
   description?:
     | {
-        text: string
-        id?: string | null
+        text: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Target of the "Source Code" text link on the card.
    */
-  sourceHref: string
+  sourceHref: string;
   /**
    * Target of the globe icon on the card.
    */
-  websiteHref: string
+  websiteHref: string;
   /**
    * Target of the GitHub icon on the card.
    */
-  githubHref: string
+  githubHref: string;
   /**
    * Position of the card inside its category group, lowest first.
    */
-  order: number
-  updatedAt: string
-  createdAt: string
+  order: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Groups of the Tools and Data page. Each category is a filter tab with its own URL and a tag on the tool cards.
@@ -652,29 +651,29 @@ export interface Tool {
  * via the `definition` "tool-categories".
  */
 export interface ToolCategory {
-  id: number
+  id: number;
   /**
    * Shown as the tag on every tool card of this category.
    */
-  label: string
+  label: string;
   /**
    * Shown on the filter tab of the Tools and Data page and in the browser title of the filtered page.
    */
-  tabLabel: string
+  tabLabel: string;
   /**
    * Background colour of the tag on the tool cards of this category.
    */
-  tone: 'brand' | 'brand-700' | 'neutral-900' | 'neutral-700' | 'brand-900'
+  tone: 'brand' | 'brand-700' | 'neutral-900' | 'neutral-700' | 'brand-900';
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the label.
    */
-  slug: string
+  slug: string;
   /**
    * Position of the tab and of the group of cards on the Tools and Data page, lowest first.
    */
-  order: number
-  updatedAt: string
-  createdAt: string
+  order: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * One document per audience OET serves. Each has its own page at /services/<slug> and appears on /services, the home page, the navigation, the footer and on project and publication pages.
@@ -683,82 +682,82 @@ export interface ToolCategory {
  * via the `definition` "services".
  */
 export interface Service {
-  id: number
+  id: number;
   /**
    * Full name of the service, used wherever the site refers to it in running text.
    */
-  name: string
+  name: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the name.
    */
-  slug: string
+  slug: string;
   /**
    * Position in every list of services (/services, home accordion, navigation, footer), lowest first.
    */
-  order: number
+  order: number;
   hero: {
     /**
      * Hero title. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     /**
      * Only when the title needs different line breaks on narrow screens. Empty: the title above is used at every width.
      */
-    titleMobile?: string | null
+    titleMobile?: string | null;
     /**
      * Paragraph under the hero title.
      */
-    lead: string
+    lead: string;
     /**
      * Pre-graded hero illustration for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero illustration for narrow screens.
      */
-    imageMobile: number | Media
+    imageMobile: number | Media;
     /**
      * Colour of the hero panel behind the title.
      */
-    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900'
-  }
+    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
+  };
   intro: {
     /**
      * Tag above the heading.
      */
-    tag: string
+    tag: string;
     /**
      * Heading of the intro.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Photo next to the intro text.
      */
-    image: number | Media
-  }
+    image: number | Media;
+  };
   offerings: {
     /**
      * Tag above the heading.
      */
-    tag: string
+    tag: string;
     /**
      * Heading of the list.
      */
-    title: string
+    title: string;
     /**
      * Shown in this order; the number is the position in this list.
      */
     items: {
-      title: string
+      title: string;
       /**
        * Icon from the site icon set (web/src/icons). The name is the file name.
        */
@@ -855,20 +854,20 @@ export interface Service {
         | 'workshop'
         | 'world'
         | 'worldwide-network'
-        | 'yoga-ball'
+        | 'yoga-ball';
       /**
        * Colour of the icon tile of this offering.
        */
-      accent: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900'
+      accent: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
       /**
        * Paragraphs and bullet lists, in the order they appear.
        */
       text: (
         | {
-            text: string
-            id?: string | null
-            blockName?: string | null
-            blockType: 'paragraph'
+            text: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'paragraph';
           }
         | {
             /**
@@ -876,50 +875,50 @@ export interface Service {
              */
             items?:
               | {
-                  text: string
-                  id?: string | null
+                  text: string;
+                  id?: string | null;
                 }[]
-              | null
-            id?: string | null
-            blockName?: string | null
-            blockType: 'list'
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'list';
           }
-      )[]
+      )[];
       /**
        * Optional "More About …" link under the text. Leave both parts empty for an offering without a link.
        */
       link?: {
-        label?: string | null
+        label?: string | null;
         /**
          * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
          */
-        href?: string | null
-      }
+        href?: string | null;
+      };
       /**
        * One row per entry of the deliverables list on the right. No rows: the offering has no list.
        */
       deliverables?:
         | {
-            text: string
-            id?: string | null
+            text: string;
+            id?: string | null;
           }[]
-        | null
-      id?: string | null
-    }[]
-  }
+        | null;
+      id?: string | null;
+    }[];
+  };
   values: {
     /**
      * Tag above the heading.
      */
-    tag: string
+    tag: string;
     /**
      * Heading of the row.
      */
-    title: string
+    title: string;
     /**
      * Five cards per row use 248 px thumbnails, six use 207 px thumbnails. Match the number of cards.
      */
-    columns: '5' | '6'
+    columns: '5' | '6';
     /**
      * Cards of the row, in this order.
      */
@@ -927,106 +926,106 @@ export interface Service {
       /**
        * Small label above the card title.
        */
-      label: string
+      label: string;
       /**
        * Card title. A line break here is a line break on the site.
        */
-      title: string
+      title: string;
       /**
        * Card text.
        */
-      body: string
+      body: string;
       /**
        * Pre-composed square illustration: 248 px wide in a five-column row, 207 px in a six-column row.
        */
-      thumbnail: number | Media
+      thumbnail: number | Media;
       /**
        * Pre-composed square illustration, 186 px wide.
        */
-      thumbnailMobile: number | Media
-      id?: string | null
-    }[]
-  }
+      thumbnailMobile: number | Media;
+      id?: string | null;
+    }[];
+  };
   approach: {
     /**
      * Unchecked: the service page has no "How We Work" section.
      */
-    show: boolean
+    show: boolean;
     /**
      * Tag above the heading.
      */
-    tag?: string | null
+    tag?: string | null;
     /**
      * Heading of the section.
      */
-    title?: string | null
+    title?: string | null;
     /**
      * One row per column of text next to the heading.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   cta: {
     /**
      * Heading of the banner. A line break here is a line break on the site.
      */
-    heading: string
+    heading: string;
     /**
      * Paragraph next to the heading.
      */
-    text: string
+    text: string;
     /**
      * Background of the text panel.
      */
-    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900'
+    background: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900';
     /**
      * Photo collage next to the text panel.
      */
-    collage: 'wind' | 'thermalpower' | 'biz'
-  }
+    collage: 'wind' | 'thermalpower' | 'biz';
+  };
   card: {
     /**
      * Card title. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-    linkLabel: string
+      | null;
+    linkLabel: string;
     /**
      * Pre-composed illustration, 172 px wide on the site.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-composed illustration, 372 px wide on the site.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   ctaCard: {
     /**
      * Card title.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-    linkLabel: string
+      | null;
+    linkLabel: string;
     /**
      * Icon from the site icon set (web/src/icons). The name is the file name.
      */
@@ -1123,93 +1122,93 @@ export interface Service {
       | 'workshop'
       | 'world'
       | 'worldwide-network'
-      | 'yoga-ball'
+      | 'yoga-ball';
     /**
      * Background of the square behind the icon.
      */
-    iconTone: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800'
+    iconTone: 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800';
     /**
      * Colour of the frame around the illustration.
      */
-    frame: 'brand-500' | 'brand-600'
+    frame: 'brand-500' | 'brand-600';
     /**
      * Pre-composed illustration of the card.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Optional separate crop for narrow screens. Empty: the illustration above is used at every width.
      */
-    imageMobile?: (number | null) | Media
-  }
+    imageMobile?: (number | null) | Media;
+  };
   home: {
     /**
      * Title of the accordion row.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Photo shown while the row is open.
      */
-    image: number | Media
-  }
+    image: number | Media;
+  };
   navigation: {
     /**
      * Menu label; also the link label in the footer.
      */
-    label: string
+    label: string;
     /**
      * Short text under the label in the header menu.
      */
-    description: string
+    description: string;
     /**
      * Illustration next to the label in the header menu.
      */
-    icon: 'pylon' | 'government' | 'engineer' | 'column' | 'research' | 'monitor'
-  }
+    icon: 'pylon' | 'government' | 'engineer' | 'column' | 'research' | 'monitor';
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    description: string;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "departments".
  */
 export interface Department {
-  id: number
+  id: number;
   /**
    * Department name: card title on the about and departments pages, page title of the detail page.
    */
-  name: string
+  name: string;
   /**
    * First text on the department card, under the name.
    */
-  lead: string
+  lead: string;
   /**
    * Grey text on the department card, clamped to three lines.
    */
-  summary: string
+  summary: string;
   /**
    * Shown with head photo, name and role on the card and in the detail page hero.
    */
-  head: number | TeamMember
+  head: number | TeamMember;
   /**
    * Department icon: card square, departments page and detail page hero.
    */
@@ -1306,16 +1305,16 @@ export interface Department {
     | 'workshop'
     | 'world'
     | 'worldwide-network'
-    | 'yoga-ball'
-  accent: 'red' | 'dark-red' | 'charcoal' | 'plum'
+    | 'yoga-ball';
+  accent: 'red' | 'dark-red' | 'charcoal' | 'plum';
   /**
    * Filter tab above the team list and tag on the cards of its members.
    */
-  teamLabel: string
+  teamLabel: string;
   /**
    * Lower comes first, after the senior leadership tab.
    */
-  teamOrder: number
+  teamOrder: number;
   /**
    * Content of /organization/departments/<slug>.
    */
@@ -1324,73 +1323,73 @@ export interface Department {
      * Photo at the bottom of the department card. Only departments with a detail page show one.
      */
     cardImage: {
-      desktop: number | Media
-      mobile: number | Media
-    }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
     hero: {
       /**
        * Hero title. A line break starts a new line.
        */
-      title: string
+      title: string;
       /**
        * Paragraph under the hero title. Also used as the search result description.
        */
-      lead: string
+      lead: string;
       /**
        * Map illustration on the right of the hero.
        */
       image: {
-        desktop: number | Media
-        mobile: number | Media
-      }
+        desktop: number | Media;
+        mobile: number | Media;
+      };
       /**
        * Number next to "People" in the hero. Shown as written; not counted from the team.
        */
-      peopleCount: string
-      background: 'brand-600' | 'brand-900' | 'neutral-900'
+      peopleCount: string;
+      background: 'brand-600' | 'brand-900' | 'neutral-900';
       /**
        * Pattern drawn over the hero background.
        */
-      ornament: 'department' | 'department-inverse'
-    }
+      ornament: 'department' | 'department-inverse';
+    };
     /**
      * Text of the "About Department" section.
      */
     about: {
       root: {
-        type: string
+        type: string;
         children: {
-          type: any
-          version: number
-          [k: string]: unknown
-        }[]
-        direction: ('ltr' | 'rtl') | null
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-        indent: number
-        version: number
-      }
-      [k: string]: unknown
-    }
-    aboutHtml?: string | null
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    aboutHtml?: string | null;
     /**
      * Text of the "Works" section above the topic grid.
      */
     worksIntro: {
       root: {
-        type: string
+        type: string;
         children: {
-          type: any
-          version: number
-          [k: string]: unknown
-        }[]
-        direction: ('ltr' | 'rtl') | null
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-        indent: number
-        version: number
-      }
-      [k: string]: unknown
-    }
-    worksIntroHtml?: string | null
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    worksIntroHtml?: string | null;
     /**
      * Grid of topics between the two texts. Leave empty for no grid.
      */
@@ -1399,8 +1398,8 @@ export interface Department {
           /**
            * A line break starts a new line.
            */
-          title: string
-          description?: string | null
+          title: string;
+          description?: string | null;
           /**
            * Icon from the site icon set (web/src/icons). The name is the file name.
            */
@@ -1497,139 +1496,139 @@ export interface Department {
             | 'workshop'
             | 'world'
             | 'worldwide-network'
-            | 'yoga-ball'
-          id?: string | null
+            | 'yoga-ball';
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Text under the topic grid.
      */
     worksOutro?: {
       root: {
-        type: string
+        type: string;
         children: {
-          type: any
-          version: number
-          [k: string]: unknown
-        }[]
-        direction: ('ltr' | 'rtl') | null
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-        indent: number
-        version: number
-      }
-      [k: string]: unknown
-    } | null
-    worksOutroHtml?: string | null
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    worksOutroHtml?: string | null;
     /**
      * Width of the text column at 412 px, set by hand per page in the design.
      */
-    mobileColumn: '326' | '332'
-  }
+    mobileColumn: '326' | '332';
+  };
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the name.
    */
-  slug: string
+  slug: string;
   /**
    * On: the card links to /organization/departments/<slug> and shows a photo, and the detail page fields are required. Off: compact card without link.
    */
-  hasDetailPage?: boolean | null
+  hasDetailPage?: boolean | null;
   /**
    * Position on the departments page. Lower comes first.
    */
-  order: number
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-members".
  */
 export interface TeamMember {
-  id: number
+  id: number;
   /**
    * Full name with title, as shown on cards and person rows.
    */
-  name: string
+  name: string;
   /**
    * Job title under the name on the team card, department card and hero.
    */
-  role: string
+  role: string;
   /**
    * Square photo for small avatars: department cards, the department page hero and person rows. Required for department heads.
    */
-  photo?: (number | null) | Media
+  photo?: (number | null) | Media;
   /**
    * Departments this person belongs to. Each one adds a tag to the team card and puts the person under that tab of the team filter.
    */
-  departments?: (number | Department)[] | null
+  departments?: (number | Department)[] | null;
   /**
    * Country the person works from.
    */
-  country?: (number | null) | Country
+  country?: (number | null) | Country;
   /**
    * Icon buttons on the team card, in this order.
    */
   socialLinks?:
     | {
-        kind: 'email' | 'github' | 'linkedin' | 'message'
+        kind: 'email' | 'github' | 'linkedin' | 'message';
         /**
          * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
          */
-        href: string
-        id?: string | null
+        href: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Text link at the bottom of the team card. The design shortens the label to "Read" on some cards.
    */
   profile: {
-    label: string
+    label: string;
     /**
      * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
      */
-    href: string
-  }
+    href: string;
+  };
   /**
    * Portrait with a transparent background, shown on the team page card.
    */
-  portrait: number | Media
+  portrait: number | Media;
   /**
    * Offset and size inside the 280 px frame.
    */
   portraitDesktop: {
-    x: number
-    y: number
-    width: number
-    height: number
-  }
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
   /**
    * Offset and size inside the 332 px frame.
    */
   portraitMobile: {
-    x: number
-    y: number
-    width: number
-    height: number
-  }
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
   /**
    * Clockwise. 0 for an upright portrait.
    */
-  portraitRotation: number
+  portraitRotation: number;
   /**
    * Where the red glow sits behind the portrait.
    */
-  glow: 'center' | 'right'
+  glow: 'center' | 'right';
   /**
    * Adds the senior leadership tag and lists the person under that filter tab.
    */
-  seniorLeadership?: boolean | null
+  seniorLeadership?: boolean | null;
   /**
    * Position in the team list before the visitor sorts it. Lower comes first.
    */
-  order: number
-  updatedAt: string
-  createdAt: string
+  order: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Countries with a pin on the team page globe.
@@ -1638,39 +1637,37 @@ export interface TeamMember {
  * via the `definition` "countries".
  */
 export interface Country {
-  id: number
+  id: number;
   /**
    * Three-letter country code (ISO 3166-1 alpha-3), for example USA.
    */
-  code: string
+  code: string;
   /**
    * Country name on the globe pin and the country card.
    */
-  name: string
+  name: string;
   /**
    * Continent the country is counted under.
    */
-  continent?:
-    | ('africa' | 'antarctica' | 'asia' | 'europe' | 'north-america' | 'south-america' | 'oceania')
-    | null
+  continent?: ('africa' | 'antarctica' | 'asia' | 'europe' | 'north-america' | 'south-america' | 'oceania') | null;
   /**
    * Position of the pin on the globe. Degrees east, -180 to 180.
    */
-  longitude: number
+  longitude: number;
   /**
    * Position of the pin on the globe. Degrees north, -90 to 90.
    */
-  latitude: number
+  latitude: number;
   /**
    * Number on the country card next to "OET Teammates". Shown as written; not counted from the team.
    */
-  teammates: string
+  teammates: string;
   /**
    * Photo on the country card that opens when the pin is selected.
    */
-  photo: number | Media
-  updatedAt: string
-  createdAt: string
+  photo: number | Media;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Quotes from partners and clients. Shown in the slider of the success stories listing and on the project pages that refer to one.
@@ -1679,42 +1676,42 @@ export interface Country {
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
-  id: number
+  id: number;
   /**
    * Large pull quote, written with its quotation marks.
    */
-  quote: string
+  quote: string;
   /**
    * Longer text next to the quote. One row per paragraph.
    */
   paragraphs?:
     | {
-        text: string
-        id?: string | null
+        text: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Name of the person quoted.
    */
-  name: string
+  name: string;
   /**
    * Position and organisation, shown under the name.
    */
-  role: string
+  role: string;
   /**
    * Portrait of the person quoted, upright, shown beside the quote.
    */
-  portrait: number | Media
+  portrait: number | Media;
   /**
    * Name of the organisation. Read out as the text of its logo.
    */
-  company: string
+  company: string;
   /**
    * Logo tile at the corner of the portrait.
    */
-  logo: number | Media
-  updatedAt: string
-  createdAt: string
+  logo: number | Media;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Academic publications, blogs, policy briefs and reports. Each has its own page at /outputs/publications/<slug> and a card on the publication listings.
@@ -1723,43 +1720,43 @@ export interface Testimonial {
  * via the `definition` "publications".
  */
 export interface Publication {
-  id: number
+  id: number;
   /**
    * Card title, page title and browser tab title.
    */
-  title: string
+  title: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the title.
    */
-  slug: string
+  slug: string;
   /**
    * Listing the publication appears on: /outputs/publications (all types), /outputs/blogs, /outputs/policy-briefs or /outputs/reports.
    */
-  type: 'academic' | 'blogs' | 'policy-briefs' | 'reports'
+  type: 'academic' | 'blogs' | 'policy-briefs' | 'reports';
   /**
    * Text on the card. Also the search result description of the page.
    */
-  excerpt: string
+  excerpt: string;
   /**
    * Label at the bottom of the card, for example "Blog | Case Study".
    */
-  category: number | PublicationCategory
+  category: number | PublicationCategory;
   /**
    * Date on the card and in the page header. Also sorts the listings.
    */
-  date: string
+  date: string;
   /**
    * The card shows "Preprint" in place of the date.
    */
-  preprint: boolean
+  preprint: boolean;
   /**
    * Highlighted paragraph in the page header.
    */
-  highlight: string
+  highlight: string;
   /**
    * Pre-composed picture made with the Thumbnail Maker Guide, 734 × 476 px. Used by the cards on the listings and in "Related Publications".
    */
-  thumbnail: number | Media
+  thumbnail: number | Media;
   /**
    * Colour of the frame around the thumbnail, chosen to match the picture.
    */
@@ -1772,27 +1769,27 @@ export interface Publication {
     | 'brand-900'
     | 'neutral-800'
     | 'neutral-900'
-    | 'neutral-950'
+    | 'neutral-950';
   /**
    * Also lists the publication as a card without picture in the "Outputs" section under the listing.
    */
-  showInOutputs: boolean
+  showInOutputs: boolean;
   /**
    * Region in the page header and in the region filter of the listing.
    */
-  region: number | Region
+  region: number | Region;
   /**
    * Tags in the page header, in this order, and the tag filter of the listing.
    */
-  tags?: (number | Tag)[] | null
+  tags?: (number | Tag)[] | null;
   /**
    * Services the publication belongs to, for the service filter of the listing.
    */
-  services?: (number | Service)[] | null
+  services?: (number | Service)[] | null;
   /**
    * Tools the publication is about, for the products filter of the listing.
    */
-  tools?: (number | Tool)[] | null
+  tools?: (number | Tool)[] | null;
   /**
    * In this order. Every name is listed under "Authors" in the page header; authors with a photo also get a row in the sidebar.
    */
@@ -1800,41 +1797,41 @@ export interface Publication {
     /**
      * Team member: name, role, head photo and links come from the Team members document. Someone else: fill in the fields below.
      */
-    kind: 'team-member' | 'external'
+    kind: 'team-member' | 'external';
     /**
      * The row shows the head photo of the team member; choose someone who has one, or add it to their document.
      */
-    member?: (number | null) | TeamMember
+    member?: (number | null) | TeamMember;
     /**
      * Full name with academic title.
      */
-    name?: string | null
+    name?: string | null;
     /**
      * Position and organisation, one line under the name. Without a photo the person is named in the page header only and gets no row in the sidebar.
      */
-    title?: string | null
+    title?: string | null;
     /**
      * Square head photo, shown at 44 px. Without a photo the person is named in the page header only and gets no row in the sidebar.
      */
-    photo?: (number | null) | Media
+    photo?: (number | null) | Media;
     /**
      * Target of the profile icon. Leave empty for no icon.
      */
-    profileHref?: string | null
+    profileHref?: string | null;
     /**
      * Target of the GitHub icon. Leave empty for no icon.
      */
-    githubHref?: string | null
+    githubHref?: string | null;
     /**
      * Target of the LinkedIn icon. Leave empty for no icon.
      */
-    linkedinHref?: string | null
-    id?: string | null
-  }[]
+    linkedinHref?: string | null;
+    id?: string | null;
+  }[];
   /**
    * Wide picture under the page header.
    */
-  hero: number | Media
+  hero: number | Media;
   /**
    * The article, built from text, figure grids and images in any order.
    */
@@ -1845,29 +1842,29 @@ export interface Publication {
          */
         content: {
           root: {
-            type: string
+            type: string;
             children: {
-              type: any
-              version: number
-              [k: string]: unknown
-            }[]
-            direction: ('ltr' | 'rtl') | null
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-            indent: number
-            version: number
-          }
-          [k: string]: unknown
-        }
-        contentHtml?: string | null
-        id?: string | null
-        blockName?: string | null
-        blockType: 'richText'
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        contentHtml?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'richText';
       }
     | {
         /**
          * Heading above the figures. Listed in the table of contents.
          */
-        title: string
+        title: string;
         /**
          * Shown in two columns on desktop, filled column by column.
          */
@@ -1875,7 +1872,7 @@ export interface Publication {
           /**
            * Shown as written, for example "40+".
            */
-          value: string
+          value: string;
           /**
            * Icon from the site icon set (web/src/icons). The name is the file name.
            */
@@ -1972,27 +1969,27 @@ export interface Publication {
             | 'workshop'
             | 'world'
             | 'worldwide-network'
-            | 'yoga-ball'
+            | 'yoga-ball';
           /**
            * Text next to the figure. A line break here is a line break on the site.
            */
-          label: string
-          id?: string | null
-        }[]
-        id?: string | null
-        blockName?: string | null
-        blockType: 'stats'
+          label: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'stats';
       }
     | {
         /**
          * Picture across the article column, 687 px wide on desktop. Its alternative text is on the media document.
          */
-        image: number | Media
-        id?: string | null
-        blockName?: string | null
-        blockType: 'image'
+        image: number | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'image';
       }
-  )[]
+  )[];
   /**
    * Lists of links under the article, for example "Resources", "Links" and "Journal & DOI". Leave empty for none.
    */
@@ -2001,7 +1998,7 @@ export interface Publication {
         /**
          * Heading of the group, for example "Data".
          */
-        title: string
+        title: string;
         links: {
           /**
            * The label is written as one or more parts in a row. Underline the part that reads as the link: "DOI: " without underline followed by the address with underline.
@@ -2010,42 +2007,42 @@ export interface Publication {
             /**
              * Text of this part, with its own spaces and punctuation.
              */
-            text: string
+            text: string;
             /**
              * Draws this part with the link underline.
              */
-            underline: boolean
-            id?: string | null
-          }[]
+            underline: boolean;
+            id?: string | null;
+          }[];
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
+          href: string;
           /**
            * Cuts a long label with an ellipsis instead of wrapping it.
            */
-          truncate: boolean
+          truncate: boolean;
           /**
            * Opens the target in a new browser tab.
            */
-          newTab: boolean
+          newTab: boolean;
           /**
            * Shows the label greyed out and not clickable, for something announced.
            */
-          disabled: boolean
-          id?: string | null
-        }[]
-        id?: string | null
+          disabled: boolean;
+          id?: string | null;
+        }[];
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Text the "Cite" button in the sidebar copies to the clipboard.
    */
-  citation: string
+  citation: string;
   /**
    * Cards in the "Related Publications" carousel, in this order. Leave empty for a page without it.
    */
-  related?: (number | Publication)[] | null
+  related?: (number | Publication)[] | null;
   /**
    * Red band at the end of the publication page, left of the service card.
    */
@@ -2053,37 +2050,37 @@ export interface Publication {
     /**
      * Heading of the band.
      */
-    heading: string
+    heading: string;
     /**
      * Paragraph under the heading.
      */
-    primary: string
+    primary: string;
     /**
      * Smaller paragraph under the buttons that points to the service card.
      */
-    secondary: string
+    secondary: string;
     actions?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
+          href: string;
           /**
            * Filled or outlined button.
            */
-          emphasis: 'primary' | 'secondary'
-          id?: string | null
+          emphasis: 'primary' | 'secondary';
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * Service whose card is shown in the band. The card content is edited on the service, tab "Project and publication pages".
    */
-  ctaService: number | Service
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+  ctaService: number | Service;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Category label of a publication card. Finer than the publication type: a blog can be a "Blog | Case Study".
@@ -2092,17 +2089,17 @@ export interface Publication {
  * via the `definition` "publication-categories".
  */
 export interface PublicationCategory {
-  id: number
+  id: number;
   /**
    * Shown at the bottom of every card of a publication in this category.
    */
-  name: string
+  name: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the name.
    */
-  slug: string
-  updatedAt: string
-  createdAt: string
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Reusable call-to-action banners. A page shows a banner by referring to it; the Tools and Data page and the News and Events page use them.
@@ -2111,55 +2108,55 @@ export interface PublicationCategory {
  * via the `definition` "cta-banners".
  */
 export interface CtaBanner {
-  id: number
+  id: number;
   /**
    * Name the pages use to find this banner. Lowercase letters, digits and hyphens. Changing it detaches the banner from pages that look it up by key.
    */
-  key: string
+  key: string;
   /**
    * Large heading. A line break here is a line break on the site.
    */
-  heading: string
+  heading: string;
   /**
    * Optional emphasised sentence above the text. Leave empty for a banner without it.
    */
-  lead?: string | null
+  lead?: string | null;
   /**
    * Paragraph of the banner.
    */
-  text: string
+  text: string;
   actions?:
     | {
-        label: string
+        label: string;
         /**
          * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
          */
-        href: string
+        href: string;
         /**
          * primary is the filled button, secondary the outlined one.
          */
-        emphasis: 'primary' | 'secondary'
+        emphasis: 'primary' | 'secondary';
         /**
          * Opens the target in a new browser tab.
          */
-        newTab: boolean
-        id?: string | null
+        newTab: boolean;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Background of the text panel. "light" is the pale panel with dark text and red buttons.
    */
-  tone: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900' | 'light'
+  tone: 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900' | 'light';
   /**
    * Photo collage next to the text panel.
    */
-  collage: 'wind' | 'thermalpower' | 'biz'
+  collage: 'wind' | 'thermalpower' | 'biz';
   /**
    * When checked the collage extends above the top edge of the banner.
    */
-  breakout: boolean
-  updatedAt: string
-  createdAt: string
+  breakout: boolean;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Each event has a card on /organization/news-and-events and its own page at /organization/news-and-events/<slug>. An event is "upcoming" until its end has passed. After that it stays on the site as "highlighted" only when the highlight box is checked; otherwise it disappears from the list and loses its page.
@@ -2168,90 +2165,90 @@ export interface CtaBanner {
  * via the `definition` "events".
  */
 export interface Event {
-  id: number
+  id: number;
   /**
    * Title on the card, the event page, the details card and the browser tab.
    */
-  title: string
+  title: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the title.
    */
-  slug: string
+  slug: string;
   /**
    * Filter tab under which the card is listed.
    */
-  type: number | EventType
+  type: number | EventType;
   /**
    * Short text on the card in the event list. Also the search result description of the event page.
    */
-  excerpt: string
+  excerpt: string;
   /**
    * Summary under the title at the top of the event page.
    */
-  brief: string
+  brief: string;
   /**
    * Text of the "About" section on the event page.
    */
   description: {
     root: {
-      type: string
+      type: string;
       children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  }
-  descriptionHtml?: string | null
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  descriptionHtml?: string | null;
   /**
    * Date on the card; date and start time on the details card.
    */
-  start: string
+  start: string;
   /**
    * End time and duration on the details card. The event counts as upcoming until this moment.
    */
-  end: string
+  end: string;
   /**
    * IANA name of the time zone in which the site shows every date and time of this event, for example Europe/Berlin.
    */
-  timeZone: string
+  timeZone: string;
   /**
    * "Published" line at the top of the event page.
    */
-  publishedAt: string
+  publishedAt: string;
   /**
    * Optional. Adds "Registration closes …" to the card while the event is upcoming. Empty: the card has no such line.
    */
-  registrationClosesAt?: string | null
+  registrationClosesAt?: string | null;
   /**
    * Checked: once the event has ended it is listed under "Highlighted Events" and its page shows the highlight media and the documentation gallery. Unchecked: the event is removed from the site when it has ended.
    */
-  featuredAsHighlight: boolean
+  featuredAsHighlight: boolean;
   /**
    * Place at the top of the event page, for example "Online" or a city.
    */
-  locationRegion: string
+  locationRegion: string;
   /**
    * Full address or joining details on the details card.
    */
-  locationAddress: string
+  locationAddress: string;
   /**
    * Target of "Open Map" on the details card. Full URL, site path or mailto:.
    */
-  mapHref: string
+  mapHref: string;
   /**
    * Target of "Mark Calendar" on the details card while the event is upcoming.
    */
-  calendarHref: string
+  calendarHref: string;
   /**
    * Target of "Join Event" on the details card while the event is upcoming.
    */
-  joinHref: string
+  joinHref: string;
   /**
    * People listed on the details card, in this order. Choose "OET team member" for someone in the team list, "External person" for anyone else.
    */
@@ -2261,38 +2258,38 @@ export interface Event {
             /**
              * Name, job title and head photo are taken from the team member. The team member needs a head photo.
              */
-            member: number | TeamMember
-            id?: string | null
-            blockName?: string | null
-            blockType: 'member'
+            member: number | TeamMember;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'member';
           }
         | {
             /**
              * Full name with title. Two lines at most on the site.
              */
-            name: string
+            name: string;
             /**
              * Job title and organisation. One line on the site, longer text is cut off.
              */
-            title: string
+            title: string;
             /**
              * Square head photo, shown at 44 px.
              */
-            photo: number | Media
-            id?: string | null
-            blockName?: string | null
-            blockType: 'external'
+            photo: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'external';
           }
       )[]
-    | null
+    | null;
   /**
    * Poster on the card and at the top of the event page; after the event it moves into the details card.
    */
-  poster: number | Media
+  poster: number | Media;
   /**
    * cover fills the card frame and crops the poster; contain shows the whole poster inside the frame (for tall posters).
    */
-  posterFit: 'cover' | 'contain'
+  posterFit: 'cover' | 'contain';
   /**
    * Optional. Replaces the poster at the top of the event page once the event is a highlight. No image: the poster stays.
    */
@@ -2300,7 +2297,7 @@ export interface Event {
     /**
      * Photo of the event. With a video it is the still behind the play button.
      */
-    image?: (number | null) | Media
+    image?: (number | null) | Media;
     /**
      * Optional recording that plays over the image. Fill all three fields or none.
      */
@@ -2308,29 +2305,29 @@ export interface Event {
       /**
        * Address the player loads, for example https://www.youtube-nocookie.com/embed/<id>?autoplay=1.
        */
-      embedUrl?: string | null
+      embedUrl?: string | null;
       /**
        * Address of the video page, used as the link when the player cannot run.
        */
-      watchUrl?: string | null
+      watchUrl?: string | null;
       /**
        * Name of the video, read by screen readers.
        */
-      title?: string | null
-    }
-  }
+      title?: string | null;
+    };
+  };
   /**
    * Photos of the "Documentation" section on the page of a highlighted event, in this order. No rows: the page has no such section.
    */
   gallery?:
     | {
-        image: number | Media
-        id?: string | null
+        image: number | Media;
+        id?: string | null;
       }[]
-    | null
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Kinds of events. Each one is a filter tab above the event list on /organization/news-and-events.
@@ -2339,21 +2336,21 @@ export interface Event {
  * via the `definition` "event-types".
  */
 export interface EventType {
-  id: number
+  id: number;
   /**
    * Label of the filter tab above the event list.
    */
-  label: string
+  label: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the label.
    */
-  slug: string
+  slug: string;
   /**
    * Position of the tab in the type filter, lowest first.
    */
-  order: number
-  updatedAt: string
-  createdAt: string
+  order: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Free-form text pages. The site has a route for the slugs legal, privacy-statement and disclaimer (/legal, /privacy-statement, /disclaimer).
@@ -2362,51 +2359,51 @@ export interface EventType {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number
+  id: number;
   /**
    * Heading of the page.
    */
-  title: string
+  title: string;
   /**
    * URL segment. Lowercase letters, digits and hyphens, derived from the title.
    */
-  slug: string
+  slug: string;
   /**
    * Small label above the heading.
    */
-  tag: string
+  tag: string;
   /**
    * Text of the page under the heading.
    */
   body: {
     root: {
-      type: string
+      type: string;
       children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  }
-  bodyHtml?: string | null
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  bodyHtml?: string | null;
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    description: string;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Old addresses that forward visitors to a new address.
@@ -2415,21 +2412,21 @@ export interface Page {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: number
+  id: number;
   /**
    * Path on this site that is forwarded, starting with a slash, for example /blog.
    */
-  from: string
+  from: string;
   /**
    * Target: a path on this site (/outputs/blogs) or a full URL (https://…).
    */
-  to: string
+  to: string;
   /**
    * 301 is a permanent redirect, 302 a temporary one.
    */
-  statusCode: '301' | '302'
-  updatedAt: string
-  createdAt: string
+  statusCode: '301' | '302';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Entries sent through forms on the website. They are written by the site and cannot be changed here.
@@ -2438,29 +2435,29 @@ export interface Redirect {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: number
+  id: number;
   /**
    * Name of the form the entry came from, for example contact.
    */
-  form: string
+  form: string;
   /**
    * Language of the page the form was sent from.
    */
-  locale: string
+  locale: string;
   /**
    * What the visitor entered, as sent by the form.
    */
   payload:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Open roles on the career page.
@@ -2469,35 +2466,35 @@ export interface FormSubmission {
  * via the `definition` "jobs".
  */
 export interface Job {
-  id: number
+  id: number;
   /**
    * Role title on the job card.
    */
-  title: string
+  title: string;
   /**
    * Where the hire must be based, next to the marker icon.
    */
-  location: string
+  location: string;
   /**
    * Required languages, next to the dictionary icon.
    */
-  languages: string
+  languages: string;
   /**
    * For example "Fully Remote", next to the laptop icon.
    */
-  workMode: string
+  workMode: string;
   /**
    * For example "Full-Time", next to the diploma icon.
    */
-  employmentType: string
+  employmentType: string;
   /**
    * Where the card leads: the job posting or a mailto: address.
    */
-  href: string
+  href: string;
   /**
    * Turn on for postings on another site.
    */
-  newTab?: boolean | null
+  newTab?: boolean | null;
   /**
    * Selects the card thumbnail. The eight thumbnails are part of the site, one per department plus a general one.
    */
@@ -2509,1076 +2506,1079 @@ export interface Job {
     | 'modeling-tools-and-data'
     | 'energy-system-modeling'
     | 'grid-data'
-    | 'miscellaneous'
-  updatedAt: string
-  createdAt: string
+    | 'miscellaneous';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: number
-  name: string
-  role: 'admin' | 'editor'
-  updatedAt: string
-  createdAt: string
-  enableAPIKey?: boolean | null
-  apiKey?: string | null
-  apiKeyIndex?: string | null
-  hasAPIKey?: boolean | null
-  email: string
-  resetPasswordToken?: string | null
-  resetPasswordExpiration?: string | null
-  salt?: string | null
-  hash?: string | null
-  resetPasswordRequestedAt?: string | null
-  loginAttempts?: number | null
-  lockUntil?: string | null
+  id: number;
+  name: string;
+  /**
+   * Admin manages everything including users. Editor manages content. Preview only reads, including drafts; it is the role of the API key the website uses for draft previews.
+   */
+  role: 'admin' | 'editor' | 'preview';
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  hasAPIKey?: boolean | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
   sessions?:
     | {
-        id: string
-        createdAt?: string | null
-        expiresAt: string
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
       }[]
-    | null
-  password?: string | null
-  collection: 'users'
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number
-  key: string
+  id: number;
+  key: string;
   data:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number
+  id: number;
   document?:
     | ({
-        relationTo: 'projects'
-        value: number | Project
+        relationTo: 'projects';
+        value: number | Project;
       } | null)
     | ({
-        relationTo: 'publications'
-        value: number | Publication
+        relationTo: 'publications';
+        value: number | Publication;
       } | null)
     | ({
-        relationTo: 'testimonials'
-        value: number | Testimonial
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null)
     | ({
-        relationTo: 'regions'
-        value: number | Region
+        relationTo: 'regions';
+        value: number | Region;
       } | null)
     | ({
-        relationTo: 'tags'
-        value: number | Tag
+        relationTo: 'tags';
+        value: number | Tag;
       } | null)
     | ({
-        relationTo: 'publication-categories'
-        value: number | PublicationCategory
+        relationTo: 'publication-categories';
+        value: number | PublicationCategory;
       } | null)
     | ({
-        relationTo: 'services'
-        value: number | Service
+        relationTo: 'services';
+        value: number | Service;
       } | null)
     | ({
-        relationTo: 'tools'
-        value: number | Tool
+        relationTo: 'tools';
+        value: number | Tool;
       } | null)
     | ({
-        relationTo: 'tool-categories'
-        value: number | ToolCategory
+        relationTo: 'tool-categories';
+        value: number | ToolCategory;
       } | null)
     | ({
-        relationTo: 'cta-banners'
-        value: number | CtaBanner
+        relationTo: 'cta-banners';
+        value: number | CtaBanner;
       } | null)
     | ({
-        relationTo: 'events'
-        value: number | Event
+        relationTo: 'events';
+        value: number | Event;
       } | null)
     | ({
-        relationTo: 'event-types'
-        value: number | EventType
+        relationTo: 'event-types';
+        value: number | EventType;
       } | null)
     | ({
-        relationTo: 'pages'
-        value: number | Page
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
-        relationTo: 'redirects'
-        value: number | Redirect
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null)
     | ({
-        relationTo: 'form-submissions'
-        value: number | FormSubmission
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
       } | null)
     | ({
-        relationTo: 'team-members'
-        value: number | TeamMember
+        relationTo: 'team-members';
+        value: number | TeamMember;
       } | null)
     | ({
-        relationTo: 'departments'
-        value: number | Department
+        relationTo: 'departments';
+        value: number | Department;
       } | null)
     | ({
-        relationTo: 'countries'
-        value: number | Country
+        relationTo: 'countries';
+        value: number | Country;
       } | null)
     | ({
-        relationTo: 'partners'
-        value: number | Partner
+        relationTo: 'partners';
+        value: number | Partner;
       } | null)
     | ({
-        relationTo: 'jobs'
-        value: number | Job
+        relationTo: 'jobs';
+        value: number | Job;
       } | null)
     | ({
-        relationTo: 'media'
-        value: number | Media
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
-        relationTo: 'users'
-        value: number | User
-      } | null)
-  globalSlug?: string | null
+        relationTo: 'users';
+        value: number | User;
+      } | null);
+  globalSlug?: string | null;
   user: {
-    relationTo: 'users'
-    value: number | User
-  }
-  updatedAt: string
-  createdAt: string
+    relationTo: 'users';
+    value: number | User;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number
+  id: number;
   user: {
-    relationTo: 'users'
-    value: number | User
-  }
-  key?: string | null
+    relationTo: 'users';
+    value: number | User;
+  };
+  key?: string | null;
   value?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number
-  name?: string | null
-  batch?: number | null
-  updatedAt: string
-  createdAt: string
+  id: number;
+  name?: string | null;
+  batch?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  projectStatus?: T
-  excerpt?: T
-  startDate?: T
-  endDate?: T
+  title?: T;
+  slug?: T;
+  projectStatus?: T;
+  excerpt?: T;
+  startDate?: T;
+  endDate?: T;
   highlights?:
     | T
     | {
-        text?: T
-        id?: T
-      }
-  thumbnail?: T
-  frame?: T
-  partnerTag?: T
+        text?: T;
+        id?: T;
+      };
+  thumbnail?: T;
+  frame?: T;
+  partnerTag?: T;
   partnerLink?:
     | T
     | {
-        label?: T
-        href?: T
-      }
-  region?: T
-  tags?: T
-  tools?: T
-  services?: T
-  departments?: T
-  hero?: T
-  body?: T
-  bodyHtml?: T
+        label?: T;
+        href?: T;
+      };
+  region?: T;
+  tags?: T;
+  tools?: T;
+  services?: T;
+  departments?: T;
+  hero?: T;
+  body?: T;
+  bodyHtml?: T;
   linkGroups?:
     | T
     | {
-        title?: T
+        title?: T;
         links?:
           | T
           | {
               parts?:
                 | T
                 | {
-                    text?: T
-                    underline?: T
-                    id?: T
-                  }
-              href?: T
-              truncate?: T
-              newTab?: T
-              disabled?: T
-              id?: T
-            }
-        id?: T
-      }
-  testimonial?: T
-  related?: T
+                    text?: T;
+                    underline?: T;
+                    id?: T;
+                  };
+              href?: T;
+              truncate?: T;
+              newTab?: T;
+              disabled?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  testimonial?: T;
+  related?: T;
   contact?:
     | T
     | {
-        role?: T
-        kind?: T
-        member?: T
-        name?: T
-        title?: T
-        photo?: T
-        profileHref?: T
-        githubHref?: T
-        linkedinHref?: T
-      }
-  partners?: T
+        role?: T;
+        kind?: T;
+        member?: T;
+        name?: T;
+        title?: T;
+        photo?: T;
+        profileHref?: T;
+        githubHref?: T;
+        linkedinHref?: T;
+      };
+  partners?: T;
   cta?:
     | T
     | {
-        heading?: T
-        primary?: T
-        secondary?: T
+        heading?: T;
+        primary?: T;
+        secondary?: T;
         actions?:
           | T
           | {
-              label?: T
-              href?: T
-              emphasis?: T
-              id?: T
-            }
-      }
-  ctaService?: T
+              label?: T;
+              href?: T;
+              emphasis?: T;
+              id?: T;
+            };
+      };
+  ctaService?: T;
   home?:
     | T
     | {
-        showOnHome?: T
-        order?: T
-        titleLines?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+        showOnHome?: T;
+        order?: T;
+        titleLines?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publications_select".
  */
 export interface PublicationsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  type?: T
-  excerpt?: T
-  category?: T
-  date?: T
-  preprint?: T
-  highlight?: T
-  thumbnail?: T
-  frame?: T
-  showInOutputs?: T
-  region?: T
-  tags?: T
-  services?: T
-  tools?: T
+  title?: T;
+  slug?: T;
+  type?: T;
+  excerpt?: T;
+  category?: T;
+  date?: T;
+  preprint?: T;
+  highlight?: T;
+  thumbnail?: T;
+  frame?: T;
+  showInOutputs?: T;
+  region?: T;
+  tags?: T;
+  services?: T;
+  tools?: T;
   authors?:
     | T
     | {
-        kind?: T
-        member?: T
-        name?: T
-        title?: T
-        photo?: T
-        profileHref?: T
-        githubHref?: T
-        linkedinHref?: T
-        id?: T
-      }
-  hero?: T
+        kind?: T;
+        member?: T;
+        name?: T;
+        title?: T;
+        photo?: T;
+        profileHref?: T;
+        githubHref?: T;
+        linkedinHref?: T;
+        id?: T;
+      };
+  hero?: T;
   body?:
     | T
     | {
         richText?:
           | T
           | {
-              content?: T
-              contentHtml?: T
-              id?: T
-              blockName?: T
-            }
+              content?: T;
+              contentHtml?: T;
+              id?: T;
+              blockName?: T;
+            };
         stats?:
           | T
           | {
-              title?: T
+              title?: T;
               items?:
                 | T
                 | {
-                    value?: T
-                    icon?: T
-                    label?: T
-                    id?: T
-                  }
-              id?: T
-              blockName?: T
-            }
+                    value?: T;
+                    icon?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         image?:
           | T
           | {
-              image?: T
-              id?: T
-              blockName?: T
-            }
-      }
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   linkGroups?:
     | T
     | {
-        title?: T
+        title?: T;
         links?:
           | T
           | {
               parts?:
                 | T
                 | {
-                    text?: T
-                    underline?: T
-                    id?: T
-                  }
-              href?: T
-              truncate?: T
-              newTab?: T
-              disabled?: T
-              id?: T
-            }
-        id?: T
-      }
-  citation?: T
-  related?: T
+                    text?: T;
+                    underline?: T;
+                    id?: T;
+                  };
+              href?: T;
+              truncate?: T;
+              newTab?: T;
+              disabled?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  citation?: T;
+  related?: T;
   cta?:
     | T
     | {
-        heading?: T
-        primary?: T
-        secondary?: T
+        heading?: T;
+        primary?: T;
+        secondary?: T;
         actions?:
           | T
           | {
-              label?: T
-              href?: T
-              emphasis?: T
-              id?: T
-            }
-      }
-  ctaService?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+              label?: T;
+              href?: T;
+              emphasis?: T;
+              id?: T;
+            };
+      };
+  ctaService?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
-  quote?: T
+  quote?: T;
   paragraphs?:
     | T
     | {
-        text?: T
-        id?: T
-      }
-  name?: T
-  role?: T
-  portrait?: T
-  company?: T
-  logo?: T
-  updatedAt?: T
-  createdAt?: T
+        text?: T;
+        id?: T;
+      };
+  name?: T;
+  role?: T;
+  portrait?: T;
+  company?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "regions_select".
  */
 export interface RegionsSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publication-categories_select".
  */
 export interface PublicationCategoriesSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services_select".
  */
 export interface ServicesSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  order?: T
+  name?: T;
+  slug?: T;
+  order?: T;
   hero?:
     | T
     | {
-        title?: T
-        titleMobile?: T
-        lead?: T
-        image?: T
-        imageMobile?: T
-        background?: T
-      }
+        title?: T;
+        titleMobile?: T;
+        lead?: T;
+        image?: T;
+        imageMobile?: T;
+        background?: T;
+      };
   intro?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-        image?: T
-      }
+              text?: T;
+              id?: T;
+            };
+        image?: T;
+      };
   offerings?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         items?:
           | T
           | {
-              title?: T
-              icon?: T
-              accent?: T
+              title?: T;
+              icon?: T;
+              accent?: T;
               text?:
                 | T
                 | {
                     paragraph?:
                       | T
                       | {
-                          text?: T
-                          id?: T
-                          blockName?: T
-                        }
+                          text?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                     list?:
                       | T
                       | {
                           items?:
                             | T
                             | {
-                                text?: T
-                                id?: T
-                              }
-                          id?: T
-                          blockName?: T
-                        }
-                  }
+                                text?: T;
+                                id?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
               link?:
                 | T
                 | {
-                    label?: T
-                    href?: T
-                  }
+                    label?: T;
+                    href?: T;
+                  };
               deliverables?:
                 | T
                 | {
-                    text?: T
-                    id?: T
-                  }
-              id?: T
-            }
-      }
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
   values?:
     | T
     | {
-        tag?: T
-        title?: T
-        columns?: T
+        tag?: T;
+        title?: T;
+        columns?: T;
         items?:
           | T
           | {
-              label?: T
-              title?: T
-              body?: T
-              thumbnail?: T
-              thumbnailMobile?: T
-              id?: T
-            }
-      }
+              label?: T;
+              title?: T;
+              body?: T;
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              id?: T;
+            };
+      };
   approach?:
     | T
     | {
-        show?: T
-        tag?: T
-        title?: T
+        show?: T;
+        tag?: T;
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-      }
+              text?: T;
+              id?: T;
+            };
+      };
   cta?:
     | T
     | {
-        heading?: T
-        text?: T
-        background?: T
-        collage?: T
-      }
+        heading?: T;
+        text?: T;
+        background?: T;
+        collage?: T;
+      };
   card?:
     | T
     | {
-        title?: T
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-        linkLabel?: T
-        image?: T
-        imageMobile?: T
-      }
+              text?: T;
+              id?: T;
+            };
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   ctaCard?:
     | T
     | {
-        title?: T
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-        linkLabel?: T
-        icon?: T
-        iconTone?: T
-        frame?: T
-        image?: T
-        imageMobile?: T
-      }
+              text?: T;
+              id?: T;
+            };
+        linkLabel?: T;
+        icon?: T;
+        iconTone?: T;
+        frame?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   home?:
     | T
     | {
-        title?: T
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-        image?: T
-      }
+              text?: T;
+              id?: T;
+            };
+        image?: T;
+      };
   navigation?:
     | T
     | {
-        label?: T
-        description?: T
-        icon?: T
-      }
+        label?: T;
+        description?: T;
+        icon?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tools_select".
  */
 export interface ToolsSelect<T extends boolean = true> {
-  name?: T
-  categories?: T
-  role?: T
+  name?: T;
+  categories?: T;
+  role?: T;
   description?:
     | T
     | {
-        text?: T
-        id?: T
-      }
-  sourceHref?: T
-  websiteHref?: T
-  githubHref?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
+        text?: T;
+        id?: T;
+      };
+  sourceHref?: T;
+  websiteHref?: T;
+  githubHref?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tool-categories_select".
  */
 export interface ToolCategoriesSelect<T extends boolean = true> {
-  label?: T
-  tabLabel?: T
-  tone?: T
-  slug?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
+  label?: T;
+  tabLabel?: T;
+  tone?: T;
+  slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cta-banners_select".
  */
 export interface CtaBannersSelect<T extends boolean = true> {
-  key?: T
-  heading?: T
-  lead?: T
-  text?: T
+  key?: T;
+  heading?: T;
+  lead?: T;
+  text?: T;
   actions?:
     | T
     | {
-        label?: T
-        href?: T
-        emphasis?: T
-        newTab?: T
-        id?: T
-      }
-  tone?: T
-  collage?: T
-  breakout?: T
-  updatedAt?: T
-  createdAt?: T
+        label?: T;
+        href?: T;
+        emphasis?: T;
+        newTab?: T;
+        id?: T;
+      };
+  tone?: T;
+  collage?: T;
+  breakout?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  type?: T
-  excerpt?: T
-  brief?: T
-  description?: T
-  descriptionHtml?: T
-  start?: T
-  end?: T
-  timeZone?: T
-  publishedAt?: T
-  registrationClosesAt?: T
-  featuredAsHighlight?: T
-  locationRegion?: T
-  locationAddress?: T
-  mapHref?: T
-  calendarHref?: T
-  joinHref?: T
+  title?: T;
+  slug?: T;
+  type?: T;
+  excerpt?: T;
+  brief?: T;
+  description?: T;
+  descriptionHtml?: T;
+  start?: T;
+  end?: T;
+  timeZone?: T;
+  publishedAt?: T;
+  registrationClosesAt?: T;
+  featuredAsHighlight?: T;
+  locationRegion?: T;
+  locationAddress?: T;
+  mapHref?: T;
+  calendarHref?: T;
+  joinHref?: T;
   contributors?:
     | T
     | {
         member?:
           | T
           | {
-              member?: T
-              id?: T
-              blockName?: T
-            }
+              member?: T;
+              id?: T;
+              blockName?: T;
+            };
         external?:
           | T
           | {
-              name?: T
-              title?: T
-              photo?: T
-              id?: T
-              blockName?: T
-            }
-      }
-  poster?: T
-  posterFit?: T
+              name?: T;
+              title?: T;
+              photo?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  poster?: T;
+  posterFit?: T;
   highlight?:
     | T
     | {
-        image?: T
+        image?: T;
         video?:
           | T
           | {
-              embedUrl?: T
-              watchUrl?: T
-              title?: T
-            }
-      }
+              embedUrl?: T;
+              watchUrl?: T;
+              title?: T;
+            };
+      };
   gallery?:
     | T
     | {
-        image?: T
-        id?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "event-types_select".
  */
 export interface EventTypesSelect<T extends boolean = true> {
-  label?: T
-  slug?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
+  label?: T;
+  slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  tag?: T
-  body?: T
-  bodyHtml?: T
+  title?: T;
+  slug?: T;
+  tag?: T;
+  body?: T;
+  bodyHtml?: T;
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
-  from?: T
-  to?: T
-  statusCode?: T
-  updatedAt?: T
-  createdAt?: T
+  from?: T;
+  to?: T;
+  statusCode?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
-  form?: T
-  locale?: T
-  payload?: T
-  updatedAt?: T
-  createdAt?: T
+  form?: T;
+  locale?: T;
+  payload?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-members_select".
  */
 export interface TeamMembersSelect<T extends boolean = true> {
-  name?: T
-  role?: T
-  photo?: T
-  departments?: T
-  country?: T
+  name?: T;
+  role?: T;
+  photo?: T;
+  departments?: T;
+  country?: T;
   socialLinks?:
     | T
     | {
-        kind?: T
-        href?: T
-        id?: T
-      }
+        kind?: T;
+        href?: T;
+        id?: T;
+      };
   profile?:
     | T
     | {
-        label?: T
-        href?: T
-      }
-  portrait?: T
+        label?: T;
+        href?: T;
+      };
+  portrait?: T;
   portraitDesktop?:
     | T
     | {
-        x?: T
-        y?: T
-        width?: T
-        height?: T
-      }
+        x?: T;
+        y?: T;
+        width?: T;
+        height?: T;
+      };
   portraitMobile?:
     | T
     | {
-        x?: T
-        y?: T
-        width?: T
-        height?: T
-      }
-  portraitRotation?: T
-  glow?: T
-  seniorLeadership?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
+        x?: T;
+        y?: T;
+        width?: T;
+        height?: T;
+      };
+  portraitRotation?: T;
+  glow?: T;
+  seniorLeadership?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "departments_select".
  */
 export interface DepartmentsSelect<T extends boolean = true> {
-  name?: T
-  lead?: T
-  summary?: T
-  head?: T
-  icon?: T
-  accent?: T
-  teamLabel?: T
-  teamOrder?: T
+  name?: T;
+  lead?: T;
+  summary?: T;
+  head?: T;
+  icon?: T;
+  accent?: T;
+  teamLabel?: T;
+  teamOrder?: T;
   detail?:
     | T
     | {
         cardImage?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
+              desktop?: T;
+              mobile?: T;
+            };
         hero?:
           | T
           | {
-              title?: T
-              lead?: T
+              title?: T;
+              lead?: T;
               image?:
                 | T
                 | {
-                    desktop?: T
-                    mobile?: T
-                  }
-              peopleCount?: T
-              background?: T
-              ornament?: T
-            }
-        about?: T
-        aboutHtml?: T
-        worksIntro?: T
-        worksIntroHtml?: T
+                    desktop?: T;
+                    mobile?: T;
+                  };
+              peopleCount?: T;
+              background?: T;
+              ornament?: T;
+            };
+        about?: T;
+        aboutHtml?: T;
+        worksIntro?: T;
+        worksIntroHtml?: T;
         topics?:
           | T
           | {
-              title?: T
-              description?: T
-              icon?: T
-              id?: T
-            }
-        worksOutro?: T
-        worksOutroHtml?: T
-        mobileColumn?: T
-      }
-  slug?: T
-  hasDetailPage?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
+        worksOutro?: T;
+        worksOutroHtml?: T;
+        mobileColumn?: T;
+      };
+  slug?: T;
+  hasDetailPage?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "countries_select".
  */
 export interface CountriesSelect<T extends boolean = true> {
-  code?: T
-  name?: T
-  continent?: T
-  longitude?: T
-  latitude?: T
-  teammates?: T
-  photo?: T
-  updatedAt?: T
-  createdAt?: T
+  code?: T;
+  name?: T;
+  continent?: T;
+  longitude?: T;
+  latitude?: T;
+  teammates?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners_select".
  */
 export interface PartnersSelect<T extends boolean = true> {
-  name?: T
-  website?: T
-  group?: T
-  isFunder?: T
-  isPartner?: T
-  showOnPartnersPage?: T
-  showOnHome?: T
-  order?: T
-  homeOrder?: T
-  logo?: T
+  name?: T;
+  website?: T;
+  group?: T;
+  isFunder?: T;
+  isPartner?: T;
+  showOnPartnersPage?: T;
+  showOnHome?: T;
+  order?: T;
+  homeOrder?: T;
+  logo?: T;
   logoDesktop?:
     | T
     | {
-        width?: T
-        height?: T
-      }
+        width?: T;
+        height?: T;
+      };
   logoMobile?:
     | T
     | {
-        width?: T
-        height?: T
-      }
-  tagLogo?: T
+        width?: T;
+        height?: T;
+      };
+  tagLogo?: T;
   tagSize?:
     | T
     | {
-        width?: T
-        height?: T
-      }
-  updatedAt?: T
-  createdAt?: T
+        width?: T;
+        height?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobs_select".
  */
 export interface JobsSelect<T extends boolean = true> {
-  title?: T
-  location?: T
-  languages?: T
-  workMode?: T
-  employmentType?: T
-  href?: T
-  newTab?: T
-  theme?: T
-  updatedAt?: T
-  createdAt?: T
+  title?: T;
+  location?: T;
+  languages?: T;
+  workMode?: T;
+  employmentType?: T;
+  href?: T;
+  newTab?: T;
+  theme?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T
-  prefix?: T
-  _objectKey?: T
-  updatedAt?: T
-  createdAt?: T
-  url?: T
-  thumbnailURL?: T
-  filename?: T
-  mimeType?: T
-  filesize?: T
-  width?: T
-  height?: T
-  focalX?: T
-  focalY?: T
+  alt?: T;
+  prefix?: T;
+  _objectKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  name?: T
-  role?: T
-  updatedAt?: T
-  createdAt?: T
-  enableAPIKey?: T
-  apiKey?: T
-  apiKeyIndex?: T
-  hasAPIKey?: T
-  email?: T
-  resetPasswordToken?: T
-  resetPasswordExpiration?: T
-  salt?: T
-  hash?: T
-  resetPasswordRequestedAt?: T
-  loginAttempts?: T
-  lockUntil?: T
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+  hasAPIKey?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
   sessions?:
     | T
     | {
-        id?: T
-        createdAt?: T
-        expiresAt?: T
-      }
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T
-  data?: T
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T
-  globalSlug?: T
-  user?: T
-  updatedAt?: T
-  createdAt?: T
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T
-  key?: T
-  value?: T
-  updatedAt?: T
-  createdAt?: T
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T
-  batch?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * Fixed content of the home page. The service accordion comes from Services, the partner logos from Partners, the project cards from Projects.
@@ -3587,28 +3587,28 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "home-page".
  */
 export interface HomePage {
-  id: number
+  id: number;
   hero: {
     /**
      * Filled button at the bottom of the hero, the same on every slide.
      */
     primaryAction: {
-      label: string
+      label: string;
       /**
        * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
        */
-      href: string
-    }
+      href: string;
+    };
     /**
      * Outlined button next to the primary one.
      */
     secondaryAction: {
-      label: string
+      label: string;
       /**
        * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
        */
-      href: string
-    }
+      href: string;
+    };
     /**
      * Slides of the hero, in the order they play.
      */
@@ -3616,31 +3616,31 @@ export interface HomePage {
       /**
        * Short name of the slide, shown next to its thumbnail on the "next" control.
        */
-      label: string
+      label: string;
       /**
        * Large title. A line break here is a line break on the site.
        */
-      title: string
+      title: string;
       /**
        * Short statement in the upper box under the title. A line break here is a line break on the site.
        */
-      statement: string
+      statement: string;
       /**
        * Longer text in the lower box.
        */
-      description: string
+      description: string;
       /**
        * Pre-graded photo without the rectangle pattern, 2800 x 1560. Its alternative text describes the slide.
        */
-      image: number | Media
+      image: number | Media;
       /**
        * Pre-graded portrait crop for narrow screens.
        */
-      imageMobile: number | Media
+      imageMobile: number | Media;
       /**
        * Small crop shown on the "next" control of the previous slide.
        */
-      thumbnail: number | Media
+      thumbnail: number | Media;
       /**
        * Cut-out of the three graded rectangles, drawn over the desktop photo and animated on its own.
        */
@@ -3648,113 +3648,113 @@ export interface HomePage {
         /**
          * Transparent PNG exported at 2x.
          */
-        image: number | Media
+        image: number | Media;
         /**
          * Distance from the left edge of the 1400 x 780 hero frame.
          */
-        left: number
+        left: number;
         /**
          * Distance from the top edge of the 1400 x 780 hero frame.
          */
-        top: number
-      }
-      id?: string | null
-    }[]
-  }
+        top: number;
+      };
+      id?: string | null;
+    }[];
+  };
   intro: {
     /**
      * Small label above the title of the intro section.
      */
-    tag: string
+    tag: string;
     /**
      * Title of the intro section. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph; on desktop they sit side by side.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     actions?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
+          href: string;
           /**
            * primary is the filled button, outline the outlined one.
            */
-          variant: 'primary' | 'outline'
+          variant: 'primary' | 'outline';
           /**
            * Shows an arrow after the label.
            */
-          arrow: boolean
-          id?: string | null
+          arrow: boolean;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Pre-graded photo next to the text.
      */
-    image: number | Media
-  }
+    image: number | Media;
+  };
   stats: {
     /**
      * Shown as written ("50+", "€0"); not counted from the documents.
      */
-    value: string
+    value: string;
     /**
      * Text under the figure.
      */
-    label: string
+    label: string;
     /**
      * Icon and its colour are fixed per key.
      */
-    icon: 'blueprint' | 'handshake' | 'employees' | 'world' | 'folder-edit' | 'license'
-    id?: string | null
-  }[]
+    icon: 'blueprint' | 'handshake' | 'employees' | 'world' | 'folder-edit' | 'license';
+    id?: string | null;
+  }[];
   services: {
     /**
      * Small label above the title of the services section.
      */
-    tag: string
+    tag: string;
     /**
      * Title of the services section. A line break here is a line break on the site.
      */
-    title: string
-  }
+    title: string;
+  };
   tools: {
     /**
      * Small label above the title of the tools section.
      */
-    tag: string
+    tag: string;
     /**
      * Title of the tools section. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     /**
      * Two paragraphs; the button sits under the second one.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Button under the second paragraph.
      */
     action: {
-      label: string
+      label: string;
       /**
        * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
        */
-      href: string
-    }
+      href: string;
+    };
     /**
      * Row of logos of the modelling platforms OET supports. These are not the entries of the Tools collection.
      */
@@ -3762,92 +3762,92 @@ export interface HomePage {
       /**
        * Name of the platform, for reference in this list.
        */
-      name: string
+      name: string;
       /**
        * Its alternative text is the name of the platform.
        */
-      logo: number | Media
+      logo: number | Media;
       /**
        * Width of the logo in its cell on desktop.
        */
-      width: number
+      width: number;
       /**
        * Height of the logo in its cell on desktop.
        */
-      height: number
-      id?: string | null
-    }[]
-  }
+      height: number;
+      id?: string | null;
+    }[];
+  };
   steps: {
     /**
      * Small label above the title of the steps section.
      */
-    tag: string
+    tag: string;
     /**
      * Title of the steps section. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     items: {
       /**
        * Name of the step.
        */
-      title: string
+      title: string;
       /**
        * One row per paragraph.
        */
       paragraphs?:
         | {
-            text: string
-            id?: string | null
+            text: string;
+            id?: string | null;
           }[]
-        | null
+        | null;
       /**
        * Smaller text under the paragraphs.
        */
-      note: string
+      note: string;
       /**
        * Pre-graded photo shown beside the step.
        */
-      image: number | Media
-      id?: string | null
-    }[]
-  }
+      image: number | Media;
+      id?: string | null;
+    }[];
+  };
   partners: {
     /**
      * Label of the group "trusted-partner". On mobile it labels the single grid with all logos.
      */
-    trustedPartnersLabel: string
+    trustedPartnersLabel: string;
     /**
      * Label of the group "network-affiliation" (desktop only).
      */
-    networksLabel: string
-  }
+    networksLabel: string;
+  };
   projects: {
     /**
      * Small label above the title.
      */
-    tag: string
+    tag: string;
     /**
      * Title beside the carousel.
      */
-    title: string
+    title: string;
     /**
      * Name of the carousel announced by screen readers.
      */
-    carouselLabel: string
-  }
+    carouselLabel: string;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Navigation of the desktop bar and the mobile menu. The legal links, the cookie-settings label and the copyright line of the mobile menu are edited once, in Footer.
@@ -3856,7 +3856,7 @@ export interface HomePage {
  * via the `definition` "site-header".
  */
 export interface SiteHeader {
-  id: number
+  id: number;
   /**
    * One list for both menus, in the order the entries appear. Each link group says how it shows on desktop and on mobile, so links that are the same are entered once.
    */
@@ -3865,69 +3865,69 @@ export interface SiteHeader {
         /**
          * Label of the menu entry in the bar and in the mobile menu.
          */
-        label: string
+        label: string;
         links?:
           | {
-              label: string
+              label: string;
               /**
                * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
                */
-              href: string
-              id?: string | null
+              href: string;
+              id?: string | null;
             }[]
-          | null
+          | null;
         /**
          * menu: a dropdown with the links. hidden: not in the desktop bar.
          */
-        desktop: 'menu' | 'hidden'
+        desktop: 'menu' | 'hidden';
         /**
          * menu: an expandable group with the links. link: a single link without sub-links. hidden: not in the mobile menu.
          */
-        mobile: 'menu' | 'link' | 'hidden'
+        mobile: 'menu' | 'link' | 'hidden';
         /**
          * Where the entry leads when the mobile menu shows it as a single link. Site path, anchor, full URL or mailto: address.
          */
-        mobileHref?: string | null
-        id?: string | null
-        blockName?: string | null
-        blockType: 'linkGroup'
+        mobileHref?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'linkGroup';
       }
     | {
         /**
          * Label of the menu entry. The entries of the panel are the published Services ("Navigation and footer" tab of each service), sorted by their order; nothing is listed here.
          */
-        label: string
+        label: string;
         /**
          * Card at the end of the services panel.
          */
         more: {
-          label: string
+          label: string;
           /**
            * Text under the label.
            */
-          description: string
+          description: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
-        }
-        id?: string | null
-        blockName?: string | null
-        blockType: 'servicesGroup'
+          href: string;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'servicesGroup';
       }
-  )[]
+  )[];
   /**
    * Button at the right end of the bar and at the top of the mobile menu.
    */
   contact: {
-    label: string
+    label: string;
     /**
      * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
      */
-    href: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    href: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Footer of every page. The legal links, the cookie-settings labels and the copyright line are also shown at the bottom of the mobile menu.
@@ -3936,32 +3936,32 @@ export interface SiteHeader {
  * via the `definition` "site-footer".
  */
 export interface SiteFooter {
-  id: number
+  id: number;
   cta: {
     /**
      * One row per line of the headline.
      */
     headline?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Button under the headline.
      */
     action: {
-      label: string
+      label: string;
       /**
        * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
        */
-      href: string
-    }
-  }
+      href: string;
+    };
+  };
   /**
    * Short text about the organisation in the first footer box.
    */
-  blurb: string
+  blurb: string;
   /**
    * The four columns of footer links, left to right. On mobile they sit in two rows of two.
    */
@@ -3970,55 +3970,55 @@ export interface SiteFooter {
         /**
          * Column heading.
          */
-        title: string
+        title: string;
         links?:
           | {
-              label: string
+              label: string;
               /**
                * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
                */
-              href: string
-              id?: string | null
+              href: string;
+              id?: string | null;
             }[]
-          | null
-        id?: string | null
-        blockName?: string | null
-        blockType: 'linkColumn'
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'linkColumn';
       }
     | {
         /**
          * Column heading. The links are the published Services, each with its "Navigation and footer" label; nothing is listed here.
          */
-        title: string
-        id?: string | null
-        blockName?: string | null
-        blockType: 'servicesColumn'
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'servicesColumn';
       }
-  )[]
+  )[];
   /**
    * Copyright line.
    */
-  copyright: string
+  copyright: string;
   legal?:
     | {
-        label: string
+        label: string;
         /**
          * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
          */
-        href: string
-        id?: string | null
+        href: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Label of the button that reopens the cookie settings.
    */
-  consentLabel: string
+  consentLabel: string;
   /**
    * Same button in the mobile footer and in the mobile menu.
    */
-  consentLabelCompact: string
-  updatedAt?: string | null
-  createdAt?: string | null
+  consentLabelCompact: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Values shared by every page: name, default search texts, contact and tracking.
@@ -4027,48 +4027,48 @@ export interface SiteFooter {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: number
+  id: number;
   /**
    * Name of the organisation as it is added to browser titles and shared links.
    */
-  siteName: string
+  siteName: string;
   /**
    * General contact address. Shown as the email link in the footer call to action.
    */
-  contactEmail: string
+  contactEmail: string;
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
+    description: string;
+  };
   /**
    * Picture shown when a page without its own picture is shared on social media or in chat apps. It is cropped to 1200 × 630.
    */
-  shareImage: number | Media
+  shareImage: number | Media;
   /**
    * Profiles of the organisation. The current design does not show them; they are available for structured data and later use.
    */
   socialLinks?:
     | {
-        kind: 'linkedin' | 'github' | 'x' | 'youtube' | 'bluesky' | 'mastodon'
+        kind: 'linkedin' | 'github' | 'x' | 'youtube' | 'bluesky' | 'mastodon';
         /**
          * Full URL of the profile (https://…).
          */
-        url: string
-        id?: string | null
+        url: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Container id, for example GTM-ABC1234. Leave empty to load no tag manager.
    */
-  googleTagManagerId?: string | null
-  updatedAt?: string | null
-  createdAt?: string | null
+  googleTagManagerId?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Fixed content of /outputs/success-stories. The cards come from Success stories; the filter options from Regions, Services, Tools and Tags.
@@ -4077,68 +4077,68 @@ export interface SiteSetting {
  * via the `definition` "success-stories-page".
  */
 export interface SuccessStoriesPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Hero title.
      */
-    title: string
+    title: string;
     /**
      * Label of the chip in the hero that jumps to the listing.
      */
-    linkLabel: string
+    linkLabel: string;
     /**
      * Pre-graded hero picture for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero picture for narrow screens.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   listing: {
     /**
      * Heading above the project cards.
      */
-    title: string
+    title: string;
     /**
      * Text under the heading. A line break here is a line break on the site.
      */
-    description: string
+    description: string;
     /**
      * Labels of the two status tabs above the cards. The same labels name the status in the header of a project page.
      */
     tabs: {
-      completed: string
-      inProgress: string
-    }
-  }
+      completed: string;
+      inProgress: string;
+    };
+  };
   testimonials: {
     /**
      * Heading of the testimonial slider under the listing. Also the heading above the testimonial on a project page.
      */
-    heading: string
+    heading: string;
     /**
      * Line under the heading, on the listing only.
      */
-    subline: string
+    subline: string;
     /**
      * Slides of the slider under the listing, in this order.
      */
-    items: (number | Testimonial)[]
-  }
+    items: (number | Testimonial)[];
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Fixed content of /outputs/publications and the listings per type (/outputs/blogs, /outputs/policy-briefs, /outputs/reports). The cards come from Publications; the filter options from Regions and Tags.
@@ -4147,67 +4147,67 @@ export interface SuccessStoriesPage {
  * via the `definition` "publications-page".
  */
 export interface PublicationsPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Hero title.
      */
-    title: string
+    title: string;
     /**
      * Labels of the four chips in the hero, one per publication type. Each jumps to the listing.
      */
     chips: {
-      academic: string
-      blogs: string
-      policyBriefs: string
-      reports: string
-    }
+      academic: string;
+      blogs: string;
+      policyBriefs: string;
+      reports: string;
+    };
     /**
      * Pre-graded hero picture for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero picture for narrow screens.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   listing: {
     /**
      * Heading above the publication cards.
      */
-    title: string
+    title: string;
     /**
      * Labels of the type tabs above the cards. On a listing per type the label is also the first part of the browser tab title.
      */
     tabs: {
-      academic: string
-      blogs: string
-      policyBriefs: string
-      reports: string
-    }
-  }
+      academic: string;
+      blogs: string;
+      policyBriefs: string;
+      reports: string;
+    };
+  };
   outputs: {
     /**
      * Heading of the section.
      */
-    title: string
+    title: string;
     /**
      * Text under the heading. A line break here is a line break on the site.
      */
-    description: string
-  }
+    description: string;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Fixed content of /services and the parts every service page shares. The service cards come from Services.
@@ -4216,79 +4216,79 @@ export interface PublicationsPage {
  * via the `definition` "services-page".
  */
 export interface ServicesPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Hero title of /services.
      */
-    title: string
+    title: string;
     /**
      * Label of the chip in the hero that jumps to the service list.
      */
-    linkLabel: string
+    linkLabel: string;
     /**
      * Pre-graded hero illustration for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero illustration for narrow screens.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   intro: {
     /**
      * Tag above the heading of the service list.
      */
-    tag: string
+    tag: string;
     /**
      * Heading above the service cards.
      */
-    title: string
+    title: string;
     /**
      * One row per column of text next to the heading.
      */
     columns?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   approach: {
     /**
      * Tag above the heading on /services.
      */
-    tag: string
+    tag: string;
     /**
      * Heading on /services.
      */
-    title: string
+    title: string;
     /**
      * Shown in this order on /services and on service pages. The step number is the position in this list.
      */
     steps: {
-      title: string
-      text: string
+      title: string;
+      text: string;
       /**
        * Optional picture of the step. Without it the site shows the placeholder box.
        */
-      image?: (number | null) | Media
-      id?: string | null
-    }[]
+      image?: (number | null) | Media;
+      id?: string | null;
+    }[];
     /**
      * Wide illustration that runs behind the steps.
      */
-    illustration: number | Media
-  }
+    illustration: number | Media;
+  };
   values: {
     /**
      * Tag above the heading on /services.
      */
-    tag: string
+    tag: string;
     /**
      * Heading on /services.
      */
-    title: string
+    title: string;
     /**
      * Cards of the "Why OET" row on /services, five in a row on desktop.
      */
@@ -4296,70 +4296,70 @@ export interface ServicesPage {
       /**
        * Small label above the card title.
        */
-      label: string
+      label: string;
       /**
        * Card title. A line break here is a line break on the site.
        */
-      title: string
+      title: string;
       /**
        * Card text.
        */
-      body: string
+      body: string;
       /**
        * Pre-composed square illustration: 248 px wide in a five-column row, 207 px in a six-column row.
        */
-      thumbnail: number | Media
+      thumbnail: number | Media;
       /**
        * Pre-composed square illustration, 186 px wide.
        */
-      thumbnailMobile: number | Media
-      id?: string | null
-    }[]
-  }
+      thumbnailMobile: number | Media;
+      id?: string | null;
+    }[];
+  };
   cta: {
     /**
      * Heading of the banner at the end of /services. A line break here is a line break on the site.
      */
-    heading: string
+    heading: string;
     /**
      * Paragraph next to the heading.
      */
-    text: string
-  }
+    text: string;
+  };
   /**
    * Small label above the hero title of every service page.
    */
-  detailEyebrow: string
+  detailEyebrow: string;
   ctaActions?:
     | {
-        label: string
+        label: string;
         /**
          * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
          */
-        href: string
+        href: string;
         /**
          * primary is the filled button, secondary the outlined one.
          */
-        emphasis: 'primary' | 'secondary'
+        emphasis: 'primary' | 'secondary';
         /**
          * Opens the target in a new browser tab.
          */
-        newTab: boolean
-        id?: string | null
+        newTab: boolean;
+        id?: string | null;
       }[]
-    | null
+    | null;
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Fixed content of /tools-and-data and its category pages. The cards come from Tools, the tabs from Tool categories.
@@ -4368,60 +4368,60 @@ export interface ServicesPage {
  * via the `definition` "tools-page".
  */
 export interface ToolsPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Small label above the hero title (desktop only).
      */
-    eyebrow: string
+    eyebrow: string;
     /**
      * Hero title.
      */
-    title: string
+    title: string;
     /**
      * Label of the chip in the hero that jumps to the tool list.
      */
-    linkLabel: string
+    linkLabel: string;
     /**
      * Pre-graded hero illustration for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero illustration for narrow screens.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   intro: {
     /**
      * Heading above the filter tabs. A line break here is a line break on the site.
      */
-    title: string
+    title: string;
     /**
      * One row per paragraph; on desktop they sit side by side.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * Banner shown below the tool list.
    */
-  cta: number | CtaBanner
+  cta: number | CtaBanner;
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Fixed content of /organization/news-and-events. The cards come from Events, the type tabs from Event types. The banners also close every event page.
@@ -4430,69 +4430,69 @@ export interface ToolsPage {
  * via the `definition` "news-events-page".
  */
 export interface NewsEventsPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Hero title.
      */
-    title: string
+    title: string;
     /**
      * Label of the chip in the hero that jumps to the event list.
      */
-    linkLabel: string
+    linkLabel: string;
     /**
      * Pre-graded hero photo for wide screens.
      */
-    image: number | Media
+    image: number | Media;
     /**
      * Pre-graded hero photo for narrow screens.
      */
-    imageMobile: number | Media
-  }
+    imageMobile: number | Media;
+  };
   listing: {
     /**
      * Heading above the event list.
      */
-    title: string
+    title: string;
     /**
      * Paragraph next to the heading.
      */
-    description: string
+    description: string;
     /**
      * Labels of the three tabs that filter the list by state.
      */
     stateLabels: {
-      all: string
-      highlighted: string
-      upcoming: string
-    }
-  }
+      all: string;
+      highlighted: string;
+      upcoming: string;
+    };
+  };
   cta: {
     /**
      * First banner on wide screens.
      */
-    support: number | CtaBanner
+    support: number | CtaBanner;
     /**
      * Shown in place of the first banner on narrow screens.
      */
-    discuss: number | CtaBanner
+    discuss: number | CtaBanner;
     /**
      * Second banner at every width.
      */
-    updates: number | CtaBanner
-  }
+    updates: number | CtaBanner;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/about.
@@ -4501,89 +4501,89 @@ export interface NewsEventsPage {
  * via the `definition` "about-page".
  */
 export interface AboutPage {
-  id: number
+  id: number;
   hero: {
     /**
      * Centred title over the photo.
      */
-    title: string
+    title: string;
     links?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
-          id?: string | null
+          href: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Full-width photo behind the title, with the grading baked in.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
-  }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
   intro: {
     /**
      * Large vision statement at the left of the section.
      */
-    statement: string
+    statement: string;
     /**
      * Columns of text under the statement. One row per column.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Buttons under the text, stacked.
      */
     actions?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
-          variant: 'primary' | 'secondary'
-          arrow?: boolean | null
-          id?: string | null
+          href: string;
+          variant: 'primary' | 'secondary';
+          arrow?: boolean | null;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * Cards with a photo next to the introduction ("Aim", "Offers").
    */
   infoCards?:
     | {
-        image: number | Media
-        title: string
+        image: number | Media;
+        title: string;
         /**
          * One row per paragraph.
          */
         paragraphs?:
           | {
-              text: string
-              id?: string | null
+              text: string;
+              id?: string | null;
             }[]
-          | null
+          | null;
         /**
          * Optional button at the bottom of the card.
          */
         action?: {
-          label?: string | null
+          label?: string | null;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href?: string | null
-        }
-        id?: string | null
+          href?: string | null;
+        };
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Heading above the department cards.
    */
@@ -4591,64 +4591,64 @@ export interface AboutPage {
     /**
      * Small label above the title.
      */
-    tag: string
+    tag: string;
     /**
      * A line break starts a new line.
      */
-    title: string
-  }
+    title: string;
+  };
   /**
    * Departments shown as cards on this page, in this order. Pick departments that have a detail page.
    */
-  featuredDepartments: (number | Department)[]
+  featuredDepartments: (number | Department)[];
   values: {
     /**
      * Small label above the title.
      */
-    tag: string
+    tag: string;
     /**
      * A line break starts a new line.
      */
-    title: string
+    title: string;
     /**
      * Text under the title.
      */
-    subline: string
+    subline: string;
     items?:
       | {
-          thumbnail: number | Media
+          thumbnail: number | Media;
           /**
            * Narrower crop for the two-column mobile grid.
            */
-          thumbnailMobile: number | Media
+          thumbnailMobile: number | Media;
           /**
            * Name of the value.
            */
-          label: string
+          label: string;
           /**
            * Bold sentence on the card.
            */
-          title: string
+          title: string;
           /**
            * Text under the sentence.
            */
-          body: string
-          id?: string | null
+          body: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/departments. The cards are all published departments in their order.
@@ -4657,23 +4657,23 @@ export interface AboutPage {
  * via the `definition` "departments-page".
  */
 export interface DepartmentsPage {
-  id: number
+  id: number;
   hero: {
     /**
      * A line break starts a new line.
      */
-    title: string
+    title: string;
     /**
      * Paragraph under the title.
      */
-    lead: string
+    lead: string;
     /**
      * Map illustration on the right of the hero.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
     /**
      * Figure and label in the hero, next to the icons.
      */
@@ -4681,9 +4681,9 @@ export interface DepartmentsPage {
       /**
        * Shown as written; not counted from the documents.
        */
-      value: string
-      label: string
-    }
+      value: string;
+      label: string;
+    };
     /**
      * Icon in the red square of the hero.
      */
@@ -4780,8 +4780,8 @@ export interface DepartmentsPage {
       | 'workshop'
       | 'world'
       | 'worldwide-network'
-      | 'yoga-ball'
-  }
+      | 'yoga-ball';
+  };
   /**
    * Heading above the department cards.
    */
@@ -4789,24 +4789,24 @@ export interface DepartmentsPage {
     /**
      * Small label above the title.
      */
-    tag: string
+    tag: string;
     /**
      * A line break starts a new line.
      */
-    title: string
-  }
+    title: string;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/team. The cards are all team members; the filter tabs are senior leadership and the departments.
@@ -4815,18 +4815,18 @@ export interface DepartmentsPage {
  * via the `definition` "team-page".
  */
 export interface TeamPage {
-  id: number
+  id: number;
   hero: {
-    title: string
+    title: string;
     /**
      * Paragraphs under the title.
      */
     lead?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Figures in the hero. The design has three.
      */
@@ -4835,8 +4835,8 @@ export interface TeamPage {
           /**
            * Shown as written; not counted from the documents.
            */
-          value: string
-          label: string
+          value: string;
+          label: string;
           /**
            * Icon from the site icon set (web/src/icons). The name is the file name.
            */
@@ -4933,45 +4933,45 @@ export interface TeamPage {
             | 'workshop'
             | 'world'
             | 'worldwide-network'
-            | 'yoga-ball'
-          tone: 'brand' | 'light'
-          id?: string | null
+            | 'yoga-ball';
+          tone: 'brand' | 'light';
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Photo on the right of the hero, with the grading baked in.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
-  }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
   intro: {
     /**
      * Small label above the title.
      */
-    tag: string
-    title: string
+    tag: string;
+    title: string;
     /**
      * Text under the title.
      */
-    subline: string
+    subline: string;
     /**
      * Buttons under the text.
      */
     actions?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
-          variant: 'primary' | 'secondary'
-          arrow?: boolean | null
-          id?: string | null
+          href: string;
+          variant: 'primary' | 'secondary';
+          arrow?: boolean | null;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * The pins are the documents of the Countries collection. These fields set how the globe opens.
    */
@@ -4983,17 +4983,17 @@ export interface TeamPage {
       /**
        * Degrees east, -180 to 180.
        */
-      longitude: number
+      longitude: number;
       /**
        * Degrees north, -90 to 90.
        */
-      latitude: number
-    }
+      latitude: number;
+    };
     /**
      * Its card is open when the page loads.
      */
-    selectedCountry: number | Country
-  }
+    selectedCountry: number | Country;
+  };
   /**
    * Row of figures under the globe.
    */
@@ -5001,47 +5001,47 @@ export interface TeamPage {
     /**
      * First cell of the row.
      */
-    label: string
+    label: string;
     items?:
       | {
           /**
            * Shown as written; not counted from the team.
            */
-          value: string
+          value: string;
           /**
            * Continent name.
            */
-          label: string
-          id?: string | null
+          label: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   listing: {
     /**
      * Heading of the team list.
      */
-    title: string
+    title: string;
     /**
      * Text under the heading, shown below 1024 px only.
      */
-    mobileDescription: string
+    mobileDescription: string;
     /**
      * First filter tab after "Show All" and the tag on the cards of people flagged as senior leadership.
      */
-    seniorLeadershipLabel: string
-  }
+    seniorLeadershipLabel: string;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/partners. The logos are the partners marked "Show on the partners page".
@@ -5050,9 +5050,9 @@ export interface TeamPage {
  * via the `definition` "partners-page".
  */
 export interface PartnersPage {
-  id: number
+  id: number;
   hero: {
-    title: string
+    title: string;
     /**
      * Figures in the hero. The design has three.
      */
@@ -5061,8 +5061,8 @@ export interface PartnersPage {
           /**
            * Shown as written; not counted from the documents.
            */
-          value: string
-          label: string
+          value: string;
+          label: string;
           /**
            * Icon from the site icon set (web/src/icons). The name is the file name.
            */
@@ -5159,34 +5159,34 @@ export interface PartnersPage {
             | 'workshop'
             | 'world'
             | 'worldwide-network'
-            | 'yoga-ball'
-          tone: 'brand' | 'light'
-          id?: string | null
+            | 'yoga-ball';
+          tone: 'brand' | 'light';
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Photo on the right of the hero, with the grading baked in.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
-  }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
   intro: {
     /**
      * Large statement at the left of the logo grid.
      */
-    statement: string
+    statement: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   /**
    * Tabs above the logo grid, after "Show All".
    */
@@ -5194,24 +5194,24 @@ export interface PartnersPage {
     /**
      * Shows the partners flagged as funder.
      */
-    fundersLabel: string
+    fundersLabel: string;
     /**
      * Shows the partners flagged as partner.
      */
-    partnersLabel: string
-  }
+    partnersLabel: string;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/career. The job cards are the Jobs collection.
@@ -5220,28 +5220,28 @@ export interface PartnersPage {
  * via the `definition` "career-page".
  */
 export interface CareerPage {
-  id: number
+  id: number;
   hero: {
     /**
      * A line break starts a new line.
      */
-    title: string
+    title: string;
     /**
      * Paragraphs under the title.
      */
     lead?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Photo on the right of the hero, with the grading baked in.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
     /**
      * Icon next to the open roles figure.
      */
@@ -5338,7 +5338,7 @@ export interface CareerPage {
       | 'workshop'
       | 'world'
       | 'worldwide-network'
-      | 'yoga-ball'
+      | 'yoga-ball';
     /**
      * Figure and label in the hero.
      */
@@ -5346,26 +5346,26 @@ export interface CareerPage {
       /**
        * Shown as written; not counted from the documents.
        */
-      value: string
-      label: string
-    }
+      value: string;
+      label: string;
+    };
     /**
      * Button next to the figure; leads to the open roles section.
      */
     action: {
-      label: string
+      label: string;
       /**
        * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
        */
-      href: string
-    }
-  }
+      href: string;
+    };
+  };
   roles: {
     /**
      * Small label above the title.
      */
-    tag: string
-    title: string
+    tag: string;
+    title: string;
     /**
      * Columns of text under the title, above the job cards. Links are allowed.
      */
@@ -5373,35 +5373,35 @@ export interface CareerPage {
       | {
           text: {
             root: {
-              type: string
+              type: string;
               children: {
-                type: any
-                version: number
-                [k: string]: unknown
-              }[]
-              direction: ('ltr' | 'rtl') | null
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-              indent: number
-              version: number
-            }
-            [k: string]: unknown
-          }
-          textHtml?: string | null
-          id?: string | null
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          };
+          textHtml?: string | null;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   hiring: {
-    title: string
+    title: string;
     /**
      * One row per paragraph.
      */
     paragraphs?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Numbered list. The numbers (01, 02, …) follow the order here.
      */
@@ -5410,7 +5410,7 @@ export interface CareerPage {
           /**
            * A line break starts a new line.
            */
-          text: string
+          text: string;
           /**
            * Icon from the site icon set (web/src/icons). The name is the file name.
            */
@@ -5507,23 +5507,23 @@ export interface CareerPage {
             | 'workshop'
             | 'world'
             | 'worldwide-network'
-            | 'yoga-ball'
-          id?: string | null
+            | 'yoga-ball';
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * Content of /organization/theory-of-change.
@@ -5532,39 +5532,39 @@ export interface CareerPage {
  * via the `definition` "theory-of-change-page".
  */
 export interface TheoryOfChangePage {
-  id: number
+  id: number;
   hero: {
     /**
      * A line break starts a new line.
      */
-    title: string
+    title: string;
     /**
      * Paragraphs under the title.
      */
     lead?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     links?:
       | {
-          label: string
+          label: string;
           /**
            * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
            */
-          href: string
-          id?: string | null
+          href: string;
+          id?: string | null;
         }[]
-      | null
+      | null;
     /**
      * Image behind the centred hero text.
      */
     image: {
-      desktop: number | Media
-      mobile: number | Media
-    }
-  }
+      desktop: number | Media;
+      mobile: number | Media;
+    };
+  };
   /**
    * Pinned section that moves from the challenge to the goal while the visitor scrolls.
    */
@@ -5576,25 +5576,25 @@ export interface TheoryOfChangePage {
       /**
        * Small label above the statement.
        */
-      label: string
+      label: string;
       /**
        * Large sentence.
        */
-      statement: string
+      statement: string;
       /**
        * Optional end of the sentence, set in red directly after the statement.
        */
-      emphasis?: string | null
+      emphasis?: string | null;
       /**
        * Two lines of smaller text under the statement. One row per line.
        */
       details?:
         | {
-            text: string
-            id?: string | null
+            text: string;
+            id?: string | null;
           }[]
-        | null
-    }
+        | null;
+    };
     /**
      * Second caption of the scene.
      */
@@ -5602,45 +5602,45 @@ export interface TheoryOfChangePage {
       /**
        * Small label above the statement.
        */
-      label: string
+      label: string;
       /**
        * Large sentence.
        */
-      statement: string
+      statement: string;
       /**
        * Optional end of the sentence, set in red directly after the statement.
        */
-      emphasis?: string | null
+      emphasis?: string | null;
       /**
        * Two lines of smaller text under the statement. One row per line.
        */
       details?:
         | {
-            text: string
-            id?: string | null
+            text: string;
+            id?: string | null;
           }[]
-        | null
-    }
+        | null;
+    };
     /**
      * The four words around the circle. One row per word.
      */
     values?:
       | {
-          text: string
-          id?: string | null
+          text: string;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   approach: {
     /**
      * Small label above the title, shown below 1024 px only.
      */
-    mobileTag: string
-    title: string
+    mobileTag: string;
+    title: string;
     /**
      * Line under the title.
      */
-    subline: string
+    subline: string;
     /**
      * Columns of the approach. The numbers (01, 02, …) follow the order here.
      */
@@ -5649,18 +5649,18 @@ export interface TheoryOfChangePage {
           /**
            * A line break starts a new line.
            */
-          title: string
-          text: string
+          title: string;
+          text: string;
           /**
            * Illustration above the step. Without one the step shows the placeholder box.
            */
-          image?: (number | null) | Media
-          id?: string | null
+          image?: (number | null) | Media;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   outcomes: {
-    title: string
+    title: string;
     /**
      * One column per output with the outcome it leads to.
      */
@@ -5669,28 +5669,28 @@ export interface TheoryOfChangePage {
           /**
            * Name of the output.
            */
-          output: string
+          output: string;
           /**
            * Text under the output.
            */
-          description: string
+          description: string;
           /**
            * Outcome shown when the column opens.
            */
-          outcome: string
+          outcome: string;
           /**
            * The matrix draws these four icons only.
            */
-          icon: 'medical-star' | 'employees' | 'referral-alt' | 'book-open-reader'
-          tone: 'brand-400' | 'brand-500' | 'brand-800' | 'brand-900'
-          id?: string | null
+          icon: 'medical-star' | 'employees' | 'referral-alt' | 'book-open-reader';
+          tone: 'brand-400' | 'brand-500' | 'brand-800' | 'brand-900';
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   impact: {
-    title: string
-    text: string
-  }
+    title: string;
+    text: string;
+  };
   /**
    * Decorative globe at the end of the page.
    */
@@ -5702,12 +5702,12 @@ export interface TheoryOfChangePage {
       /**
        * Degrees east, -180 to 180.
        */
-      longitude: number
+      longitude: number;
       /**
        * Degrees north, -90 to 90.
        */
-      latitude: number
-    }
+      latitude: number;
+    };
     /**
      * Icon pins on the globe.
      */
@@ -5716,41 +5716,35 @@ export interface TheoryOfChangePage {
           /**
            * The globe draws these six icons only.
            */
-          icon:
-            | 'code-merge'
-            | 'code-fork'
-            | 'people-group'
-            | 'link-horizontal'
-            | 'box-connection'
-            | 'tools'
+          icon: 'code-merge' | 'code-fork' | 'people-group' | 'link-horizontal' | 'box-connection' | 'tools';
           /**
            * Degrees east.
            */
-          longitude: number
+          longitude: number;
           /**
            * Degrees north.
            */
-          latitude: number
+          latitude: number;
           /**
            * Size of the pin; 1 is the standard size.
            */
-          scale: number
-          id?: string | null
+          scale: number;
+          id?: string | null;
         }[]
-      | null
-  }
+      | null;
+  };
   meta: {
     /**
      * Browser tab and search result title.
      */
-    title: string
+    title: string;
     /**
      * Search result description.
      */
-    description: string
-  }
-  updatedAt?: string | null
-  createdAt?: string | null
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5763,140 +5757,140 @@ export interface HomePageSelect<T extends boolean = true> {
         primaryAction?:
           | T
           | {
-              label?: T
-              href?: T
-            }
+              label?: T;
+              href?: T;
+            };
         secondaryAction?:
           | T
           | {
-              label?: T
-              href?: T
-            }
+              label?: T;
+              href?: T;
+            };
         slides?:
           | T
           | {
-              label?: T
-              title?: T
-              statement?: T
-              description?: T
-              image?: T
-              imageMobile?: T
-              thumbnail?: T
+              label?: T;
+              title?: T;
+              statement?: T;
+              description?: T;
+              image?: T;
+              imageMobile?: T;
+              thumbnail?: T;
               pattern?:
                 | T
                 | {
-                    image?: T
-                    left?: T
-                    top?: T
-                  }
-              id?: T
-            }
-      }
+                    image?: T;
+                    left?: T;
+                    top?: T;
+                  };
+              id?: T;
+            };
+      };
   intro?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         actions?:
           | T
           | {
-              label?: T
-              href?: T
-              variant?: T
-              arrow?: T
-              id?: T
-            }
-        image?: T
-      }
+              label?: T;
+              href?: T;
+              variant?: T;
+              arrow?: T;
+              id?: T;
+            };
+        image?: T;
+      };
   stats?:
     | T
     | {
-        value?: T
-        label?: T
-        icon?: T
-        id?: T
-      }
+        value?: T;
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
   services?:
     | T
     | {
-        tag?: T
-        title?: T
-      }
+        tag?: T;
+        title?: T;
+      };
   tools?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         action?:
           | T
           | {
-              label?: T
-              href?: T
-            }
+              label?: T;
+              href?: T;
+            };
         logos?:
           | T
           | {
-              name?: T
-              logo?: T
-              width?: T
-              height?: T
-              id?: T
-            }
-      }
+              name?: T;
+              logo?: T;
+              width?: T;
+              height?: T;
+              id?: T;
+            };
+      };
   steps?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         items?:
           | T
           | {
-              title?: T
+              title?: T;
               paragraphs?:
                 | T
                 | {
-                    text?: T
-                    id?: T
-                  }
-              note?: T
-              image?: T
-              id?: T
-            }
-      }
+                    text?: T;
+                    id?: T;
+                  };
+              note?: T;
+              image?: T;
+              id?: T;
+            };
+      };
   partners?:
     | T
     | {
-        trustedPartnersLabel?: T
-        networksLabel?: T
-      }
+        trustedPartnersLabel?: T;
+        networksLabel?: T;
+      };
   projects?:
     | T
     | {
-        tag?: T
-        title?: T
-        carouselLabel?: T
-      }
+        tag?: T;
+        title?: T;
+        carouselLabel?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5909,44 +5903,44 @@ export interface SiteHeaderSelect<T extends boolean = true> {
         linkGroup?:
           | T
           | {
-              label?: T
+              label?: T;
               links?:
                 | T
                 | {
-                    label?: T
-                    href?: T
-                    id?: T
-                  }
-              desktop?: T
-              mobile?: T
-              mobileHref?: T
-              id?: T
-              blockName?: T
-            }
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              desktop?: T;
+              mobile?: T;
+              mobileHref?: T;
+              id?: T;
+              blockName?: T;
+            };
         servicesGroup?:
           | T
           | {
-              label?: T
+              label?: T;
               more?:
                 | T
                 | {
-                    label?: T
-                    description?: T
-                    href?: T
-                  }
-              id?: T
-              blockName?: T
-            }
-      }
+                    label?: T;
+                    description?: T;
+                    href?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   contact?:
     | T
     | {
-        label?: T
-        href?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        label?: T;
+        href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5959,81 +5953,81 @@ export interface SiteFooterSelect<T extends boolean = true> {
         headline?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         action?:
           | T
           | {
-              label?: T
-              href?: T
-            }
-      }
-  blurb?: T
+              label?: T;
+              href?: T;
+            };
+      };
+  blurb?: T;
   columns?:
     | T
     | {
         linkColumn?:
           | T
           | {
-              title?: T
+              title?: T;
               links?:
                 | T
                 | {
-                    label?: T
-                    href?: T
-                    id?: T
-                  }
-              id?: T
-              blockName?: T
-            }
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         servicesColumn?:
           | T
           | {
-              title?: T
-              id?: T
-              blockName?: T
-            }
-      }
-  copyright?: T
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  copyright?: T;
   legal?:
     | T
     | {
-        label?: T
-        href?: T
-        id?: T
-      }
-  consentLabel?: T
-  consentLabelCompact?: T
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  consentLabel?: T;
+  consentLabelCompact?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
-  siteName?: T
-  contactEmail?: T
+  siteName?: T;
+  contactEmail?: T;
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  shareImage?: T
+        title?: T;
+        description?: T;
+      };
+  shareImage?: T;
   socialLinks?:
     | T
     | {
-        kind?: T
-        url?: T
-        id?: T
-      }
-  googleTagManagerId?: T
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        kind?: T;
+        url?: T;
+        id?: T;
+      };
+  googleTagManagerId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6043,39 +6037,39 @@ export interface SuccessStoriesPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
-        linkLabel?: T
-        image?: T
-        imageMobile?: T
-      }
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   listing?:
     | T
     | {
-        title?: T
-        description?: T
+        title?: T;
+        description?: T;
         tabs?:
           | T
           | {
-              completed?: T
-              inProgress?: T
-            }
-      }
+              completed?: T;
+              inProgress?: T;
+            };
+      };
   testimonials?:
     | T
     | {
-        heading?: T
-        subline?: T
-        items?: T
-      }
+        heading?: T;
+        subline?: T;
+        items?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6085,46 +6079,46 @@ export interface PublicationsPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         chips?:
           | T
           | {
-              academic?: T
-              blogs?: T
-              policyBriefs?: T
-              reports?: T
-            }
-        image?: T
-        imageMobile?: T
-      }
+              academic?: T;
+              blogs?: T;
+              policyBriefs?: T;
+              reports?: T;
+            };
+        image?: T;
+        imageMobile?: T;
+      };
   listing?:
     | T
     | {
-        title?: T
+        title?: T;
         tabs?:
           | T
           | {
-              academic?: T
-              blogs?: T
-              policyBriefs?: T
-              reports?: T
-            }
-      }
+              academic?: T;
+              blogs?: T;
+              policyBriefs?: T;
+              reports?: T;
+            };
+      };
   outputs?:
     | T
     | {
-        title?: T
-        description?: T
-      }
+        title?: T;
+        description?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6134,79 +6128,79 @@ export interface ServicesPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
-        linkLabel?: T
-        image?: T
-        imageMobile?: T
-      }
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   intro?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         columns?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-      }
+              text?: T;
+              id?: T;
+            };
+      };
   approach?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         steps?:
           | T
           | {
-              title?: T
-              text?: T
-              image?: T
-              id?: T
-            }
-        illustration?: T
-      }
+              title?: T;
+              text?: T;
+              image?: T;
+              id?: T;
+            };
+        illustration?: T;
+      };
   values?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         items?:
           | T
           | {
-              label?: T
-              title?: T
-              body?: T
-              thumbnail?: T
-              thumbnailMobile?: T
-              id?: T
-            }
-      }
+              label?: T;
+              title?: T;
+              body?: T;
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              id?: T;
+            };
+      };
   cta?:
     | T
     | {
-        heading?: T
-        text?: T
-      }
-  detailEyebrow?: T
+        heading?: T;
+        text?: T;
+      };
+  detailEyebrow?: T;
   ctaActions?:
     | T
     | {
-        label?: T
-        href?: T
-        emphasis?: T
-        newTab?: T
-        id?: T
-      }
+        label?: T;
+        href?: T;
+        emphasis?: T;
+        newTab?: T;
+        id?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6216,33 +6210,33 @@ export interface ToolsPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        eyebrow?: T
-        title?: T
-        linkLabel?: T
-        image?: T
-        imageMobile?: T
-      }
+        eyebrow?: T;
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   intro?:
     | T
     | {
-        title?: T
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-      }
-  cta?: T
+              text?: T;
+              id?: T;
+            };
+      };
+  cta?: T;
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6252,40 +6246,40 @@ export interface NewsEventsPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
-        linkLabel?: T
-        image?: T
-        imageMobile?: T
-      }
+        title?: T;
+        linkLabel?: T;
+        image?: T;
+        imageMobile?: T;
+      };
   listing?:
     | T
     | {
-        title?: T
-        description?: T
+        title?: T;
+        description?: T;
         stateLabels?:
           | T
           | {
-              all?: T
-              highlighted?: T
-              upcoming?: T
-            }
-      }
+              all?: T;
+              highlighted?: T;
+              upcoming?: T;
+            };
+      };
   cta?:
     | T
     | {
-        support?: T
-        discuss?: T
-        updates?: T
-      }
+        support?: T;
+        discuss?: T;
+        updates?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6295,93 +6289,93 @@ export interface AboutPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         links?:
           | T
           | {
-              label?: T
-              href?: T
-              id?: T
-            }
+              label?: T;
+              href?: T;
+              id?: T;
+            };
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
-      }
+              desktop?: T;
+              mobile?: T;
+            };
+      };
   intro?:
     | T
     | {
-        statement?: T
+        statement?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         actions?:
           | T
           | {
-              label?: T
-              href?: T
-              variant?: T
-              arrow?: T
-              id?: T
-            }
-      }
+              label?: T;
+              href?: T;
+              variant?: T;
+              arrow?: T;
+              id?: T;
+            };
+      };
   infoCards?:
     | T
     | {
-        image?: T
-        title?: T
+        image?: T;
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         action?:
           | T
           | {
-              label?: T
-              href?: T
-            }
-        id?: T
-      }
+              label?: T;
+              href?: T;
+            };
+        id?: T;
+      };
   departments?:
     | T
     | {
-        tag?: T
-        title?: T
-      }
-  featuredDepartments?: T
+        tag?: T;
+        title?: T;
+      };
+  featuredDepartments?: T;
   values?:
     | T
     | {
-        tag?: T
-        title?: T
-        subline?: T
+        tag?: T;
+        title?: T;
+        subline?: T;
         items?:
           | T
           | {
-              thumbnail?: T
-              thumbnailMobile?: T
-              label?: T
-              title?: T
-              body?: T
-              id?: T
-            }
-      }
+              thumbnail?: T;
+              thumbnailMobile?: T;
+              label?: T;
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6391,37 +6385,37 @@ export interface DepartmentsPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
-        lead?: T
+        title?: T;
+        lead?: T;
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
+              desktop?: T;
+              mobile?: T;
+            };
         count?:
           | T
           | {
-              value?: T
-              label?: T
-            }
-        icon?: T
-      }
+              value?: T;
+              label?: T;
+            };
+        icon?: T;
+      };
   listing?:
     | T
     | {
-        tag?: T
-        title?: T
-      }
+        tag?: T;
+        title?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6431,84 +6425,84 @@ export interface TeamPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         lead?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         stats?:
           | T
           | {
-              value?: T
-              label?: T
-              icon?: T
-              tone?: T
-              id?: T
-            }
+              value?: T;
+              label?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
-      }
+              desktop?: T;
+              mobile?: T;
+            };
+      };
   intro?:
     | T
     | {
-        tag?: T
-        title?: T
-        subline?: T
+        tag?: T;
+        title?: T;
+        subline?: T;
         actions?:
           | T
           | {
-              label?: T
-              href?: T
-              variant?: T
-              arrow?: T
-              id?: T
-            }
-      }
+              label?: T;
+              href?: T;
+              variant?: T;
+              arrow?: T;
+              id?: T;
+            };
+      };
   globe?:
     | T
     | {
         view?:
           | T
           | {
-              longitude?: T
-              latitude?: T
-            }
-        selectedCountry?: T
-      }
+              longitude?: T;
+              latitude?: T;
+            };
+        selectedCountry?: T;
+      };
   continents?:
     | T
     | {
-        label?: T
+        label?: T;
         items?:
           | T
           | {
-              value?: T
-              label?: T
-              id?: T
-            }
-      }
+              value?: T;
+              label?: T;
+              id?: T;
+            };
+      };
   listing?:
     | T
     | {
-        title?: T
-        mobileDescription?: T
-        seniorLeadershipLabel?: T
-      }
+        title?: T;
+        mobileDescription?: T;
+        seniorLeadershipLabel?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6518,49 +6512,49 @@ export interface PartnersPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         stats?:
           | T
           | {
-              value?: T
-              label?: T
-              icon?: T
-              tone?: T
-              id?: T
-            }
+              value?: T;
+              label?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
-      }
+              desktop?: T;
+              mobile?: T;
+            };
+      };
   intro?:
     | T
     | {
-        statement?: T
+        statement?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-      }
+              text?: T;
+              id?: T;
+            };
+      };
   filter?:
     | T
     | {
-        fundersLabel?: T
-        partnersLabel?: T
-      }
+        fundersLabel?: T;
+        partnersLabel?: T;
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6570,73 +6564,73 @@ export interface CareerPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         lead?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
-        icon?: T
+              desktop?: T;
+              mobile?: T;
+            };
+        icon?: T;
         count?:
           | T
           | {
-              value?: T
-              label?: T
-            }
+              value?: T;
+              label?: T;
+            };
         action?:
           | T
           | {
-              label?: T
-              href?: T
-            }
-      }
+              label?: T;
+              href?: T;
+            };
+      };
   roles?:
     | T
     | {
-        tag?: T
-        title?: T
+        tag?: T;
+        title?: T;
         columns?:
           | T
           | {
-              text?: T
-              textHtml?: T
-              id?: T
-            }
-      }
+              text?: T;
+              textHtml?: T;
+              id?: T;
+            };
+      };
   hiring?:
     | T
     | {
-        title?: T
+        title?: T;
         paragraphs?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         steps?:
           | T
           | {
-              text?: T
-              icon?: T
-              id?: T
-            }
-      }
+              text?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6646,127 +6640,127 @@ export interface TheoryOfChangePageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        title?: T
+        title?: T;
         lead?:
           | T
           | {
-              text?: T
-              id?: T
-            }
+              text?: T;
+              id?: T;
+            };
         links?:
           | T
           | {
-              label?: T
-              href?: T
-              id?: T
-            }
+              label?: T;
+              href?: T;
+              id?: T;
+            };
         image?:
           | T
           | {
-              desktop?: T
-              mobile?: T
-            }
-      }
+              desktop?: T;
+              mobile?: T;
+            };
+      };
   scene?:
     | T
     | {
         challenge?:
           | T
           | {
-              label?: T
-              statement?: T
-              emphasis?: T
+              label?: T;
+              statement?: T;
+              emphasis?: T;
               details?:
                 | T
                 | {
-                    text?: T
-                    id?: T
-                  }
-            }
+                    text?: T;
+                    id?: T;
+                  };
+            };
         goal?:
           | T
           | {
-              label?: T
-              statement?: T
-              emphasis?: T
+              label?: T;
+              statement?: T;
+              emphasis?: T;
               details?:
                 | T
                 | {
-                    text?: T
-                    id?: T
-                  }
-            }
+                    text?: T;
+                    id?: T;
+                  };
+            };
         values?:
           | T
           | {
-              text?: T
-              id?: T
-            }
-      }
+              text?: T;
+              id?: T;
+            };
+      };
   approach?:
     | T
     | {
-        mobileTag?: T
-        title?: T
-        subline?: T
+        mobileTag?: T;
+        title?: T;
+        subline?: T;
         steps?:
           | T
           | {
-              title?: T
-              text?: T
-              image?: T
-              id?: T
-            }
-      }
+              title?: T;
+              text?: T;
+              image?: T;
+              id?: T;
+            };
+      };
   outcomes?:
     | T
     | {
-        title?: T
+        title?: T;
         columns?:
           | T
           | {
-              output?: T
-              description?: T
-              outcome?: T
-              icon?: T
-              tone?: T
-              id?: T
-            }
-      }
+              output?: T;
+              description?: T;
+              outcome?: T;
+              icon?: T;
+              tone?: T;
+              id?: T;
+            };
+      };
   impact?:
     | T
     | {
-        title?: T
-        text?: T
-      }
+        title?: T;
+        text?: T;
+      };
   globe?:
     | T
     | {
         view?:
           | T
           | {
-              longitude?: T
-              latitude?: T
-            }
+              longitude?: T;
+              latitude?: T;
+            };
         pins?:
           | T
           | {
-              icon?: T
-              longitude?: T
-              latitude?: T
-              scale?: T
-              id?: T
-            }
-      }
+              icon?: T;
+              longitude?: T;
+              latitude?: T;
+              scale?: T;
+              id?: T;
+            };
+      };
   meta?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  updatedAt?: T
-  createdAt?: T
-  globalType?: T
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6774,14 +6768,14 @@ export interface TheoryOfChangePageSelect<T extends boolean = true> {
  */
 export interface CollectionsWidget {
   data?: {
-    [k: string]: unknown
-  }
-  width: 'full'
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown
+  [k: string]: unknown;
 }
