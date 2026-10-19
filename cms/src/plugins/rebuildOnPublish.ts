@@ -4,26 +4,23 @@ import type {
   CollectionConfig,
   GlobalAfterChangeHook,
   GlobalConfig,
-  Payload,
+  PayloadRequest,
   Plugin,
 } from 'payload'
+import { waitUntil } from '@vercel/functions'
 
-const quietPeriod = 30_000
 const ignored = new Set(['users', 'form-submissions'])
 
-let timer: ReturnType<typeof setTimeout> | undefined
-
-const trigger = async (url: string, payload: Payload) => {
+const trigger = async (url: string, req: PayloadRequest) => {
   const response = await fetch(url, { method: 'POST' })
   if (!response.ok) throw new Error(`Deploy hook answered ${response.status}`)
-  payload.logger.info('Requested a rebuild of the website')
+  req.payload.logger.info('Requested a rebuild of the website')
 }
 
-const schedule = (url: string, payload: Payload) => {
-  if (timer) clearTimeout(timer)
-  timer = setTimeout(() => {
-    trigger(url, payload).catch((error: unknown) => payload.logger.error(error))
-  }, quietPeriod)
+const schedule = (url: string, req: PayloadRequest) => {
+  if (req.context.rebuildRequested) return
+  req.context.rebuildRequested = true
+  waitUntil(trigger(url, req).catch((error: unknown) => req.payload.logger.error(error)))
 }
 
 const hasDrafts = (collection: CollectionConfig) =>
@@ -33,11 +30,11 @@ const withCollectionHooks = (url: string, collection: CollectionConfig): Collect
   const drafts = hasDrafts(collection)
   const afterChange: CollectionAfterChangeHook = ({ doc, previousDoc, req }) => {
     const published = doc._status === 'published' || previousDoc?._status === 'published'
-    if (!drafts || published) schedule(url, req.payload)
+    if (!drafts || published) schedule(url, req)
     return doc
   }
   const afterDelete: CollectionAfterDeleteHook = ({ doc, req }) => {
-    schedule(url, req.payload)
+    schedule(url, req)
     return doc
   }
   return {
@@ -52,7 +49,7 @@ const withCollectionHooks = (url: string, collection: CollectionConfig): Collect
 
 const withGlobalHooks = (url: string, global: GlobalConfig): GlobalConfig => {
   const afterChange: GlobalAfterChangeHook = ({ doc, req }) => {
-    schedule(url, req.payload)
+    schedule(url, req)
     return doc
   }
   return {
