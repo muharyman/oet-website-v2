@@ -2,13 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import LogoGrid from '../../components/blocks/LogoGrid.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
+import ListingFilter from '../../components/interactive/ListingFilter.astro'
 import FilterTabs from '../../components/ui/FilterTabs.astro'
 import { loadPartnersPage } from '../../data/partners'
-import { routes } from '../../data/routes'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
 
-const { meta, hero, intro, filter, logos, logosMobile } = await loadPartnersPage(defaultLocale)
+const { meta, hero, intro, filter, logos, logosMobile, types, typesMobile } =
+  await loadPartnersPage(defaultLocale)
 ---
 
 <BaseLayout
@@ -51,33 +52,41 @@ const { meta, hero, intro, filter, logos, logosMobile } = await loadPartnersPage
             ))}
           </div>
         </section>
-        <section class="min-w-0 pb-[120px] lg:flex-1 lg:pt-[120px] lg:pb-20">
-          <div class="pl-[19px] lg:pl-0">
-            <FilterTabs
-              label={t(defaultLocale, 'tabs.partnerType')}
-              layout="compact"
-              mobileBreakAfter={null}
-              options={[
-                { label: t(defaultLocale, 'tabs.showAll'), href: routes.partners, active: true },
-                ...filter.options,
-              ]}
+        <ListingFilter pageSize={{ desktop: null, mobile: null }} class="min-w-0 lg:flex-1">
+          <section class="pb-[120px] lg:pt-[120px] lg:pb-20">
+            <div class="pl-[19px] lg:pl-0" data-listing-tabs="type">
+              <FilterTabs
+                label={t(defaultLocale, 'tabs.partnerType')}
+                layout="compact"
+                mobileBreakAfter={null}
+                options={filter.options}
+              />
+            </div>
+            <LogoGrid
+              columns={4}
+              mobileColumns={2}
+              inset="none"
+              groups={[{ label: null, logos }]}
+              facets={[types]}
+              class="hidden lg:block"
             />
-          </div>
-          <LogoGrid
-            columns={4}
-            mobileColumns={2}
-            inset="none"
-            groups={[{ label: null, logos }]}
-            class="hidden lg:block"
-          />
-          <LogoGrid
-            columns={4}
-            mobileColumns={2}
-            inset="none"
-            groups={[{ label: null, logos: logosMobile }]}
-            class="-ml-px pt-10 lg:hidden"
-          />
-        </section>
+            <LogoGrid
+              columns={4}
+              mobileColumns={2}
+              inset="none"
+              groups={[{ label: null, logos: logosMobile }]}
+              facets={[typesMobile]}
+              class="-ml-px pt-10 lg:hidden"
+            />
+            <p
+              data-listing-empty
+              class="text-body-md py-10 pl-[19px] font-medium text-neutral-800 lg:pl-0"
+              hidden
+            >
+              {t(defaultLocale, 'partners.empty')}
+            </p>
+          </section>
+        </ListingFilter>
       </div>
     </div>
   </main>

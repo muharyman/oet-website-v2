@@ -23,10 +23,23 @@ interface Props {
   mobileColumns: MobileColumns
   inset: Inset
   groups: Group[]
+  facets: Record<string, string>[][] | null
   class?: string
 }
 
-const { columns, mobileColumns, inset, groups, class: className } = Astro.props
+const { columns, mobileColumns, inset, groups, facets, class: className } = Astro.props
+
+const facetsOf = (group: number, logo: number) => {
+  if (facets === null) return {}
+  const values = facets[group]?.[logo]
+  if (!values) throw new Error(`LogoGrid: no facets for logo ${logo} of group ${group}`)
+  return {
+    'data-listing-item': true,
+    ...Object.fromEntries(
+      Object.entries(values).map(([key, value]) => [`data-facet-${key}`, value]),
+    ),
+  }
+}
 
 const grids: Record<Columns, string> = {
   4: 'lg:grid-cols-4',
@@ -45,8 +58,12 @@ const insets: Record<Inset, string> = {
 ---
 
 <div class:list={[insets[inset], className]}>
-  {groups.map((group) => (
-    <ul class:list={['grid', mobileGrids[mobileColumns], grids[columns]]} aria-label={group.label}>
+  {groups.map((group, groupIndex) => (
+    <ul
+      class:list={['grid', mobileGrids[mobileColumns], grids[columns]]}
+      aria-label={group.label}
+      data-listing-items={facets === null ? undefined : true}
+    >
       {group.label !== null && (
         <li
           class="text-body-lg col-span-2 flex h-[120px] items-center border border-neutral-100 px-[39px] font-medium text-neutral-900"
@@ -55,8 +72,11 @@ const insets: Record<Inset, string> = {
           {group.label}
         </li>
       )}
-      {group.logos.map((logo) => (
-        <li class="flex h-[120px] items-center justify-center border border-neutral-100 px-1 lg:px-[11px]">
+      {group.logos.map((logo, logoIndex) => (
+        <li
+          class="flex h-[120px] items-center justify-center border border-neutral-100 px-1 lg:px-[11px]"
+          {...facetsOf(groupIndex, logoIndex)}
+        >
           <Image
             src={logo.image}
             alt={logo.name}
