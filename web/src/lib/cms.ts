@@ -1,5 +1,6 @@
 import type { Locale } from '../i18n/config'
 import type { Config } from './payload-types'
+import { inPreview, previewApiKey } from './preview'
 
 type Collections = Config['collections']
 type Globals = Config['globals']
@@ -19,8 +20,8 @@ const base = import.meta.env.PAYLOAD_URL
 
 const cache = new Map<string, Promise<unknown>>()
 
-const load = async (url: URL): Promise<unknown> => {
-  const response = await fetch(url)
+const load = async (url: URL, headers: Record<string, string>): Promise<unknown> => {
+  const response = await fetch(url, { headers })
   if (!response.ok)
     throw new Error(`CMS answered ${response.status} for ${url.pathname}${url.search}`)
   return response.json()
@@ -30,10 +31,14 @@ const request = <Result>(path: string, params: Record<string, string>): Promise<
   if (!base) throw new Error('PAYLOAD_URL is not set')
   const url = new URL(`/api/${path}`, base)
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value)
-  if (!import.meta.env.PROD) return load(url) as Promise<Result>
+  if (inPreview()) {
+    url.searchParams.set('draft', 'true')
+    return load(url, { Authorization: `users API-Key ${previewApiKey()}` }) as Promise<Result>
+  }
+  if (!import.meta.env.PROD) return load(url, {}) as Promise<Result>
   const cached = cache.get(url.href)
   if (cached) return cached as Promise<Result>
-  const pending = load(url)
+  const pending = load(url, {})
   cache.set(url.href, pending)
   return pending as Promise<Result>
 }
