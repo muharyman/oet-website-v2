@@ -202,7 +202,22 @@ const seedFooter = async (
   })
 }
 
-const seedSettings = async (payload: Payload, { footer }: FooterSource, home: HomeSource) => {
+interface ConsentSource {
+  notice: string
+  modalTitle: string
+  modalDescription: string
+  necessaryTitle: string
+  necessaryDescription: string
+  analyticsTitle: string
+  analyticsDescription: string
+}
+
+const seedSettings = async (
+  payload: Payload,
+  { footer }: FooterSource,
+  home: HomeSource,
+  consent: ConsentSource,
+) => {
   const { email } = footer.cta
   if (email.href !== `mailto:${email.label}`)
     throw new Error(`The footer email link ${email.href} does not open ${email.label}`)
@@ -216,6 +231,7 @@ const seedSettings = async (payload: Payload, { footer }: FooterSource, home: Ho
       contactEmail: email.label,
       meta: { title: home.meta.title, description: home.meta.description },
       shareImage: await upload(payload, firstSlide.image, firstSlide.alt),
+      consent,
     },
   })
 }
@@ -226,5 +242,5 @@ export const seedShell = async (payload: Payload) => {
   const home = await content<HomeSource>('home')
   await seedHeader(payload, navigation)
   await seedFooter(payload, footer, navigation)
-  await seedSettings(payload, footer, home)
+  await seedSettings(payload, footer, home, await content<ConsentSource>('consent'))
 }

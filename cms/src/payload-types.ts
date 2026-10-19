@@ -4064,9 +4064,27 @@ export interface SiteSetting {
       }[]
     | null;
   /**
-   * Container id, for example GTM-ABC1234. Leave empty to load no tag manager.
+   * Container id, for example GTM-ABC1234. Leave empty to load no tag manager. It only loads for visitors who accept analytics in the cookie banner.
    */
   googleTagManagerId?: string | null;
+  consent: {
+    /**
+     * Shown at the bottom of the first page a visitor opens. A link to the privacy statement is added after it.
+     */
+    notice: string;
+    modalTitle: string;
+    modalDescription: string;
+    necessaryTitle: string;
+    /**
+     * What the always-on part does, for example storing the consent choice.
+     */
+    necessaryDescription: string;
+    analyticsTitle: string;
+    /**
+     * What Google Tag Manager collects and who processes it.
+     */
+    analyticsDescription: string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -6025,6 +6043,17 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         id?: T;
       };
   googleTagManagerId?: T;
+  consent?:
+    | T
+    | {
+        notice?: T;
+        modalTitle?: T;
+        modalDescription?: T;
+        necessaryTitle?: T;
+        necessaryDescription?: T;
+        analyticsTitle?: T;
+        analyticsDescription?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
