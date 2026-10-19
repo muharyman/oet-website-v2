@@ -1,16 +1,16 @@
 import type { CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
-import { always, preview } from '../../preview'
+import { always, draftVersions, previewOptions } from '../../preview'
 import { richText, seo, slug, text } from '../../fields'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: publishedRead,
-  versions: { drafts: true },
+  versions: draftVersions,
   admin: {
     group: 'Events',
-    preview: preview((slug) => `/${slug}`, always),
+    ...previewOptions((slug) => `/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
     description:

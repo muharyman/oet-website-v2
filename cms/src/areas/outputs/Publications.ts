@@ -1,7 +1,7 @@
 import type { Block, CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
-import { always, preview } from '../../preview'
+import { always, draftVersions, previewOptions } from '../../preview'
 import { icon, image, plainText, richText, slug, text, textarea } from '../../fields'
 import {
   cardAppearance,
@@ -86,11 +86,11 @@ const imageBlock: Block = {
 export const Publications: CollectionConfig = {
   slug: 'publications',
   access: publishedRead,
-  versions: { drafts: true },
+  versions: draftVersions,
   defaultSort: '-date',
   admin: {
     group: 'Outputs',
-    preview: preview((slug) => `/outputs/publications/${slug}`, always),
+    ...previewOptions((slug) => `/outputs/publications/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'category', 'date', '_status'],
     description:

@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { publishedRead } from '../../access'
-import { always, preview } from '../../preview'
+import { always, draftVersions, previewOptions } from '../../preview'
 import { href, image, paragraphs, richText, slug, text, textarea } from '../../fields'
 import {
   cardAppearance,
@@ -48,12 +48,12 @@ const hrefPattern = /^(\/|https?:\/\/|mailto:)/
 export const Projects: CollectionConfig = {
   slug: 'projects',
   access: publishedRead,
-  versions: { drafts: true },
+  versions: draftVersions,
   labels: { singular: 'Success story', plural: 'Success stories' },
   defaultSort: '-startDate',
   admin: {
     group: 'Outputs',
-    preview: preview((slug) => `/outputs/success-stories/${slug}`, always),
+    ...previewOptions((slug) => `/outputs/success-stories/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'projectStatus', 'region', 'startDate', '_status'],
     description:
