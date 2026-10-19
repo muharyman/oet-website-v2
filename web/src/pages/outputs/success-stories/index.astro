@@ -135,9 +135,9 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
         >
           {t(locale, 'projects.empty')}
         </p>
-        <div class="flex justify-center border-neutral-100 pt-10 pb-[60px] lg:border-l">
+        <div class="flex justify-center border-neutral-100 pt-10 pb-15 lg:border-l">
           <Pagination
-            class="w-full lg:w-[372px]"
+            class="w-full lg:w-93"
             current={1}
             total={totalPages(listing.pageSize.desktop)}
             hrefFor={hrefFor}
@@ -147,7 +147,7 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
       </div>
     </ListingFilter>
     <div class={container}>
-      <div class="border-l border-neutral-100 py-[180px]">
+      <div class="border-l border-neutral-100 py-45">
         <TestimonialSlider
           variant="wide"
           heading={testimonials.heading}
