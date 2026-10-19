@@ -43,7 +43,6 @@ export interface ToolsPage {
     image: { desktop: ImageMetadata; mobile: ImageMetadata }
   }
   intro: { id: string; title: string; paragraphs: string[] }
-  mobilePagination: { current: number; total: number }
   cta: ToolsCta
   categories: ToolCategory[]
   tools: Tool[]
@@ -108,7 +107,6 @@ export const loadToolsPage = async (locale: Locale): Promise<ToolsPage> => {
       title: page.intro.title,
       paragraphs: texts(page.intro.paragraphs, 'tools page intro paragraphs'),
     },
-    mobilePagination: { current: 1, total: 10 },
     cta: banner(resolved(page.cta, 'tools page banner')),
     categories,
     tools: toolDocs.map((tool) => ({
