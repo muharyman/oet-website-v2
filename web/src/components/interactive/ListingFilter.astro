@@ -1,0 +1,203 @@
+---
+import type { PageSize } from '../../lib/listing'
+
+interface Props {
+  pageSize: PageSize
+  class?: string
+}
+
+const { pageSize, class: className } = Astro.props
+---
+
+<oet-listing
+  class:list={['block', className]}
+  data-page-size-desktop={pageSize.desktop === null ? 'all' : pageSize.desktop}
+  data-page-size-mobile={pageSize.mobile}
+>
+  <slot />
+</oet-listing>
+
+<script>
+  type Sorter = (a: HTMLElement, b: HTMLElement) => number
+  type Select = HTMLElement & { setValue: (value: string) => void }
+
+  const desktop = window.matchMedia('(min-width: 1024px)')
+
+  class OetListing extends HTMLElement {
+    connectedCallback() {
+      const list = this.querySelector<HTMLElement>('[data-listing-items]')
+      if (!list) throw new Error('oet-listing: missing [data-listing-items]')
+      const items = [...list.querySelectorAll<HTMLElement>(':scope > [data-listing-item]')]
+      const empty = this.querySelector<HTMLElement>('[data-listing-empty]')
+      const paginations = [
+        ...this.querySelectorAll<
+          HTMLElement & { render: (current: number, total: number) => void }
+        >('oet-pagination'),
+      ]
+      const sizeOf = (value: string | undefined) => {
+        if (value === 'all') return Infinity
+        const size = Number(value)
+        if (!Number.isInteger(size) || size < 1)
+          throw new Error(`oet-listing: bad page size "${value}"`)
+        return size
+      }
+      const desktopSize = sizeOf(this.dataset.pageSizeDesktop)
+      const mobileSize = sizeOf(this.dataset.pageSizeMobile)
+      const pageSize = () => (desktop.matches ? desktopSize : mobileSize)
+
+      const read = (item: HTMLElement, name: string) => {
+        const value = item.getAttribute(`data-${name}`)
+        if (value === null) throw new Error(`oet-listing: item without data-${name}`)
+        return value
+      }
+
+      const tabGroups = [...this.querySelectorAll<HTMLElement>('[data-listing-tabs]')].map(
+        (group) => {
+          const key = group.dataset.listingTabs
+          const links = [...group.querySelectorAll<HTMLAnchorElement>('a[href]')]
+          const on = links.find((link) => link.hasAttribute('aria-current'))
+          const off = links.find((link) => !link.hasAttribute('aria-current'))
+          if (!key || !on || !off) throw new Error(`oet-listing: tabs "${key}" are incomplete`)
+          const valueOf = (link: HTMLAnchorElement) => {
+            const value = new URL(link.href).searchParams.get(key)
+            if (value === null) throw new Error(`oet-listing: tab without "${key}" parameter`)
+            return value
+          }
+          return { key, links, valueOf, onClass: on.className, offClass: off.className }
+        },
+      )
+      const selectFacets = [...this.querySelectorAll<Select>('oet-select[data-listing-facet]')].map(
+        (select) => {
+          const key = select.dataset.listingFacet
+          if (!key) throw new Error('oet-listing: select without a facet name')
+          const values = [...select.querySelectorAll<HTMLElement>('[role="option"]')].map(
+            (option) => option.dataset.value,
+          )
+          return { key, select, values }
+        },
+      )
+      const sortSelect = this.querySelector<Select>('oet-select[data-listing-sort]')
+
+      const sorters: Record<string, Sorter> = {
+        'a-z': (a, b) => read(a, 'title').localeCompare(read(b, 'title')),
+        'z-a': (a, b) => read(b, 'title').localeCompare(read(a, 'title')),
+        newest: (a, b) => Date.parse(read(b, 'date')) - Date.parse(read(a, 'date')),
+        oldest: (a, b) => Date.parse(read(a, 'date')) - Date.parse(read(b, 'date')),
+      }
+      const sorterFor = (value: string | undefined) => {
+        if (value === undefined || !(value in sorters))
+          throw new Error(`oet-listing: unknown sort "${value}"`)
+        return sorters[value]
+      }
+
+      const params = new URLSearchParams(location.search)
+      const filters = new Map<string, string>()
+      for (const group of tabGroups) {
+        const requested = params.get(group.key)
+        const known = group.links.some((link) => group.valueOf(link) === requested)
+        filters.set(group.key, requested !== null && known ? requested : 'all')
+      }
+      for (const facet of selectFacets) {
+        const requested = params.get(facet.key)
+        const value = requested !== null && facet.values.includes(requested) ? requested : 'all'
+        filters.set(facet.key, value)
+        facet.select.setValue(value)
+      }
+      const initialSort = sortSelect?.dataset.value
+      const requestedSort = params.get('sort')
+      if (sortSelect && requestedSort !== null && requestedSort in sorters)
+        sortSelect.setValue(requestedSort)
+      let sorter = sortSelect ? sorterFor(sortSelect.dataset.value) : null
+      const requestedPage = Number(params.get('page'))
+      let page = Number.isInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1
+
+      for (const item of items) item.classList.remove('max-lg:hidden', 'lg:hidden')
+      if (filters.size > 0 && !empty) throw new Error('oet-listing: missing [data-listing-empty]')
+
+      const matches = (item: HTMLElement) =>
+        [...filters].every(
+          ([key, value]) =>
+            value === 'all' || read(item, `facet-${key}`).split(' ').includes(value),
+        )
+
+      const writeUrl = () => {
+        const url = new URL(location.href)
+        for (const [key, value] of filters) {
+          if (value === 'all') url.searchParams.delete(key)
+          else url.searchParams.set(key, value)
+        }
+        if (sortSelect && sortSelect.dataset.value !== initialSort)
+          url.searchParams.set('sort', String(sortSelect.dataset.value))
+        else url.searchParams.delete('sort')
+        if (page > 1) url.searchParams.set('page', String(page))
+        else url.searchParams.delete('page')
+        history.replaceState(null, '', url)
+      }
+
+      const apply = () => {
+        for (const group of tabGroups) {
+          for (const link of group.links) {
+            const selected = group.valueOf(link) === filters.get(group.key)
+            link.className = selected ? group.onClass : group.offClass
+            if (selected) link.setAttribute('aria-current', 'true')
+            else link.removeAttribute('aria-current')
+          }
+        }
+        const ordered = sorter ? [...items].sort(sorter) : items
+        const shown = ordered.filter(matches)
+        const size = pageSize()
+        const total = Math.max(1, Math.ceil(shown.length / size))
+        page = Math.min(page, total)
+        const visible = new Set(shown.slice((page - 1) * size, page * size))
+        for (const item of items) item.hidden = !visible.has(item)
+        list.append(...ordered)
+        if (empty) empty.hidden = shown.length > 0
+        for (const pagination of paginations) pagination.render(page, total)
+      }
+
+      const update = () => {
+        writeUrl()
+        apply()
+      }
+
+      for (const group of tabGroups) {
+        for (const link of group.links) {
+          link.addEventListener('click', (event) => {
+            event.preventDefault()
+            filters.set(group.key, group.valueOf(link))
+            page = 1
+            update()
+          })
+        }
+      }
+      for (const facet of selectFacets) {
+        facet.select.addEventListener('oet-select:change', (event) => {
+          if (!(event instanceof CustomEvent)) return
+          filters.set(facet.key, String(event.detail.value))
+          page = 1
+          update()
+        })
+      }
+      sortSelect?.addEventListener('oet-select:change', (event) => {
+        if (!(event instanceof CustomEvent)) return
+        sorter = sorterFor(String(event.detail.value))
+        page = 1
+        update()
+      })
+      for (const pagination of paginations) {
+        pagination.addEventListener('click', (event) => {
+          const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[data-page]')
+          if (!link) return
+          event.preventDefault()
+          page = Number(link.dataset.page)
+          update()
+          list.scrollIntoView({ block: 'start' })
+        })
+      }
+      desktop.addEventListener('change', apply)
+      apply()
+    }
+  }
+
+  if (!customElements.get('oet-listing')) customElements.define('oet-listing', OetListing)
+</script>
