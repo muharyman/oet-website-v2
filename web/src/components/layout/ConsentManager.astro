@@ -1,0 +1,303 @@
+---
+import { routes } from '../../data/routes'
+import type { ConsentTexts } from '../../data/site'
+import type { Locale } from '../../i18n/config'
+import { t } from '../../i18n/ui'
+
+interface Props {
+  texts: ConsentTexts
+  tagManagerId: string | null
+  locale: Locale
+}
+
+const { texts, tagManagerId, locale } = Astro.props
+
+const config = JSON.stringify({
+  tagManagerId,
+  lang: locale,
+  privacyUrl: routes.privacyStatement,
+  texts,
+  labels: {
+    title: t(locale, 'consent.title'),
+    accept: t(locale, 'consent.accept'),
+    decline: t(locale, 'consent.decline'),
+    settings: t(locale, 'consent.settings'),
+    save: t(locale, 'consent.save'),
+    close: t(locale, 'consent.close'),
+    privacyName: t(locale, 'consent.privacyName'),
+    privacyText: t(locale, 'consent.privacyText'),
+    necessary: t(locale, 'consent.necessary'),
+    analytics: t(locale, 'consent.analytics'),
+    alwaysOn: t(locale, 'consent.alwaysOn'),
+  },
+})
+---
+
+<oet-consent data-config={config}></oet-consent>
+
+<style is:global>
+  .klaro {
+    --font-family: var(--font-sans);
+    --title-font-family: var(--font-sans);
+    --font-size: var(--text-body-sm);
+    --border-radius: 0;
+    --green1: var(--color-brand-500);
+    --green2: var(--color-brand-600);
+    --green3: var(--color-brand-700);
+    --blue1: var(--color-brand-500);
+    --blue2: var(--color-brand-600);
+    --dark1: var(--color-neutral-50);
+    --dark2: var(--color-neutral-100);
+    --dark3: var(--color-neutral-200);
+    --light1: var(--color-neutral-900);
+    --light2: var(--color-neutral-200);
+    --light3: var(--color-neutral-600);
+    --white1: var(--color-neutral-900);
+    --white2: var(--color-neutral-800);
+    --white3: var(--color-neutral-600);
+    --button-text-color: var(--color-neutral-50);
+    --box-shadow-color: rgb(25 25 24 / 0.16);
+  }
+
+  #klaro .cookie-notice:not(.cookie-modal-notice) {
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  #klaro .cm-btn {
+    min-height: 2.5rem;
+    border: 1px solid var(--color-brand-500);
+    padding: 0 0.6875rem;
+    font-size: var(--text-body-sm);
+    font-weight: 500;
+    transition:
+      background-color 150ms,
+      color 150ms;
+  }
+
+  #klaro .cm-btn.cm-btn-success {
+    background-color: var(--color-brand-500);
+    color: var(--color-neutral-50);
+  }
+
+  #klaro .cm-btn.cm-btn-danger,
+  #klaro .cm-btn.cm-btn-info {
+    border-color: var(--color-brand-600);
+    background-color: transparent;
+    color: var(--color-brand-600);
+  }
+
+  #klaro .cm-btn.cm-btn-accept {
+    border-color: var(--color-brand-500);
+    background-color: var(--color-brand-500);
+    color: var(--color-neutral-50);
+  }
+
+  #klaro .cm-btn:hover {
+    border-color: var(--color-brand-600);
+    background-color: var(--color-brand-600);
+    color: var(--color-neutral-50);
+  }
+
+  #klaro .cm-btn:focus-visible,
+  #klaro .cm-link:focus-visible,
+  #klaro .cookie-modal .hide:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+
+  #klaro .cookie-modal .cm-list-description,
+  #klaro .cookie-modal .cm-required {
+    color: var(--color-neutral-600);
+  }
+
+  #klaro .cookie-modal .cm-list-label .slider {
+    background-color: var(--color-neutral-300);
+  }
+
+  #klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider {
+    background-color: var(--color-brand-500);
+  }
+</style>
+
+<script>
+  import type { KlaroConfig } from 'klaro/dist/klaro-no-css'
+
+  type Texts = Record<
+    | 'notice'
+    | 'modalTitle'
+    | 'modalDescription'
+    | 'necessaryTitle'
+    | 'necessaryDescription'
+    | 'analyticsTitle'
+    | 'analyticsDescription',
+    string
+  >
+  type Labels = Record<
+    | 'title'
+    | 'accept'
+    | 'decline'
+    | 'settings'
+    | 'save'
+    | 'close'
+    | 'privacyName'
+    | 'privacyText'
+    | 'necessary'
+    | 'analytics'
+    | 'alwaysOn',
+    string
+  >
+  interface Settings {
+    tagManagerId: string | null
+    lang: string
+    privacyUrl: string
+    texts: Texts
+    labels: Labels
+  }
+  type Klaro = typeof import('klaro/dist/klaro-no-css')
+
+  const storageName = 'oet-consent'
+  const essentials = 'essentials'
+  const analytics = 'google-tag-manager'
+
+  const storedConsent = (): Record<string, boolean> | null => {
+    const entry = document.cookie.split('; ').find((cookie) => cookie.startsWith(`${storageName}=`))
+    if (!entry) return null
+    return JSON.parse(decodeURIComponent(entry.slice(storageName.length + 1)))
+  }
+
+  const startTagManager = (id: string) => {
+    if (document.querySelector('script[data-tag-manager]')) return
+    const scope = window as Window & { dataLayer?: unknown[] }
+    if (!scope.dataLayer) scope.dataLayer = []
+    const layer = scope.dataLayer
+    function gtag(..._: unknown[]) {
+      layer.push(arguments)
+    }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'granted',
+    })
+    layer.push({ 'gtm.start': Date.now(), event: 'gtm.js' })
+    const script = document.createElement('script')
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(id)}`
+    script.dataset.tagManager = id
+    document.head.append(script)
+  }
+
+  const klaroConfig = ({
+    tagManagerId,
+    lang,
+    privacyUrl,
+    texts,
+    labels,
+  }: Settings): KlaroConfig => ({
+    version: 1,
+    elementID: 'klaro',
+    storageMethod: 'cookie',
+    storageName,
+    cookieExpiresAfterDays: 365,
+    privacyPolicy: privacyUrl,
+    mustConsent: false,
+    acceptAll: true,
+    hideDeclineAll: false,
+    hideLearnMore: false,
+    noticeAsModal: false,
+    groupByPurpose: false,
+    htmlTexts: false,
+    disablePoweredBy: true,
+    lang,
+    styling: { theme: ['bottom', 'right'] },
+    translations: {
+      [lang]: {
+        consentNotice: {
+          title: labels.title,
+          description: `${texts.notice} {privacyPolicy}`,
+          learnMore: labels.settings,
+        },
+        consentModal: { title: texts.modalTitle, description: texts.modalDescription },
+        privacyPolicy: { name: labels.privacyName, text: labels.privacyText },
+        ok: labels.accept,
+        acceptAll: labels.accept,
+        acceptSelected: labels.save,
+        decline: labels.decline,
+        save: labels.save,
+        close: labels.close,
+        purposes: {
+          functional: { title: labels.necessary },
+          analytics: { title: labels.analytics },
+        },
+        service: { required: { title: labels.alwaysOn } },
+        [essentials]: { title: texts.necessaryTitle, description: texts.necessaryDescription },
+        [analytics]: { title: texts.analyticsTitle, description: texts.analyticsDescription },
+      },
+    },
+    services: [
+      {
+        name: essentials,
+        title: texts.necessaryTitle,
+        purposes: ['functional'],
+        required: true,
+        default: true,
+        onlyOnce: true,
+        cookies: [],
+      },
+      ...(tagManagerId === null
+        ? []
+        : [
+            {
+              name: analytics,
+              title: texts.analyticsTitle,
+              purposes: ['analytics'],
+              required: false,
+              default: false,
+              onlyOnce: true,
+              cookies: [/^_ga/, /^_gid/, /^_gat/],
+              callback: (consent: boolean) => {
+                if (consent) startTagManager(tagManagerId)
+                else if (document.querySelector('script[data-tag-manager]')) location.reload()
+              },
+            },
+          ]),
+    ],
+  })
+
+  class OetConsent extends HTMLElement {
+    connectedCallback() {
+      const raw = this.dataset.config
+      if (!raw) throw new Error('oet-consent: missing config')
+      const settings = JSON.parse(raw) as Settings
+      const config = klaroConfig(settings)
+      let klaro: Promise<Klaro> | null = null
+      const loadKlaro = () => {
+        if (!klaro)
+          klaro = Promise.all([
+            import('klaro/dist/klaro.min.css'),
+            import('klaro/dist/klaro-no-css'),
+          ]).then(([, module]) => module)
+        return klaro
+      }
+
+      const stored = storedConsent()
+      if (settings.tagManagerId !== null && stored !== null && stored[analytics] === true)
+        startTagManager(settings.tagManagerId)
+      const undecided =
+        settings.tagManagerId !== null && (stored === null || !(analytics in stored))
+      if (undecided) {
+        const show = () => loadKlaro().then((module) => module.setup(config))
+        if (document.readyState === 'complete') show()
+        else window.addEventListener('load', show, { once: true })
+      }
+
+      for (const button of document.querySelectorAll('[data-consent-settings]')) {
+        button.addEventListener('click', () =>
+          loadKlaro().then((module) => module.show(config, true)),
+        )
+      }
+    }
+  }
+
+  if (!customElements.get('oet-consent')) customElements.define('oet-consent', OetConsent)
+</script>
