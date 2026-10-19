@@ -156,6 +156,15 @@ export const Publications: CollectionConfig = {
             description:
               'Tags in the page header, in this order, and the tag filter of the listing.',
           }),
+          relations('services', 'services', {
+            label: 'Services',
+            description:
+              'Services the publication belongs to, for the service filter of the listing.',
+          }),
+          relations('tools', 'tools', {
+            label: 'Products',
+            description: 'Tools the publication is about, for the products filter of the listing.',
+          }),
         ]),
         tab('Authors', [
           {
