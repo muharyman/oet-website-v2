@@ -4,6 +4,7 @@ import type { FrameTone } from '../components/cards/types'
 import type { Locale } from '../i18n/config'
 import { t } from '../i18n/ui'
 import { findAll, findGlobal, required, resolved, type Doc } from '../lib/cms'
+import { facet, type PageSize } from '../lib/listing'
 import { altOf, icon, image } from '../lib/media'
 import {
   articleHtml,
@@ -61,6 +62,8 @@ export interface Publication {
   thumbnail: ImageMetadata
   alt: string
   frame: FrameTone
+  facets: Record<'region' | 'service' | 'product' | 'tag', string>
+  isoDate: string
   detail: PublicationDetail
 }
 
@@ -105,6 +108,23 @@ const publication = (
     thumbnail: image(doc.thumbnail, `${what} thumbnail`),
     alt: altOf(doc.thumbnail, `${what} thumbnail`),
     frame: doc.frame,
+    facets: {
+      region: resolved(doc.region, `${what} region`).slug,
+      service: facet(
+        required(doc.services, `${what} services`).map(
+          (service) => resolved(service, `${what} service`).slug,
+        ),
+      ),
+      product: facet(
+        required(doc.tools, `${what} tools`).map((tool) =>
+          String(resolved(tool, `${what} tool`).id),
+        ),
+      ),
+      tag: facet(
+        required(doc.tags, `${what} tags`).map((tag) => resolved(tag, `${what} tag`).slug),
+      ),
+    },
+    isoDate: doc.date,
     detail: {
       highlight: doc.highlight,
       authorNames: doc.authors.map((author) => personName(author, `${what} author`)),
@@ -178,13 +198,13 @@ export const loadPublicationsPage = async (locale: Locale) => {
         { type: 'policy-briefs', label: tabs.policyBriefs, href: routes.policyBriefs },
         { type: 'reports', label: tabs.reports, href: routes.reports },
       ] satisfies { type: PublicationTypeId; label: string; href: string }[],
-      mobilePageSize: 5,
+      pageSize: { desktop: 9, mobile: 5 } satisfies PageSize,
       items,
     },
     outputs: {
       title: page.outputs.title,
       description: page.outputs.description,
-      mobilePageSize: 5,
+      pageSize: { desktop: 9, mobile: 5 } satisfies PageSize,
       items: docs
         .filter((doc) => doc.showInOutputs)
         .map((doc) => publicationBySlug(items, doc.slug)),
