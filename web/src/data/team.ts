@@ -4,6 +4,7 @@ import type { Locale } from '../i18n/config'
 import type { SortValue } from '../i18n/groups'
 import { t } from '../i18n/ui'
 import { findAll, findGlobal, required, resolved, texts, type Doc } from '../lib/cms'
+import { facet, type PageSize } from '../lib/listing'
 import { altOf, icon, image } from '../lib/media'
 import { routes } from './routes'
 
@@ -47,8 +48,6 @@ export interface TeamStat {
   value: string
   label: string
 }
-
-export const mobilePageSize = 8
 
 const listingId = 'team'
 const seniorLeadershipGroup = 'senior-leadership'
@@ -151,10 +150,10 @@ export const loadTeamPage = async (locale: Locale) => {
         values: sortValues,
         selected: 'a-z',
       },
-      pagination: { current: 1, total: 10 },
+      pageSize: { desktop: 16, mobile: 8 } satisfies PageSize,
     },
     filterGroups: [
-      { label: t(locale, 'tabs.showAll'), href: `${routes.team}#${listingId}`, active: true },
+      { label: t(locale, 'tabs.showAll'), href: groupHref('all'), active: true },
       { label: seniorLeadershipLabel, href: groupHref(seniorLeadershipGroup), active: false },
       ...departments.map((department) => ({
         label: department.teamLabel,
@@ -162,6 +161,16 @@ export const loadTeamPage = async (locale: Locale) => {
         active: false,
       })),
     ],
-    members: members.map((member) => toMember(member, seniorLeadershipLabel)),
+    members: [...members]
+      .sort((a, b) => a.name.localeCompare(b.name, locale))
+      .map((member) => ({
+        card: toMember(member, seniorLeadershipLabel),
+        group: facet([
+          ...(member.seniorLeadership === true ? [seniorLeadershipGroup] : []),
+          ...required(member.departments, `departments of ${member.name}`).map(
+            (department) => resolved(department, `department of ${member.name}`).slug,
+          ),
+        ]),
+      })),
   }
 }
