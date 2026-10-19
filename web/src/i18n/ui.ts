@@ -71,6 +71,7 @@ const en = {
   'share.pdf': 'Save as PDF',
   'share.linkCopied': 'Link copied',
   'share.citationCopied': 'Citation copied',
+  'projects.empty': 'No success stories match these filters.',
   'publications.empty': 'No publications of this type yet.',
   'tool.source': 'Source Code',
   'tool.website': 'Website',
