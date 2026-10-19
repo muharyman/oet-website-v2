@@ -2,6 +2,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 
 import * as catalog from './areas/catalog'
@@ -14,10 +15,13 @@ import { Users } from './collections/Users'
 import { env } from './env'
 import { migrations } from './migrations'
 import { rebuildOnPublish } from './plugins/rebuildOnPublish'
+import { mediaStorage } from './storage'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const areas = [site, outputs, catalog, events, organization]
+
+const blob = mediaStorage() === 'blob'
 
 export default buildConfig({
   admin: {
@@ -41,7 +45,16 @@ export default buildConfig({
   secret: env('PAYLOAD_SECRET'),
   serverURL: env('PAYLOAD_PUBLIC_URL'),
   cors: [env('WEB_URL')],
-  plugins: [rebuildOnPublish(process.env.WEB_DEPLOY_HOOK_URL)],
+  plugins: [
+    vercelBlobStorage({
+      enabled: blob,
+      token: blob ? env('BLOB_READ_WRITE_TOKEN') : undefined,
+      collections: { media: { disablePayloadAccessControl: true } },
+      clientUploads: true,
+      alwaysInsertFields: true,
+    }),
+    rebuildOnPublish(process.env.WEB_DEPLOY_HOOK_URL),
+  ],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
     declare: false,
