@@ -13,6 +13,7 @@ ENV NODE_ENV=production \
     PAYLOAD_SECRET=build-time-only \
     PAYLOAD_PUBLIC_URL=http://localhost:3000 \
     WEB_URL=http://localhost:4321 \
+    MEDIA_STORAGE=disk \
     MEDIA_DIR=/app/media
 RUN pnpm build
 

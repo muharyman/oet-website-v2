@@ -4,8 +4,11 @@ import type { CollectionConfig } from 'payload'
 
 import { publicRead } from '../access'
 import { env } from '../env'
+import { mediaStorage } from '../storage'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const mimeTypes = ['image/*', 'application/pdf', 'video/mp4']
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -15,10 +18,10 @@ export const Media: CollectionConfig = {
     useAsTitle: 'filename',
     defaultColumns: ['filename', 'alt', 'width', 'height', 'updatedAt'],
   },
-  upload: {
-    staticDir: path.resolve(dirname, '../..', env('MEDIA_DIR')),
-    mimeTypes: ['image/*', 'application/pdf', 'video/mp4'],
-  },
+  upload:
+    mediaStorage() === 'disk'
+      ? { staticDir: path.resolve(dirname, '../..', env('MEDIA_DIR')), mimeTypes }
+      : { mimeTypes },
   fields: [
     {
       name: 'alt',
