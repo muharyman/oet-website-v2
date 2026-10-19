@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets'
 import { getAbsoluteLocaleUrl } from 'astro:i18n'
 import '../styles/global.css'
 import ConsentManager from '../components/layout/ConsentManager.astro'
+import LivePreview from '../components/layout/LivePreview.astro'
 import Preloader from '../components/layout/Preloader.astro'
 import SiteFooter from '../components/layout/SiteFooter.astro'
 import SiteHeader from '../components/layout/SiteHeader.astro'
@@ -37,6 +38,7 @@ const [navigation, footer, settings] = await Promise.all([
 ])
 
 const indexing = indexingEnabled()
+const previewPage = Astro.url.pathname.startsWith('/preview/')
 
 const ogLocales: Record<Locale, string> = { en: 'en_US' }
 const withoutTrailingSlash = (url: string) => {
@@ -110,6 +112,14 @@ const organization = {
     />
     <slot />
     <SiteFooter content={footer} locale={locale} />
-    <ConsentManager texts={settings.consent} tagManagerId={settings.tagManagerId} locale={locale} />
+    {previewPage ? (
+      <LivePreview serverUrl={import.meta.env.PAYLOAD_URL} />
+    ) : (
+      <ConsentManager
+        texts={settings.consent}
+        tagManagerId={settings.tagManagerId}
+        locale={locale}
+      />
+    )}
   </body>
 </html>
