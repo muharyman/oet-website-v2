@@ -2,6 +2,7 @@
 import CtaBanner from '../blocks/CtaBanner.astro'
 import PageHero from '../blocks/PageHero.astro'
 import ToolCard from '../cards/ToolCard.astro'
+import ListingFilter from '../interactive/ListingFilter.astro'
 import FilterTabs from '../ui/FilterTabs.astro'
 import Pagination from '../ui/Pagination.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
@@ -9,6 +10,7 @@ import { routes } from '../../data/routes'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
 import type { ToolsPage } from '../../data/tools'
+import { firstPageClass, type PageSize } from '../../lib/listing'
 
 interface Props {
   page: ToolsPage
@@ -16,7 +18,7 @@ interface Props {
 }
 
 const { page, category } = Astro.props
-const { meta, hero, intro, mobilePagination, cta, categories, tools } = page
+const { meta, hero, intro, cta, categories, tools } = page
 const locale = defaultLocale
 
 const active = categories.find((item) => item.slug === category)
@@ -29,12 +31,20 @@ const groups = categories
     category: item,
     tools: tools.filter((tool) => tool.categories.includes(item.slug)),
   }))
-const rows = groups.flatMap((group) =>
-  Array.from({ length: Math.ceil(group.tools.length / columns) }, (_, index) => ({
-    category: group.category,
-    tools: group.tools.slice(index * columns, (index + 1) * columns),
-  })),
-)
+const rows = groups
+  .flatMap((group) =>
+    Array.from({ length: Math.ceil(group.tools.length / columns) }, (_, index) => ({
+      category: group.category,
+      tools: group.tools.slice(index * columns, (index + 1) * columns),
+    })),
+  )
+  .map((row, index, all) => ({
+    ...row,
+    start: all.slice(0, index).reduce((sum, previous) => sum + previous.tools.length, 0),
+  }))
+const count = rows.reduce((sum, row) => sum + row.tools.length, 0)
+const pageSize = { desktop: null, mobile: 11 } satisfies PageSize
+const totalPages = Math.max(1, Math.ceil(count / pageSize.mobile))
 
 const tabs = [
   {
@@ -77,62 +87,70 @@ const hrefFor = (page: number) => `?page=${page}#${intro.id}`
       headerTheme="light"
     />
 
-    <section id={intro.id} class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
-      <div class="flex flex-col gap-3 border-l border-neutral-100 pt-[180px] pb-10 pl-5 lg:gap-10 lg:pt-[120px] lg:pb-5 lg:pl-0">
-        <div class="flex flex-col gap-2 lg:flex-row lg:gap-5 lg:px-5">
-          <h2 class="text-display-5 font-medium whitespace-pre-line text-neutral-800 lg:flex-1 lg:text-neutral-900">
-            {intro.title}
-          </h2>
-          <div class="text-body-md flex flex-col gap-2 text-neutral-800 lg:flex-1 lg:flex-row lg:gap-5 lg:pt-2">
-            {intro.paragraphs.map((paragraph) => (
-              <p class="lg:flex-1">{paragraph}</p>
-            ))}
+    <ListingFilter pageSize={pageSize}>
+      <section id={intro.id} class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
+        <div class="flex flex-col gap-3 border-l border-neutral-100 pt-[180px] pb-10 pl-5 lg:gap-10 lg:pt-[120px] lg:pb-5 lg:pl-0">
+          <div class="flex flex-col gap-2 lg:flex-row lg:gap-5 lg:px-5">
+            <h2 class="text-display-5 font-medium whitespace-pre-line text-neutral-800 lg:flex-1 lg:text-neutral-900">
+              {intro.title}
+            </h2>
+            <div class="text-body-md flex flex-col gap-2 text-neutral-800 lg:flex-1 lg:flex-row lg:gap-5 lg:pt-2">
+              {intro.paragraphs.map((paragraph) => (
+                <p class="lg:flex-1">{paragraph}</p>
+              ))}
+            </div>
           </div>
+          <FilterTabs
+            label={t(locale, 'tabs.toolCategory')}
+            layout="equal"
+            mobileBreakAfter={null}
+            options={tabs}
+          />
+          <Pagination
+            class="py-5 lg:hidden"
+            current={1}
+            total={totalPages}
+            hrefFor={hrefFor}
+            locale={locale}
+          />
         </div>
-        <FilterTabs
-          label={t(locale, 'tabs.toolCategory')}
-          layout="equal"
-          mobileBreakAfter={null}
-          options={tabs}
-        />
-        <Pagination
-          class="py-5 lg:hidden"
-          current={mobilePagination.current}
-          total={mobilePagination.total}
-          hrefFor={hrefFor}
-          locale={locale}
-        />
-      </div>
-    </section>
+      </section>
 
-    <div class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
-      <div class="flex flex-col gap-5 border-t border-l border-neutral-100 pt-[19px] pb-[140px] lg:gap-0 lg:border-t-0 lg:pt-0 lg:pb-[120px]">
-        {rows.map((row) => (
-          <ul class="-ml-px flex flex-col gap-5 border-neutral-100 lg:grid lg:grid-cols-4 lg:border-t lg:pt-[19px] lg:pb-10">
-            {row.tools.map((tool) => (
-              <li class="flex">
-                <ToolCard
-                  category={{ label: row.category.label, tone: row.category.tone }}
-                  name={tool.name}
-                  description={tool.description}
-                  source={{ label: t(locale, 'tool.source'), href: tool.sourceHref }}
-                  website={{ label: t(locale, 'tool.website'), href: tool.websiteHref }}
-                  github={{ label: t(locale, 'tool.github'), href: tool.githubHref }}
-                  class="w-full lg:h-[360px]"
-                />
-              </li>
-            ))}
-          </ul>
-        ))}
-        <Pagination
-          class="py-10 lg:hidden"
-          current={mobilePagination.current}
-          total={mobilePagination.total}
-          hrefFor={hrefFor}
-          locale={locale}
-        />
+      <div class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full">
+        <div
+          data-listing-items
+          class="flex scroll-mt-32 flex-col gap-5 border-t border-l border-neutral-100 pt-[19px] pb-[140px] lg:gap-0 lg:border-t-0 lg:pt-0 lg:pb-[120px]"
+        >
+          {rows.map((row) => (
+            <ul class="-ml-px flex flex-col gap-5 border-neutral-100 lg:grid lg:grid-cols-4 lg:border-t lg:pt-[19px] lg:pb-10 max-lg:[&:not(:has(>li:not([hidden])))]:hidden">
+              {row.tools.map((tool, index) => (
+                <li
+                  class:list={['flex', firstPageClass(row.start + index, pageSize)]}
+                  data-listing-item
+                >
+                  <ToolCard
+                    category={{ label: row.category.label, tone: row.category.tone }}
+                    name={tool.name}
+                    description={tool.description}
+                    source={{ label: t(locale, 'tool.source'), href: tool.sourceHref }}
+                    website={{ label: t(locale, 'tool.website'), href: tool.websiteHref }}
+                    github={{ label: t(locale, 'tool.github'), href: tool.githubHref }}
+                    class="w-full lg:h-[360px]"
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+          <Pagination
+            class="py-10 lg:hidden"
+            current={1}
+            total={totalPages}
+            hrefFor={hrefFor}
+            locale={locale}
+          />
+        </div>
       </div>
-    </div>
+    </ListingFilter>
 
     <CtaBanner {...cta} />
 
