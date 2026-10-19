@@ -138,8 +138,6 @@ export const sort = (locale: Locale, prefix: string) => ({
   options: sortOptions(locale, ['a-z', 'z-a', 'newest', 'oldest']),
 })
 
-export const pagination = { current: 1, total: 10 }
-
 export const longDate = (locale: Locale, value: string): string =>
   new Intl.DateTimeFormat(locale, {
     timeZone: 'UTC',
