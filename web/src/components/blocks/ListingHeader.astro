@@ -57,15 +57,20 @@ const textGap = textGaps[descriptionStyle]
       </>
     )}
     {layout === 'split' && (
-      <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-[10px]">
-        <div class:list={['flex flex-col text-neutral-800 lg:w-[625px]', textGap]}>
+      <div class="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between xl:gap-[10px]">
+        <div
+          class:list={[
+            'flex flex-col text-neutral-800 lg:w-[625px] xl:w-auto xl:max-w-[625px] xl:min-w-0 xl:flex-1',
+            textGap,
+          ]}
+        >
           <h2 class="text-display-5 font-medium">{title}</h2>
           {description && <p class={descriptionStyles[descriptionStyle]}>{description}</p>}
           <div class={tabsWidths[tabsWidth]}>
             <slot name="tabs" />
           </div>
         </div>
-        <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-end lg:gap-0">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-0 xl:shrink-0 xl:justify-end">
           <slot name="controls" />
         </div>
       </div>
