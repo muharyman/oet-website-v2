@@ -4044,6 +4044,10 @@ export interface SiteSetting {
     description: string;
   };
   /**
+   * Picture shown when a page without its own picture is shared on social media or in chat apps. It is cropped to 1200 × 630.
+   */
+  shareImage: number | Media;
+  /**
    * Profiles of the organisation. The current design does not show them; they are available for structured data and later use.
    */
   socialLinks?:
@@ -6009,6 +6013,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  shareImage?: T;
   socialLinks?:
     | T
     | {

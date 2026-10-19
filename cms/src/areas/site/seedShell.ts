@@ -1,6 +1,6 @@
 import type { Payload } from 'payload'
 
-import { content, findId, rows } from '../../seed/lib'
+import { content, findId, rows, upload } from '../../seed/lib'
 import type { HomeSource } from './seedHome'
 
 interface LinkSource {
@@ -207,6 +207,7 @@ const seedSettings = async (payload: Payload, { footer }: FooterSource, home: Ho
   if (email.href !== `mailto:${email.label}`)
     throw new Error(`The footer email link ${email.href} does not open ${email.label}`)
 
+  const [firstSlide] = home.hero.slides
   await payload.updateGlobal({
     slug: 'site-settings',
     depth: 0,
@@ -214,6 +215,7 @@ const seedSettings = async (payload: Payload, { footer }: FooterSource, home: Ho
       siteName: home.meta.title,
       contactEmail: email.label,
       meta: { title: home.meta.title, description: home.meta.description },
+      shareImage: await upload(payload, firstSlide.image, firstSlide.alt),
     },
   })
 }
