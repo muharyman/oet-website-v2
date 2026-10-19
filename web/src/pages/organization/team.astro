@@ -99,6 +99,7 @@ const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
           slot="tabs"
           label={t(defaultLocale, 'tabs.teamGroup')}
           layout="wrap"
+          mobileBreakAfter={null}
           options={filterGroups}
         />
         <SortControl

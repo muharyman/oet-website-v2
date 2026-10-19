@@ -89,7 +89,12 @@ const hrefFor = (page: number) => `?page=${page}#${intro.id}`
             ))}
           </div>
         </div>
-        <FilterTabs label={t(locale, 'tabs.toolCategory')} layout="equal" options={tabs} />
+        <FilterTabs
+          label={t(locale, 'tabs.toolCategory')}
+          layout="equal"
+          mobileBreakAfter={null}
+          options={tabs}
+        />
         <Pagination
           class="py-5 lg:hidden"
           current={mobilePagination.current}
