@@ -61,6 +61,7 @@ const tocItems = blocks.flatMap((block) => block.items)
 <BaseLayout
   title={`${publication.title} | Open Energy Transition`}
   description={publication.excerpt}
+  share={{ image: publication.detail.hero, type: 'article' }}
   headerTheme="dark"
   initialHeaderTheme="light"
 >

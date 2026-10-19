@@ -90,6 +90,7 @@ const thumbnailLabel = (position: number, total: number) =>
 <BaseLayout
   title={event.title}
   description={event.excerpt}
+  share={{ image: event.poster.image, type: 'article' }}
   headerTheme="dark"
   initialHeaderTheme="dark"
 >
