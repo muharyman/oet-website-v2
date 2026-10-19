@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { globalRead } from '../../access'
-import { href, image, plainText, select, seo } from '../../fields'
+import { href, image, plainText, select, seo, text, textarea } from '../../fields'
 
 export const socialKinds = ['linkedin', 'github', 'x', 'youtube', 'bluesky', 'mastodon'] as const
 
@@ -90,7 +90,7 @@ export const SiteSettings: GlobalConfig = {
               label: 'Google Tag Manager id',
               admin: {
                 description:
-                  'Container id, for example GTM-ABC1234. Leave empty to load no tag manager.',
+                  'Container id, for example GTM-ABC1234. Leave empty to load no tag manager. It only loads for visitors who accept analytics in the cookie banner.',
               },
               validate: (value: unknown) => {
                 if (value === null || value === undefined || value === '') return true
@@ -98,6 +98,44 @@ export const SiteSettings: GlobalConfig = {
                   ? true
                   : 'Use the form GTM-XXXXXXX'
               },
+            },
+          ],
+        },
+        {
+          label: 'Cookie consent',
+          description:
+            'Texts of the cookie banner and of the privacy settings dialog that "Cookies Settings" in the footer opens. The banner only appears when a Google Tag Manager id is set, because there is nothing else to consent to.',
+          fields: [
+            {
+              name: 'consent',
+              type: 'group',
+              label: 'Cookie consent',
+              fields: [
+                textarea('notice', {
+                  required: true,
+                  label: 'Banner text',
+                  description:
+                    'Shown at the bottom of the first page a visitor opens. A link to the privacy statement is added after it.',
+                }),
+                text('modalTitle', { required: true, label: 'Settings title' }),
+                textarea('modalDescription', {
+                  required: true,
+                  label: 'Settings introduction',
+                }),
+                text('necessaryTitle', { required: true, label: 'Necessary service name' }),
+                textarea('necessaryDescription', {
+                  required: true,
+                  label: 'Necessary service description',
+                  description:
+                    'What the always-on part does, for example storing the consent choice.',
+                }),
+                text('analyticsTitle', { required: true, label: 'Analytics service name' }),
+                textarea('analyticsDescription', {
+                  required: true,
+                  label: 'Analytics service description',
+                  description: 'What Google Tag Manager collects and who processes it.',
+                }),
+              ],
             },
           ],
         },
