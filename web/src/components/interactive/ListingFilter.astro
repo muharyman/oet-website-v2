@@ -28,7 +28,7 @@ const { pageSize, class: className } = Astro.props
       const lists = [...this.querySelectorAll<HTMLElement>('[data-listing-items]')].map(
         (element) => ({
           element,
-          items: [...element.querySelectorAll<HTMLElement>(':scope > [data-listing-item]')],
+          items: [...element.querySelectorAll<HTMLElement>('[data-listing-item]')],
         }),
       )
       const [primary] = lists
@@ -160,9 +160,9 @@ const { pageSize, class: className } = Astro.props
             else link.removeAttribute('aria-current')
           }
         }
-        const results = lists.map(({ element, items }) => {
+        const results = lists.map(({ items }) => {
           const ordered = sorter ? [...items].sort(sorter) : items
-          element.append(...ordered)
+          for (const item of ordered) item.parentElement?.append(item)
           return { items, shown: ordered.filter(matches) }
         })
         const count = results[0].shown.length
