@@ -119,6 +119,17 @@ const en = {
   'tool.role.maintainer': 'Maintainer',
   'tool.role.co-maintainer': 'Co-maintainer',
   'tool.role.maintainers': 'Maintainers',
+  'consent.title': 'Cookie consent',
+  'consent.accept': 'Accept all',
+  'consent.decline': 'Reject all',
+  'consent.settings': 'Settings',
+  'consent.save': 'Save choices',
+  'consent.close': 'Close',
+  'consent.privacyName': 'Privacy Statement',
+  'consent.privacyText': 'To learn more, please read our {privacyPolicy}.',
+  'consent.necessary': 'Necessary',
+  'consent.analytics': 'Analytics',
+  'consent.alwaysOn': '(always on)',
 } as const
 
 export type UiKey = keyof typeof en
