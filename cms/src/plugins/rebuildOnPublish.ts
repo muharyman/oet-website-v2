@@ -2,6 +2,7 @@ import type {
   CollectionAfterChangeHook,
   CollectionAfterDeleteHook,
   CollectionConfig,
+  CollectionSlug,
   GlobalAfterChangeHook,
   GlobalConfig,
   PayloadRequest,
@@ -23,14 +24,31 @@ const schedule = (url: string, req: PayloadRequest) => {
   waitUntil(trigger(url, req).catch((error: unknown) => req.payload.logger.error(error)))
 }
 
+const isCollectionSlug = (req: PayloadRequest, slug: string): slug is CollectionSlug =>
+  slug in req.payload.collections
+
 const hasDrafts = (collection: CollectionConfig) =>
   typeof collection.versions === 'object' && Boolean(collection.versions.drafts)
 
 const withCollectionHooks = (url: string, collection: CollectionConfig): CollectionConfig => {
   const drafts = hasDrafts(collection)
-  const afterChange: CollectionAfterChangeHook = ({ doc, previousDoc, req }) => {
-    const published = doc._status === 'published' || previousDoc?._status === 'published'
-    if (!drafts || published) schedule(url, req)
+  const afterChange: CollectionAfterChangeHook = async ({ doc, previousDoc, req }) => {
+    if (!drafts || doc._status === 'published') {
+      schedule(url, req)
+      return doc
+    }
+    if (previousDoc?._status === 'published') {
+      const slug = collection.slug
+      if (!isCollectionSlug(req, slug)) throw new Error(`Unknown collection ${slug}`)
+      const current = await req.payload.findByID({
+        collection: slug,
+        id: doc.id,
+        draft: false,
+        depth: 0,
+        req,
+      })
+      if (!('_status' in current) || current._status !== 'published') schedule(url, req)
+    }
     return doc
   }
   const afterDelete: CollectionAfterDeleteHook = ({ doc, req }) => {
