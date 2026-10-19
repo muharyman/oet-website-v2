@@ -63,7 +63,13 @@ const hrefFor = (page: number) => `?page=${page}`
         topSpace={180}
         id="success-stories"
       >
-        <FilterTabs slot="tabs" label="Project status" layout="compact" options={statusTabs} />
+        <FilterTabs
+          slot="tabs"
+          label="Project status"
+          layout="compact"
+          mobileBreakAfter={null}
+          options={statusTabs}
+        />
         <FilterBar slot="controls" locale={defaultLocale} filters={filters} sort={sort} />
         <Pagination
           class="pt-5 lg:hidden"
@@ -85,8 +91,20 @@ const hrefFor = (page: number) => `?page=${page}`
         topSpace={180}
         id="news"
       >
-        <FilterTabs slot="tabs" label="Event state" layout="compact" options={eventStateTabs} />
-        <FilterTabs slot="controls" label="Event type" layout="compact" options={eventTypeTabs} />
+        <FilterTabs
+          slot="tabs"
+          label="Event state"
+          layout="compact"
+          mobileBreakAfter={null}
+          options={eventStateTabs}
+        />
+        <FilterTabs
+          slot="controls"
+          label="Event type"
+          layout="compact"
+          mobileBreakAfter={null}
+          options={eventTypeTabs}
+        />
         <SortControl
           slot="controls"
           {...sort}
@@ -108,13 +126,19 @@ const hrefFor = (page: number) => `?page=${page}`
         topSpace={120}
         id="team"
       >
-        <FilterTabs slot="tabs" label="Team group" layout="wrap" options={teamTabs} />
+        <FilterTabs
+          slot="tabs"
+          label="Team group"
+          layout="wrap"
+          mobileBreakAfter={null}
+          options={teamTabs}
+        />
         <SortControl slot="controls" {...sort} id="sort-team" icon="sort" align="right" />
       </ListingHeader>
     </div>
 
     <div data-demo="tabs-equal" class="max-w-page px-gutter lg:px-gutter-lg mx-auto w-full py-10">
-      <FilterTabs label="Tool category" layout="equal" options={toolTabs} />
+      <FilterTabs label="Tool category" layout="equal" mobileBreakAfter={null} options={toolTabs} />
     </div>
 
     <div data-demo="pagination" class="px-gutter mx-auto w-full max-w-[412px]">

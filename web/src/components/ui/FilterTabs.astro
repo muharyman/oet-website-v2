@@ -5,9 +5,10 @@ interface Props {
   label: string
   layout: 'compact' | 'wrap' | 'equal'
   options: Option[]
+  mobileBreakAfter: number | null
 }
 
-const { label, layout, options } = Astro.props
+const { label, layout, options, mobileBreakAfter } = Astro.props
 
 const lists: Record<Props['layout'], string> = {
   compact: 'flex flex-wrap pt-px pl-px',
@@ -23,16 +24,19 @@ const inactive = 'border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-
 
 <nav aria-label={label}>
   <ul class={lists[layout]}>
-    {options.map((option) => (
-      <li class="contents">
-        <a
-          href={option.href}
-          class:list={[item, option.active ? active : inactive]}
-          aria-current={option.active ? 'true' : undefined}
-        >
-          {option.label}
-        </a>
-      </li>
+    {options.map((option, index) => (
+      <>
+        <li class="contents">
+          <a
+            href={option.href}
+            class:list={[item, option.active ? active : inactive]}
+            aria-current={option.active ? 'true' : undefined}
+          >
+            {option.label}
+          </a>
+        </li>
+        {index === mobileBreakAfter && <li role="none" class="basis-full lg:hidden" />}
+      </>
     ))}
   </ul>
 </nav>

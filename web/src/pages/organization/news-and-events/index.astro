@@ -97,11 +97,17 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
           <FilterTabs
             label={t(locale, 'tabs.eventState')}
             layout="compact"
+            mobileBreakAfter={null}
             options={stateOptions}
           />
         </div>
         <div slot="controls" data-filter="type">
-          <FilterTabs label={t(locale, 'tabs.eventType')} layout="compact" options={typeOptions} />
+          <FilterTabs
+            label={t(locale, 'tabs.eventType')}
+            layout="compact"
+            mobileBreakAfter={null}
+            options={typeOptions}
+          />
         </div>
         <SortControl
           slot="controls"
