@@ -6,3 +6,4 @@ database
 /media*
 next-env.d.ts
 tsconfig.tsbuildinfo
+.env.vercel
