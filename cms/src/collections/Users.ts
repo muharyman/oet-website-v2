@@ -1,16 +1,16 @@
 import type { CollectionConfig } from 'payload'
 
-import { admin, adminField, authenticated } from '../access'
+import { admin, adminField, editor } from '../access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: { useAPIKey: true },
   access: {
-    read: authenticated,
+    read: editor,
     create: admin,
-    update: authenticated,
+    update: editor,
     delete: admin,
-    admin: ({ req }) => Boolean(req.user),
+    admin: ({ req }) => req.user?.role === 'admin' || req.user?.role === 'editor',
   },
   admin: {
     group: 'Administration',
@@ -27,7 +27,12 @@ export const Users: CollectionConfig = {
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Editor', value: 'editor' },
+        { label: 'Preview (read only)', value: 'preview' },
       ],
+      admin: {
+        description:
+          'Admin manages everything including users. Editor manages content. Preview only reads, including drafts; it is the role of the API key the website uses for draft previews.',
+      },
       access: { create: adminField, update: adminField },
     },
   ],

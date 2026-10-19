@@ -2,7 +2,7 @@ import type { Access, FieldAccess } from 'payload'
 
 export const anyone: Access = () => true
 
-export const authenticated: Access = ({ req }) => Boolean(req.user)
+export const editor: Access = ({ req }) => req.user?.role === 'admin' || req.user?.role === 'editor'
 
 export const admin: Access = ({ req }) => req.user?.role === 'admin'
 
@@ -15,19 +15,19 @@ export const publishedOrAuthenticated: Access = ({ req }) => {
 
 export const publicRead = {
   read: anyone,
-  create: authenticated,
-  update: authenticated,
-  delete: authenticated,
+  create: editor,
+  update: editor,
+  delete: editor,
 }
 
 export const publishedRead = {
   read: publishedOrAuthenticated,
-  create: authenticated,
-  update: authenticated,
-  delete: authenticated,
+  create: editor,
+  update: editor,
+  delete: editor,
 }
 
 export const globalRead = {
   read: anyone,
-  update: authenticated,
+  update: editor,
 }

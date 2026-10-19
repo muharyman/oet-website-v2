@@ -1,6 +1,6 @@
 import type { CollectionConfig, PayloadRequest } from 'payload'
 
-import { anyone, authenticated } from '../../access'
+import { anyone, editor } from '../../access'
 import { plainText } from '../../fields'
 
 const formName = /^[a-z0-9]+(-[a-z0-9]+)*$/
@@ -21,10 +21,10 @@ const plainObject = (value: unknown) =>
 export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
   access: {
-    read: authenticated,
+    read: editor,
     create: anyone,
     update: () => false,
-    delete: authenticated,
+    delete: editor,
   },
   defaultSort: '-createdAt',
   labels: { singular: 'Form submission', plural: 'Form submissions' },
