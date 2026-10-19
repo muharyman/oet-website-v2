@@ -111,6 +111,7 @@ const hrefFor = (page: number) => `?page=${page}`
           id="sort-news"
           icon="sort"
           align="right"
+          listing={null}
           class="lg:-ml-px"
         />
       </ListingHeader>
@@ -133,7 +134,14 @@ const hrefFor = (page: number) => `?page=${page}`
           mobileBreakAfter={null}
           options={teamTabs}
         />
-        <SortControl slot="controls" {...sort} id="sort-team" icon="sort" align="right" />
+        <SortControl
+          slot="controls"
+          {...sort}
+          id="sort-team"
+          icon="sort"
+          align="right"
+          listing={null}
+        />
       </ListingHeader>
     </div>
 

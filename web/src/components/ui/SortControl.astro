@@ -12,10 +12,11 @@ interface Props {
   options: Option[]
   selected: string
   align: 'left' | 'right'
+  listing: 'sort' | { facet: string } | null
   class?: string
 }
 
-const { id, label, prefix, icon, options, selected, align, class: className } = Astro.props
+const { id, label, prefix, icon, options, selected, align, listing, class: className } = Astro.props
 
 const current = options.find((option) => option.value === selected)
 if (!current) throw new Error(`SortControl "${id}": selected value "${selected}" is not an option`)
@@ -23,7 +24,12 @@ if (!current) throw new Error(`SortControl "${id}": selected value "${selected}"
 const aligns: Record<Props['align'], string> = { left: 'left-0', right: 'right-0' }
 ---
 
-<oet-select class:list={['relative block', className]} data-value={selected}>
+<oet-select
+  class:list={['relative block', className]}
+  data-value={selected}
+  data-listing-sort={listing === 'sort' ? '' : undefined}
+  data-listing-facet={listing !== null && listing !== 'sort' ? listing.facet : undefined}
+>
   <button
     type="button"
     id={`${id}-button`}
@@ -79,6 +85,18 @@ const aligns: Record<Props['align'], string> = { left: 'left-0', right: 'right-0
 
 <script>
   class OetSelect extends HTMLElement {
+    setValue(value: string) {
+      const current = this.querySelector('[data-current]')
+      const options = [...this.querySelectorAll<HTMLLIElement>('[role="option"]')]
+      const option = options.find((item) => item.dataset.value === value)
+      if (!current || !option) throw new Error(`oet-select: no option "${value}"`)
+      options.forEach((item) =>
+        item.setAttribute('aria-selected', item === option ? 'true' : 'false'),
+      )
+      current.textContent = option.textContent
+      this.dataset.value = value
+    }
+
     connectedCallback() {
       const button = this.querySelector('button')
       const list = this.querySelector('ul')
@@ -98,7 +116,7 @@ const aligns: Record<Props['align'], string> = { left: 'left-0', right: 'right-0
       const open = () => {
         list.hidden = false
         button.setAttribute('aria-expanded', 'true')
-        mark(active)
+        mark(options.findIndex((option) => option.getAttribute('aria-selected') === 'true'))
         list.focus()
       }
       const close = (restoreFocus: boolean) => {

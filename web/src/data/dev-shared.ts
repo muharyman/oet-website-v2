@@ -582,6 +582,7 @@ const choices = (all: string, values: string[]) => [
 export const filters = [
   {
     id: 'filter-region',
+    facet: 'region',
     label: 'Region',
     selected: 'all',
     options: choices('All Region', [
@@ -594,6 +595,7 @@ export const filters = [
   },
   {
     id: 'filter-service',
+    facet: 'service',
     label: 'Services',
     selected: 'all',
     options: choices('All Services', [
@@ -604,12 +606,14 @@ export const filters = [
   },
   {
     id: 'filter-product',
+    facet: 'product',
     label: 'Products',
     selected: 'all',
     options: choices('All Products', ['PyPSA', 'Openmod-tracker', 'Detect-Infra']),
   },
   {
     id: 'filter-tag',
+    facet: 'tag',
     label: 'Tags',
     selected: 'all',
     options: choices('All Tags', ['SoftwareDevelopment', 'Hydrogen', 'Training']),
