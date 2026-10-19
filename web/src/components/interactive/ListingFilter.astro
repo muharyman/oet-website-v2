@@ -63,7 +63,14 @@ const { pageSize, class: className } = Astro.props
             if (value === null) throw new Error(`oet-listing: tab without "${key}" parameter`)
             return value
           }
-          return { key, links, valueOf, onClass: on.className, offClass: off.className }
+          return {
+            key,
+            links,
+            valueOf,
+            initial: valueOf(on),
+            onClass: on.className,
+            offClass: off.className,
+          }
         },
       )
       const selectFacets = [...this.querySelectorAll<Select>('oet-select[data-listing-facet]')].map(
@@ -92,13 +99,16 @@ const { pageSize, class: className } = Astro.props
 
       const params = new URLSearchParams(location.search)
       const filters = new Map<string, string>()
+      const defaults = new Map<string, string>()
       for (const group of tabGroups) {
         const requested = params.get(group.key)
         const known = group.links.some((link) => group.valueOf(link) === requested)
-        filters.set(group.key, requested !== null && known ? requested : 'all')
+        defaults.set(group.key, group.initial)
+        filters.set(group.key, requested !== null && known ? requested : group.initial)
       }
       for (const facet of selectFacets) {
         const requested = params.get(facet.key)
+        defaults.set(facet.key, 'all')
         const value = requested !== null && facet.values.includes(requested) ? requested : 'all'
         filters.set(facet.key, value)
         facet.select.setValue(value)
@@ -123,7 +133,7 @@ const { pageSize, class: className } = Astro.props
       const writeUrl = () => {
         const url = new URL(location.href)
         for (const [key, value] of filters) {
-          if (value === 'all') url.searchParams.delete(key)
+          if (value === defaults.get(key)) url.searchParams.delete(key)
           else url.searchParams.set(key, value)
         }
         if (sortSelect && sortSelect.dataset.value !== initialSort)
