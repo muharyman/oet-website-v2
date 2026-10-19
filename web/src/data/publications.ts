@@ -173,7 +173,7 @@ export const loadPublicationsPage = async (locale: Locale) => {
       id: listingId,
       title: page.listing.title,
       typeTabs: [
-        { type: 'academic', label: tabs.academic, href: routes.publications },
+        { type: 'academic', label: tabs.academic, href: routes.academicPublications },
         { type: 'blogs', label: tabs.blogs, href: routes.blogs },
         { type: 'policy-briefs', label: tabs.policyBriefs, href: routes.policyBriefs },
         { type: 'reports', label: tabs.reports, href: routes.reports },

@@ -9,6 +9,7 @@ export const routes = {
   successStory: (slug: string) => `/outputs/success-stories/${slug}`,
   publications: '/outputs/publications',
   publication: (slug: string) => `/outputs/publications/${slug}`,
+  academicPublications: '/outputs/academic-publications',
   blogs: '/outputs/blogs',
   policyBriefs: '/outputs/policy-briefs',
   reports: '/outputs/reports',
