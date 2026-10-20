@@ -8,8 +8,9 @@ export const Pages: CollectionConfig = {
   slug: 'pages',
   access: publishedRead,
   versions: draftVersions,
+  labels: { singular: 'Legal page', plural: 'Legal pages' },
   admin: {
-    group: 'Events',
+    group: 'Site',
     ...previewOptions((slug) => `/${slug}`, always),
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
