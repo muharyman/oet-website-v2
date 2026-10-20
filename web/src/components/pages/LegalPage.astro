@@ -49,7 +49,14 @@ const hasToc = items.length > 1
           hasToc && 'lg:pr-[120px]',
         ]}
       >
-        <RichText html={html} size="md" class:list={[!hasToc && 'lg:max-w-[847px]']} />
+        <RichText
+          html={html}
+          size="md"
+          class:list={[
+            'text-justify hyphens-auto [&_:is(h2,h3,h4)]:text-left [&_:is(h2,h3,h4)]:hyphens-manual',
+            !hasToc && 'lg:max-w-[847px]',
+          ]}
+        />
       </div>
       {hasToc && (
         <aside class="border-t border-l border-neutral-100 pt-[60px] pr-3 pb-5 pl-5 max-lg:hidden lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0">
