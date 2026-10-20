@@ -19,9 +19,15 @@ const plain = (html: string) =>
 
 export const headingId = (label: string) => slugify(label)
 
-export const withHeadingIds = (html: string): { html: string; items: TocItem[] } => {
+type HeadingTag = 'h2' | 'h3' | 'h4'
+
+export const withHeadingIds = (
+  html: string,
+  tags: HeadingTag[],
+): { html: string; items: TocItem[] } => {
   const items: TocItem[] = []
-  const output = html.replace(/<(h[23])>([\s\S]*?)<\/\1>/g, (_, tag: string, inner: string) => {
+  const pattern = new RegExp(`<(${tags.join('|')})>([\\s\\S]*?)<\\/\\1>`, 'g')
+  const output = html.replace(pattern, (_, tag: string, inner: string) => {
     const label = plain(inner)
     const id = slugify(label)
     items.push({ id, label })

@@ -35,7 +35,7 @@ const text = (value: string, emphasis: boolean) => ({ text: value, emphasis })
 
 const blocks = detail.body.map((block) => {
   if (block.kind === 'richText') {
-    const { html, items } = withHeadingIds(block.html)
+    const { html, items } = withHeadingIds(block.html, ['h2', 'h3'])
     return { ...block, html, items }
   }
   if (block.kind === 'stats') {
