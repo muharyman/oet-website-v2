@@ -17,7 +17,7 @@ interface Props {
   title: string
   excerpt: string
   date: string
-  category: string
+  category: string | null
   href: string
   linkLabel: string
   media: Media | null
@@ -47,7 +47,7 @@ const shellMedia =
   tab={null}
   body="fixed"
   media={shellMedia}
-  footer="content"
+  footer={category === null ? 'none' : 'content'}
   height={height}
   class={className}
 >
@@ -70,7 +70,9 @@ const shellMedia =
       class="absolute inset-0 size-full object-cover"
     />
   )}
-  <p slot="footer" class="truncate">
-    {category}
-  </p>
+  {category !== null && (
+    <p slot="footer" class="truncate">
+      {category}
+    </p>
+  )}
 </CardShell>

@@ -1,7 +1,7 @@
 import type { ImageMetadata } from 'astro'
 import type { SvgComponent } from 'astro/types'
 import type { Locale } from '../i18n/config'
-import { sortOptions } from '../i18n/groups'
+import { sortOptions, type SortValue } from '../i18n/groups'
 import { t, type UiKey } from '../i18n/ui'
 import { findAll, required, resolved, richHtml, texts, type Doc } from '../lib/cms'
 import { icon, image, optionalImage } from '../lib/media'
@@ -130,11 +130,11 @@ export const loadFilters = async (locale: Locale, prefix: string): Promise<Filte
   ]
 }
 
-export const sort = (locale: Locale, prefix: string) => ({
+export const sort = (locale: Locale, prefix: string, selected: SortValue) => ({
   id: `${prefix}-sort`,
   label: t(locale, 'filter.sort'),
   prefix: t(locale, 'filter.sort'),
-  selected: 'a-z',
+  selected,
   options: sortOptions(locale, ['a-z', 'z-a', 'newest', 'oldest']),
 })
 
