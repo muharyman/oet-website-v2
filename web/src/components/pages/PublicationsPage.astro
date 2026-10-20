@@ -16,7 +16,7 @@ import { routes } from '../../data/routes'
 import { defaultLocale } from '../../i18n/config'
 import { t } from '../../i18n/ui'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { firstPageClass, sortByTitle } from '../../lib/listing'
+import { firstPageClass, sortByNewest } from '../../lib/listing'
 
 interface Props {
   type: PublicationTypeId | null
@@ -42,8 +42,8 @@ const tabs = [
   })),
 ]
 const ofType = (items: Publication[]) => items.filter((item) => type === null || item.type === type)
-const listed = sortByTitle(ofType(listing.items), locale)
-const outputItems = ofType(outputs.items)
+const listed = sortByNewest(ofType(listing.items))
+const outputItems = sortByNewest(ofType(outputs.items))
 const hrefFor = (page: number) => `${base}?page=${page}#${listing.id}`
 const pages = (count: number, size: number) => Math.max(1, Math.ceil(count / size))
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
@@ -99,7 +99,7 @@ const grid =
           slot="controls"
           locale={locale}
           filters={filters}
-          sort={sort(locale, 'publications')}
+          sort={sort(locale, 'publications', 'newest')}
         />
         <Pagination
           class="py-5 lg:hidden"
@@ -187,7 +187,7 @@ const grid =
                     title={publication.title}
                     excerpt={publication.excerpt}
                     date={publication.date}
-                    category={publication.category}
+                    category={null}
                     href={routes.publication(publication.slug)}
                     linkLabel={t(locale, 'card.read')}
                     media={null}
