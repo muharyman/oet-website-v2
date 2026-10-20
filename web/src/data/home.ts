@@ -59,7 +59,7 @@ export interface CarouselStep {
 }
 
 export interface LogoGroup {
-  label: string | null
+  label: string
   logos: Logo[]
 }
 
