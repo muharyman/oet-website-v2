@@ -4064,7 +4064,7 @@ export interface SiteSetting {
       }[]
     | null;
   /**
-   * Container id, for example GTM-ABC1234. Leave empty to load no tag manager. It only loads for visitors who accept analytics in the cookie banner.
+   * Google Analytics measurement id (G-ABC1234) or Tag Manager container id (GTM-ABC1234). Leave empty to load no tracking. It only loads for visitors who accept analytics in the cookie banner.
    */
   googleTagManagerId?: string | null;
   consent: {

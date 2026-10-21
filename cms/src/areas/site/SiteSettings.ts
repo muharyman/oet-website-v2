@@ -5,7 +5,7 @@ import { href, image, plainText, select, seo, text, textarea } from '../../field
 
 export const socialKinds = ['linkedin', 'github', 'x', 'youtube', 'bluesky', 'mastodon'] as const
 
-const tagManagerPattern = /^GTM-[A-Z0-9]+$/
+const tagManagerPattern = /^(GTM|G)-[A-Z0-9]+$/
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -87,16 +87,16 @@ export const SiteSettings: GlobalConfig = {
             {
               name: 'googleTagManagerId',
               type: 'text',
-              label: 'Google Tag Manager id',
+              label: 'Google tag id',
               admin: {
                 description:
-                  'Container id, for example GTM-ABC1234. Leave empty to load no tag manager. It only loads for visitors who accept analytics in the cookie banner.',
+                  'Google Analytics measurement id (G-ABC1234) or Tag Manager container id (GTM-ABC1234). Leave empty to load no tracking. It only loads for visitors who accept analytics in the cookie banner.',
               },
               validate: (value: unknown) => {
                 if (value === null || value === undefined || value === '') return true
                 return typeof value === 'string' && tagManagerPattern.test(value)
                   ? true
-                  : 'Use the form GTM-XXXXXXX'
+                  : 'Use the form G-XXXXXXX or GTM-XXXXXXX'
               },
             },
           ],
