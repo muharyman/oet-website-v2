@@ -108,7 +108,10 @@ const cell =
               {step.number}
             </span>
             {step.image === null && placeholder !== undefined && (
-              <span class="text-heading-4 relative min-w-0 flex-1 text-center font-bold text-neutral-800 opacity-20">
+              <span
+                aria-hidden="true"
+                class="text-heading-4 relative min-w-0 flex-1 text-center font-bold text-neutral-600"
+              >
                 {placeholder}
               </span>
             )}

@@ -97,7 +97,7 @@ const fades: Record<Props['variant'], string> = {
   decorative: 'top-[12.543%] left-[6.641%] h-[92.268%] w-[82.578%]',
 }
 const pin =
-  'bg-brand-500 text-brand-50 absolute flex -translate-1/2 scale-(--pin-scale) items-center justify-center gap-[0.714em] min-h-[2.929em] border-[0.0714em] border-neutral-50 p-[0.7856em] text-[0.8121cqw] leading-[1.2] font-medium tracking-[-0.01em] whitespace-nowrap'
+  'bg-brand-500 text-neutral-50 absolute flex -translate-1/2 scale-(--pin-scale) items-center justify-center gap-[0.714em] min-h-[2.929em] border-[0.0714em] border-neutral-50 p-[0.7856em] text-[0.8121cqw] leading-[1.2] font-medium tracking-[-0.01em] whitespace-nowrap'
 ---
 
 <oet-team-globe
@@ -276,6 +276,10 @@ const pin =
     opacity: 0;
   }
 
+  .globe-pin:focus-visible {
+    z-index: 1;
+  }
+
   .globe-pin[data-hidden],
   .globe-card[data-hidden] {
     visibility: hidden;
@@ -293,10 +297,6 @@ const pin =
       const stage = this.querySelector<HTMLElement>('[data-globe="stage"]')!
       const pins = [...this.querySelectorAll<HTMLButtonElement>('[data-globe="pin"]')]
       let started = false
-      let pending: HTMLButtonElement | null = null
-      const hold = (event: Event) => {
-        pending = event.currentTarget as HTMLButtonElement
-      }
       const start = () => {
         if (started) return
         started = true
@@ -304,8 +304,7 @@ const pin =
         import('./teamGlobe.client')
           .then(({ mount }) => mount(this))
           .then(() => {
-            for (const pin of pins) pin.removeEventListener('click', hold)
-            if (pending) pending.click()
+            for (const pin of pins) pin.disabled = false
           })
       }
       const observer = new IntersectionObserver(
@@ -315,10 +314,6 @@ const pin =
         { rootMargin: '300px 0px' },
       )
       stage.tabIndex = 0
-      for (const pin of pins) {
-        pin.disabled = false
-        pin.addEventListener('click', hold)
-      }
       this.addEventListener('focusin', start, { once: true })
       observer.observe(this)
     }

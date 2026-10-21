@@ -1,6 +1,8 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
+import type { Locale } from '../../i18n/config'
+import { t } from '../../i18n/ui'
 
 type Columns = 4 | 6
 
@@ -17,13 +19,14 @@ interface Group {
 }
 
 interface Props {
+  locale: Locale
   columns: Columns
   slots: number
   groups: Group[]
   class?: string
 }
 
-const { columns, slots, groups, class: className } = Astro.props
+const { locale, columns, slots, groups, class: className } = Astro.props
 
 const grids: Record<Columns, string> = {
   4: 'grid-cols-4',
@@ -39,8 +42,29 @@ const logoClass =
 <oet-logo-wall
   class:list={['max-w-page px-gutter lg:px-gutter-lg mx-auto block w-full', className]}
 >
+  <button
+    type="button"
+    data-logo-pause
+    aria-pressed="false"
+    hidden
+    class="text-body-sm my-3 min-h-8 border border-neutral-800 px-3 text-neutral-900"
+  >
+    {t(locale, 'logos.pause')}
+  </button>
+  <div class="sr-only">
+    {groups.map((group) => (
+      <div>
+        <p>{group.label}</p>
+        <ul>
+          {group.logos.map((logo) => (
+            <li>{logo.name}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
   {groups.map((group) => (
-    <ul class:list={['grid', grids[columns]]} aria-label={group.label} data-logo-group>
+    <ul class:list={['grid', grids[columns]]} aria-hidden="true" data-logo-group>
       <li
         class="text-body-lg col-span-2 flex h-[120px] items-center border border-neutral-100 px-[39px] font-medium text-neutral-900"
         aria-hidden="true"
@@ -121,6 +145,8 @@ const logoClass =
     timer = 0
     visible = false
     held = false
+    paused = false
+    observer: IntersectionObserver | null = null
 
     connectedCallback() {
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -136,13 +162,15 @@ const logoClass =
         },
       )
       if (rotations.length === 0) return
+      const button = this.querySelector<HTMLButtonElement>('[data-logo-pause]')!
+      button.hidden = false
       let turn = 0
       const tick = () => {
         swap(rotations[turn % rotations.length])
         turn += 1
       }
       const update = () => {
-        const running = this.visible && !this.held
+        const running = this.visible && !this.held && !this.paused
         if (running && this.timer === 0) this.timer = window.setInterval(tick, interval)
         if (!running && this.timer !== 0) {
           window.clearInterval(this.timer)
@@ -155,15 +183,22 @@ const logoClass =
       }
       this.addEventListener('pointerenter', hold(true))
       this.addEventListener('pointerleave', hold(false))
-      new IntersectionObserver(([entry]) => {
+      button.addEventListener('click', () => {
+        this.paused = !this.paused
+        button.setAttribute('aria-pressed', String(this.paused))
+        update()
+      })
+      this.observer = new IntersectionObserver(([entry]) => {
         this.visible = entry.isIntersecting
         update()
-      }).observe(this)
+      })
+      this.observer.observe(this)
     }
 
     disconnectedCallback() {
       window.clearInterval(this.timer)
       this.timer = 0
+      if (this.observer !== null) this.observer.disconnect()
     }
   }
   customElements.define('oet-logo-wall', OetLogoWall)

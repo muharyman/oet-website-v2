@@ -15,6 +15,17 @@ const { pageSize, class: className } = Astro.props
   data-page-size-mobile={pageSize.mobile === null ? 'all' : pageSize.mobile}
 >
   <slot />
+  <noscript>
+    <style is:inline>
+      oet-listing [data-listing-item] {
+        display: revert;
+      }
+      oet-listing oet-pagination,
+      oet-listing oet-select {
+        display: none;
+      }
+    </style>
+  </noscript>
 </oet-listing>
 
 <script>

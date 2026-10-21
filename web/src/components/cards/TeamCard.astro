@@ -1,14 +1,13 @@
 ---
 import type { ImageMetadata } from 'astro'
-import type { SvgComponent } from 'astro/types'
 import { Image } from 'astro:assets'
 import type { Locale } from '../../i18n/config'
 import { t, type UiKey } from '../../i18n/ui'
 import ArrowRight from '../../icons/arrow-right.svg'
-import CommentHeart from '../../icons/comment-heart.svg'
-import Envelope from '../../icons/envelope.svg'
-import Github from '../../icons/github.svg'
-import Linkedin from '../../icons/linkedin.svg'
+import commentHeart from '../../icons/comment-heart.svg?url&no-inline'
+import envelope from '../../icons/envelope.svg?url&no-inline'
+import github from '../../icons/github.svg?url&no-inline'
+import linkedin from '../../icons/linkedin.svg?url&no-inline'
 
 type SocialKind = 'email' | 'github' | 'linkedin' | 'message'
 type Box = { x: number; y: number; width: number; height: number }
@@ -34,11 +33,11 @@ const socialLabels: Record<SocialKind, UiKey> = {
   message: 'social.message',
 }
 
-const icons: Record<SocialKind, SvgComponent> = {
-  email: Envelope,
-  github: Github,
-  linkedin: Linkedin,
-  message: CommentHeart,
+const icons: Record<SocialKind, string> = {
+  email: envelope,
+  github,
+  linkedin,
+  message: commentHeart,
 }
 
 const glows: Record<Props['glow'], string> = {
@@ -105,11 +104,18 @@ const section = 'w-full border border-neutral-100'
     <div class="flex items-start gap-1">
       <ul class="text-brand-500 flex gap-1">
         {links.map((link) => {
-          const Icon = icons[link.kind]
           return (
             <li class="flex">
-              <a href={link.href} aria-label={`${t(locale, socialLabels[link.kind])}: ${name}`}>
-                <Icon class="size-[14px]" aria-hidden="true" />
+              <a
+                class="flex min-h-6 min-w-6 items-center justify-center"
+                href={link.href}
+                aria-label={`${t(locale, socialLabels[link.kind])}: ${name}`}
+              >
+                <span
+                  class="size-[14px] bg-current"
+                  style={{ mask: `url("${icons[link.kind]}") center / contain no-repeat` }}
+                  aria-hidden="true"
+                />
               </a>
             </li>
           )
@@ -118,7 +124,7 @@ const section = 'w-full border border-neutral-100'
       <a
         href={profile.href}
         aria-label={`${profile.label}: ${name}`}
-        class="ml-auto flex h-[14px] items-center gap-[6px] text-[0.875rem] leading-none font-semibold tracking-[-0.01em] text-[#ee2042] hover:underline"
+        class="ml-auto flex h-[14px] items-center gap-[6px] text-[0.875rem] leading-none font-semibold tracking-[-0.01em] text-brand-600 hover:underline"
       >
         {profile.label}
         <ArrowRight class="h-2 w-[15px]" aria-hidden="true" />
