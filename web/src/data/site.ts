@@ -15,6 +15,7 @@ export interface ConsentTexts {
 
 export interface SiteSettings {
   name: string
+  meta: { title: string; description: string }
   shareImage: ImageMetadata
   profiles: string[]
   tagManagerId: string | null
@@ -27,6 +28,7 @@ export const loadSiteSettings = async (locale: Locale): Promise<SiteSettings> =>
   const { consent } = settings
   return {
     name: settings.siteName,
+    meta: settings.meta,
     shareImage: image(settings.shareImage, 'site share image'),
     profiles: required(settings.socialLinks, 'site social links').map((link) => link.url),
     tagManagerId:
