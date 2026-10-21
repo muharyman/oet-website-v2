@@ -26,8 +26,21 @@ const blob = mediaStorage() === 'blob'
 export default buildConfig({
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: ' - OET CMS' },
+    meta: {
+      titleSuffix: ' - OET CMS',
+      icons: { icon: '/oet-icon.svg' },
+      defaultOGImageType: 'off',
+    },
     importMap: { baseDir: dirname },
+    theme: 'light',
+    components: {
+      graphics: {
+        Logo: './components/Brand#Brand',
+        Icon: './components/Brand#BrandIcon',
+      },
+      beforeLogin: ['./components/Welcome#LoginWelcome'],
+      beforeDashboard: ['./components/Welcome#DashboardWelcome'],
+    },
   },
   collections: [...areas.flatMap((area) => area.collections), Media, Users],
   globals: areas.flatMap((area) => area.globals),
