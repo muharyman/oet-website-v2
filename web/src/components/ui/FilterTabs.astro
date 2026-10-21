@@ -35,7 +35,7 @@ const inactive = 'border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-
             {option.label}
           </a>
         </li>
-        {index === mobileBreakAfter && <li role="none" class="basis-full lg:hidden" />}
+        {index === mobileBreakAfter && <li aria-hidden="true" class="basis-full lg:hidden" />}
       </>
     ))}
   </ul>

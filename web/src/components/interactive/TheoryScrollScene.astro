@@ -271,6 +271,12 @@ const face = 'scene-face absolute'
   oet-theory-scene[data-enhanced][data-phase='2'] .scene-panel[data-state='initial'] {
     --p2: 1;
   }
+
+  oet-theory-scene[data-enhanced]:not([data-phase])
+    .scene-panel[data-state='initial']
+    .scene-caption[data-scene='goal'] {
+    visibility: hidden;
+  }
 </style>
 
 <script>

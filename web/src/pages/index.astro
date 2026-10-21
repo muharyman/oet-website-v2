@@ -126,8 +126,20 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
     <div class={container}>
       <div class="h-[158px] shadow-[inset_1px_0_0_var(--color-neutral-100),inset_-1px_0_0_var(--color-neutral-100)]"></div>
     </div>
-    <LogoWall columns={6} slots={10} groups={partnerGroups} class="hidden lg:block" />
-    <LogoWall columns={4} slots={18} groups={partnerGroupsMobile} class="lg:hidden" />
+    <LogoWall
+      locale={locale}
+      columns={6}
+      slots={10}
+      groups={partnerGroups}
+      class="hidden lg:block"
+    />
+    <LogoWall
+      locale={locale}
+      columns={4}
+      slots={18}
+      groups={partnerGroupsMobile}
+      class="lg:hidden"
+    />
 
     <section class={container}>
       <div class="py-[160px] shadow-[inset_1px_0_0_var(--color-neutral-100)]">

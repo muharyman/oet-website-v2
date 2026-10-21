@@ -248,8 +248,12 @@ export const mount = async (root: HTMLElement) => {
   for (const { country, pin } of items) {
     pin.addEventListener('click', () => select(country.code))
     pin.addEventListener('focus', () => {
-      if (outside(pin))
-        rotateTo(country.lon + VIEW_OFFSET.lon, clampLat(country.lat + VIEW_OFFSET.lat))
+      if (outside(pin)) {
+        cancelAnimationFrame(turn)
+        lon = country.lon + VIEW_OFFSET.lon
+        lat = clampLat(country.lat + VIEW_OFFSET.lat)
+        draw()
+      }
     })
   }
 
