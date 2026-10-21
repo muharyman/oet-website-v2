@@ -39,13 +39,13 @@ const walk = (directory) =>
     return statSync(path).isDirectory() ? walk(path) : [path]
   })
 
-const discovered = walk('dist')
+const discovered = walk('dist/client')
   .filter((file) => file.endsWith('index.html'))
   .map((file) =>
     file
       .split(/[\\/]/)
       .join('/')
-      .replace(/^dist/, '')
+      .replace(/^dist\/client/, '')
       .replace(/index\.html$/, ''),
   )
   .map((route) => (route === '/' ? route : route.replace(/\/$/, '')))

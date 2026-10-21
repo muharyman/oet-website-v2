@@ -32,7 +32,7 @@ const pages = [
 const modes = [
   ['mobile', []],
   ['desktop', ['--preset=desktop']],
-]
+].filter(([mode]) => process.env.LIGHTHOUSE_MODE === undefined || mode === process.env.LIGHTHOUSE_MODE)
 
 const folder = join('.screenshots', 'lighthouse', label)
 mkdirSync(folder, { recursive: true })
