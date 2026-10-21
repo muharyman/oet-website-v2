@@ -21,14 +21,20 @@ interface Share {
 }
 
 interface Props {
-  title: string
-  description: string
+  title: string | null
+  description: string | null
   share: Share
   headerTheme: HeaderTheme
   initialHeaderTheme: HeaderTheme
 }
 
-const { title, description, share, headerTheme, initialHeaderTheme } = Astro.props
+const {
+  title: pageTitle,
+  description: pageDescription,
+  share,
+  headerTheme,
+  initialHeaderTheme,
+} = Astro.props
 const locale = locales.find((code) => code === Astro.currentLocale)
 if (!locale) throw new Error(`Unsupported locale: ${Astro.currentLocale}`)
 const [navigation, footer, settings] = await Promise.all([
@@ -36,6 +42,8 @@ const [navigation, footer, settings] = await Promise.all([
   loadFooter(locale),
   loadSiteSettings(locale),
 ])
+const title = pageTitle === null ? settings.meta.title : pageTitle
+const description = pageDescription === null ? settings.meta.description : pageDescription
 
 const indexing = indexingEnabled()
 const previewPage = Astro.url.pathname.startsWith('/preview/')
