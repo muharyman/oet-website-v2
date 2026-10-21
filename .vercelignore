@@ -1,0 +1,16 @@
+legacy
+docs
+AGENTS.md
+CLAUDE.md
+.claude
+.vscode
+**/node_modules
+**/.next
+**/dist
+**/.astro
+**/.screenshots
+**/.env*
+cms/database
+cms/media
+web/src/assets/cms
+**/tsconfig.tsbuildinfo
