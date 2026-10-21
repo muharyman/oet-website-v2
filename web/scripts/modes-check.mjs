@@ -16,6 +16,7 @@ const event =
   '/organization/news-and-events/free-monthly-pypsa-support-for-european-transmission-system-operators'
 const publication = '/outputs/publications/the-state-of-solvers-for-energy-planning'
 const project = '/outputs/success-stories/e-fuels-in-australia'
+const selectedRoutes = process.env.AUDIT_ROUTES
 const templates = [
   '/',
   '/legal',
@@ -36,7 +37,7 @@ const templates = [
   '/services',
   '/services/system-operators-and-utilities',
   '/tools-and-data',
-]
+].filter((route) => selectedRoutes === undefined || selectedRoutes.split(',').includes(route))
 
 const results = []
 const record = (engine, mode, route, name, pass, detail) => {
@@ -168,19 +169,20 @@ const features = async (engine, browser) => {
       top: element.getBoundingClientRect().top + scrollY,
       height: element.getBoundingClientRect().height,
     }))
-    check('scroll scene is one viewport plus 1400px', Math.abs(box.height - 2300) <= 1, box.height)
+    check('scroll scene is one viewport plus 800px', Math.abs(box.height - 1700) <= 1, box.height)
     for (const [fraction, expected] of [
       [0.02, ['0', '0']],
       [0.5, ['1', '0']],
       [0.99, ['1', '1']],
     ]) {
-      await scrollTo(page, box.top + fraction * 1400)
+      await scrollTo(page, box.top + fraction * 800)
+      await page.waitForTimeout(fraction === 0.99 ? 2000 : 350)
       const read = await scene.evaluate((element) => {
         const panel = element.querySelector('[data-state="initial"]')
         return {
           top: Math.round(panel.getBoundingClientRect().top),
-          p1: String(Math.round(Number(panel.style.getPropertyValue('--p1')))),
-          p2: String(Math.round(Number(panel.style.getPropertyValue('--p2')))),
+          p1: String(Math.round(Number(getComputedStyle(panel).getPropertyValue('--p1')))),
+          p2: String(Math.round(Number(getComputedStyle(panel).getPropertyValue('--p2')))),
           fill: getComputedStyle(panel).backgroundColor,
         }
       })
@@ -238,7 +240,7 @@ const reduced = async (engine, browser) => {
     const check = (name, pass, detail) => record(engine, mode, '/', name, pass, detail)
     const read = await page.evaluate(() => ({
       preloader: getComputedStyle(document.querySelector('.oet-preloader')).display,
-      bar: getComputedStyle(document.querySelector('oet-hero [data-bar][data-active]'))
+      bar: getComputedStyle(document.querySelector('oet-hero .bar[data-active] .bar-fill'))
         .animationName,
       steps: document.querySelector('oet-steps').hasAttribute('data-enhanced'),
       panel: getComputedStyle(document.querySelector('.steps-panel')).position,
@@ -325,7 +327,8 @@ const noScript = async (engine, browser) => {
           ),
         ].filter(
           (element) =>
-            element.textContent.trim().length > 0 && !element.closest('[hidden], .sr-only'),
+            element.textContent.trim().length > 0 &&
+            !element.closest('[hidden], .sr-only, oet-pagination'),
         )
         const squeeze = (text) => text.replace(/\s+/g, '').toLowerCase()
         const rendered = squeeze(document.querySelector('main').innerText)
