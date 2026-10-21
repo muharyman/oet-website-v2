@@ -200,7 +200,10 @@ const titleSizesMobile: Record<Common['titleSizeMobile'], string> = {
 const heights: Record<'centered' | 'bottom' | 'left', string> = {
   centered: 'h-[800px] lg:h-[780px]',
   bottom: 'h-[800px] lg:h-[780px]',
-  left: person === null ? 'h-[573px] lg:h-[553px]' : 'h-[676px] lg:h-[553px]',
+  left:
+    person === null
+      ? 'min-h-[573px] lg:h-[553px] lg:min-h-0'
+      : 'min-h-[676px] lg:h-[553px] lg:min-h-0',
 }
 
 const chipsBottoms: Record<ChipsBottom, string> = {
@@ -215,8 +218,8 @@ const textLefts: Record<TextLeft, string> = {
 }
 
 const mobileAnchors: Record<MobileAnchor, { block: string; text: string }> = {
-  'bottom-30': { block: 'justify-end pb-[30px]', text: 'lg:flex-1' },
-  'bottom-50': { block: 'justify-end pb-[50px]', text: 'lg:flex-1' },
+  'bottom-30': { block: 'justify-end pt-[110px] pb-[30px]', text: 'lg:flex-1' },
+  'bottom-50': { block: 'justify-end pt-[110px] pb-[50px]', text: 'lg:flex-1' },
   'top-180': { block: 'justify-start pt-[180px] pb-[30px]', text: 'flex-1' },
 }
 

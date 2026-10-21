@@ -32,7 +32,9 @@ const wraps = (truncate: boolean) => (truncate ? 'truncate' : '[overflow-wrap:an
               >
                 <span class:list={['min-w-0 flex-1', wraps(link.truncate)]}>
                   {link.label.map((part) => (
-                    <span class:list={[part.underline && 'underline']}>{part.text}</span>
+                    <span class:list={['[overflow-wrap:anywhere]', part.underline && 'underline']}>
+                      {part.text}
+                    </span>
                   ))}
                 </span>
               </span>
@@ -48,7 +50,9 @@ const wraps = (truncate: boolean) => (truncate ? 'truncate' : '[overflow-wrap:an
               >
                 <span class:list={['min-w-0 flex-1', wraps(link.truncate)]}>
                   {link.label.map((part) => (
-                    <span class:list={[part.underline && 'underline']}>{part.text}</span>
+                    <span class:list={['[overflow-wrap:anywhere]', part.underline && 'underline']}>
+                      {part.text}
+                    </span>
                   ))}
                 </span>
                 <ArrowRight class="h-auto w-4 shrink-0" aria-hidden="true" />
