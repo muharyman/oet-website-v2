@@ -179,10 +179,16 @@ const config = JSON.stringify({
       ad_personalization: 'denied',
       analytics_storage: 'granted',
     })
-    layer.push({ 'gtm.start': Date.now(), event: 'gtm.js' })
     const script = document.createElement('script')
     script.async = true
-    script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(id)}`
+    if (id.startsWith('GTM-')) {
+      layer.push({ 'gtm.start': Date.now(), event: 'gtm.js' })
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(id)}`
+    } else {
+      gtag('js', new Date())
+      gtag('config', id)
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`
+    }
     script.dataset.tagManager = id
     document.head.append(script)
   }
