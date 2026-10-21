@@ -5,6 +5,7 @@ import * as migration_20261019_045923_site_share_image from './20261019_045923_s
 import * as migration_20261019_055458_user_preview_role from './20261019_055458_user_preview_role';
 import * as migration_20261019_075305_site_cookie_consent from './20261019_075305_site_cookie_consent';
 import * as migration_20261019_083318_draft_autosave from './20261019_083318_draft_autosave';
+import * as migration_20261020_040226_media_folders from './20261020_040226_media_folders';
 
 export const migrations = [
   {
@@ -40,6 +41,11 @@ export const migrations = [
   {
     up: migration_20261019_083318_draft_autosave.up,
     down: migration_20261019_083318_draft_autosave.down,
-    name: '20261019_083318_draft_autosave'
+    name: '20261019_083318_draft_autosave',
+  },
+  {
+    up: migration_20261020_040226_media_folders.up,
+    down: migration_20261020_040226_media_folders.down,
+    name: '20261020_040226_media_folders'
   },
 ];

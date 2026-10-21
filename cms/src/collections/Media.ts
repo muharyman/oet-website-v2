@@ -12,6 +12,7 @@ const mimeTypes = ['image/*', 'application/pdf', 'video/mp4']
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  folders: true,
   access: publicRead,
   admin: {
     group: 'Library',
