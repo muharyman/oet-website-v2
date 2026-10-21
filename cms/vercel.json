@@ -3,5 +3,5 @@
   "framework": "nextjs",
   "installCommand": "corepack pnpm install --frozen-lockfile",
   "buildCommand": "pnpm migrate && pnpm build",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ../package.json"
+  "ignoreCommand": "git diff --quiet \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD -- . ../package.json"
 }
