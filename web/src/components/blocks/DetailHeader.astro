@@ -95,7 +95,12 @@ const tone = tones[props.tone]
     aria-hidden="true"
   ></div>
   <div class="max-w-page lg:px-gutter-lg mx-auto flex w-full flex-col lg:flex-row lg:items-end">
-    <div class:list={['flex flex-col pt-[160px] lg:w-[847px] lg:shrink-0', tone.panel]}>
+    <div
+      class:list={[
+        'flex flex-col pt-[160px] lg:w-[calc(100%_-_325px)] lg:max-w-[847px] lg:shrink-0',
+        tone.panel,
+      ]}
+    >
       <div class="flex items-center px-5 pb-5 lg:min-h-[209px]">
         <h1
           class:list={[
