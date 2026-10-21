@@ -16,6 +16,7 @@ import { env } from './env'
 import { migrations } from './migrations'
 import { rebuildOnPublish } from './plugins/rebuildOnPublish'
 import { mediaStorage } from './storage'
+import { publicRead } from './access'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -41,6 +42,9 @@ export default buildConfig({
       beforeLogin: ['./components/Welcome#LoginWelcome'],
       beforeDashboard: ['./components/Welcome#DashboardWelcome'],
     },
+  },
+  folders: {
+    collectionOverrides: [({ collection }) => ({ ...collection, access: publicRead })],
   },
   collections: [...areas.flatMap((area) => area.collections), Media, Users],
   globals: areas.flatMap((area) => area.globals),
