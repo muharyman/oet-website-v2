@@ -6,6 +6,7 @@ import vercel from '@astrojs/vercel'
 import sitemap from '@astrojs/sitemap'
 import { cmsMedia } from './scripts/cms-media.mjs'
 import { pruneUnusedAssets } from './scripts/prune-unused-assets.mjs'
+import { cmsRedirects } from './scripts/cms-redirects.mjs'
 
 if (existsSync('.env')) process.loadEnvFile('.env')
 const site = process.env.SITE_URL
@@ -15,6 +16,7 @@ export default defineConfig({
   site,
   adapter: vercel(),
   integrations: [
+    cmsRedirects(),
     cmsMedia(),
     sitemap({
       serialize: (item) => {
