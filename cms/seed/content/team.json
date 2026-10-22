@@ -3,32 +3,24 @@
     "label": "Where OET’s at Across The World",
     "items": [
       {
-        "value": "99",
+        "value": "6",
         "label": "Africa"
       },
       {
-        "value": "99",
-        "label": "Antarctica"
-      },
-      {
-        "value": "99",
+        "value": "8",
         "label": "Asia"
       },
       {
-        "value": "99",
+        "value": "33",
         "label": "Europe"
       },
       {
-        "value": "99",
+        "value": "3",
         "label": "North America"
       },
       {
-        "value": "99",
+        "value": "1",
         "label": "South America"
-      },
-      {
-        "value": "99",
-        "label": "Australia/Oceania"
       }
     ]
   },
