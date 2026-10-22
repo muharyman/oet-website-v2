@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import DepartmentGrid from '../../components/blocks/DepartmentGrid.astro'
 import ImageInfoCard from '../../components/blocks/ImageInfoCard.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
+import Reveal from '../../components/interactive/Reveal.astro'
 import ValueCard from '../../components/cards/ValueCard.astro'
 import Button from '../../components/ui/Button.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
@@ -62,14 +63,23 @@ const cardPlacement = ['self-start', 'self-end lg:mt-[145px] lg:self-start']
               ))}
             </div>
           </div>
-          <div class="flex min-w-0 flex-col gap-5 lg:flex-1 lg:flex-row lg:items-start lg:pt-[218px] lg:pl-5">
-            {infoCards.map((card, index) => (
-              <ImageInfoCard
-                {...card}
-                class={`w-[305px] lg:w-0 lg:max-w-[305px] lg:flex-1 ${cardPlacement[index]}`}
-              />
-            ))}
-          </div>
+          <Reveal
+            axis="y"
+            order="index"
+            steps={[40, 30]}
+            easing="gentle"
+            duration={1.022}
+            delay={0}
+          >
+            <div class="flex min-w-0 flex-col gap-5 lg:flex-1 lg:flex-row lg:items-start lg:pt-[218px] lg:pl-5">
+              {infoCards.map((card, index) => (
+                <ImageInfoCard
+                  {...card}
+                  class={`w-[305px] lg:w-0 lg:max-w-[305px] lg:flex-1 ${cardPlacement[index]}`}
+                />
+              ))}
+            </div>
+          </Reveal>
         </section>
 
         <section>
@@ -89,7 +99,16 @@ const cardPlacement = ['self-start', 'self-end lg:mt-[145px] lg:self-start']
             actions={[]}
             class="pt-[180px] pr-5 pb-10 pl-[19px] lg:pt-[140px]"
           />
-          <DepartmentGrid cards={cards} class="-ml-px" />
+          <Reveal
+            axis="x"
+            order="column"
+            steps={[0, -120]}
+            easing="gentle"
+            duration={1.022}
+            delay={0.3}
+          >
+            <DepartmentGrid cards={cards} class="-ml-px" />
+          </Reveal>
         </section>
 
         <section class="pb-[140px]">
@@ -109,13 +128,22 @@ const cardPlacement = ['self-start', 'self-end lg:mt-[145px] lg:self-start']
             actions={[]}
             class="pt-[200px] pr-10 pb-5 pl-[19px] lg:pt-[160px]"
           />
-          <ul class="-ml-px grid grid-cols-2 gap-y-5 lg:grid-cols-6">
-            {values.items.map((value) => (
-              <li class="flex min-w-0">
-                <ValueCard {...value} titleLines="auto" class="w-full" />
-              </li>
-            ))}
-          </ul>
+          <Reveal
+            axis="y"
+            order="column"
+            steps={[0, 20, 40, 60, 80, 100]}
+            easing="ease-out"
+            duration={0.6}
+            delay={0}
+          >
+            <ul class="-ml-px grid grid-cols-2 gap-y-5 lg:grid-cols-6">
+              {values.items.map((value) => (
+                <li class="flex min-w-0" data-reveal>
+                  <ValueCard {...value} titleLines="auto" class="w-full" />
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </section>
       </div>
     </div>
