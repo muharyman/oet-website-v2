@@ -16,6 +16,7 @@ const { image, alt, title, paragraphs, action, class: className } = Astro.props
 ---
 
 <article
+  data-reveal
   class:list={[
     'relative flex flex-col after:pointer-events-none after:absolute after:inset-0 after:border after:border-[#ececec]',
     className,
