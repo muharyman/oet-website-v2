@@ -25,7 +25,7 @@
   "infoCards": [
     {
       "image": {
-        "__asset": "organization/about/mountain.jpg"
+        "__asset": "organization/about/aim.jpg"
       },
       "alt": "",
       "title": "Aim",
@@ -36,7 +36,7 @@
     },
     {
       "image": {
-        "__asset": "organization/about/mountain.jpg"
+        "__asset": "organization/about/offers.jpg"
       },
       "alt": "",
       "title": "Offers",
