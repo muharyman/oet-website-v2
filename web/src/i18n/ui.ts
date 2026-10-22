@@ -2,6 +2,7 @@ import type { Locale } from './config'
 
 const en = {
   'logos.pause': 'Pause logo rotation',
+  'logos.allPartners': 'See Partners, Networks & Affiliations',
   'nav.menu.open': 'Open menu',
   'nav.menu.close': 'Close menu',
   'nav.language': 'Language',
