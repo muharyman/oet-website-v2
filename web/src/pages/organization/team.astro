@@ -7,6 +7,7 @@ import TeamCard from '../../components/cards/TeamCard.astro'
 import ListingFilter from '../../components/interactive/ListingFilter.astro'
 import Reveal from '../../components/interactive/Reveal.astro'
 import TeamGlobe from '../../components/interactive/TeamGlobe.astro'
+import TeamProfileDialog from '../../components/interactive/TeamProfileDialog.astro'
 import FilterTabs from '../../components/ui/FilterTabs.astro'
 import Pagination from '../../components/ui/Pagination.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
@@ -90,7 +91,7 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
       </div>
     </section>
 
-    <ListingFilter pageSize={listing.pageSize}>
+    <ListingFilter pageSize={listing.pageSize} ranked>
       <section>
         <ListingHeader
           layout="split"
@@ -149,7 +150,8 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
                     data-listing-item
                     data-reveal
                     data-facet-group={member.group}
-                    data-title={member.card.name}
+                    data-title={member.sortName}
+                    data-rank={member.rank}
                   >
                     <TeamCard {...member.card} locale={defaultLocale} />
                   </li>
@@ -174,5 +176,6 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
         </div>
       </section>
     </ListingFilter>
+    <TeamProfileDialog locale={defaultLocale} />
   </main>
 </BaseLayout>
