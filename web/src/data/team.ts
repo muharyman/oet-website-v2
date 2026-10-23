@@ -3,7 +3,7 @@ import type { SvgComponent } from 'astro/types'
 import type { Locale } from '../i18n/config'
 import type { SortValue } from '../i18n/groups'
 import { t } from '../i18n/ui'
-import { findAll, findGlobal, required, resolved, texts, type Doc } from '../lib/cms'
+import { findAll, findGlobal, required, resolved, richHtml, texts, type Doc } from '../lib/cms'
 import { facet, type PageSize } from '../lib/listing'
 import { altOf, icon, image } from '../lib/media'
 import { routes } from './routes'
@@ -19,9 +19,16 @@ export interface PortraitBox {
 
 export interface Portrait {
   image: ImageMetadata
+  kind: 'cut-out' | 'photo'
   desktop: PortraitBox
   mobile: PortraitBox
   rotate: number
+}
+
+export interface TeamProfile {
+  label: string
+  education: { degree: string; kind: 'doctorate' | 'degree' }[]
+  biographyHtml: string | null
 }
 
 export interface TeamMember {
@@ -30,7 +37,7 @@ export interface TeamMember {
   portrait: Portrait
   glow: 'center' | 'right'
   links: { kind: SocialKind; href: string }[]
-  profile: { label: string; href: string }
+  profile: TeamProfile
   tags: string[]
 }
 
@@ -64,6 +71,7 @@ const toMember = (doc: Doc<'team-members'>, seniorLeadershipLabel: string): Team
     role: doc.role,
     portrait: {
       image: image(doc.portrait, `portrait of ${doc.name}`),
+      kind: doc.portraitKind,
       desktop: box(doc.portraitDesktop),
       mobile: box(doc.portraitMobile),
       rotate: doc.portraitRotation,
@@ -73,7 +81,17 @@ const toMember = (doc: Doc<'team-members'>, seniorLeadershipLabel: string): Team
       kind,
       href,
     })),
-    profile: { label: doc.profile.label, href: doc.profile.href },
+    profile: {
+      label: doc.profileLabel,
+      education: required(doc.education, `education of ${doc.name}`).map(({ degree, kind }) => ({
+        degree,
+        kind,
+      })),
+      biographyHtml:
+        doc.biography === undefined || doc.biography === null
+          ? null
+          : richHtml(doc.biographyHtml, `biography of ${doc.name}`),
+    },
     tags: doc.seniorLeadership === true ? [seniorLeadershipLabel, ...departments] : departments,
   }
 }
@@ -88,6 +106,11 @@ export const loadTeamPage = async (locale: Locale) => {
     findAll('countries', locale, { depth: 1, sort: 'code' }),
   ])
   const { seniorLeadershipLabel } = page.listing
+  const heads = members
+    .filter((member) => member.seniorLeadership === true)
+    .sort((a, b) => a.order - b.order)
+  const rank = (member: Doc<'team-members'>) =>
+    member.seniorLeadership === true ? heads.indexOf(member) : heads.length
   const selectedId = resolved(page.globe.selectedCountry, 'team page selected country').id
   const selected = required(
     countries.find((country) => country.id === selectedId),
@@ -162,9 +185,15 @@ export const loadTeamPage = async (locale: Locale) => {
       })),
     ],
     members: [...members]
-      .sort((a, b) => a.name.localeCompare(b.name, locale))
+      .sort(
+        (a, b) =>
+          rank(a) - rank(b) ||
+          a.lastName.localeCompare(b.lastName, locale, { sensitivity: 'base' }),
+      )
       .map((member) => ({
         card: toMember(member, seniorLeadershipLabel),
+        rank: rank(member),
+        sortName: member.lastName,
         group: facet([
           ...(member.seniorLeadership === true ? [seniorLeadershipGroup] : []),
           ...required(member.departments, `departments of ${member.name}`).map(

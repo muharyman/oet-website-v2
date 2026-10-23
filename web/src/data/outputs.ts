@@ -259,10 +259,7 @@ export const person = (
       title: member.role,
       photo,
       role,
-      links: personLinks(locale, member.name, [
-        { kind: 'profile', href: member.profile.href },
-        ...required(member.socialLinks, `${what} social links`),
-      ]),
+      links: personLinks(locale, member.name, required(member.socialLinks, `${what} social links`)),
     }
   }
   const name = required(source.name, `${what} name`)
