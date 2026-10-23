@@ -44,14 +44,14 @@ const logoClass =
 ---
 
 <oet-logo-wall
-  class:list={['max-w-page px-gutter lg:px-gutter-lg mx-auto block w-full', className]}
+  class:list={['max-w-page px-gutter lg:px-gutter-lg relative mx-auto block w-full', className]}
 >
   <button
     type="button"
     data-logo-pause
     aria-pressed="false"
     hidden
-    class="text-body-sm my-3 min-h-8 border border-neutral-800 px-3 text-neutral-900"
+    class="text-body-sm focus-visible:left-gutter lg:focus-visible:left-gutter-lg sr-only z-10 min-h-8 border border-neutral-800 bg-neutral-50 px-3 text-neutral-900 focus-visible:not-sr-only focus-visible:absolute focus-visible:top-3"
   >
     {t(locale, 'logos.pause')}
   </button>
