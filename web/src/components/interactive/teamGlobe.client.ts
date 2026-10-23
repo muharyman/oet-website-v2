@@ -19,8 +19,9 @@ const LAT_RANGE = { min: -60, max: 40 }
 const KEY_STEP = 10
 const IDLE_SPEED = 0.004
 const TURN_MS = 600
-const CYCLE_MS = 4000
-const CYCLE_TURN_MS = 1200
+const DWELL_MS = 2000
+const FOCUS_RANGE = 12
+const FOCUS_STEP = 4
 
 const required = <T extends Element>(root: ParentNode, selector: string): T => {
   const element = root.querySelector<T>(selector)
@@ -84,7 +85,7 @@ export const mount = async (root: HTMLElement) => {
   let frame = 0
   let turn = 0
   let spin = 0
-  let cycle = 0
+  let switched = 0
   let visible = true
   let engaged = false
 
@@ -119,7 +120,7 @@ export const mount = async (root: HTMLElement) => {
     if (frame === 0) frame = requestAnimationFrame(draw)
   }
 
-  const rotateTo = (targetLon: number, targetLat: number, duration: number) => {
+  const rotateTo = (targetLon: number, targetLat: number) => {
     cancelAnimationFrame(turn)
     const fromLon = lon
     const fromLat = lat
@@ -132,7 +133,7 @@ export const mount = async (root: HTMLElement) => {
     }
     const began = performance.now()
     const step = (now: number) => {
-      const t = Math.min(1, (now - began) / duration)
+      const t = Math.min(1, (now - began) / TURN_MS)
       const eased = 1 - (1 - t) ** 3
       lon = fromLon + delta * eased
       lat = fromLat + (targetLat - fromLat) * eased
@@ -142,15 +143,6 @@ export const mount = async (root: HTMLElement) => {
     turn = requestAnimationFrame(step)
   }
 
-  const focus = (item: (typeof items)[number], duration: number) => {
-    outline.before(item.path)
-    rotateTo(
-      item.country.lon + VIEW_OFFSET.lon,
-      clampLat(item.country.lat + VIEW_OFFSET.lat),
-      duration,
-    )
-  }
-
   const select = (code: string | null) => {
     selected = code === selected ? null : code
     root.setAttribute('data-touched', '')
@@ -158,29 +150,41 @@ export const mount = async (root: HTMLElement) => {
     const item = items.find(({ country }) => country.code === selected)
     idle()
     if (item) {
-      focus(item, TURN_MS)
+      outline.before(item.path)
+      rotateTo(item.country.lon + VIEW_OFFSET.lon, clampLat(item.country.lat + VIEW_OFFSET.lat))
       return
     }
     schedule()
   }
 
-  const highlightNext = () => {
-    const others = items.filter(({ country }) => country.code !== selected)
-    const item = others[Math.floor(Math.random() * others.length)]
-    selected = item.country.code
-    focus(item, CYCLE_TURN_MS)
+  const gap = (a: number, b: number) => Math.abs(((((a - b) % 360) + 540) % 360) - 180)
+
+  const follow = (now: number) => {
+    if (root.hasAttribute('data-touched') || now - switched < DWELL_MS) return
+    const focusLon = lon - VIEW_OFFSET.lon
+    const nearest = items
+      .map((item) => ({ item, distance: gap(item.country.lon, focusLon) }))
+      .filter(({ distance }) => distance <= FOCUS_RANGE)
+      .sort(
+        (a, b) =>
+          Math.round(a.distance / FOCUS_STEP) - Math.round(b.distance / FOCUS_STEP) ||
+          Number(b.item.country.count) - Number(a.item.country.count),
+      )[0]
+    if (!nearest || nearest.item.country.code === selected) return
+    selected = nearest.item.country.code
+    outline.before(nearest.item.path)
+    switched = now
   }
 
   const idle = () => {
     cancelAnimationFrame(spin)
-    window.clearInterval(cycle)
     const picked = selected !== null && root.hasAttribute('data-touched')
     if (!visible || engaged || picked || still.matches) return
-    if (!root.hasAttribute('data-touched')) cycle = window.setInterval(highlightNext, CYCLE_MS)
     let last = performance.now()
     const step = (now: number) => {
       lon += (now - last) * IDLE_SPEED
       last = now
+      follow(now)
       schedule()
       spin = requestAnimationFrame(step)
     }
