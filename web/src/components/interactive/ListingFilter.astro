@@ -3,16 +3,18 @@ import type { PageSize } from '../../lib/listing'
 
 interface Props {
   pageSize: PageSize
+  ranked: boolean
   class?: string
 }
 
-const { pageSize, class: className } = Astro.props
+const { pageSize, ranked, class: className } = Astro.props
 ---
 
 <oet-listing
   class:list={['block', className]}
   data-page-size-desktop={pageSize.desktop === null ? 'all' : pageSize.desktop}
   data-page-size-mobile={pageSize.mobile === null ? 'all' : pageSize.mobile}
+  data-ranked={ranked ? '' : undefined}
 >
   <slot />
   <noscript>
@@ -101,16 +103,21 @@ const { pageSize, class: className } = Astro.props
       )
       const sortSelect = this.querySelector<Select>('oet-select[data-listing-sort]')
 
+      const byTitle = (a: HTMLElement, b: HTMLElement) =>
+        read(a, 'title').localeCompare(read(b, 'title'))
       const sorters: Record<string, Sorter> = {
-        'a-z': (a, b) => read(a, 'title').localeCompare(read(b, 'title')),
-        'z-a': (a, b) => read(b, 'title').localeCompare(read(a, 'title')),
+        'a-z': byTitle,
+        'z-a': (a, b) => byTitle(b, a),
         newest: (a, b) => Date.parse(read(b, 'date')) - Date.parse(read(a, 'date')),
         oldest: (a, b) => Date.parse(read(a, 'date')) - Date.parse(read(b, 'date')),
       }
+      const ranked = 'ranked' in this.dataset
+      const byRank = (sort: Sorter): Sorter =>
+        ranked ? (a, b) => Number(read(a, 'rank')) - Number(read(b, 'rank')) || sort(a, b) : sort
       const sorterFor = (value: string | undefined) => {
         if (value === undefined || !(value in sorters))
           throw new Error(`oet-listing: unknown sort "${value}"`)
-        return sorters[value]
+        return byRank(sorters[value])
       }
 
       const params = new URLSearchParams(location.search)

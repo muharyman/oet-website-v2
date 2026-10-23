@@ -78,7 +78,7 @@ const grid =
       headerTheme="light"
     />
 
-    <ListingFilter pageSize={listing.pageSize}>
+    <ListingFilter pageSize={listing.pageSize} ranked={false}>
       <ListingHeader
         layout="split"
         title={listing.title}
@@ -167,7 +167,7 @@ const grid =
 
     <div class={container}>
       {outputItems.length > 0 ? (
-        <ListingFilter pageSize={outputs.pageSize}>
+        <ListingFilter pageSize={outputs.pageSize} ranked={false}>
           <div class="flex flex-col gap-3 border-l border-neutral-100 pt-[180px] pb-10 pl-5 font-medium text-neutral-800">
             <h2 class="text-display-5">{outputs.title}</h2>
             <p class="text-[1rem] leading-[21px] tracking-[-0.01em] whitespace-pre-line">
