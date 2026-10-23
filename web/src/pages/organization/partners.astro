@@ -53,7 +53,11 @@ const { meta, hero, intro, filter, logos, logosMobile, types, typesMobile } =
             ))}
           </div>
         </section>
-        <ListingFilter pageSize={{ desktop: null, mobile: null }} class="min-w-0 lg:flex-1">
+        <ListingFilter
+          pageSize={{ desktop: null, mobile: null }}
+          ranked={false}
+          class="min-w-0 lg:flex-1"
+        >
           <section class="pb-[120px] lg:pt-[120px] lg:pb-20">
             <div class="pl-[19px] lg:pl-0" data-listing-tabs="type">
               <FilterTabs

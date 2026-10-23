@@ -88,7 +88,7 @@ const hrefFor = (page: number) => `?page=${page}#${listing.id}`
       headerTheme="light"
     />
 
-    <ListingFilter pageSize={pageSize}>
+    <ListingFilter pageSize={pageSize} ranked={false}>
       <ListingHeader
         layout="split"
         title={listing.title}
