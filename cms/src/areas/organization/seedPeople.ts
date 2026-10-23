@@ -15,11 +15,14 @@ interface BoxSource {
 
 interface MemberSource {
   name: string
+  lastName: string
   role: string
   portrait: { image: Asset; desktop: BoxSource; mobile: BoxSource; rotate: number }
   glow: TeamMember['glow']
   links: { kind: 'email' | 'github' | 'linkedin' | 'message'; href: string }[]
-  profile: { label: string; href: string }
+  profileLabel: string
+  education: { degree: string; kind: 'doctorate' | 'degree' }[]
+  biographyHtml: string | null
   tags: string[]
 }
 
@@ -125,14 +128,19 @@ const seedMembers = async (
       { name: { equals: member.name } },
       {
         name: member.name,
+        lastName: member.lastName,
         role: member.role,
         photo: head ? await upload(payload, head.photo, member.name) : null,
         socialLinks: member.links.map(({ kind, href }) => ({ kind, href })),
-        profile: { label: member.profile.label, href: member.profile.href },
+        profileLabel: member.profileLabel,
+        education: member.education.map(({ degree, kind }) => ({ degree, kind })),
+        biography:
+          member.biographyHtml === null ? null : await lexical(payload, member.biographyHtml),
         portrait: await upload(payload, member.portrait.image, member.name),
         portraitDesktop: boxOf(member.portrait.desktop),
         portraitMobile: boxOf(member.portrait.mobile),
         portraitRotation: member.portrait.rotate,
+        portraitKind: 'cut-out',
         glow: member.glow,
         seniorLeadership: member.tags.includes(seniorLabel),
         order: order + 1,

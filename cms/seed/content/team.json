@@ -136,6 +136,7 @@
   "members": [
     {
       "name": "Dr. Siddharth Krishna",
+      "lastName": "Krishna",
       "role": "Head of Software Engineering",
       "portrait": {
         "image": {
@@ -159,32 +160,33 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:siddharth.krishna@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/siddharth-krishna"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/siddharth-krishna-2020/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "New York University (PhD, Computer Science)",
+          "kind": "doctorate"
+        }
+      ],
+      "biographyHtml": "<p>Sid is a Computer Scientist and Head of Software Engineering at OET, where he leads a team of talented developers to build easy-to-use tools to make energy system models larger, faster, and more reliable. Currently living in Germany, he grew up in India and has lived in the US, UK, and always-pleasant Malawi previously. He has a background in building and optimizing software systems, including a PhD in cloud database algorithms, a postdoc on distributed AI models, and has written software for industrial automation SCADA systems. When not tapping away in Discord or VS Code, he&#x27;s either doing outdoor sport (running, climbing, ultimate frisbee, tennis, volleyball) or hanging out with friends playing board games.</p>"
     },
     {
       "name": "Shanti Chellaram",
+      "lastName": "Chellaram",
       "role": "Senior Full-Stack Engineer",
       "portrait": {
         "image": {
@@ -208,31 +210,32 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:shanti.chellaram@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/shantiii"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/shanti-chellaram-495444187/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Georgia Institute of Technology (B.S. in Computer Science (Distributed Systems, Simulations & Modeling), Minor in Japanese)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Shanti is a Software Engineer at Open Energy Transition (OET), based in Tokyo, Japan. She brings her 15+ years of industry experience to help build a better platform for energy modeling. Outside of work she enjoys getting lost and un-lost in nature or in cities, film photography, or noodling on her bass.</p>"
     },
     {
       "name": "Lauren Clisby",
+      "lastName": "Clisby",
       "role": "Product Owner",
       "portrait": {
         "image": {
@@ -256,31 +259,36 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:lauren.clisby@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/clizbe"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/laurenclisby/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "U.S. Air Force Academy (BSc in Operations Research)",
+          "kind": "degree"
+        },
+        {
+          "degree": "Air Force Institute of Technology (MSc in Operations Research)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Lauren is a Product Owner and Team Lead. They bring vision and domain knowledge to their software team, which is focused on delivering a user-friendly and open source modelling platform. They have a Masters in Operations Research and previously led a team in energy framework development and analyses at TNO. Outside of work, you can find Lauren bouldering, reading, or working on craft projects.</p>"
     },
     {
       "name": "Kristijan Faust",
+      "lastName": "Faust",
       "role": "Software Engineer",
       "portrait": {
         "image": {
@@ -304,31 +312,28 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:kristijan.faust@openenergytransition.org"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/kristijan-faust"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "University of Rijeka (MSc, Information Technology)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": null
     },
     {
       "name": "Dr. Maximilian Parzen",
+      "lastName": "Parzen",
       "role": "CEO, Co-Founder",
       "portrait": {
         "image": {
@@ -352,31 +357,36 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:max.parzen@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/pz-max"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/maximilian-parzen-b047a1126/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "The University of Edinburgh (PhD, Engineering)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "The University of Edinburgh (MSc, Sustainable Energy Systems)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Max Parzen is the Co-Founder and CEO of Open Energy Transition, where he is shaping the future of energy system planning on a global scale. He holds a PhD in Energy Modelling and now dedicates his work to making high-quality, open-source energy system planning the mainstream standard.</p>\n<p>Previously, he was a core member of Tom Brown’s wider PyPSA group, founded <em>PyPSA meets Earth</em>, a global grassroots energy research initiative, and led the development of the first global model builder based on PyPSA. His work has consistently shaped how open-source tools and open data are used to inform energy policy, investment, and system design worldwide.</p>\n<p>While his days are now largely spent steering ambitious visions into reality, he still dreams of reclaiming time to write impactful open-source code himself.</p>"
     },
     {
       "name": "Dr. Hazem Abdel-Khalek",
+      "lastName": "Abdel-Khalek",
       "role": "Head of Modeling Tools & Data, Co-Founder",
       "portrait": {
         "image": {
@@ -400,32 +410,37 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:hazem.abdelkhalek@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/hazemakhalek"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/hazemakhalek/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Modeling Tools & Data"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Albert-Ludwigs-Universität Freiburg (PhD, Energy, Environment, and Natural Resources Law)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "Albert-Ludwigs-Universität Freiburg (MSc, Renewable Energy Engineering and Management)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Hazem is Co-Founder and Head of Tools and Data at Open Energy Transition (OET), with roots in Egypt and based in Berlin. He directs the development of open-source, data-driven energy system modeling tools and co-shapes OET’s strategic direction. He oversees the design of large-scale, multi-regional models for the global energy transition, with a focus on sector coupling, hydrogen systems, and infrastructure planning to support robust and transparent decarbonization pathways. He holds a PhD in Energy Systems from the University of Freiburg, during which he led the development of the sector-coupled PyPSA-Earth model, with research on system-integrated green hydrogen exports.</p>"
     },
     {
       "name": "Dr. Martha Maria Frysztacki",
+      "lastName": "Frysztacki",
       "role": "Head of Energy System Modeling, Co-Founder",
       "portrait": {
         "image": {
@@ -449,32 +464,33 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:martha.frysztacki@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/martacki"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Energy System Modeling"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Karlsruhe Institute of Technology (PhD, Energy Informatics)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "University of Erlangen-Nuremberg (MSc, Mathematics)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Martha has Polish heritage and is based in Germany. Driven by a passion for mathematics, physics, and the environment, she completed her PhD in energy system modelling under the guidance of Prof. Tom Brown, exploring the role of spatial scale in electricity system optimisation models. During her doctoral work, she became a part of PyPSA&#x27;s development team, contributing methods that strengthened the toolbox beyond the scope of her own research. Inspired by sustainable, transparent energy planning through open-source solutions, she co-founded OET in 2023, where today she leads OET&#x27;s Energy System Modelling Department, supports high-impact projects for regulators, TSOs, and other institutions shaping the energy transition.</p>"
     },
     {
       "name": "Quintin Coetzee",
+      "lastName": "Coetzee",
       "role": "Head of People",
       "portrait": {
         "image": {
@@ -498,32 +514,33 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:quintin.coetzee@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/QuintinCoetzee-CapeTown"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/quintincoetzee"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "People And Culture"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "University of Cape Town (MBSc)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Quintin lives in Cape Town, South Africa, and thoroughly enjoys working in People Operations. He believes in following a people-first methodology, and building a culture that is transparent, remote, trusting, and empowering. Quintin holds a Master of Business Science from the University of Cape Town, and has over a decade of experience in Operations. In his free time, he enjoys being out in nature, greeting dogs on the trails, gardening, spending quality time with his loved ones, playing video games, editing Wikipedia, and catching up on the latest developments in tech.</p>"
     },
     {
       "name": "Dr. Siddharth Krishna",
+      "lastName": "Krishna",
       "role": "Head of Software Engineering",
       "portrait": {
         "image": {
@@ -547,32 +564,33 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:siddharth.krishna@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/siddharth-krishna"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/siddharth-krishna-2020/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "New York University (PhD, Computer Science)",
+          "kind": "doctorate"
+        }
+      ],
+      "biographyHtml": "<p>Sid is a Computer Scientist and Head of Software Engineering at OET, where he leads a team of talented developers to build easy-to-use tools to make energy system models larger, faster, and more reliable. Currently living in Germany, he grew up in India and has lived in the US, UK, and always-pleasant Malawi previously. He has a background in building and optimizing software systems, including a PhD in cloud database algorithms, a postdoc on distributed AI models, and has written software for industrial automation SCADA systems. When not tapping away in Discord or VS Code, he&#x27;s either doing outdoor sport (running, climbing, ultimate frisbee, tennis, volleyball) or hanging out with friends playing board games.</p>"
     },
     {
       "name": "Dr. Harry van der Weijde",
+      "lastName": "van der Weijde",
       "role": "Head of Research & Market Development",
       "portrait": {
         "image": {
@@ -596,32 +614,37 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:harry.vanderweijde@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/hvanderweijde"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/harryvanderweijde/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Research & Market Development"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Vrije Universiteit Amsterdam (PhD, Spatial Economics)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "The University of Edinburgh (MSc, Economics)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Harry van der Weijde is Head of Research and Market Development at Open Energy Transition. He holds a PhD in Spatial Economics and has held academic positions at the University of Edinburgh, the University of Cambridge, and the University of Erlangen-Nuremberg, where he worked on energy system modelling, power markets, and long-term infrastructure planning. He also previously worked at TNO in a policy-oriented research leadership role. At OET, he leads applied research and partnership development. He gets energy from helping interdisciplinary teams bring together different perspectives to achieve real-world impact.</p>"
     },
     {
       "name": "Dr. Tobias Augspurger",
+      "lastName": "Augspurger",
       "role": "Head of Grid Data",
       "portrait": {
         "image": {
@@ -645,32 +668,37 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:tobias.augspurger@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/Ly0n"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/tobias-augspurger/"
         }
       ],
-      "profile": {
-        "label": "Read",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Grid Data"
-      ]
+      ],
+      "profileLabel": "Read",
+      "education": [
+        {
+          "degree": "Bergische Universität Wuppertal (PhD, Atmospheric Physics)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "FH Aachen University of Applied Sciences (MSc, Luft- und Raumfahrttechnik, Aeronautik und Astronautik)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Tobias is the Head of Grid Data at Open Energy Transition. He established the MapYourGrid initiative, a global project that accelerates the energy transition by standardizing electrical grid data within OpenStreetMap. With over ten years&#x27; experience innovating with open source and open data, he is developing global open data strategies for the energy sector. Outside of his work at OET, Tobias looks after his two young children, explores the mountains and nature, and maintains the open-source projects OpenSustain.tech and ClimateTriage.com.</p>"
     },
     {
       "name": "Andris Prindulis",
+      "lastName": "Prindulis",
       "role": "Head of Finance",
       "portrait": {
         "image": {
@@ -709,17 +737,17 @@
           "href": "mailto:info@openenergytransition.org"
         }
       ],
-      "profile": {
-        "label": "Read",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership",
         "Finance"
-      ]
+      ],
+      "profileLabel": "Read",
+      "education": [],
+      "biographyHtml": null
     },
     {
       "name": "Dr. Fabrizio Finozzi",
+      "lastName": "Finozzi",
       "role": "Software Engineer & Energy System Modeler",
       "portrait": {
         "image": {
@@ -743,31 +771,36 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:fabrizio.finozzi@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/finozzifa"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/fabrizio-finozzi/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Ludwig-Maximilians-Universität München (PhD, Astronomy and Astrophysics)",
+          "kind": "doctorate"
+        },
+        {
+          "degree": "Ludwig-Maximilians-Universität München (MSc, Astrophysics)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Fabrizio is a software engineer, based in Varese, Italy. He has a PhD in Astrophysics and pivoted his career towards software development. His passion for ensuring that fossil fuels rest in peace underground and combating climate change led him to join OET. In his free time, Fabrizio loves to spend time with his family and dog and to watch the games of his favourite Ice Hockey team.</p>"
     },
     {
       "name": "Jatmiko Herjati",
+      "lastName": "Herjati",
       "role": "Geospatial Software Engineer",
       "portrait": {
         "image": {
@@ -791,31 +824,36 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:jatmiko.herjati@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/mikoding9"
         },
         {
           "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://www.linkedin.com/in/mikoding/"
         }
       ],
-      "profile": {
-        "label": "Read Profile",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read Profile",
+      "education": [
+        {
+          "degree": "Institut Teknologi Bandung (MEng, Informatics Engineering)",
+          "kind": "degree"
+        },
+        {
+          "degree": "Institut Teknologi Bandung (BEng, Geomatics Engineering)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": "<p>Jatmiko is a Geospatial Software Engineer with 8+ years of experience building digital products and geospatial solutions for both public and private sector organizations. Over the years, he has worked on a wide range of initiatives, from disaster early warning systems and land administration platforms to urban digital twins, rooftop solar estimation, and enterprise geospatial tools. He enjoys turning complex ideas into practical products that are useful, reliable, and easy for people to work with. Lately, Jatmiko has developed a strong interest in renewable energy and energy modelling, and is excited by the growing role software can play in supporting the energy transition. Outside of work, he enjoys going to the gym, playing badminton, reading articles, and discussing geopolitics.</p>"
     },
     {
       "name": "Stefan Radnev",
+      "lastName": "Radnev",
       "role": "DevSecOps Engineer",
       "portrait": {
         "image": {
@@ -839,31 +877,28 @@
       "links": [
         {
           "kind": "email",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "mailto:stefan.radnev@openenergytransition.org"
         },
         {
           "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "github",
-          "href": "mailto:info@openenergytransition.org"
-        },
-        {
-          "kind": "linkedin",
-          "href": "mailto:info@openenergytransition.org"
+          "href": "https://github.com/stefan-oet"
         }
       ],
-      "profile": {
-        "label": "Read",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Software Engineering"
-      ]
+      ],
+      "profileLabel": "Read",
+      "education": [
+        {
+          "degree": "Utrecht University (MSc, Mathematical Sciences)",
+          "kind": "degree"
+        }
+      ],
+      "biographyHtml": null
     },
     {
       "name": "Snoopy F",
+      "lastName": "F",
       "role": "Visionary, Head of Wellbeing",
       "portrait": {
         "image": {
@@ -890,13 +925,12 @@
           "href": "mailto:info@openenergytransition.org"
         }
       ],
-      "profile": {
-        "label": "Read",
-        "href": "mailto:info@openenergytransition.org"
-      },
       "tags": [
         "Senior Leadership"
-      ]
+      ],
+      "profileLabel": "Read",
+      "education": [],
+      "biographyHtml": null
     }
   ],
   "mobilePageSize": 8,
