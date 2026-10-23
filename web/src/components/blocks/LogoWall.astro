@@ -127,24 +127,24 @@ const logoClass =
 </oet-logo-wall>
 
 <script>
-  const interval = 2000
+  const interval = 3000
+  const batch = { min: 4, max: 6 }
 
   interface Rotation {
     slots: HTMLElement[]
     pool: HTMLImageElement[]
-    last: number
   }
 
-  const nextSlot = (rotation: Rotation) => {
-    const choices = rotation.slots
-      .map((_, index) => index)
-      .filter((index) => index !== rotation.last)
-    rotation.last = choices[Math.floor(Math.random() * choices.length)]
-    return rotation.slots[rotation.last]
+  const shuffle = <T,>(items: T[]) => {
+    const copy = [...items]
+    for (let index = copy.length - 1; index > 0; index -= 1) {
+      const other = Math.floor(Math.random() * (index + 1))
+      ;[copy[index], copy[other]] = [copy[other], copy[index]]
+    }
+    return copy
   }
 
-  const swap = (rotation: Rotation) => {
-    const slot = nextSlot(rotation)
+  const swap = (rotation: Rotation, slot: HTMLElement) => {
     const current = slot.querySelector<HTMLImageElement>('img')!
     const next = rotation.pool.shift()!
     current.addEventListener(
@@ -158,6 +158,18 @@ const logoClass =
       { once: true },
     )
     current.classList.add('opacity-0')
+  }
+
+  const swapBatch = (rotations: Rotation[]) => {
+    const size = batch.min + Math.floor(Math.random() * (batch.max - batch.min + 1))
+    const picks = shuffle(
+      rotations.flatMap((rotation) =>
+        shuffle(rotation.slots)
+          .slice(0, rotation.pool.length)
+          .map((slot) => ({ rotation, slot })),
+      ),
+    ).slice(0, size)
+    for (const { rotation, slot } of picks) swap(rotation, slot)
   }
 
   class OetLogoWall extends HTMLElement {
@@ -177,17 +189,13 @@ const logoClass =
             ...document.importNode(template.content, true).children,
           ] as HTMLImageElement[]
           const slots = [...group.querySelectorAll<HTMLElement>('[data-logo-slot]')]
-          return [{ slots, pool, last: -1 }]
+          return [{ slots, pool }]
         },
       )
       if (rotations.length === 0) return
       const button = this.querySelector<HTMLButtonElement>('[data-logo-pause]')!
       button.hidden = false
-      let turn = 0
-      const tick = () => {
-        swap(rotations[turn % rotations.length])
-        turn += 1
-      }
+      const tick = () => swapBatch(rotations)
       const update = () => {
         const running = this.visible && !this.held && !this.paused
         if (running && this.timer === 0) this.timer = window.setInterval(tick, interval)
