@@ -35,16 +35,16 @@ const { label, slideLabel, nextLabel, slides, secondaryAction, primaryAction } =
 const pictures = await Promise.all(
   slides.map(async (slide) => ({
     sources: await homeHeroSources(slide.image, slide.imageMobile),
-    base: await getImage({ src: slide.image, width: 1400, format: 'webp' }),
+    base: await getImage({ src: slide.image, width: 1440, format: 'webp' }),
   })),
 )
 
 const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4px]'
 ---
 
-<div class="bg-brand-500 relative z-10 pb-[22px] lg:-mb-[22px] shadow-[0_0_20px_var(--color-brand-500)] lg:px-5 lg:pt-5">
+<div class="relative z-10">
   <oet-hero
-    class="relative mx-auto block h-[800px] max-w-[1400px] overflow-clip bg-white lg:h-[clamp(560px,calc(100svh_-_40px),780px)] lg:rounded-lg"
+    class="relative block h-svh min-h-[800px] overflow-clip bg-white lg:min-h-[560px]"
     role="region"
     aria-roledescription="carousel"
     aria-label={label}
@@ -116,7 +116,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
     <div
       class:list={[
         box,
-        'absolute top-[740px] left-5 flex w-[316px] gap-[2px] lg:top-auto lg:bottom-[38px] lg:left-10 lg:w-[315px]',
+        'absolute bottom-[18px] left-5 flex w-[316px] gap-[2px] lg:bottom-[38px] lg:left-10 lg:w-[315px]',
       ]}
     >
       <Button
@@ -140,7 +140,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
     </div>
 
     <div
-      class="absolute top-[677px] right-5 left-5 lg:top-auto lg:right-10 lg:bottom-[41px] lg:left-auto lg:w-[305px]"
+      class="absolute right-5 bottom-[74px] left-5 lg:right-10 lg:bottom-[41px] lg:left-auto lg:w-[305px]"
       data-controls
     >
       <button type="button" class="block w-full cursor-pointer text-left" data-next>
