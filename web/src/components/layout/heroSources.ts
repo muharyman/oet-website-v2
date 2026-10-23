@@ -20,7 +20,7 @@ const formats = ['avif', 'webp'] as const
 
 const NARROW = 480
 const MOBILE_WINDOW = 1024
-const DESKTOP_WIDTHS = [1440, 1920, 2560]
+const DESKTOP_WIDTH = 1400
 
 const build = (variants: Variant[]): Promise<HeroSource[]> =>
   Promise.all(
@@ -39,8 +39,8 @@ const build = (variants: Variant[]): Promise<HeroSource[]> =>
 const desktop = (image: ImageMetadata, media: string): Variant => ({
   image,
   media,
-  widths: DESKTOP_WIDTHS.filter((width) => width < image.width).concat(image.width),
-  sizes: '100vw',
+  widths: [DESKTOP_WIDTH, DESKTOP_WIDTH * 1.5, DESKTOP_WIDTH * 2],
+  sizes: `${DESKTOP_WIDTH}px`,
   crop: null,
 })
 

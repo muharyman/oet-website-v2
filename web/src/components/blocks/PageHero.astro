@@ -198,12 +198,12 @@ const titleSizesMobile: Record<Common['titleSizeMobile'], string> = {
 }
 
 const heights: Record<'centered' | 'bottom' | 'left', string> = {
-  centered: 'h-svh min-h-[800px] lg:min-h-[600px]',
-  bottom: 'h-svh min-h-[800px] lg:min-h-[600px]',
+  centered: 'h-[800px] lg:h-[780px]',
+  bottom: 'h-[800px] lg:h-[780px]',
   left:
     person === null
-      ? 'min-h-[max(100svh,573px)] lg:h-svh lg:min-h-[553px]'
-      : 'min-h-[max(100svh,676px)] lg:h-svh lg:min-h-[553px]',
+      ? 'min-h-[573px] lg:h-[553px] lg:min-h-0'
+      : 'min-h-[676px] lg:h-[553px] lg:min-h-0',
 }
 
 const chipsBottoms: Record<ChipsBottom, string> = {
@@ -233,20 +233,24 @@ const chip =
   'text-body-xl inline-flex items-center justify-center border border-[rgba(236,236,236,0.32)] bg-black/2 px-[11px] py-[11px] font-medium whitespace-nowrap text-white backdrop-blur-[4px] transition-colors hover:bg-white/12'
 
 const sources = await pageHeroSources(image)
-const base = await getImage({ src: image.desktop, format: 'webp', width: 1440 })
+const base = await getImage({ src: image.desktop, format: 'webp', width: 1400 })
 
-const frameHeights = { desktop: 780, mobile: 800 }
-
-const blockStyle = (block: Block, frame: keyof typeof frameHeights) => {
-  const vertical =
-    kind === 'bottom' ? `bottom:${frameHeights[frame] - block.y - block.h}px` : `top:${block.y}px`
-  return `${block.side}:${block.x}px;${vertical};width:${block.w}px;height:${block.h}px;background-color:${block.color}`
-}
+const blockStyle = (block: Block) =>
+  `${block.side}:${block.x}px;top:${block.y}px;width:${block.w}px;height:${block.h}px;background-color:${block.color}`
 ---
 
-<div>
+<div
+  class:list={[
+    'bg-brand-500 shadow-[0_0_40px_var(--color-brand-500)] lg:px-5 lg:pt-5',
+    kind === 'left' ? 'pb-5' : 'pb-[22px]',
+  ]}
+>
   <section
-    class:list={['relative isolate flex overflow-hidden', backgrounds[background], heights[kind]]}
+    class:list={[
+      'relative isolate mx-auto flex max-w-[1400px] overflow-hidden rounded-md',
+      backgrounds[background],
+      heights[kind],
+    ]}
     data-header-theme={headerTheme}
   >
     <picture>
@@ -266,12 +270,12 @@ const blockStyle = (block: Block, frame: keyof typeof frameHeights) => {
     </picture>
     <div class="absolute inset-0 -z-10 hidden lg:block" aria-hidden="true">
       {ornaments[ornament].desktop.map((block) => (
-        <span class="absolute" style={blockStyle(block, 'desktop')} />
+        <span class="absolute" style={blockStyle(block)} />
       ))}
     </div>
     <div class="absolute inset-0 -z-10 lg:hidden" aria-hidden="true">
       {ornaments[ornament].mobile.map((block) => (
-        <span class="absolute" style={blockStyle(block, 'mobile')} />
+        <span class="absolute" style={blockStyle(block)} />
       ))}
     </div>
 
@@ -281,7 +285,7 @@ const blockStyle = (block: Block, frame: keyof typeof frameHeights) => {
           class:list={[
             'flex flex-col items-center gap-10',
             layout === 'photo-centered'
-              ? 'absolute inset-x-5 top-[188px] lg:top-[142px]'
+              ? 'absolute inset-x-5 top-[188px] lg:top-auto lg:bottom-[512px]'
               : 'pt-[228px] lg:pt-[264px]',
           ]}
         >
