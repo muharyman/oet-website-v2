@@ -1584,7 +1584,7 @@ export interface TeamMember {
    */
   name: string;
   /**
-   * Family name as written in the full name, e.g. "van der Weijde". The team list is sorted by it, heads first.
+   * Family name as written in the full name, e.g. "van der Weijde". Members outside senior leadership are sorted by it.
    */
   lastName: string;
   /**
@@ -1691,7 +1691,7 @@ export interface TeamMember {
    */
   seniorLeadership?: boolean | null;
   /**
-   * Position in the team list before the visitor sorts it. Lower comes first.
+   * Order of senior leadership at the start of the team list, lower first. Everyone else is sorted by last name.
    */
   order: number;
   updatedAt: string;
