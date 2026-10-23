@@ -26,53 +26,151 @@
   },
   "countries": [
     {
-      "code": "USA",
-      "name": "USA",
-      "count": "12",
-      "lon": -98,
-      "lat": 39
+      "code": "DEU",
+      "name": "Germany",
+      "count": "15",
+      "lon": 10.4,
+      "lat": 51.2
     },
     {
-      "code": "CAN",
-      "name": "Canada",
-      "count": "12",
-      "lon": -109,
-      "lat": 61.7
+      "code": "ITA",
+      "name": "Italy",
+      "count": "5",
+      "lon": 12.6,
+      "lat": 42.8
     },
     {
-      "code": "MEX",
-      "name": "Mexico",
-      "count": "12",
-      "lon": -98.2,
-      "lat": 20
+      "code": "IDN",
+      "name": "Indonesia",
+      "count": "4",
+      "lon": 113.9,
+      "lat": -0.8
     },
     {
-      "code": "MLI",
-      "name": "Mali",
-      "count": "12",
-      "lon": 1.2,
-      "lat": 18.4
+      "code": "IND",
+      "name": "India",
+      "count": "4",
+      "lon": 78.9,
+      "lat": 21.1
     },
     {
-      "code": "TUR",
-      "name": "Türkiye",
-      "count": "12",
-      "lon": 33.4,
-      "lat": 38.2
+      "code": "GBR",
+      "name": "United Kingdom",
+      "count": "4",
+      "lon": -2,
+      "lat": 53.5
     },
     {
-      "code": "KAZ",
-      "name": "Kazakhstan",
-      "count": "12",
-      "lon": 68.5,
-      "lat": 49.4
+      "code": "NLD",
+      "name": "Netherlands",
+      "count": "3",
+      "lon": 5.3,
+      "lat": 52.1
+    },
+    {
+      "code": "FRA",
+      "name": "France",
+      "count": "2",
+      "lon": 2.4,
+      "lat": 46.6
+    },
+    {
+      "code": "NGA",
+      "name": "Nigeria",
+      "count": "2",
+      "lon": 8.1,
+      "lat": 9.1
+    },
+    {
+      "code": "ZMB",
+      "name": "Zambia",
+      "count": "2",
+      "lon": 27.8,
+      "lat": -13.1
+    },
+    {
+      "code": "CHL",
+      "name": "Chile",
+      "count": "1",
+      "lon": -71.5,
+      "lat": -35.7
+    },
+    {
+      "code": "HRV",
+      "name": "Croatia",
+      "count": "1",
+      "lon": 16.4,
+      "lat": 45.1
+    },
+    {
+      "code": "DNK",
+      "name": "Denmark",
+      "count": "1",
+      "lon": 9.5,
+      "lat": 56
+    },
+    {
+      "code": "SLV",
+      "name": "El Salvador",
+      "count": "1",
+      "lon": -88.9,
+      "lat": 13.8
     },
     {
       "code": "JPN",
       "name": "Japan",
-      "count": "12",
+      "count": "1",
       "lon": 143,
       "lat": 43.5
+    },
+    {
+      "code": "KAZ",
+      "name": "Kazakhstan",
+      "count": "1",
+      "lon": 68.5,
+      "lat": 49.4
+    },
+    {
+      "code": "MEX",
+      "name": "Mexico",
+      "count": "1",
+      "lon": -98.2,
+      "lat": 20
+    },
+    {
+      "code": "NAM",
+      "name": "Namibia",
+      "count": "1",
+      "lon": 18.5,
+      "lat": -22
+    },
+    {
+      "code": "NOR",
+      "name": "Norway",
+      "count": "1",
+      "lon": 8.5,
+      "lat": 61
+    },
+    {
+      "code": "ZAF",
+      "name": "South Africa",
+      "count": "1",
+      "lon": 24.7,
+      "lat": -29
+    },
+    {
+      "code": "CHE",
+      "name": "Switzerland",
+      "count": "1",
+      "lon": 8.2,
+      "lat": 46.8
+    },
+    {
+      "code": "USA",
+      "name": "United States",
+      "count": "1",
+      "lon": -98,
+      "lat": 39
     }
   ],
   "filterGroups": [
