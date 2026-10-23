@@ -1584,6 +1584,10 @@ export interface TeamMember {
    */
   name: string;
   /**
+   * Family name as written in the full name, e.g. "van der Weijde". The team list is sorted by it, heads first.
+   */
+  lastName: string;
+  /**
    * Job title under the name on the team card, department card and hero.
    */
   role: string;
@@ -1613,15 +1617,41 @@ export interface TeamMember {
       }[]
     | null;
   /**
-   * Text link at the bottom of the team card. The design shortens the label to "Read" on some cards.
+   * Text of the button at the bottom of the team card that opens the profile. The design shortens it to "Read" on some cards.
    */
-  profile: {
-    label: string;
-    /**
-     * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
-     */
-    href: string;
-  };
+  profileLabel: string;
+  /**
+   * Lines under the name in the profile, in this order.
+   */
+  education?:
+    | {
+        /**
+         * University and degree, e.g. "Vrije Universiteit Amsterdam (PhD, Spatial Economics)".
+         */
+        degree: string;
+        kind: 'doctorate' | 'degree';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Text of the profile. Leave empty when there is none; the profile then shows the name and education only.
+   */
+  biography?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  biographyHtml?: string | null;
   /**
    * Portrait with a transparent background, shown on the team page card.
    */
@@ -1644,6 +1674,10 @@ export interface TeamMember {
     width: number;
     height: number;
   };
+  /**
+   * Cut-outs sit on the glow as they are. Photos on a white background are multiplied onto the card so the white disappears.
+   */
+  portraitKind: 'cut-out' | 'photo';
   /**
    * Clockwise. 0 for an upright portrait.
    */
@@ -3359,6 +3393,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
  */
 export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
+  lastName?: T;
   role?: T;
   photo?: T;
   departments?: T;
@@ -3370,12 +3405,16 @@ export interface TeamMembersSelect<T extends boolean = true> {
         href?: T;
         id?: T;
       };
-  profile?:
+  profileLabel?: T;
+  education?:
     | T
     | {
-        label?: T;
-        href?: T;
+        degree?: T;
+        kind?: T;
+        id?: T;
       };
+  biography?: T;
+  biographyHtml?: T;
   portrait?: T;
   portraitDesktop?:
     | T
@@ -3393,6 +3432,7 @@ export interface TeamMembersSelect<T extends boolean = true> {
         width?: T;
         height?: T;
       };
+  portraitKind?: T;
   portraitRotation?: T;
   glow?: T;
   seniorLeadership?: T;

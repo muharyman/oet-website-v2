@@ -1,7 +1,7 @@
 import type { CollectionConfig, GroupField } from 'payload'
 
 import { publicRead } from '../../access'
-import { href, image, link, plainText, text } from '../../fields'
+import { href, image, plainText, richText, text } from '../../fields'
 import { checkbox, choice, number, tab } from './fields'
 
 export const socialKinds = [
@@ -9,6 +9,16 @@ export const socialKinds = [
   { label: 'GitHub', value: 'github' },
   { label: 'LinkedIn', value: 'linkedin' },
   { label: 'Message', value: 'message' },
+] as const
+
+export const educationKinds = [
+  { label: 'Doctorate', value: 'doctorate' },
+  { label: 'Degree', value: 'degree' },
+] as const
+
+export const portraitKinds = [
+  { label: 'Cut-out (transparent background)', value: 'cut-out' },
+  { label: 'Photo on white', value: 'photo' },
 ] as const
 
 export const glows = [
@@ -51,6 +61,12 @@ export const TeamMembers: CollectionConfig = {
           plainText('name', {
             required: true,
             description: 'Full name with title, as shown on cards and person rows.',
+          }),
+          plainText('lastName', {
+            required: true,
+            label: 'Last name',
+            description:
+              'Family name as written in the full name, e.g. "van der Weijde". Members outside senior leadership are sorted by it.',
           }),
           text('role', {
             required: true,
@@ -95,11 +111,39 @@ export const TeamMembers: CollectionConfig = {
               },
             ],
           },
-          link('profile', {
+        ]),
+        tab('Profile', [
+          plainText('profileLabel', {
             required: true,
-            label: 'Profile link',
+            label: 'Profile button label',
             description:
-              'Text link at the bottom of the team card. The design shortens the label to "Read" on some cards.',
+              'Text of the button at the bottom of the team card that opens the profile. The design shortens it to "Read" on some cards.',
+          }),
+          {
+            name: 'education',
+            type: 'array',
+            label: 'Education',
+            admin: { description: 'Lines under the name in the profile, in this order.' },
+            fields: [
+              {
+                type: 'row',
+                fields: [
+                  text('degree', {
+                    required: true,
+                    label: 'Degree',
+                    description:
+                      'University and degree, e.g. "Vrije Universiteit Amsterdam (PhD, Spatial Economics)".',
+                  }),
+                  choice('kind', educationKinds, { required: true, label: 'Icon' }),
+                ],
+              },
+            ],
+          },
+          ...richText('biography', {
+            required: false,
+            label: 'Biography',
+            description:
+              'Text of the profile. Leave empty when there is none; the profile then shows the name and education only.',
           }),
         ]),
         tab('Team card portrait', [
@@ -118,6 +162,12 @@ export const TeamMembers: CollectionConfig = {
             fields: [
               box('portraitDesktop', 'Desktop box', 'Offset and size inside the 280 px frame.'),
               box('portraitMobile', 'Mobile box', 'Offset and size inside the 332 px frame.'),
+              choice('portraitKind', portraitKinds, {
+                required: true,
+                label: 'Portrait kind',
+                description:
+                  'Cut-outs sit on the glow as they are. Photos on a white background are multiplied onto the card so the white disappears.',
+              }),
               {
                 type: 'row',
                 fields: [
@@ -146,7 +196,8 @@ export const TeamMembers: CollectionConfig = {
     number('order', {
       required: true,
       label: 'Order',
-      description: 'Position in the team list before the visitor sorts it. Lower comes first.',
+      description:
+        'Order of senior leadership at the start of the team list, lower first. Everyone else is sorted by last name.',
       sidebar: true,
     }),
   ],
