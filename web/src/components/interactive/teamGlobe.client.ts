@@ -22,6 +22,7 @@ const TURN_MS = 600
 const DWELL_MS = 2000
 const FOCUS_RANGE = 12
 const FOCUS_STEP = 4
+const TILT_MS = 1200
 
 const required = <T extends Element>(root: ParentNode, selector: string): T => {
   const element = root.querySelector<T>(selector)
@@ -86,6 +87,7 @@ export const mount = async (root: HTMLElement) => {
   let turn = 0
   let spin = 0
   let switched = 0
+  let tilt = start.lat
   let visible = true
   let engaged = false
 
@@ -148,10 +150,11 @@ export const mount = async (root: HTMLElement) => {
     root.setAttribute('data-touched', '')
     card.setAttribute('aria-live', 'polite')
     const item = items.find(({ country }) => country.code === selected)
+    tilt = item ? clampLat(item.country.lat + VIEW_OFFSET.lat) : lat
     idle()
     if (item) {
       outline.before(item.path)
-      rotateTo(item.country.lon + VIEW_OFFSET.lon, clampLat(item.country.lat + VIEW_OFFSET.lat))
+      rotateTo(item.country.lon + VIEW_OFFSET.lon, tilt)
       return
     }
     schedule()
@@ -173,6 +176,7 @@ export const mount = async (root: HTMLElement) => {
     if (!nearest || nearest.item.country.code === selected) return
     selected = nearest.item.country.code
     outline.before(nearest.item.path)
+    tilt = clampLat(nearest.item.country.lat + VIEW_OFFSET.lat)
     switched = now
   }
 
@@ -183,6 +187,7 @@ export const mount = async (root: HTMLElement) => {
     let last = performance.now()
     const step = (now: number) => {
       lon += (now - last) * IDLE_SPEED
+      lat += (tilt - lat) * (1 - Math.exp(-(now - last) / TILT_MS))
       last = now
       follow(now)
       schedule()
