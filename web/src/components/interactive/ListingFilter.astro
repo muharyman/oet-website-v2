@@ -4,10 +4,11 @@ import type { PageSize } from '../../lib/listing'
 interface Props {
   pageSize: PageSize
   ranked: boolean
+  infinite: boolean
   class?: string
 }
 
-const { pageSize, ranked, class: className } = Astro.props
+const { pageSize, ranked, infinite, class: className } = Astro.props
 ---
 
 <oet-listing
@@ -15,6 +16,7 @@ const { pageSize, ranked, class: className } = Astro.props
   data-page-size-desktop={pageSize.desktop === null ? 'all' : pageSize.desktop}
   data-page-size-mobile={pageSize.mobile === null ? 'all' : pageSize.mobile}
   data-ranked={ranked ? '' : undefined}
+  data-infinite={infinite ? '' : undefined}
 >
   <slot />
   <noscript>
@@ -112,6 +114,9 @@ const { pageSize, ranked, class: className } = Astro.props
         oldest: (a, b) => Date.parse(read(a, 'date')) - Date.parse(read(b, 'date')),
       }
       const ranked = 'ranked' in this.dataset
+      const infinite = 'infinite' in this.dataset
+      const sentinel = this.querySelector<HTMLElement>('[data-listing-sentinel]')
+      if (infinite && !sentinel) throw new Error('oet-listing: missing [data-listing-sentinel]')
       const byRank = (sort: Sorter): Sorter =>
         ranked ? (a, b) => Number(read(a, 'rank')) - Number(read(b, 'rank')) || sort(a, b) : sort
       const sorterFor = (value: string | undefined) => {
@@ -142,7 +147,8 @@ const { pageSize, ranked, class: className } = Astro.props
         sortSelect.setValue(requestedSort)
       let sorter = sortSelect ? sorterFor(sortSelect.dataset.value) : null
       const requestedPage = Number(params.get('page'))
-      let page = Number.isInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1
+      let page =
+        !infinite && Number.isInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1
 
       for (const { items } of lists) {
         for (const item of items) item.classList.remove('max-lg:hidden', 'lg:hidden')
@@ -164,7 +170,7 @@ const { pageSize, ranked, class: className } = Astro.props
         if (sortSelect && sortSelect.dataset.value !== initialSort)
           url.searchParams.set('sort', String(sortSelect.dataset.value))
         else url.searchParams.delete('sort')
-        if (page > 1) url.searchParams.set('page', String(page))
+        if (page > 1 && !infinite) url.searchParams.set('page', String(page))
         else url.searchParams.delete('page')
         history.replaceState(null, '', url)
       }
@@ -187,13 +193,30 @@ const { pageSize, ranked, class: className } = Astro.props
         const size = pageSize()
         const total = Math.max(1, Math.ceil(count / size))
         page = Math.min(page, total)
+        const start = infinite ? 0 : (page - 1) * size
         for (const { items, shown } of results) {
-          const visible = new Set(shown.slice((page - 1) * size, page * size))
+          const visible = new Set(shown.slice(start, page * size))
           for (const item of items) item.hidden = !visible.has(item)
         }
         if (empty) empty.hidden = count > 0
         for (const pagination of paginations) pagination.render(page, total)
+        if (sentinel) {
+          sentinel.hidden = page >= total
+          observer?.unobserve(sentinel)
+          if (!sentinel.hidden) observer?.observe(sentinel)
+        }
       }
+
+      const observer = sentinel
+        ? new IntersectionObserver(
+            ([entry]) => {
+              if (!entry.isIntersecting) return
+              page += 1
+              apply()
+            },
+            { rootMargin: '0px 0px 600px 0px' },
+          )
+        : null
 
       const update = () => {
         writeUrl()

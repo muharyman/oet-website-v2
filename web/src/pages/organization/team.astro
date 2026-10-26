@@ -9,10 +9,8 @@ import Reveal from '../../components/interactive/Reveal.astro'
 import TeamGlobe from '../../components/interactive/TeamGlobe.astro'
 import TeamProfileDialog from '../../components/interactive/TeamProfileDialog.astro'
 import FilterTabs from '../../components/ui/FilterTabs.astro'
-import Pagination from '../../components/ui/Pagination.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
 import SortControl from '../../components/ui/SortControl.astro'
-import { routes } from '../../data/routes'
 import { loadTeamPage } from '../../data/team'
 import { defaultLocale } from '../../i18n/config'
 import { sortOptions } from '../../i18n/groups'
@@ -26,8 +24,6 @@ const statGroups = hero.stats.map((stat) => [
   { kind: 'icon' as const, icon: stat.icon, tone: stat.tone },
   { kind: 'count' as const, value: stat.value, label: stat.label, tone: 'outline' as const },
 ])
-const hrefFor = (page: number) => `${routes.team}?page=${page}#${listing.id}`
-const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
 ---
 
 <BaseLayout
@@ -91,7 +87,7 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
       </div>
     </section>
 
-    <ListingFilter pageSize={listing.pageSize} ranked>
+    <ListingFilter pageSize={listing.pageSize} ranked infinite>
       <section>
         <ListingHeader
           layout="split"
@@ -123,14 +119,7 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
           />
         </ListingHeader>
         <div class={container}>
-          <div class="relative pt-5 pb-[180px] before:absolute before:inset-y-0 before:left-0 before:border-l before:border-neutral-100 lg:pb-0">
-            <Pagination
-              class="pt-5 pb-10 lg:hidden"
-              current={1}
-              total={pages(listing.pageSize.mobile)}
-              hrefFor={hrefFor}
-              locale={defaultLocale}
-            />
+          <div class="relative pt-5 pb-[180px] before:absolute before:inset-y-0 before:left-0 before:border-l before:border-neutral-100 lg:pb-[120px]">
             <Reveal
               axis="y"
               order="column"
@@ -165,13 +154,7 @@ const pages = (size: number) => Math.max(1, Math.ceil(members.length / size))
             >
               {t(defaultLocale, 'team.empty')}
             </p>
-            <Pagination
-              class="pt-10 pb-5 lg:mx-auto lg:w-[372px] lg:py-12"
-              current={1}
-              total={pages(listing.pageSize.desktop)}
-              hrefFor={hrefFor}
-              locale={defaultLocale}
-            />
+            <div data-listing-sentinel aria-hidden="true"></div>
           </div>
         </div>
       </section>
