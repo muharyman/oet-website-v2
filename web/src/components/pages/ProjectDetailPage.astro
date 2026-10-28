@@ -28,6 +28,8 @@ const locale = defaultLocale
 const labels = detailLabels(locale)
 const sidebar = sidebarLabels(locale)
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
+const column =
+  'min-w-0 border-neutral-100 max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:w-[calc(100%_-_325px)] lg:max-w-[847px] lg:shrink-0 lg:border-l lg:pr-[120px]'
 const text = (value: string, emphasis: boolean) => ({ text: value, emphasis })
 const groups = [
   { icon: 'tools' as const, label: labels.tools, items: detail.tools },
@@ -84,7 +86,7 @@ const groups = [
 
       <div class:list={[container, 'flex flex-col lg:flex-row lg:items-start lg:gap-5']}>
         <div
-          class="min-w-0 border-neutral-100 pt-20 pb-10 max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:w-[calc(100%_-_325px)] lg:max-w-[847px] lg:shrink-0 lg:border-l lg:pr-[120px]"
+          class:list={[column, 'pt-20', relatedProjects.length === 0 && 'pb-10']}
           data-print="article"
         >
           <RichText html={detail.body} size="lg" class="px-5 pb-[60px]" />
@@ -100,7 +102,25 @@ const groups = [
               />
             </div>
           )}
-          {relatedProjects.length > 0 && (
+        </div>
+        <aside
+          class="flex flex-col gap-3 border-neutral-100 pt-20 pb-5 max-lg:order-first max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0 lg:border-l"
+          data-print="hide"
+        >
+          <section class="flex flex-col gap-4 pr-3 pl-5">
+            <h2 class="text-heading-3 font-medium text-neutral-800">{sidebar.contact}</h2>
+            <PersonRow {...detail.contact} />
+          </section>
+          {detail.partners.length > 0 && (
+            <div class="pr-3 pl-5">
+              <PartnerLogoList title={sidebar.partners} logos={detail.partners} />
+            </div>
+          )}
+        </aside>
+      </div>
+      {relatedProjects.length > 0 && (
+        <div class={container}>
+          <div class:list={[column, 'pb-10']}>
             <section class="pb-20" aria-labelledby="related-projects" data-print="hide">
               <CardCarousel
                 label={sidebar.relatedProjects}
@@ -144,23 +164,9 @@ const groups = [
                 })}
               </CardCarousel>
             </section>
-          )}
+          </div>
         </div>
-        <aside
-          class="flex flex-col gap-3 border-neutral-100 pt-20 pb-5 max-lg:order-first max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0 lg:border-l"
-          data-print="hide"
-        >
-          <section class="flex flex-col gap-4 pr-3 pl-5">
-            <h2 class="text-heading-3 font-medium text-neutral-800">{sidebar.contact}</h2>
-            <PersonRow {...detail.contact} />
-          </section>
-          {detail.partners.length > 0 && (
-            <div class="pr-3 pl-5">
-              <PartnerLogoList title={sidebar.partners} logos={detail.partners} />
-            </div>
-          )}
-        </aside>
-      </div>
+      )}
     </article>
 
     <div data-print="hide">

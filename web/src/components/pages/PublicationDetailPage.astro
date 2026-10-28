@@ -31,6 +31,8 @@ const locale = defaultLocale
 const labels = detailLabels(locale)
 const sidebar = sidebarLabels(locale)
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
+const column =
+  'min-w-0 border-neutral-100 max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:w-[calc(100%_-_325px)] lg:max-w-[847px] lg:shrink-0 lg:border-l lg:pr-[120px]'
 const text = (value: string, emphasis: boolean) => ({ text: value, emphasis })
 
 const blocks = detail.body.map((block) => {
@@ -85,7 +87,7 @@ const tocItems = blocks.flatMap((block) => block.items)
 
       <div class:list={[container, 'flex flex-col lg:flex-row lg:items-start lg:justify-between']}>
         <div
-          class="min-w-0 border-neutral-100 pt-20 pb-10 max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:w-[calc(100%_-_325px)] lg:max-w-[847px] lg:shrink-0 lg:border-l lg:pr-[120px]"
+          class:list={[column, 'pt-20', relatedPublications.length === 0 && 'pb-10']}
           data-print="article"
         >
           {blocks.map((block) => (
@@ -116,7 +118,30 @@ const tocItems = blocks.flatMap((block) => block.items)
             </>
           ))}
           <LinkListGroup groups={detail.linkGroups} class="px-5 pt-5 pb-[60px]" />
-          {relatedPublications.length > 0 && (
+        </div>
+        <aside
+          class="flex flex-col gap-5 border-neutral-100 pt-20 pb-5 max-lg:order-first max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0 lg:border-l"
+          data-print="hide"
+        >
+          {detail.authors.length > 0 && (
+            <section class="flex flex-col gap-4 pr-3 pl-5">
+              <h2 class="text-body-lg font-medium text-neutral-800">{sidebar.authors}</h2>
+              {detail.authors.map((author) => (
+                <PersonRow {...author} />
+              ))}
+            </section>
+          )}
+          <div class="border-t border-neutral-100 pt-5 pr-3 pl-5">
+            <TableOfContents title={sidebar.tableOfContents} items={tocItems} />
+          </div>
+          <div class="border-t border-neutral-100 pt-5 pr-3 pl-5">
+            <ShareBar title={publication.title} citation={detail.citation} locale={locale} />
+          </div>
+        </aside>
+      </div>
+      {relatedPublications.length > 0 && (
+        <div class={container}>
+          <div class:list={[column, 'pb-10']}>
             <section class="pb-20" aria-labelledby="related-publications" data-print="hide">
               <CardCarousel
                 label={sidebar.relatedPublications}
@@ -159,28 +184,9 @@ const tocItems = blocks.flatMap((block) => block.items)
                 })}
               </CardCarousel>
             </section>
-          )}
+          </div>
         </div>
-        <aside
-          class="flex flex-col gap-5 border-neutral-100 pt-20 pb-5 max-lg:order-first max-lg:shadow-[inset_1px_0_0_var(--color-neutral-100)] lg:sticky lg:top-[60px] lg:w-[305px] lg:shrink-0 lg:border-l"
-          data-print="hide"
-        >
-          {detail.authors.length > 0 && (
-            <section class="flex flex-col gap-4 pr-3 pl-5">
-              <h2 class="text-body-lg font-medium text-neutral-800">{sidebar.authors}</h2>
-              {detail.authors.map((author) => (
-                <PersonRow {...author} />
-              ))}
-            </section>
-          )}
-          <div class="border-t border-neutral-100 pt-5 pr-3 pl-5">
-            <TableOfContents title={sidebar.tableOfContents} items={tocItems} />
-          </div>
-          <div class="border-t border-neutral-100 pt-5 pr-3 pl-5">
-            <ShareBar title={publication.title} citation={detail.citation} locale={locale} />
-          </div>
-        </aside>
-      </div>
+      )}
     </article>
 
     <div data-print="hide">
