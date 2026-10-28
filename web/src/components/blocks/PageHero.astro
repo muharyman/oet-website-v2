@@ -213,8 +213,8 @@ const chipsBottoms: Record<ChipsBottom, string> = {
 }
 
 const textLefts: Record<TextLeft, string> = {
-  80: 'lg:left-20',
-  96: 'lg:left-24',
+  80: 'lg:left-[calc(max(0px,50%_-_700px)_+_80px)]',
+  96: 'lg:left-[calc(max(0px,50%_-_700px)_+_96px)]',
 }
 
 const mobileAnchors: Record<MobileAnchor, { block: string; text: string }> = {
@@ -247,7 +247,7 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
 >
   <section
     class:list={[
-      'relative isolate mx-auto flex max-w-[1400px] overflow-hidden rounded-md',
+      'relative isolate flex overflow-hidden rounded-md',
       backgrounds[background],
       heights[kind],
     ]}
@@ -268,7 +268,10 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
         class="absolute inset-0 -z-20 size-full object-cover"
       />
     </picture>
-    <div class="absolute inset-0 -z-10 hidden lg:block" aria-hidden="true">
+    <div
+      class="absolute inset-0 -z-10 hidden lg:block"
+      aria-hidden="true"
+    >
       {ornaments[ornament].desktop.map((block) => (
         <span class="absolute" style={blockStyle(block, kind === 'bottom' ? 'bottom' : 'top')} />
       ))}
@@ -319,7 +322,7 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
     {(props.layout === 'map-bottom-left' || props.layout === 'listing') && (
       <div
         class:list={[
-          'absolute inset-x-5 flex flex-col items-start lg:right-auto lg:left-10 lg:w-[650px]',
+          'absolute inset-x-5 flex flex-col items-start lg:right-auto lg:left-[calc(max(0px,50%_-_700px)_+_40px)] lg:w-[650px]',
           chipsBottoms[props.chipsBottomMobile],
         ]}
       >
@@ -398,7 +401,7 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
       </div>
     )}
     {kind === 'left' && person && (
-      <div class="absolute right-20 bottom-[30px] hidden lg:block">
+      <div class="absolute right-[calc(max(0px,50%_-_700px)_+_80px)] bottom-[30px] hidden lg:block">
         <PersonBadge {...person} />
       </div>
     )}
