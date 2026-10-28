@@ -199,7 +199,7 @@ const titleSizesMobile: Record<Common['titleSizeMobile'], string> = {
 
 const heights: Record<'centered' | 'bottom' | 'left', string> = {
   centered: 'h-[800px] lg:h-[780px]',
-  bottom: 'h-[800px] lg:h-[780px]',
+  bottom: 'h-[800px] lg:h-[clamp(560px,calc(100svh_-_40px),780px)]',
   left:
     person === null
       ? 'min-h-[573px] lg:h-[553px] lg:min-h-0'
@@ -235,8 +235,8 @@ const chip =
 const sources = await pageHeroSources(image)
 const base = await getImage({ src: image.desktop, format: 'webp', width: 1400 })
 
-const blockStyle = (block: Block) =>
-  `${block.side}:${block.x}px;top:${block.y}px;width:${block.w}px;height:${block.h}px;background-color:${block.color}`
+const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
+  `${block.side}:${block.x}px;${anchor === 'top' ? `top:${block.y}px` : `bottom:${780 - block.y - block.h}px`};width:${block.w}px;height:${block.h}px;background-color:${block.color}`
 ---
 
 <div
@@ -270,12 +270,12 @@ const blockStyle = (block: Block) =>
     </picture>
     <div class="absolute inset-0 -z-10 hidden lg:block" aria-hidden="true">
       {ornaments[ornament].desktop.map((block) => (
-        <span class="absolute" style={blockStyle(block)} />
+        <span class="absolute" style={blockStyle(block, kind === 'bottom' ? 'bottom' : 'top')} />
       ))}
     </div>
     <div class="absolute inset-0 -z-10 lg:hidden" aria-hidden="true">
       {ornaments[ornament].mobile.map((block) => (
-        <span class="absolute" style={blockStyle(block)} />
+        <span class="absolute" style={blockStyle(block, 'top')} />
       ))}
     </div>
 
