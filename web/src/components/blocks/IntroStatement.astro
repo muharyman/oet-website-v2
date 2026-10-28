@@ -23,22 +23,32 @@ const { variant, tag, title, paragraphs, actions } = Astro.props
 
 const variants: Record<
   Variant,
-  { section: string; column: string; title: string; media: string; text: string }
+  {
+    section: string
+    frame: string
+    column: string
+    title: string
+    media: string
+    text: string
+  }
 > = {
   home: {
     section: '',
-    column: 'gap-4 pt-[160px] pb-20 lg:pr-[min(40px,3.125cqw)] lg:pl-[min(39px,3.047cqw)]',
-    title: 'lg:text-[min(3rem,3.75cqw)]',
-    media: 'aspect-[630/509] w-full',
-    text: 'text-body-sm lg:text-[min(1rem,1.25cqw)]/[1.1875] gap-3 lg:gap-[min(10px,0.781cqw)]',
+    frame: 'lg:@container lg:[--k:min(1px,100cqw/1280,100svh/839)]',
+    column:
+      'gap-4 pt-[160px] pb-20 lg:gap-[calc(12*var(--k))] lg:pt-[calc(240*var(--k))] lg:pr-[calc(40*var(--k))] lg:pb-[calc(80*var(--k))] lg:pl-[calc(39*var(--k))]',
+    title: 'lg:max-w-[calc(550*var(--k))] lg:text-[length:calc(48*var(--k))]',
+    media: 'aspect-[630/509] w-full lg:top-[calc(240*var(--k))] lg:w-[calc(630*var(--k))]',
+    text: 'text-body-sm gap-3 lg:min-h-[calc(161*var(--k))] lg:max-w-[calc(550*var(--k))] lg:gap-[calc(10*var(--k))] lg:pt-[calc(8*var(--k))] lg:text-[length:calc(16*var(--k))]/[1.1875]',
   },
   service: {
     section: 'lg:pt-[7px]',
-    column: 'gap-2 pt-[192px] lg:pb-20 lg:pr-10 lg:pl-[39px]',
-    title: '',
+    frame: '',
+    column: 'gap-2 pt-[192px] lg:gap-3 lg:pt-[240px] lg:pr-10 lg:pb-20 lg:pl-[39px]',
+    title: 'lg:max-w-[550px]',
     media:
-      'order-last -ml-10 aspect-[412/301] w-[calc(100%+60px)] lg:order-none lg:ml-0 lg:aspect-[630/460]',
-    text: 'text-body-md mb-24 flex-col gap-5 whitespace-pre-line lg:mb-0 lg:flex-row lg:gap-5',
+      'order-last -ml-10 aspect-[412/301] w-[calc(100%+60px)] lg:top-[240px] lg:order-none lg:ml-0 lg:aspect-[630/460] lg:w-[calc(50%-10px)]',
+    text: 'text-body-md mb-24 flex-col gap-5 whitespace-pre-line lg:mb-0 lg:min-h-[161px] lg:max-w-[550px] lg:flex-row lg:gap-5 lg:pt-2',
   },
 }
 
@@ -46,33 +56,26 @@ const styles = variants[variant]
 ---
 
 <section class:list={['max-w-page px-gutter lg:px-gutter-lg mx-auto w-full', styles.section]}>
-  <div class="relative lg:@container">
+  <div class:list={['relative', styles.frame]}>
     <div
       class:list={[
-        'flex flex-col items-start border-l border-neutral-100 pl-[19px] lg:w-[calc(50%-10px)] lg:gap-3 lg:pt-[240px]',
+        'flex flex-col items-start border-l border-neutral-100 pl-[19px] lg:w-[calc(50%-10px)]',
         styles.column,
       ]}
     >
       <Tag label={tag} tone="dark" />
       <h2
         class:list={[
-          'text-display-5 lg:text-display-3 font-medium whitespace-pre-line text-neutral-800 lg:max-w-[550px]',
+          'text-display-5 lg:text-display-3 font-medium whitespace-pre-line text-neutral-800',
           styles.title,
         ]}
       >
         {title}
       </h2>
-      <div
-        class:list={['lg:absolute lg:top-[240px] lg:right-0 lg:w-[calc(50%-10px)]', styles.media]}
-      >
+      <div class:list={['lg:absolute lg:right-0', styles.media]}>
         <slot name="media" />
       </div>
-      <div
-        class:list={[
-          'flex w-full items-start text-neutral-800 lg:min-h-[161px] lg:max-w-[550px] lg:pt-2',
-          styles.text,
-        ]}
-      >
+      <div class:list={['flex w-full items-start text-neutral-800', styles.text]}>
         {paragraphs.map((paragraph) => (
           <p class="min-w-0 flex-1">{paragraph}</p>
         ))}

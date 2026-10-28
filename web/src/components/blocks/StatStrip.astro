@@ -31,21 +31,21 @@ const icons = {
 ---
 
 <div class="max-w-page px-gutter-lg mx-auto -mt-6 hidden w-full lg:block">
-  <ul class="@container grid grid-cols-6">
+  <ul class="@container grid grid-cols-6 [--k:min(1px,100cqw/1280,100svh/839)]">
     {stats.map((stat) => {
       const Icon = icons[stat.icon].component
       return (
-        <li class="flex h-[min(72px,5.625cqw)] min-w-0 items-center gap-[min(10px,0.781cqw)] border border-neutral-100 px-[min(20px,1.563cqw)] text-neutral-800 first:pl-[min(40px,3.125cqw)]">
-          <div class="flex min-w-0 flex-1 flex-col gap-[min(4px,0.313cqw)]">
-            <span class="text-[min(1.5rem,1.875cqw)] leading-none font-semibold tracking-[-0.01em]">
+        <li class="flex h-[calc(72*var(--k))] min-w-0 items-center gap-[calc(10*var(--k))] border border-neutral-100 px-[calc(20*var(--k))] text-neutral-800 first:pl-[calc(40*var(--k))]">
+          <div class="flex min-w-0 flex-1 flex-col gap-[calc(4*var(--k))]">
+            <span class="text-[length:calc(24*var(--k))] leading-none font-semibold tracking-[-0.01em]">
               {stat.value}
             </span>
-            <span class="text-[min(1rem,1.25cqw)] leading-[1.25] font-medium tracking-[-0.01em]">
+            <span class="text-[length:calc(16*var(--k))] leading-[1.25] font-medium tracking-[-0.01em]">
               {stat.label}
             </span>
           </div>
           <Icon
-            class:list={['size-[min(24px,1.875cqw)] shrink-0', icons[stat.icon].tone]}
+            class:list={['size-[calc(24*var(--k))] shrink-0', icons[stat.icon].tone]}
             aria-hidden="true"
           />
         </li>
