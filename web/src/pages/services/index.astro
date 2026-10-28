@@ -5,6 +5,7 @@ import CtaBanner from '../../components/blocks/CtaBanner.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
 import ServiceCard from '../../components/cards/ServiceCard.astro'
 import ValueCard from '../../components/cards/ValueCard.astro'
+import Reveal from '../../components/interactive/Reveal.astro'
 import SectionHeading from '../../components/ui/SectionHeading.astro'
 import { loadServicesPage } from '../../data/services'
 import { defaultLocale } from '../../i18n/config'
@@ -62,24 +63,36 @@ const topRuleDesktop = 'lg:shadow-[inset_0_1px_0_var(--color-neutral-100)]'
           actions={[]}
           class="pt-[180px] pb-10 pl-5 lg:px-5 lg:pt-[120px]"
         />
-        <ul
-          class:list={[
-            'grid grid-cols-[minmax(0,1fr)] gap-10 py-5 lg:grid-cols-2 lg:gap-0 lg:gap-x-5 lg:py-0',
-            topRuleMobile,
-          ]}
+        <Reveal
+          axis="x"
+          order="column"
+          steps={[0, -120]}
+          easing="gentle"
+          duration={1.022}
+          delay={0.3}
         >
-          {cards.map((card) => (
-            <li class="lg:before:pointer-events-none lg:relative lg:flex lg:pt-5 lg:odd:before:absolute lg:odd:before:top-0 lg:odd:before:left-0 lg:odd:before:w-[calc(200%+20px)] lg:odd:before:border-t lg:odd:before:border-neutral-100">
-              <ServiceCard
-                title={card.title}
-                paragraphs={card.paragraphs}
-                link={card.link}
-                image={card.image}
-                class="w-full"
-              />
-            </li>
-          ))}
-        </ul>
+          <ul
+            class:list={[
+              'grid grid-cols-[minmax(0,1fr)] gap-10 py-5 lg:grid-cols-2 lg:gap-0 lg:gap-x-5 lg:py-0',
+              topRuleMobile,
+            ]}
+          >
+            {cards.map((card) => (
+              <li
+                class="lg:before:pointer-events-none lg:relative lg:flex lg:pt-5 lg:odd:before:absolute lg:odd:before:top-0 lg:odd:before:left-0 lg:odd:before:w-[calc(200%+20px)] lg:odd:before:border-t lg:odd:before:border-neutral-100"
+                data-reveal
+              >
+                <ServiceCard
+                  title={card.title}
+                  paragraphs={card.paragraphs}
+                  link={card.link}
+                  image={card.image}
+                  class="w-full"
+                />
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
 
