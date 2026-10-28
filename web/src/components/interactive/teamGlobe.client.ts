@@ -17,12 +17,12 @@ type Country = { code: string; name: string; count: string; lon: number; lat: nu
 const VIEW_OFFSET = { lon: 6.5, lat: -31 }
 const LAT_RANGE = { min: -60, max: 40 }
 const KEY_STEP = 10
-const IDLE_SPEED = 0.004
+const IDLE_SPEED = 0.002
 const TURN_MS = 600
-const DWELL_MS = 2000
+const DWELL_MS = 4000
 const FOCUS_RANGE = 12
 const FOCUS_STEP = 4
-const TILT_MS = 1200
+const TILT_MS = 2000
 
 const required = <T extends Element>(root: ParentNode, selector: string): T => {
   const element = root.querySelector<T>(selector)
