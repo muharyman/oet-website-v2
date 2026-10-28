@@ -3,6 +3,7 @@ import CtaBanner from '../blocks/CtaBanner.astro'
 import PageHero from '../blocks/PageHero.astro'
 import ToolCard from '../cards/ToolCard.astro'
 import ListingFilter from '../interactive/ListingFilter.astro'
+import Reveal from '../interactive/Reveal.astro'
 import FilterTabs from '../ui/FilterTabs.astro'
 import Pagination from '../ui/Pagination.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
@@ -122,26 +123,36 @@ const hrefFor = (page: number) => `?page=${page}#${intro.id}`
           data-listing-items
           class="flex scroll-mt-32 flex-col gap-5 border-t border-l border-neutral-100 pt-[19px] pb-[140px] lg:gap-0 lg:border-t-0 lg:pt-0 lg:pb-[120px]"
         >
-          {rows.map((row) => (
-            <ul class="-ml-px flex flex-col gap-5 border-neutral-100 lg:grid lg:grid-cols-4 lg:border-t lg:pt-[19px] lg:pb-10 max-lg:[&:not(:has(>li:not([hidden])))]:hidden">
-              {row.tools.map((tool, index) => (
-                <li
-                  class:list={['flex', firstPageClass(row.start + index, pageSize)]}
-                  data-listing-item
-                >
-                  <ToolCard
-                    category={{ label: row.category.label, tone: row.category.tone }}
-                    name={tool.name}
-                    description={tool.description}
-                    source={{ label: t(locale, 'tool.source'), href: tool.sourceHref }}
-                    website={{ label: t(locale, 'tool.website'), href: tool.websiteHref }}
-                    github={{ label: t(locale, 'tool.github'), href: tool.githubHref }}
-                    class="w-full lg:h-[360px]"
-                  />
-                </li>
-              ))}
-            </ul>
-          ))}
+          <Reveal
+            axis="x"
+            order="column"
+            steps={[0, -120]}
+            easing="gentle"
+            duration={1.022}
+            delay={0.3}
+          >
+            {rows.map((row) => (
+              <ul class="-ml-px flex flex-col gap-5 border-neutral-100 lg:grid lg:grid-cols-4 lg:border-t lg:pt-[19px] lg:pb-10 max-lg:[&:not(:has(>li:not([hidden])))]:hidden">
+                {row.tools.map((tool, index) => (
+                  <li
+                    class:list={['flex', firstPageClass(row.start + index, pageSize)]}
+                    data-listing-item
+                    data-reveal
+                  >
+                    <ToolCard
+                      category={{ label: row.category.label, tone: row.category.tone }}
+                      name={tool.name}
+                      description={tool.description}
+                      source={{ label: t(locale, 'tool.source'), href: tool.sourceHref }}
+                      website={{ label: t(locale, 'tool.website'), href: tool.websiteHref }}
+                      github={{ label: t(locale, 'tool.github'), href: tool.githubHref }}
+                      class="w-full lg:h-[360px]"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </Reveal>
           <Pagination
             class="py-10 lg:hidden"
             current={1}
