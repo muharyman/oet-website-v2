@@ -40,7 +40,7 @@ const desktop = (image: ImageMetadata, media: string): Variant => ({
   image,
   media,
   widths: [DESKTOP_WIDTH, DESKTOP_WIDTH * 1.5, DESKTOP_WIDTH * 2],
-  sizes: `${DESKTOP_WIDTH}px`,
+  sizes: `(min-width: ${DESKTOP_WIDTH + 40}px) calc(100vw - 40px), ${DESKTOP_WIDTH}px`,
   crop: null,
 })
 

@@ -44,7 +44,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
 
 <div class="bg-brand-500 relative z-10 pb-[22px] lg:-mb-[22px] shadow-[0_0_20px_var(--color-brand-500)] lg:px-5 lg:pt-5">
   <oet-hero
-    class="relative mx-auto block h-[800px] max-w-[1400px] overflow-clip bg-white lg:h-[clamp(560px,calc(100svh_-_40px),780px)] lg:rounded-lg"
+    class="relative block h-[800px] overflow-clip bg-white lg:h-[clamp(560px,calc(100svh_-_40px),780px)] lg:rounded-lg"
     role="region"
     aria-roledescription="carousel"
     aria-label={label}
@@ -92,10 +92,10 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
             />
           </div>
           <div class="slide-text absolute inset-0">
-            <Heading class="slide-title text-display-3 lg:text-display-2 absolute top-[130px] right-5 left-5 font-medium whitespace-pre-line text-white lg:top-[16.8%] lg:right-auto lg:left-10 lg:w-[11.607em]">
+            <Heading class="slide-title text-display-3 lg:text-display-2 absolute top-[130px] right-5 left-5 font-medium whitespace-pre-line text-white lg:top-[16.8%] lg:right-auto lg:left-[calc(max(0px,50%_-_700px)_+_40px)] lg:w-[11.607em]">
               {slide.title}
             </Heading>
-            <div class="absolute right-5 bottom-[123px] left-5 flex flex-col text-[1rem] leading-[20px] font-medium tracking-[-0.01em] text-white lg:right-auto lg:bottom-[94px] lg:left-10 lg:w-[315px] lg:leading-[19px]">
+            <div class="absolute right-5 bottom-[123px] left-5 flex flex-col text-[1rem] leading-[20px] font-medium tracking-[-0.01em] text-white lg:right-auto lg:bottom-[94px] lg:left-[calc(max(0px,50%_-_700px)_+_40px)] lg:w-[315px] lg:leading-[19px]">
               {slide.paragraphs.map((paragraph, position) => (
                 <p
                   class:list={[
@@ -116,7 +116,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
     <div
       class:list={[
         box,
-        'absolute top-[740px] left-5 flex w-[316px] gap-[2px] lg:top-auto lg:bottom-[38px] lg:left-10 lg:w-[315px]',
+        'absolute top-[740px] left-5 flex w-[316px] gap-[2px] lg:top-auto lg:bottom-[38px] lg:left-[calc(max(0px,50%_-_700px)_+_40px)] lg:w-[315px]',
       ]}
     >
       <Button
@@ -140,7 +140,7 @@ const box = 'border border-[rgba(236,236,236,0.32)] bg-black/2 backdrop-blur-[4p
     </div>
 
     <div
-      class="absolute top-[677px] right-5 left-5 lg:top-auto lg:right-10 lg:bottom-[41px] lg:left-auto lg:w-[305px]"
+      class="absolute top-[677px] right-5 left-5 lg:top-auto lg:right-[calc(max(0px,50%_-_700px)_+_40px)] lg:bottom-[41px] lg:left-auto lg:w-[305px]"
       data-controls
     >
       <button type="button" class="block w-full cursor-pointer text-left" data-next>
