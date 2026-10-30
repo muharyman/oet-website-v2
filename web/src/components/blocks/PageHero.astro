@@ -197,13 +197,19 @@ const titleSizesMobile: Record<Common['titleSizeMobile'], string> = {
   'display-5': 'text-display-5',
 }
 
-const heights: Record<'centered' | 'bottom' | 'left', string> = {
-  centered: 'h-[800px] lg:h-[780px]',
-  bottom: 'h-[800px] lg:h-[clamp(560px,calc(100svh_-_40px),780px)]',
-  left:
-    person === null
-      ? 'min-h-[573px] lg:h-[553px] lg:min-h-0'
-      : 'min-h-[676px] lg:h-[553px] lg:min-h-0',
+const screenHeight = 'h-[800px] lg:h-[clamp(560px,calc(100svh_-_40px),780px)]'
+const leftHeight =
+  person === null
+    ? 'min-h-[573px] lg:h-[553px] lg:min-h-0'
+    : 'min-h-[676px] lg:h-[553px] lg:min-h-0'
+const heights: Record<Layout, string> = {
+  'photo-centered': 'h-[800px] lg:h-[780px]',
+  'centered-dark': screenHeight,
+  'map-bottom-left': screenHeight,
+  listing: screenHeight,
+  'photo-left': leftHeight,
+  'map-left': leftHeight,
+  'illustration-left': leftHeight,
 }
 
 const chipsBottoms: Record<ChipsBottom, string> = {
@@ -249,7 +255,7 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
     class:list={[
       'relative isolate flex overflow-hidden rounded-md',
       backgrounds[background],
-      heights[kind],
+      heights[layout],
     ]}
     data-header-theme={headerTheme}
   >
@@ -268,10 +274,7 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
         class="absolute inset-0 -z-20 size-full object-cover"
       />
     </picture>
-    <div
-      class="absolute inset-0 -z-10 hidden lg:block"
-      aria-hidden="true"
-    >
+    <div class="absolute inset-0 -z-10 hidden lg:block" aria-hidden="true">
       {ornaments[ornament].desktop.map((block) => (
         <span class="absolute" style={blockStyle(block, kind === 'bottom' ? 'bottom' : 'top')} />
       ))}
@@ -283,13 +286,18 @@ const blockStyle = (block: Block, anchor: 'top' | 'bottom') =>
     </div>
 
     {kind === 'centered' && (
-      <div class="flex w-full flex-col items-center px-5 text-center">
+      <div
+        class:list={[
+          'flex w-full flex-col items-center px-5 text-center',
+          layout === 'centered-dark' && 'lg:pt-[92px] lg:pb-[90px]',
+        ]}
+      >
         <div
           class:list={[
             'flex flex-col items-center gap-10',
             layout === 'photo-centered'
               ? 'absolute inset-x-5 top-[188px] lg:top-auto lg:bottom-[512px]'
-              : 'pt-[228px] lg:pt-[264px]',
+              : 'pt-[228px] lg:my-auto lg:pt-0',
           ]}
         >
           <h1
