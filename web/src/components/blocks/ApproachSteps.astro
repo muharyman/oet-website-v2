@@ -17,11 +17,10 @@ interface Props {
   steps: readonly Step[]
   illustration: ImageMetadata | null
   mobile: Mobile
-  placeholder?: string
   class?: string
 }
 
-const { columns, steps, illustration, mobile, placeholder, class: className } = Astro.props
+const { columns, steps, illustration, mobile, class: className } = Astro.props
 
 const widths: Record<Mobile, string> = {
   grid: 'w-full',
@@ -35,10 +34,11 @@ const tracks: Record<Mobile, Record<Columns, string>> = {
 
 const captions: Record<
   Columns,
-  { item: string; cell: string; number: string; title: string; text: string }
+  { item: string; media: string; cell: string; number: string; title: string; text: string }
 > = {
   4: {
     item: 'self-start',
+    media: 'h-[416px] text-neutral-800',
     cell: 'p-4',
     number: 'text-body-sm',
     title: 'text-heading-4',
@@ -46,6 +46,7 @@ const captions: Record<
   },
   5: {
     item: '',
+    media: 'h-[372px] text-neutral-200',
     cell: 'flex-1 py-4 pr-4 pl-2 lg:min-h-[150px]',
     number: 'text-body-xs',
     title: 'text-body-md',
@@ -75,10 +76,13 @@ const cell =
       <Image
         src={illustration}
         alt=""
-        widths={[1073, 2146]}
-        sizes="(min-width: 1440px) 1073px, (min-width: 1024px) 84vw, 1073px"
+        widths={[1280, 2560]}
+        sizes="1280px"
         loading="lazy"
-        class="pointer-events-none absolute top-[7px] left-[9.297%] h-[409px] w-[83.828%] object-cover object-bottom mix-blend-multiply"
+        class:list={[
+          'pointer-events-none absolute inset-x-0 top-0 w-full object-contain mix-blend-multiply',
+          caption.media,
+        ]}
       />
     )}
     <ol class:list={['relative grid', tracks[mobile][columns]]}>
@@ -90,7 +94,7 @@ const cell =
             caption.item,
           ]}
         >
-          <div class:list={['h-[416px] items-center p-4', cell]}>
+          <div class:list={['items-center p-4', caption.media, cell]}>
             {step.image !== null && (
               <Image
                 src={step.image}
@@ -102,19 +106,11 @@ const cell =
               />
             )}
             <span
-              class="text-body-sm relative w-5 shrink-0 self-stretch text-right font-medium text-neutral-800"
+              class="text-body-sm relative w-5 shrink-0 self-stretch text-right font-medium"
               aria-hidden="true"
             >
               {step.number}
             </span>
-            {step.image === null && placeholder !== undefined && (
-              <span
-                aria-hidden="true"
-                class="text-heading-4 relative min-w-0 flex-1 text-center font-bold text-neutral-600"
-              >
-                {placeholder}
-              </span>
-            )}
           </div>
           <div class:list={['bg-neutral-50 text-neutral-800', cell, caption.cell]}>
             <span class:list={['w-5 shrink-0 text-right font-medium', caption.number]}>

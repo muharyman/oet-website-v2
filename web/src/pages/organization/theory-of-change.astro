@@ -1,6 +1,7 @@
 ---
 import type { SvgComponent } from 'astro/types'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import ApproachIllustration from '../../assets/theory/approach.webp'
 import ApproachSteps from '../../components/blocks/ApproachSteps.astro'
 import OutcomeMatrix from '../../components/blocks/OutcomeMatrix.astro'
 import PageHero from '../../components/blocks/PageHero.astro'
@@ -93,9 +94,8 @@ const gutter = 'mx-gutter border-l border-neutral-100 lg:mx-0 lg:border-l-0'
           <ApproachSteps
             columns={5}
             steps={approach.steps}
-            illustration={null}
-            mobile="grid"
-            placeholder={approach.placeholder}
+            illustration={ApproachIllustration}
+            mobile="scroll"
             class="break-words"
           />
         </section>

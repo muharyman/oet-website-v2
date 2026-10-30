@@ -2,14 +2,7 @@ import type { ImageMetadata } from 'astro'
 import type { SvgComponent } from 'astro/types'
 import type { FrameTone, PartnerTag } from '../components/cards/types'
 import type { Locale } from '../i18n/config'
-import {
-  findAll,
-  findGlobal,
-  required,
-  texts,
-  type Doc,
-  type GlobalDoc,
-} from '../lib/cms'
+import { findAll, findGlobal, required, texts, type Doc, type GlobalDoc } from '../lib/cms'
 import { altOf, icon, image, optionalImage } from '../lib/media'
 import { partnerTag, projectPeriod } from './projects'
 import { routes } from './routes'
@@ -57,7 +50,6 @@ export interface ApproachStep {
 
 export interface Approach {
   illustration: ImageMetadata
-  placeholder: string
   steps: ApproachStep[]
 }
 
@@ -128,7 +120,6 @@ type PageDoc = GlobalDoc<'services-page'>
 type Rows = { text: string }[] | null | undefined
 
 const introId = 'services'
-const stepPlaceholder = 'IMG-PLACEHOLDER'
 const valueColumns = { '5': 5, '6': 6 } as const
 
 const optionalTexts = (rows: Rows): string[] =>
@@ -248,7 +239,6 @@ const shared = (page: PageDoc): ServiceShared => ({
   eyebrow: { label: page.detailEyebrow, mobile: true },
   approach: {
     illustration: image(page.approach.illustration, 'services page approach illustration'),
-    placeholder: stepPlaceholder,
     steps: page.approach.steps.map((step, index) => ({
       number: String(index + 1).padStart(2, '0'),
       title: step.title,
