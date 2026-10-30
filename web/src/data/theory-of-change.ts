@@ -17,7 +17,6 @@ export interface SceneCaption {
 type Caption = GlobalDoc<'theory-of-change-page'>['scene']['challenge']
 
 const sceneId = 'theory'
-const approachPlaceholder = 'IMG-PLACEHOLDER'
 
 const toCaption = (caption: Caption, what: string): SceneCaption => {
   const details = texts(caption.details, `${what} details`)
@@ -56,7 +55,6 @@ export const loadTheoryPage = async (locale: Locale) => {
       mobileTag: page.approach.mobileTag,
       title: page.approach.title,
       subline: page.approach.subline,
-      placeholder: approachPlaceholder,
       steps: required(page.approach.steps, 'theory of change approach steps').map(
         (step, index) => ({
           number: String(index + 1).padStart(2, '0'),
