@@ -30,147 +30,231 @@
       "name": "Germany",
       "count": "15",
       "lon": 10.4,
-      "lat": 51.2
+      "lat": 51.2,
+      "photo": {
+        "__asset": "team/countries/deu.webp"
+      },
+      "photoAlt": "German flag in front of the Reichstag building in Berlin"
     },
     {
       "code": "ITA",
       "name": "Italy",
       "count": "5",
       "lon": 12.6,
-      "lat": 42.8
+      "lat": 42.8,
+      "photo": {
+        "__asset": "team/countries/ita.webp"
+      },
+      "photoAlt": "Florence with the cathedral dome"
     },
     {
       "code": "IDN",
       "name": "Indonesia",
       "count": "4",
       "lon": 113.9,
-      "lat": -0.8
+      "lat": -0.8,
+      "photo": {
+        "__asset": "team/countries/idn.webp"
+      },
+      "photoAlt": "National Monument in Jakarta"
     },
     {
       "code": "IND",
       "name": "India",
       "count": "4",
       "lon": 78.9,
-      "lat": 21.1
+      "lat": 21.1,
+      "photo": {
+        "__asset": "team/countries/ind.webp"
+      },
+      "photoAlt": "Golden Temple in Amritsar"
     },
     {
       "code": "GBR",
       "name": "United Kingdom",
       "count": "4",
       "lon": -2,
-      "lat": 53.5
+      "lat": 53.5,
+      "photo": {
+        "__asset": "team/countries/gbr.webp"
+      },
+      "photoAlt": "Houses of Parliament and Big Ben in London"
     },
     {
       "code": "NLD",
       "name": "Netherlands",
       "count": "3",
       "lon": 5.3,
-      "lat": 52.1
+      "lat": 52.1,
+      "photo": {
+        "__asset": "team/countries/nld.webp"
+      },
+      "photoAlt": "Dutch riverside town with a church tower at dusk"
     },
     {
       "code": "FRA",
       "name": "France",
       "count": "2",
       "lon": 2.4,
-      "lat": 46.6
+      "lat": 46.6,
+      "photo": {
+        "__asset": "team/countries/fra.webp"
+      },
+      "photoAlt": "Paris skyline with the Eiffel Tower"
     },
     {
       "code": "NGA",
       "name": "Nigeria",
       "count": "2",
       "lon": 8.1,
-      "lat": 9.1
+      "lat": 9.1,
+      "photo": {
+        "__asset": "team/countries/nga.webp"
+      },
+      "photoAlt": "City skyline and bridge over a lagoon in Lagos"
     },
     {
       "code": "ZMB",
       "name": "Zambia",
       "count": "2",
       "lon": 27.8,
-      "lat": -13.1
+      "lat": -13.1,
+      "photo": {
+        "__asset": "team/countries/zmb.webp"
+      },
+      "photoAlt": "Stadium in Zambia"
     },
     {
       "code": "CHL",
       "name": "Chile",
       "count": "1",
       "lon": -71.5,
-      "lat": -35.7
+      "lat": -35.7,
+      "photo": {
+        "__asset": "team/countries/chl.webp"
+      },
+      "photoAlt": "Skyline of Santiago with the Andes behind"
     },
     {
       "code": "HRV",
       "name": "Croatia",
       "count": "1",
       "lon": 16.4,
-      "lat": 45.1
+      "lat": 45.1,
+      "photo": {
+        "__asset": "team/countries/hrv.webp"
+      },
+      "photoAlt": "Old town and harbour of Dubrovnik"
     },
     {
       "code": "DNK",
       "name": "Denmark",
       "count": "1",
       "lon": 9.5,
-      "lat": 56
+      "lat": 56,
+      "photo": {
+        "__asset": "team/countries/dnk.webp"
+      },
+      "photoAlt": "Rooftops of Copenhagen"
     },
     {
       "code": "SLV",
       "name": "El Salvador",
       "count": "1",
       "lon": -88.9,
-      "lat": 13.8
+      "lat": 13.8,
+      "photo": {
+        "__asset": "team/countries/slv.webp"
+      },
+      "photoAlt": "Monument and domed church in San Salvador"
     },
     {
       "code": "JPN",
       "name": "Japan",
       "count": "1",
       "lon": 143,
-      "lat": 43.5
+      "lat": 43.5,
+      "photo": {
+        "__asset": "team/countries/jpn.webp"
+      },
+      "photoAlt": "High-rise buildings and billboards in Tokyo"
     },
     {
       "code": "KAZ",
       "name": "Kazakhstan",
       "count": "1",
       "lon": 68.5,
-      "lat": 49.4
+      "lat": 49.4,
+      "photo": {
+        "__asset": "team/countries/kaz.webp"
+      },
+      "photoAlt": "Bayterek Tower in Astana"
     },
     {
       "code": "MEX",
       "name": "Mexico",
       "count": "1",
       "lon": -98.2,
-      "lat": 20
+      "lat": 20,
+      "photo": {
+        "__asset": "team/countries/mex.webp"
+      },
+      "photoAlt": "Mexican flag in front of a government palace"
     },
     {
       "code": "NAM",
       "name": "Namibia",
       "count": "1",
       "lon": 18.5,
-      "lat": -22
+      "lat": -22,
+      "photo": {
+        "__asset": "team/countries/nam.webp"
+      },
+      "photoAlt": "Colonial-style houses with a turret in Namibia"
     },
     {
       "code": "NOR",
       "name": "Norway",
       "count": "1",
       "lon": 8.5,
-      "lat": 61
+      "lat": 61,
+      "photo": {
+        "__asset": "team/countries/nor.webp"
+      },
+      "photoAlt": "Bryggen wharf in Bergen"
     },
     {
       "code": "ZAF",
       "name": "South Africa",
       "count": "1",
       "lon": 24.7,
-      "lat": -29
+      "lat": -29,
+      "photo": {
+        "__asset": "team/countries/zaf.webp"
+      },
+      "photoAlt": "Cape Town with Table Mountain"
     },
     {
       "code": "CHE",
       "name": "Switzerland",
       "count": "1",
       "lon": 8.2,
-      "lat": 46.8
+      "lat": 46.8,
+      "photo": {
+        "__asset": "team/countries/che.webp"
+      },
+      "photoAlt": "Old town of Zurich beside Lake Zurich"
     },
     {
       "code": "USA",
       "name": "United States",
       "count": "1",
       "lon": -98,
-      "lat": 39
+      "lat": 39,
+      "photo": {
+        "__asset": "team/countries/usa.webp"
+      },
+      "photoAlt": "Statue of Liberty with the Manhattan skyline"
     }
   ],
   "filterGroups": [
@@ -225,11 +309,7 @@
       "lon": -91.5,
       "lat": 8
     },
-    "selected": "USA",
-    "photo": {
-      "__asset": "team/country-card.webp"
-    },
-    "photoAlt": ""
+    "selected": "USA"
   },
   "members": [
     {
