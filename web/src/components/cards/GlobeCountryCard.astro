@@ -5,15 +5,15 @@ import GlobeAlt from '../../icons/globe-alt.svg'
 import PeopleGroup from '../../icons/people-group.svg'
 
 interface Props {
-  photo: ImageMetadata
-  alt: string
+  photos: { photo: ImageMetadata; alt: string; codes: string[] }[]
+  selected: string
   country: string
   count: string
   unit: string
   class?: string
 }
 
-const { photo, alt, country, count, unit, class: className } = Astro.props
+const { photos, selected, country, count, unit, class: className } = Astro.props
 
 const chip =
   'text-body-sm text-brand-500 border-brand-500 flex h-[41px] items-center gap-2 border bg-neutral-50 px-[11px] font-medium whitespace-nowrap'
@@ -21,14 +21,18 @@ const chip =
 
 <div class:list={['flex w-[305px] flex-col items-start', className]}>
   <div class="relative -mb-px h-[233px] w-full overflow-clip border border-[#d9cdcd]">
-    <Image
-      src={photo}
-      alt={alt}
-      widths={[305, 610]}
-      sizes="305px"
-      loading="lazy"
-      class="absolute inset-0 size-full object-cover"
-    />
+    {photos.map(({ photo, alt, codes }) => (
+      <Image
+        src={photo}
+        alt={alt}
+        widths={[305, 610]}
+        sizes="305px"
+        loading="lazy"
+        class="absolute inset-0 size-full object-cover"
+        hidden={!codes.includes(selected)}
+        data-globe-photo={codes.join(' ')}
+      />
+    ))}
   </div>
   <div class="bg-brand-500 relative -mb-px h-1 w-full"></div>
   <p class="relative flex items-center">

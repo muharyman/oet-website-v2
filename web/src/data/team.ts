@@ -47,6 +47,8 @@ export interface TeamCountry {
   count: string
   lon: number
   lat: number
+  photo: ImageMetadata
+  photoAlt: string
 }
 
 export interface TeamStat {
@@ -147,8 +149,6 @@ export const loadTeamPage = async (locale: Locale) => {
     globe: {
       view: { lon: page.globe.view.longitude, lat: page.globe.view.latitude },
       selected: selected.code,
-      photo: image(selected.photo, `photo of ${selected.name}`),
-      photoAlt: altOf(selected.photo, `photo of ${selected.name}`),
     },
     countries: countries.map((country): TeamCountry => ({
       code: country.code,
@@ -156,6 +156,8 @@ export const loadTeamPage = async (locale: Locale) => {
       count: country.teammates,
       lon: country.longitude,
       lat: country.latitude,
+      photo: image(country.photo, `card photo of ${country.name}`),
+      photoAlt: altOf(country.photo, `card photo of ${country.name}`),
     })),
     continents: {
       label: page.continents.label,

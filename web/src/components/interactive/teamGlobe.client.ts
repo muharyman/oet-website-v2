@@ -66,6 +66,7 @@ export const mount = async (root: HTMLElement) => {
   const card = required<HTMLElement>(root, '[data-globe="card"]')
   const cardCountry = required<HTMLElement>(card, '[data-globe-card="country"]')
   const cardCount = required<HTMLElement>(card, '[data-globe-card="count"]')
+  const photos = [...card.querySelectorAll<HTMLImageElement>('[data-globe-photo]')]
   const codes = new Set(countries.map((country) => country.code))
   const still = window.matchMedia('(prefers-reduced-motion: reduce)')
 
@@ -115,6 +116,8 @@ export const mount = async (root: HTMLElement) => {
       )
       cardCountry.textContent = country.name
       cardCount.textContent = country.count
+      for (const photo of photos)
+        photo.hidden = !attribute(photo, 'globePhoto').split(' ').includes(country.code)
     }
     if (selected === null) card.setAttribute('data-hidden', '')
   }
