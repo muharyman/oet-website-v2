@@ -1726,7 +1726,7 @@ export interface Country {
    */
   latitude: number;
   /**
-   * Number on the country card next to "OET Teammates". Shown as written; not counted from the team.
+   * Number on the country card next to "OET Team". Shown as written; not counted from the team.
    */
   teammates: string;
   /**

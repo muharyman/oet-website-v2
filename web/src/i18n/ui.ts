@@ -116,7 +116,7 @@ const en = {
   'globe.label': 'Where the OET team works',
   'globe.hint':
     'Drag the globe or use the arrow keys to rotate it. Select a country to see its teammates.',
-  'globe.unit': 'OET Teammates',
+  'globe.unit': 'OET Team',
   'matrix.label': 'Outputs and the outcomes they lead to',
   'social.email': 'Email',
   'social.github': 'GitHub',
