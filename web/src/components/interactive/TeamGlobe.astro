@@ -24,6 +24,8 @@ interface Country {
   count: string
   lon: number
   lat: number
+  photo: ImageMetadata
+  photoAlt: string
 }
 
 interface TeamProps {
@@ -34,8 +36,6 @@ interface TeamProps {
   countries: Country[]
   selected: string
   unit: string
-  photo: ImageMetadata
-  photoAlt: string
   class?: string
 }
 
@@ -75,6 +75,18 @@ const countries =
           ...place(country.lon, country.lat),
         }
       })
+    : []
+const photos =
+  props.variant === 'team'
+    ? [
+        ...Map.groupBy(props.countries, (country) => `${country.photo.src} ${country.photoAlt}`)
+          .values()
+          .map((group) => ({
+            photo: group[0].photo,
+            alt: group[0].photoAlt,
+            codes: group.map((country) => country.code),
+          })),
+      ]
     : []
 const ordered = [...countries].sort((a, b) => Number(a.active) - Number(b.active))
 const active = countries.find((country) => country.active)
@@ -235,8 +247,8 @@ const pin =
         aria-live="polite"
       >
         <GlobeCountryCard
-          photo={props.photo}
-          alt={props.photoAlt}
+          photos={photos}
+          selected={active.code}
           country={active.name}
           count={active.count}
           unit={props.unit}
