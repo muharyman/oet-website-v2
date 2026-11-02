@@ -90,6 +90,7 @@ export const mount = async (root: HTMLElement) => {
   let tilt = start.lat
   let visible = true
   let engaged = false
+  let held = false
 
   const draw = () => {
     frame = 0
@@ -122,8 +123,13 @@ export const mount = async (root: HTMLElement) => {
     if (frame === 0) frame = requestAnimationFrame(draw)
   }
 
-  const rotateTo = (targetLon: number, targetLat: number) => {
+  const stopTurn = () => {
     cancelAnimationFrame(turn)
+    turn = 0
+  }
+
+  const rotateTo = (targetLon: number, targetLat: number, then: () => void) => {
+    stopTurn()
     const fromLon = lon
     const fromLat = lat
     const delta = ((((targetLon - fromLon) % 360) + 540) % 360) - 180
@@ -131,6 +137,7 @@ export const mount = async (root: HTMLElement) => {
       lon = fromLon + delta
       lat = targetLat
       schedule()
+      then()
       return
     }
     const began = performance.now()
@@ -141,6 +148,10 @@ export const mount = async (root: HTMLElement) => {
       lat = fromLat + (targetLat - fromLat) * eased
       schedule()
       if (t < 1) turn = requestAnimationFrame(step)
+      else {
+        turn = 0
+        then()
+      }
     }
     turn = requestAnimationFrame(step)
   }
@@ -151,19 +162,21 @@ export const mount = async (root: HTMLElement) => {
     card.setAttribute('aria-live', 'polite')
     const item = items.find(({ country }) => country.code === selected)
     tilt = item ? clampLat(item.country.lat + VIEW_OFFSET.lat) : lat
-    idle()
+    switched = performance.now() + TURN_MS
     if (item) {
+      cancelAnimationFrame(spin)
       outline.before(item.path)
-      rotateTo(item.country.lon + VIEW_OFFSET.lon, tilt)
+      rotateTo(item.country.lon + VIEW_OFFSET.lon, tilt, idle)
       return
     }
+    idle()
     schedule()
   }
 
   const gap = (a: number, b: number) => Math.abs(((((a - b) % 360) + 540) % 360) - 180)
 
   const follow = (now: number) => {
-    if (root.hasAttribute('data-touched') || now - switched < DWELL_MS) return
+    if (now - switched < DWELL_MS) return
     const focusLon = lon - VIEW_OFFSET.lon
     const nearest = items
       .map((item) => ({ item, distance: gap(item.country.lon, focusLon) }))
@@ -182,8 +195,7 @@ export const mount = async (root: HTMLElement) => {
 
   const idle = () => {
     cancelAnimationFrame(spin)
-    const picked = selected !== null && root.hasAttribute('data-touched')
-    if (!visible || engaged || picked || still.matches) return
+    if (!visible || engaged || held || turn !== 0 || still.matches) return
     let last = performance.now()
     const step = (now: number) => {
       lon += (now - last) * IDLE_SPEED
@@ -212,7 +224,9 @@ export const mount = async (root: HTMLElement) => {
       pointer.moved = true
       stage.setPointerCapture(event.pointerId)
       stage.setAttribute('data-dragging', '')
-      cancelAnimationFrame(turn)
+      stopTurn()
+      cancelAnimationFrame(spin)
+      held = true
     }
     const degrees = 180 / (Math.PI * STAGE.radius * (stage.clientWidth / STAGE.width))
     lon -= dx * degrees
@@ -227,6 +241,11 @@ export const mount = async (root: HTMLElement) => {
     const moved = pointer.moved
     pointer = null
     stage.removeAttribute('data-dragging')
+    if (held) {
+      held = false
+      tilt = lat
+      idle()
+    }
     if (moved || event.type === 'pointercancel') return
     const path = (event.target as Element).closest<SVGPathElement>('[data-globe="country"]')
     if (path) select(attribute(path, 'code'))
@@ -249,7 +268,7 @@ export const mount = async (root: HTMLElement) => {
     }
     if (!(event.key in moves)) return
     event.preventDefault()
-    cancelAnimationFrame(turn)
+    stopTurn()
     const [moveLon, moveLat] = moves[event.key]
     lon += moveLon
     lat = clampLat(lat + moveLat)
@@ -279,7 +298,7 @@ export const mount = async (root: HTMLElement) => {
     pin.addEventListener('click', () => select(country.code))
     pin.addEventListener('focus', () => {
       if (outside(pin)) {
-        cancelAnimationFrame(turn)
+        stopTurn()
         lon = country.lon + VIEW_OFFSET.lon
         lat = clampLat(country.lat + VIEW_OFFSET.lat)
         draw()
@@ -287,14 +306,14 @@ export const mount = async (root: HTMLElement) => {
     })
   }
 
-  const engage = (value: boolean) => () => {
-    engaged = value
+  root.addEventListener('focusin', (event) => {
+    engaged = (event.target as Element).matches(':focus-visible')
     idle()
-  }
-  root.addEventListener('pointerenter', engage(true))
-  root.addEventListener('pointerleave', engage(false))
-  root.addEventListener('focusin', engage(true))
-  root.addEventListener('focusout', engage(false))
+  })
+  root.addEventListener('focusout', () => {
+    engaged = false
+    idle()
+  })
   still.addEventListener('change', idle)
   new IntersectionObserver((entries) => {
     visible = entries.some((entry) => entry.isIntersecting)
