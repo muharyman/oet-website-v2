@@ -151,7 +151,7 @@ const educationIcons = { doctorate: GraduationDiploma, degree: StudentAlt }
   <template data-profile>
     <div class="flex flex-col gap-3">
       <div class="flex gap-3 border-b border-neutral-100">
-        <div class="relative h-[126px] w-[139px] shrink-0 self-start overflow-clip border border-neutral-100 bg-neutral-50">
+        <div class="relative h-[126px] w-[139px] shrink-0 self-start overflow-clip border border-neutral-100 bg-neutral-50 lg:h-auto lg:w-[158px] lg:self-stretch">
           <div class="absolute top-[52px] left-[calc(50%-74px)] h-[136px] w-[148px] rounded-full bg-[#f7c7bf] opacity-65 blur-[14.5px]"></div>
           <Image
             src={portrait.image}
@@ -167,13 +167,17 @@ const educationIcons = { doctorate: GraduationDiploma, degree: StudentAlt }
         </div>
         <div class="flex min-w-0 flex-1 flex-col gap-2 pt-2 pb-3">
           <div class="flex flex-col gap-1">
-            <h2 class="text-heading-4 font-medium text-neutral-800" data-profile-title>
+            <h2 class="text-heading-4 font-medium text-neutral-800 lg:truncate" data-profile-title>
               {`${t(locale, 'team.profile.about')} ${name}`}
             </h2>
-            <p class="text-body-sm text-neutral-600">{tags.join(' | ')}</p>
+            <p class="text-body-sm text-neutral-600 lg:truncate">{tags.join(' | ')}</p>
           </div>
+          {profile.education.length === 0 && <div class="h-11" aria-hidden="true" />}
           {profile.education.length > 0 && (
-            <ul class="flex flex-col gap-2 pt-1" aria-label={t(locale, 'team.profile.education')}>
+            <ul
+              class="flex min-h-11 flex-col gap-2 pt-1"
+              aria-label={t(locale, 'team.profile.education')}
+            >
               {profile.education.map((entry) => {
                 const Icon = educationIcons[entry.kind]
                 return (
