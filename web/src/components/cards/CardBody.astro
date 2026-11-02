@@ -24,7 +24,7 @@ const clamps: Record<TitleLines, { title: string; excerpt: string }> = {
   <h3
     class:list={['text-heading-4 min-h-[2lh] shrink-0 text-neutral-800', clamps[titleLines].title]}
   >
-    <a href={href} class="focus-stretched after:absolute after:inset-0">
+    <a href={href} class="focus-stretched after:absolute after:inset-0 after:z-10">
       {title}
     </a>
   </h3>
