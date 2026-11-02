@@ -102,12 +102,14 @@ const hrefFor = (page: number) => `?page=${page}#${intro.id}`
               ))}
             </div>
           </div>
-          <FilterTabs
-            label={t(locale, 'tabs.toolCategory')}
-            layout="equal"
-            mobileBreakAfter={null}
-            options={tabs}
-          />
+          <div data-tab-swap>
+            <FilterTabs
+              label={t(locale, 'tabs.toolCategory')}
+              layout="equal"
+              mobileBreakAfter={null}
+              options={tabs}
+            />
+          </div>
           <Pagination
             class="py-5 lg:hidden"
             current={1}
@@ -164,6 +166,45 @@ const hrefFor = (page: number) => `?page=${page}#${intro.id}`
       </div>
     </ListingFilter>
 
+    <script>
+      const swap = async (href: string) => {
+        const current = document.querySelector('oet-listing')
+        if (!current) throw new Error('tools page: missing oet-listing')
+        current.setAttribute('aria-busy', 'true')
+        const response = await fetch(href)
+        if (!response.ok) throw new Error(`tools page: ${response.status} for ${href}`)
+        const page = new DOMParser().parseFromString(await response.text(), 'text/html')
+        const next = page.querySelector('oet-listing')
+        if (!next) throw new Error(`tools page: ${href} has no oet-listing`)
+        document.adoptNode(next)
+        customElements.upgrade(next)
+        current.replaceWith(next)
+        document.title = page.title
+        return next
+      }
+
+      document.addEventListener('click', async (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+          return
+        const link = (event.target as Element).closest<HTMLAnchorElement>('[data-tab-swap] a')
+        if (!link) return
+        event.preventDefault()
+        if (link.hasAttribute('aria-current')) return
+        const href = link.href
+        history.pushState({ toolsTab: true }, '', href)
+        const next = await swap(href)
+        const target = new URL(href).pathname
+        const tab = [...next.querySelectorAll<HTMLAnchorElement>('[data-tab-swap] a')].find(
+          (candidate) => new URL(candidate.href).pathname === target,
+        )
+        tab?.focus({ preventScroll: true })
+      })
+
+      history.replaceState({ toolsTab: true }, '', location.href)
+      addEventListener('popstate', (event) => {
+        if (event.state?.toolsTab === true) swap(location.href)
+      })
+    </script>
     <CtaBanner {...cta} />
 
     <div class="max-w-page lg:px-gutter-lg mx-auto hidden w-full lg:block" aria-hidden="true">
