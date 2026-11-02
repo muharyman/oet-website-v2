@@ -63,7 +63,7 @@ export const Countries: CollectionConfig = {
       required: true,
       label: 'Teammates figure',
       description:
-        'Number on the country card next to "OET Teammates". Shown as written; not counted from the team.',
+        'Number on the country card next to "OET Team". Shown as written; not counted from the team.',
     }),
     image('photo', {
       required: true,
