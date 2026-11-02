@@ -1,5 +1,7 @@
+import type { ImageMetadata } from 'astro'
 import type { Locale } from '../i18n/config'
 import { findAll, findGlobal, required } from '../lib/cms'
+import { image } from '../lib/media'
 import { routes } from './routes'
 
 export type HeaderTheme = 'light' | 'dark' | 'solid' | 'on-red'
@@ -14,6 +16,7 @@ export interface NavLink {
 export interface NavServiceLink extends NavLink {
   description: string
   icon: ServiceIcon
+  thumbnail: ImageMetadata
 }
 
 export interface NavListGroup {
@@ -71,12 +74,13 @@ export const links = (
 ): NavLink[] => required(rows, what).map(({ label, href }) => ({ label, href }))
 
 export const loadServiceLinks = async (locale: Locale): Promise<NavServiceLink[]> => {
-  const services = await findAll('services', locale, { depth: 0, sort: 'order' })
+  const services = await findAll('services', locale, { depth: 1, sort: 'order' })
   return services.map((service) => ({
     label: service.navigation.label,
     description: service.navigation.description,
     icon: service.navigation.icon,
     href: routes.service(service.slug),
+    thumbnail: image(service.card.imageMobile, `mobile card image of service ${service.slug}`),
   }))
 }
 

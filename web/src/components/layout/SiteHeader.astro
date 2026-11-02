@@ -33,6 +33,9 @@ const darkLoading = lightFirst ? 'lazy' : 'eager'
 const lightLogo = '[display:var(--h-logo-light)]'
 const darkLogo = '[display:var(--h-logo-dark)]'
 const menuId = 'site-menu'
+const cellLines = 'shadow-[inset_1px_0_0_var(--h-line),inset_0_1px_0_var(--h-line)]'
+const thumbClass =
+  'absolute inset-0 size-full object-cover object-left opacity-0 transition-opacity duration-300 ease-out data-shown:opacity-100 motion-reduce:transition-none'
 const burgerCell = `group w-[38px] rounded-r-sm text-(--h-burger) shadow-[inset_1px_0_0_var(--h-line)] max-lg:order-3 lg:hidden ${barCell}`
 
 const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
@@ -94,17 +97,39 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
       <nav aria-label={t(locale, 'nav.primary')} class="hidden flex-1 lg:flex">
         <ul class="flex flex-1">
           {navigation.desktop.map((group) => (
-            <li class:list={['flex flex-1', group.kind === 'list' && 'relative']} data-dropdown>
+            <li
+              class:list={[
+                'flex flex-1',
+                group.kind === 'list' && 'relative',
+                group.kind === 'mega' && `group/cell ${cellLines}`,
+              ]}
+              data-dropdown
+            >
+              {group.kind === 'mega' && (
+                <a
+                  href={group.more.href}
+                  class:list={[
+                    'flex-1 justify-end pr-[5px] text-(--h-fg) group-has-[>[aria-expanded=true]]/cell:text-(--h-active)',
+                    barCell,
+                  ]}
+                >
+                  {group.label}
+                </a>
+              )}
               <button
                 type="button"
                 class:list={[
-                  'peer flex-1 gap-[10px] text-(--h-fg) shadow-[inset_1px_0_0_var(--h-line),inset_0_1px_0_var(--h-line)]',
+                  'peer flex-1 text-(--h-fg)',
+                  group.kind === 'mega' ? 'justify-start pl-[5px]' : `gap-[10px] ${cellLines}`,
                   barCell,
                 ]}
                 aria-expanded="false"
                 aria-controls={`nav-${group.id}`}
+                aria-label={
+                  group.kind === 'mega' ? `${group.label} ${t(locale, 'nav.submenu')}` : undefined
+                }
               >
-                {group.label}
+                {group.kind === 'list' && group.label}
                 <span class="flex size-[14px] items-center justify-center">
                   <ChevronDown aria-hidden="true" />
                 </span>
@@ -126,19 +151,35 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
                   class="absolute top-full left-0 hidden w-full gap-4 rounded-sm bg-neutral-50 p-4 ring-1 ring-neutral-100 ring-inset peer-aria-expanded:flex"
                   data-panel
                 >
-                  <Image
-                    src={menuImage}
-                    alt=""
-                    width={305}
-                    height={186}
-                    densities={[1, 2]}
-                    loading="lazy"
-                    class="w-[305px] shrink-0 rounded-sm object-cover"
-                  />
+                  <div class="relative h-[186px] w-[305px] shrink-0 overflow-hidden rounded-sm">
+                    <Image
+                      src={menuImage}
+                      alt=""
+                      width={305}
+                      height={186}
+                      densities={[1, 2]}
+                      loading="lazy"
+                      class={thumbClass}
+                      data-thumb="default"
+                      data-shown
+                    />
+                    {group.links.map((link) => (
+                      <Image
+                        src={link.thumbnail}
+                        alt=""
+                        width={Math.round((186 * link.thumbnail.width) / link.thumbnail.height)}
+                        height={186}
+                        densities={[1, 2]}
+                        loading="lazy"
+                        class={thumbClass}
+                        data-thumb={link.href}
+                      />
+                    ))}
+                  </div>
                   <div class="flex min-w-0 flex-1 flex-col justify-center gap-2">
-                    <ul class="grid grid-cols-3 gap-x-4 gap-y-2">
+                    <ul class="grid grid-cols-3 gap-x-4 gap-y-2" data-thumb-list>
                       {group.links.map((link) => (
-                        <li class="flex">
+                        <li class="flex" data-thumb-for={link.href}>
                           <NavServiceItem link={link} tone="dark" />
                         </li>
                       ))}
@@ -282,6 +323,12 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
     --h-bg: var(--color-neutral-50);
   }
 
+  oet-header[data-open],
+  oet-header:not([data-js]):has([data-dropdown]:is(:hover, :focus-within)) {
+    --h-lang-line: var(--color-neutral-200);
+    --h-frame: var(--color-neutral-200);
+  }
+
   oet-header[data-menu-open],
   oet-header:has([data-mobile-menu]:target) {
     --h-fg: var(--color-neutral-50);
@@ -412,6 +459,25 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
         item.addEventListener('focusout', (event) => {
           const next = event.relatedTarget
           if (next instanceof Node && !item.contains(next) && expanded(trigger)) open(null)
+        })
+      }
+
+      for (const list of this.querySelectorAll<HTMLElement>('[data-thumb-list]')) {
+        const panel = list.closest('[data-panel]') as HTMLElement
+        const thumbs = [...panel.querySelectorAll<HTMLElement>('[data-thumb]')]
+        const show = (key: string) => {
+          for (const thumb of thumbs)
+            thumb.toggleAttribute('data-shown', thumb.getAttribute('data-thumb') === key)
+        }
+        for (const item of list.querySelectorAll<HTMLElement>('[data-thumb-for]')) {
+          const key = item.getAttribute('data-thumb-for') as string
+          item.addEventListener('pointerenter', () => show(key))
+          item.addEventListener('focusin', () => show(key))
+        }
+        list.addEventListener('pointerleave', () => show('default'))
+        list.addEventListener('focusout', (event) => {
+          const next = event.relatedTarget
+          if (!(next instanceof Node && list.contains(next))) show('default')
         })
       }
 

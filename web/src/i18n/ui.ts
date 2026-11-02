@@ -6,6 +6,7 @@ const en = {
   'nav.menu.open': 'Open menu',
   'nav.menu.close': 'Close menu',
   'nav.language': 'Language',
+  'nav.submenu': 'menu',
   'nav.home': 'Open Energy Transition',
   'nav.primary': 'Main',
   'nav.legal': 'Legal',
