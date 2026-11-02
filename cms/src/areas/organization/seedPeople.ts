@@ -32,12 +32,13 @@ interface CountrySource {
   count: string
   lon: number
   lat: number
+  photo: Asset
+  photoAlt: string
 }
 
 export interface TeamSource {
   countries: CountrySource[]
   filterGroups: { label: string; href: string; active: boolean }[]
-  globe: { photo: Asset; photoAlt: string }
   members: MemberSource[]
 }
 
@@ -96,7 +97,6 @@ export const seniorLeadershipLabel = (team: TeamSource, departments: Departments
 }
 
 const seedCountries = async (payload: Payload, team: TeamSource) => {
-  const photo = await upload(payload, team.globe.photo, team.globe.photoAlt)
   for (const country of team.countries)
     await upsert(
       payload,
@@ -108,7 +108,7 @@ const seedCountries = async (payload: Payload, team: TeamSource) => {
         longitude: country.lon,
         latitude: country.lat,
         teammates: country.count,
-        photo,
+        photo: await upload(payload, country.photo, country.photoAlt),
       },
     )
 }

@@ -83,7 +83,7 @@ interface DepartmentsPageSource extends DepartmentsSource {
 
 interface TeamPageSource extends TeamSource {
   continents: { label: string; items: CountSource[] }
-  globe: TeamSource['globe'] & { view: ViewSource; selected: string }
+  globe: { view: ViewSource; selected: string }
   teamPage: {
     meta: MetaSource
     hero: { title: string; lead: string[]; stats: CountSource[]; image: ResponsiveAsset }
