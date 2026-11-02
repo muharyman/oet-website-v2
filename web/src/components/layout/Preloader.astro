@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets'
-import mark from '../../assets/brand/oet-mark-white-preloader.png'
+import mark from '../../assets/brand/oet-mark-white.svg?url&no-inline'
 ---
 
 <script is:inline>
@@ -10,7 +9,7 @@ import mark from '../../assets/brand/oet-mark-white-preloader.png'
   }
 </script>
 <div class="oet-preloader" aria-hidden="true">
-  <Image src={mark} alt="" width={85} height={38} densities={[1, 2]} fit="fill" loading="lazy" />
+  <img src={mark} alt="" width={85} height={33} loading="lazy" decoding="async" />
 </div>
 
 <style is:global>

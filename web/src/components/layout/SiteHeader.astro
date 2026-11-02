@@ -1,9 +1,10 @@
 ---
-import { getImage, Image } from 'astro:assets'
+import { Image } from 'astro:assets'
 import { getRelativeLocaleUrl } from 'astro:i18n'
-import logoRed from '../../assets/brand/oet-logo-red-n-subtitle.png'
-import logoWhite from '../../assets/brand/oet-logo-white-n-subtitle.png'
-import markWhite from '../../assets/brand/oet-mark-white.png'
+import logoColour from '../../assets/brand/oet-logo-colour.svg?url&no-inline'
+import logoWhite from '../../assets/brand/oet-logo-white.svg?url&no-inline'
+import markColour from '../../assets/brand/oet-mark-colour.svg?url&no-inline'
+import markWhite from '../../assets/brand/oet-mark-white.svg?url&no-inline'
 import menuImage from '../../assets/brand/menu-services.png'
 import type { HeaderTheme, Navigation } from '../../data/navigation'
 import type { Locale } from '../../i18n/config'
@@ -28,8 +29,8 @@ interface Props {
 const { navigation, theme, initialTheme, locale, locales } = Astro.props
 
 const lightFirst = initialTheme === 'light' || initialTheme === 'on-red'
-const lightLoading = lightFirst ? 'eager' : 'lazy'
-const darkLoading = lightFirst ? 'lazy' : 'eager'
+const lightLoading: 'eager' | 'lazy' = lightFirst ? 'eager' : 'lazy'
+const darkLoading: 'eager' | 'lazy' = lightFirst ? 'lazy' : 'eager'
 const lightLogo = '[display:var(--h-logo-light)]'
 const darkLogo = '[display:var(--h-logo-dark)]'
 const menuId = 'site-menu'
@@ -37,13 +38,6 @@ const cellLines = 'shadow-[inset_1px_0_0_var(--h-line),inset_0_1px_0_var(--h-lin
 const thumbClass =
   'absolute inset-0 size-full object-cover object-left opacity-0 transition-opacity duration-300 ease-out data-shown:opacity-100 motion-reduce:transition-none'
 const burgerCell = `group w-[38px] rounded-r-sm text-(--h-burger) shadow-[inset_1px_0_0_var(--h-line)] max-lg:order-3 lg:hidden ${barCell}`
-
-const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
-  getImage({ src: logoWhite, width: 142, height: 38, densities: [1, 2], fit: 'fill' }),
-  getImage({ src: markWhite, width: 83, height: 38, densities: [1, 2], fit: 'fill' }),
-  getImage({ src: logoRed, width: 142, densities: [1, 2] }),
-  getImage({ src: logoRed, width: 144, height: 50, densities: [1, 2], fit: 'fill' }),
-])
 ---
 
 <oet-header
@@ -66,32 +60,23 @@ const [whiteWide, whiteNarrow, redWide, redNarrow] = await Promise.all([
         ]}
       >
         <span class="relative block h-[38px] w-[83px] overflow-hidden lg:w-[142px]">
-          <picture class={lightLogo}>
-            <source media="(min-width: 1024px)" srcset={whiteWide.srcSet.attribute} />
-            <img
-              src={whiteNarrow.src}
-              srcset={whiteNarrow.srcSet.attribute}
-              alt=""
-              width={83}
-              height={38}
-              loading={lightLoading}
-              decoding="async"
-              class="absolute inset-0 size-full"
-            />
-          </picture>
-          <picture class={darkLogo}>
-            <source media="(min-width: 1024px)" srcset={redWide.srcSet.attribute} />
-            <img
-              src={redNarrow.src}
-              srcset={redNarrow.srcSet.attribute}
-              alt=""
-              width={144}
-              height={50}
-              loading={darkLoading}
-              decoding="async"
-              class="absolute top-[-6.66%] left-0 h-[132.8%] w-[173.9%] max-w-none lg:top-[-6.36%] lg:h-[132.63%] lg:w-full"
-            />
-          </picture>
+          {[
+            { theme: lightLogo, wide: logoWhite, narrow: markWhite, loading: lightLoading },
+            { theme: darkLogo, wide: logoColour, narrow: markColour, loading: darkLoading },
+          ].map((logo) => (
+            <picture class={logo.theme}>
+              <source media="(min-width: 1024px)" srcset={logo.wide} width={142} height={33} />
+              <img
+                src={logo.narrow}
+                alt=""
+                width={83}
+                height={32}
+                loading={logo.loading}
+                decoding="async"
+                class="absolute inset-x-0 top-1/2 h-auto w-full -translate-y-1/2"
+              />
+            </picture>
+          ))}
         </span>
       </a>
       <nav aria-label={t(locale, 'nav.primary')} class="hidden flex-1 lg:flex">
