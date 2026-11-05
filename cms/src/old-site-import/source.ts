@@ -43,6 +43,14 @@ export interface LegacyTeamMember {
   github: string | null
 }
 
+export interface LegacyStaffMember extends LegacyTeamMember {
+  _order: string
+  categories: { name: string }[]
+  education: { degree: string }[]
+  description: LegacyRichText | null
+  email: string | null
+}
+
 export interface LegacyProject {
   id: number
   title: string
