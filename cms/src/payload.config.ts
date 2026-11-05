@@ -49,6 +49,7 @@ export default buildConfig({
   },
   collections: [...areas.flatMap((area) => area.collections), Media, Users],
   globals: areas.flatMap((area) => area.globals),
+  endpoints: [teamImportEndpoint],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: env('DATABASE_URL') },
