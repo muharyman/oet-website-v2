@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import sharp from 'sharp'
 
 import { fetchFile, type LegacyMedia } from './source'
+import { quiet } from './quiet'
 
 const svg = 'image/svg+xml'
 const rasterWidth = 1600
@@ -37,11 +38,11 @@ export const importMedia = async (
   if (found) return found.id
   const { data, mimetype } = await fileOf(media)
   const created = await payload.create({
+    context: quiet(),
     collection: 'media',
     data: { alt },
     file: { data, mimetype, name: filename, size: data.byteLength },
     depth: 0,
-    context: {},
   })
   return created.id
 }
