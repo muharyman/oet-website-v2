@@ -72,7 +72,12 @@ export const fullName = (member: LegacyTeamMember) =>
 
 export const loadTeam = async (payload: Payload) => {
   const result = await payload.find({ collection: 'team-members', limit: 1000, depth: 0 })
-  const byName = new Map(result.docs.map((doc) => [normalise(doc.name), doc.id]))
+  const byName = new Map(
+    result.docs.map((doc) => [
+      normalise(doc.name),
+      { id: doc.id, hasPhoto: doc.photo !== null && doc.photo !== undefined },
+    ]),
+  )
   return (name: string) => byName.get(normalise(name))
 }
 
@@ -85,8 +90,9 @@ export const personFrom = async (
   needsPhoto: boolean,
 ) => {
   const name = fullName(member)
-  const id = team(name)
-  if (id !== undefined) return { person: { kind: 'team-member' as const, member: id }, missing: [] }
+  const known = team(name)
+  if (known !== undefined && (known.hasPhoto || !needsPhoto))
+    return { person: { kind: 'team-member' as const, member: known.id }, missing: [] }
   const missing: string[] = []
   if (needsPhoto && !member.image) missing.push(`photo of ${name}`)
   return {
