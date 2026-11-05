@@ -27,7 +27,7 @@ const templates = [
   '/organization/news-and-events',
   event,
   `${event}-2`,
-  '/organization/partners',
+  '/organization/partners-and-funders',
   '/organization/team',
   '/organization/theory-of-change',
   '/outputs/publications',

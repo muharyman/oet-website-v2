@@ -3,12 +3,12 @@
     "options": [
       {
         "label": "Funders",
-        "href": "/organization/partners?type=funders",
+        "href": "/organization/partners-and-funders?type=funders",
         "active": false
       },
       {
         "label": "Partners",
-        "href": "/organization/partners?type=partners",
+        "href": "/organization/partners-and-funders?type=partners",
         "active": false
       }
     ]
@@ -382,7 +382,7 @@
     }
   ],
   "meta": {
-    "title": "Partners | Open Energy Transition",
+    "title": "Partners and Funders | Open Energy Transition",
     "description": "Our partners and funders expertise, and commitment enable us to accelerate the energy transition."
   }
 }

@@ -19,6 +19,7 @@ const hasTagLogo: Condition = (data) => Boolean(data.tagLogo)
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
+  labels: { singular: 'Partner or funder', plural: 'Partners and funders' },
   access: publicRead,
   admin: {
     group: 'Organization',
@@ -72,7 +73,7 @@ export const Partners: CollectionConfig = {
             fields: [
               checkbox('showOnPartnersPage', {
                 label: 'Show on the partners page',
-                description: 'Adds the logo to the grid on /organization/partners.',
+                description: 'Adds the logo to the grid on /organization/partners-and-funders.',
                 sidebar: false,
               }),
               checkbox('showOnHome', {

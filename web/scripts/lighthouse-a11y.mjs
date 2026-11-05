@@ -18,7 +18,7 @@ const pages = {
   news: '/organization/news-and-events',
   'event-highlight': event,
   'event-upcoming': `${event}-2`,
-  partners: '/organization/partners',
+  partners: '/organization/partners-and-funders',
   team: '/organization/team',
   theory: '/organization/theory-of-change',
   publications: '/outputs/publications',
