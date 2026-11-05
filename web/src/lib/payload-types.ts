@@ -544,7 +544,7 @@ export interface Partner {
    */
   isPartner?: boolean | null;
   /**
-   * Adds the logo to the grid on /organization/partners.
+   * Adds the logo to the grid on /organization/partners-and-funders.
    */
   showOnPartnersPage?: boolean | null;
   /**
@@ -1584,7 +1584,7 @@ export interface TeamMember {
    */
   name: string;
   /**
-   * Family name as written in the full name, e.g. "van der Weijde". The team list is sorted by it, heads first.
+   * Family name as written in the full name, e.g. "van der Weijde". Members outside senior leadership are sorted by it.
    */
   lastName: string;
   /**
@@ -1691,7 +1691,7 @@ export interface TeamMember {
    */
   seniorLeadership?: boolean | null;
   /**
-   * Position in the team list before the visitor sorts it. Lower comes first.
+   * Order of senior leadership at the start of the team list, lower first. Everyone else is sorted by last name.
    */
   order: number;
   updatedAt: string;
@@ -3904,6 +3904,10 @@ export interface HomePage {
   };
   partners: {
     /**
+     * Untick to hide the partner logo section from the home page. Its content stays here and in the collection.
+     */
+    visible: boolean;
+    /**
      * Label of the group "trusted-partner". On mobile it labels the single grid with all logos.
      */
     trustedPartnersLabel: string;
@@ -3913,6 +3917,10 @@ export interface HomePage {
     networksLabel: string;
   };
   projects: {
+    /**
+     * Untick to hide the project carousel from the home page. Its content stays here and in the collection.
+     */
+    visible: boolean;
     /**
      * Small label above the title.
      */
@@ -4141,11 +4149,15 @@ export interface SiteSetting {
    */
   shareImage: number | Media;
   /**
-   * Profiles of the organisation. The current design does not show them; they are available for structured data and later use.
+   * Profiles of the organisation, shown as icons in the footer in this order and listed in the structured data.
    */
   socialLinks?:
     | {
-        kind: 'linkedin' | 'github' | 'x' | 'youtube' | 'bluesky' | 'mastodon';
+        kind: 'linkedin' | 'github' | 'x' | 'youtube' | 'bluesky' | 'mastodon' | 'eventbrite' | 'newsletter';
+        /**
+         * Read out by screen readers and shown on hover, for example "OET on LinkedIn".
+         */
+        label: string;
         /**
          * Full URL of the profile (https://…).
          */
@@ -5152,7 +5164,7 @@ export interface TeamPage {
   createdAt?: string | null;
 }
 /**
- * Content of /organization/partners. The logos are the partners marked "Show on the partners page".
+ * Content of /organization/partners-and-funders. The logos are the partners and funders marked "Show on the partners page".
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners-page".
@@ -5980,12 +5992,14 @@ export interface HomePageSelect<T extends boolean = true> {
   partners?:
     | T
     | {
+        visible?: T;
         trustedPartnersLabel?: T;
         networksLabel?: T;
       };
   projects?:
     | T
     | {
+        visible?: T;
         tag?: T;
         title?: T;
         carouselLabel?: T;
@@ -6129,6 +6143,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | T
     | {
         kind?: T;
+        label?: T;
         url?: T;
         id?: T;
       };
