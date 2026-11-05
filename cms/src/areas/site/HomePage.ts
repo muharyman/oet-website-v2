@@ -1,4 +1,4 @@
-import type { GlobalConfig } from 'payload'
+import type { CheckboxField, GlobalConfig } from 'payload'
 
 import { globalRead } from '../../access'
 import {
@@ -24,6 +24,17 @@ export const statIcons = [
 ] as const
 
 export const actionVariants = ['primary', 'outline'] as const
+
+const sectionVisible = (what: string): CheckboxField => ({
+  name: 'visible',
+  type: 'checkbox',
+  required: true,
+  defaultValue: true,
+  label: 'Show this section',
+  admin: {
+    description: `Untick to hide ${what} from the home page. Its content stays here and in the collection.`,
+  },
+})
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -310,8 +321,9 @@ export const HomePage: GlobalConfig = {
           name: 'partners',
           label: 'Partners',
           description:
-            'Labels of the two logo groups. The logos are the Partners marked "show on home", grouped by their group and sorted by their home order.',
+            'Partner logo section. The logos are the Partners and funders marked "show on home", grouped by their group and sorted by their home order.',
           fields: [
+            sectionVisible('the partner logo section'),
             text('trustedPartnersLabel', {
               required: true,
               label: 'Label: trusted partners',
@@ -331,6 +343,7 @@ export const HomePage: GlobalConfig = {
           description:
             'Heading of the project carousel. The cards are the Projects marked for the home carousel.',
           fields: [
+            sectionVisible('the project carousel'),
             text('tag', { required: true, description: 'Small label above the title.' }),
             textarea('title', { required: true, description: 'Title beside the carousel.' }),
             text('carouselLabel', {

@@ -3,7 +3,16 @@ import type { GlobalConfig } from 'payload'
 import { globalRead } from '../../access'
 import { href, image, plainText, select, seo, text, textarea } from '../../fields'
 
-export const socialKinds = ['linkedin', 'github', 'x', 'youtube', 'bluesky', 'mastodon'] as const
+export const socialKinds = [
+  'linkedin',
+  'github',
+  'x',
+  'youtube',
+  'bluesky',
+  'mastodon',
+  'eventbrite',
+  'newsletter',
+] as const
 
 const tagManagerPattern = /^(GTM|G)-[A-Z0-9]+$/
 
@@ -63,13 +72,19 @@ export const SiteSettings: GlobalConfig = {
               minRows: 0,
               admin: {
                 description:
-                  'Profiles of the organisation. The current design does not show them; they are available for structured data and later use.',
+                  'Profiles of the organisation, shown as icons in the footer in this order and listed in the structured data.',
               },
               fields: [
                 {
                   type: 'row',
                   fields: [
                     select('kind', socialKinds, { required: true, label: 'Network' }),
+                    text('label', {
+                      required: true,
+                      label: 'Name',
+                      description:
+                        'Read out by screen readers and shown on hover, for example "OET on LinkedIn".',
+                    }),
                     href('url', {
                       required: true,
                       label: 'Profile URL',
