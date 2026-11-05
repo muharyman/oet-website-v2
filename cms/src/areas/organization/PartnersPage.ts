@@ -6,12 +6,12 @@ import { responsiveImage, stats, tab } from './fields'
 
 export const PartnersPage: GlobalConfig = {
   slug: 'partners-page',
-  label: 'Partners page',
+  label: 'Partners and funders page',
   access: globalRead,
   admin: {
     group: 'Organization',
     description:
-      'Content of /organization/partners. The logos are the partners marked "Show on the partners page".',
+      'Content of /organization/partners-and-funders. The logos are the partners and funders marked "Show on the partners page".',
   },
   fields: [
     {
