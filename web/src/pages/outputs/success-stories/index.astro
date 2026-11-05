@@ -13,7 +13,7 @@ import { routes } from '../../../data/routes'
 import { defaultLocale } from '../../../i18n/config'
 import { t } from '../../../i18n/ui'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
-import { firstPageClass, sortByTitle } from '../../../lib/listing'
+import { firstPageClass, sortByNewest } from '../../../lib/listing'
 
 const locale = defaultLocale
 const [{ meta, hero, listing, testimonials }, filters] = await Promise.all([
@@ -21,7 +21,7 @@ const [{ meta, hero, listing, testimonials }, filters] = await Promise.all([
   loadFilters(locale, 'projects'),
 ])
 const hrefFor = (page: number) => `${routes.successStories}?page=${page}#${listing.id}`
-const items = sortByTitle(listing.items, locale)
+const items = sortByNewest(listing.items, (project) => project.date)
 const initialStatus = 'completed'
 const shown = items.filter((project) => project.facets.status === initialStatus)
 const totalPages = (size: number) => Math.max(1, Math.ceil(shown.length / size))
@@ -75,7 +75,7 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
           slot="controls"
           locale={locale}
           filters={filters}
-          sort={sort(locale, 'projects', 'a-z')}
+          sort={sort(locale, 'projects', 'newest')}
         />
         <Pagination
           class="py-5 lg:hidden"
