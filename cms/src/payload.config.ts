@@ -5,6 +5,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 
+import { oldSiteImportEndpoint } from './old-site-import/endpoint'
 import * as catalog from './areas/catalog'
 import * as events from './areas/events'
 import * as organization from './areas/organization'
@@ -48,6 +49,7 @@ export default buildConfig({
   },
   collections: [...areas.flatMap((area) => area.collections), Media, Users],
   globals: areas.flatMap((area) => area.globals),
+  endpoints: [oldSiteImportEndpoint],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: env('DATABASE_URL') },
