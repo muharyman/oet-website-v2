@@ -8,6 +8,7 @@ import { importMedia } from './media'
 import type { PartnerIds } from './partners'
 import { record } from './report'
 import { readableIds, type LegacyProject, type LegacyTeamMember } from './source'
+import { quiet } from './quiet'
 
 const regions: Record<string, RegionName> = {
   'women-in-energy': 'Africa',
@@ -189,6 +190,7 @@ export const migrateProjects = async (
 
     if (existing) {
       await payload.update({
+        context: quiet(),
         collection: 'projects',
         id: existing.id,
         data: { ...content, _status: status },
@@ -217,6 +219,7 @@ export const migrateProjects = async (
       'picture from the old site used as thumbnail and hero; replace with a Thumbnail Maker export',
     )
     const created = await payload.create({
+      context: quiet(),
       collection: 'projects',
       data: {
         ...content,
@@ -265,6 +268,7 @@ export const linkRelatedProjects = async (
     })
     const current = await payload.findByID({ collection: 'projects', id, depth: 0, draft: true })
     await payload.update({
+      context: quiet(),
       collection: 'projects',
       id,
       data: { related },

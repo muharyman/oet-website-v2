@@ -3,6 +3,7 @@ import type { Payload } from 'payload'
 import type { socialKinds } from '../areas/site/SiteSettings'
 import { record } from './report'
 import type { LegacyFooter } from './source'
+import { quiet } from './quiet'
 
 const oldPath = '/organization/partners'
 const newPath = '/organization/partners-and-funders'
@@ -44,7 +45,7 @@ const relinkGlobal = async (payload: Payload, slug: 'site-header' | 'site-footer
   const changed = { count: 0 }
   const data = relink(global, changed) as typeof global
   if (changed.count === 0) return
-  await payload.updateGlobal({ slug, data, depth: 0 })
+  await payload.updateGlobal({ context: quiet(), slug, data, depth: 0 })
   record({
     area: 'Site',
     title: slug,
@@ -56,7 +57,12 @@ const relinkGlobal = async (payload: Payload, slug: 'site-header' | 'site-footer
 
 export const migrateSite = async (payload: Payload, footer: LegacyFooter) => {
   const socialLinks = footer.followUs.linkActions.map((action) => socialOf(action.link))
-  await payload.updateGlobal({ slug: 'site-settings', data: { socialLinks }, depth: 0 })
+  await payload.updateGlobal({
+    context: quiet(),
+    slug: 'site-settings',
+    data: { socialLinks },
+    depth: 0,
+  })
   record({
     area: 'Site',
     title: 'site-settings',
@@ -72,6 +78,7 @@ export const migrateSite = async (payload: Payload, footer: LegacyFooter) => {
   const title = 'Partners and Funders | Open Energy Transition'
   if (page.meta.title !== title) {
     await payload.updateGlobal({
+      context: quiet(),
       slug: 'partners-page',
       data: { meta: { ...page.meta, title } },
       depth: 0,
@@ -93,6 +100,7 @@ export const migrateSite = async (payload: Payload, footer: LegacyFooter) => {
   })
   if (redirect.docs.length === 0) {
     await payload.create({
+      context: quiet(),
       collection: 'redirects',
       data: { from: oldPath, to: newPath, statusCode: '301' },
       depth: 0,

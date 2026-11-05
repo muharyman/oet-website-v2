@@ -1,6 +1,3 @@
-import { mkdir, writeFile } from 'node:fs/promises'
-import path from 'node:path'
-
 export interface Entry {
   area: string
   title: string
@@ -11,6 +8,10 @@ export interface Entry {
 
 const entries: Entry[] = []
 
+export const resetReport = () => {
+  entries.length = 0
+}
+
 export const record = (entry: Entry) => {
   entries.push(entry)
 }
@@ -18,7 +19,7 @@ export const record = (entry: Entry) => {
 const row = (entry: Entry) =>
   `| ${entry.title.replaceAll('|', '/')} | ${entry.action} | ${entry.status} | ${entry.notes.join('; ')} |`
 
-export const writeReport = async (file: string) => {
+export const renderReport = () => {
   const areas = [...new Set(entries.map((entry) => entry.area))]
   const sections = areas.map((area) => {
     const rows = entries.filter((entry) => entry.area === area)
@@ -32,9 +33,5 @@ export const writeReport = async (file: string) => {
       ...rows.map(row),
     ].join('\n')
   })
-  await mkdir(path.dirname(file), { recursive: true })
-  await writeFile(
-    file,
-    `${[`# Old site import report`, `Run on ${new Date().toISOString()}.`, ...sections].join('\n\n')}\n`,
-  )
+  return `${[`# Old site import report`, `Run on ${new Date().toISOString()}.`, ...sections].join('\n\n')}\n`
 }

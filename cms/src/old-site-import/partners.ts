@@ -4,6 +4,7 @@ import type { Partner } from '../payload-types'
 import { importMedia } from './media'
 import { record } from './report'
 import { urlOf, type LegacyPartner } from './source'
+import { quiet } from './quiet'
 
 const aliases: Record<string, string> = {
   'European Insulation Manufacturer Association (Eurima)': 'eurima',
@@ -53,7 +54,13 @@ export const migratePartners = async (
       const data: Partial<Partner> = { ...roles }
       const website = urlOf(source.website)
       if (!match.website && website) data.website = website
-      await payload.update({ collection: 'partners', id: match.id, data, depth: 0 })
+      await payload.update({
+        context: quiet(),
+        collection: 'partners',
+        id: match.id,
+        data,
+        depth: 0,
+      })
       ids.set(source.id, { id: match.id, hasLogo: match.logo !== null && match.logo !== undefined })
       record({
         area: 'Partners and funders',
@@ -71,6 +78,7 @@ export const migratePartners = async (
     if (!logo)
       notes.push('no logo on the old site: not shown on the partners page until one is added')
     const created = await payload.create({
+      context: quiet(),
       collection: 'partners',
       depth: 0,
       data: {

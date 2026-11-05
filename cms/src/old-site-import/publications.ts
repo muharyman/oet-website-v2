@@ -21,6 +21,7 @@ import {
   type LegacyPost,
   type LexicalNode,
 } from './source'
+import { quiet } from './quiet'
 
 const regions: Record<string, RegionName> = {
   'costs-and-benefits-of-transmission': 'North America',
@@ -92,6 +93,7 @@ const categoryId = async (payload: Payload, name: string) => {
   if (doc) return doc.id
   return (
     await payload.create({
+      context: quiet(),
       collection: 'publication-categories',
       data: { name, slug: slugOf(name) },
       depth: 0,
@@ -254,6 +256,7 @@ export const migratePublications = async (
 
     if (existing) {
       await payload.update({
+        context: quiet(),
         collection: 'publications',
         id: existing.id,
         data: { ...content, _status: status },
@@ -276,6 +279,7 @@ export const migratePublications = async (
       'picture from the old site used as thumbnail and hero; replace with a Thumbnail Maker export',
     )
     const created = await payload.create({
+      context: quiet(),
       collection: 'publications',
       data: {
         ...content,
@@ -316,6 +320,7 @@ export const linkRelatedPublications = async (
     })
     const doc = await payload.findByID({ collection: 'publications', id, depth: 0, draft: true })
     await payload.update({
+      context: quiet(),
       collection: 'publications',
       id,
       data: { related },

@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 
 import { importMedia } from './media'
 import { urlOf, type LegacyTeamMember } from './source'
+import { quiet } from './quiet'
 
 export const regionNames = [
   'Africa',
@@ -36,6 +37,7 @@ export const ensureRegions = async (payload: Payload) => {
         ? doc.id
         : (
             await payload.create({
+              context: quiet(),
               collection: 'regions',
               data: { name, slug: slugOf(name) },
               depth: 0,
