@@ -19,7 +19,7 @@ export const routes = {
   about: '/organization/about',
   departments: '/organization/departments',
   department: (slug: string) => `/organization/departments/${slug}`,
-  partners: '/organization/partners',
+  partners: '/organization/partners-and-funders',
   team: '/organization/team',
   career: '/organization/career',
   theoryOfChange: '/organization/theory-of-change',
