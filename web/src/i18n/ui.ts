@@ -12,6 +12,7 @@ const en = {
   'nav.legal': 'Legal',
   'nav.skip': 'Skip to main content',
   'footer.navigation': 'Footer',
+  'footer.social': 'Open Energy Transition on social media',
   'hero.slides': 'Open Energy Transition highlights',
   'carousel.next': 'Next',
   'carousel.previous': 'Previous',
