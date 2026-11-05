@@ -1,5 +1,5 @@
 import type { Locale } from '../i18n/config'
-import { findGlobal, texts } from '../lib/cms'
+import { findGlobal, required, texts, type GlobalDoc } from '../lib/cms'
 import { links, loadServiceLinks, serviceLinksByColumn } from './navigation'
 
 export interface FooterLink {
@@ -12,6 +12,14 @@ export interface FooterColumn {
   links: FooterLink[]
 }
 
+export type SocialKind = NonNullable<GlobalDoc<'site-settings'>['socialLinks']>[number]['kind']
+
+export interface FooterSocial {
+  kind: SocialKind
+  label: string
+  href: string
+}
+
 export interface FooterCtaContent {
   headline: string[]
   email: FooterLink
@@ -21,6 +29,7 @@ export interface FooterCtaContent {
 export interface FooterContent {
   cta: FooterCtaContent
   blurb: string
+  socials: FooterSocial[]
   copyright: string
   legal: FooterLink[]
   consentLabel: string
@@ -44,6 +53,11 @@ export const loadFooter = async (locale: Locale): Promise<FooterContent> => {
       action: { label: footer.cta.action.label, href: footer.cta.action.href },
     },
     blurb: footer.blurb,
+    socials: required(settings.socialLinks, 'site social links').map(({ kind, label, url }) => ({
+      kind,
+      label,
+      href: url,
+    })),
     copyright: footer.copyright,
     legal: links(footer.legal, 'site-footer legal links'),
     consentLabel: footer.consentLabel,
