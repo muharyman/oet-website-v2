@@ -96,9 +96,8 @@ export interface HomePage {
     logos: Logo[]
   }
   steps: { tag: string; title: string; items: CarouselStep[] }
-  partnerGroups: LogoGroup[]
-  partnerGroupsMobile: LogoGroup[]
-  projects: { tag: string; title: string; label: string; items: Project[] }
+  partners: { visible: boolean; groups: LogoGroup[]; groupsMobile: LogoGroup[] }
+  projects: { visible: boolean; tag: string; title: string; label: string; items: Project[] }
 }
 
 type Partner = Doc<'partners'>
@@ -215,17 +214,21 @@ export const loadHomePage = async (locale: Locale): Promise<HomePage> => {
         alt: altOf(step.image, `home step "${step.title}" image`),
       })),
     },
-    partnerGroups: [
-      { label: page.partners.trustedPartnersLabel, logos: grouped('trusted-partner') },
-      { label: page.partners.networksLabel, logos: grouped('network-affiliation') },
-    ],
-    partnerGroupsMobile: [
-      {
-        label: page.partners.trustedPartnersLabel,
-        logos: partners.map((partner) => partnerLogo(partner, 'logoMobile')),
-      },
-    ],
+    partners: {
+      visible: page.partners.visible,
+      groups: [
+        { label: page.partners.trustedPartnersLabel, logos: grouped('trusted-partner') },
+        { label: page.partners.networksLabel, logos: grouped('network-affiliation') },
+      ],
+      groupsMobile: [
+        {
+          label: page.partners.trustedPartnersLabel,
+          logos: partners.map((partner) => partnerLogo(partner, 'logoMobile')),
+        },
+      ],
+    },
     projects: {
+      visible: page.projects.visible,
       tag: page.projects.tag,
       title: page.projects.title,
       label: page.projects.carouselLabel,
