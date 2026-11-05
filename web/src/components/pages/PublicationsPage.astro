@@ -42,8 +42,8 @@ const tabs = [
   })),
 ]
 const ofType = (items: Publication[]) => items.filter((item) => type === null || item.type === type)
-const listed = sortByNewest(ofType(listing.items))
-const outputItems = sortByNewest(ofType(outputs.items))
+const listed = sortByNewest(ofType(listing.items), (item) => item.isoDate)
+const outputItems = sortByNewest(ofType(outputs.items), (item) => item.isoDate)
 const hrefFor = (page: number) => `${base}?page=${page}#${listing.id}`
 const pages = (count: number, size: number) => Math.max(1, Math.ceil(count / size))
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'

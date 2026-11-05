@@ -10,8 +10,5 @@ export const firstPageClass = (index: number, size: PageSize) => [
 
 export const facet = (values: string[]) => values.join(' ')
 
-export const sortByTitle = <Item extends { title: string }>(items: Item[], locale: string) =>
-  [...items].sort((a, b) => a.title.localeCompare(b.title, locale))
-
-export const sortByNewest = <Item extends { isoDate: string }>(items: Item[]) =>
-  [...items].sort((a, b) => Date.parse(b.isoDate) - Date.parse(a.isoDate))
+export const sortByNewest = <Item>(items: Item[], dateOf: (item: Item) => string) =>
+  [...items].sort((a, b) => Date.parse(dateOf(b)) - Date.parse(dateOf(a)))
