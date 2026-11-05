@@ -20,18 +20,8 @@ import { defaultLocale } from '../i18n/config'
 import { t } from '../i18n/ui'
 
 const locale = defaultLocale
-const {
-  hero,
-  intro,
-  meta,
-  partnerGroups,
-  partnerGroupsMobile,
-  projects,
-  services,
-  stats,
-  steps,
-  tools,
-} = await loadHomePage(locale)
+const { hero, intro, meta, partners, projects, services, stats, steps, tools } =
+  await loadHomePage(locale)
 const heroPreload = await homeHeroSources(hero.slides[0].image, hero.slides[0].imageMobile)
 const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
 ---
@@ -124,67 +114,73 @@ const container = 'max-w-page px-gutter lg:px-gutter-lg mx-auto w-full'
       <VerticalCarousel tag={steps.tag} title={steps.title} steps={steps.items} />
     </div>
 
-    <div class={container}>
-      <div class="h-[158px] shadow-[inset_1px_0_0_var(--color-neutral-100),inset_-1px_0_0_var(--color-neutral-100)]"></div>
-    </div>
-    <LogoWall
-      locale={locale}
-      columns={6}
-      slots={10}
-      groups={partnerGroups}
-      link={{ label: t(locale, 'logos.allPartners'), href: routes.partners }}
-      class="hidden lg:block"
-    />
-    <LogoWall
-      locale={locale}
-      columns={4}
-      slots={18}
-      groups={partnerGroupsMobile}
-      link={null}
-      class="lg:hidden"
-    />
-
-    <section class={container}>
-      <div class="py-[160px] shadow-[inset_1px_0_0_var(--color-neutral-100)]">
-        <CardCarousel
-          label={projects.label}
-          header="side"
-          controls="arrows"
-          gap={4}
-          bleed="gutter"
-          trailing="gutter"
+    {partners.visible && (
+      <>
+        <div class={container}>
+          <div class="h-[158px] shadow-[inset_1px_0_0_var(--color-neutral-100),inset_-1px_0_0_var(--color-neutral-100)]"></div>
+        </div>
+        <LogoWall
           locale={locale}
-        >
-          <Fragment slot="header">
-            <Tag label={projects.tag} tone="dark" />
-            <h2 class="text-heading-3 lg:text-heading-2 flex-1 font-medium text-neutral-800">
-              {projects.title}
-            </h2>
-          </Fragment>
-          {projects.items.map((project) => (
-            <li class="shrink-0 snap-start">
-              <ProjectCard
-                title={project.title}
-                titleLines={project.titleLines}
-                excerpt={project.excerpt}
-                period={project.period}
-                href={project.href}
-                linkLabel={t(locale, 'card.viewProject')}
-                image={project.image}
-                alt={project.alt}
-                sizes="263px"
-                frame="brand-500"
-                mobileFrame="scaled"
-                height="natural"
-                partnerTag={project.partnerTag}
-                partnerLink={project.partnerLink}
-                footer="when-partner"
-                class="w-[305px] [zoom:0.9564]"
-              />
-            </li>
-          ))}
-        </CardCarousel>
-      </div>
-    </section>
+          columns={6}
+          slots={10}
+          groups={partners.groups}
+          link={{ label: t(locale, 'logos.allPartners'), href: routes.partners }}
+          class="hidden lg:block"
+        />
+        <LogoWall
+          locale={locale}
+          columns={4}
+          slots={18}
+          groups={partners.groupsMobile}
+          link={null}
+          class="lg:hidden"
+        />
+      </>
+    )}
+
+    {projects.visible && (
+      <section class={container}>
+        <div class="py-[160px] shadow-[inset_1px_0_0_var(--color-neutral-100)]">
+          <CardCarousel
+            label={projects.label}
+            header="side"
+            controls="arrows"
+            gap={4}
+            bleed="gutter"
+            trailing="gutter"
+            locale={locale}
+          >
+            <Fragment slot="header">
+              <Tag label={projects.tag} tone="dark" />
+              <h2 class="text-heading-3 lg:text-heading-2 flex-1 font-medium text-neutral-800">
+                {projects.title}
+              </h2>
+            </Fragment>
+            {projects.items.map((project) => (
+              <li class="shrink-0 snap-start">
+                <ProjectCard
+                  title={project.title}
+                  titleLines={project.titleLines}
+                  excerpt={project.excerpt}
+                  period={project.period}
+                  href={project.href}
+                  linkLabel={t(locale, 'card.viewProject')}
+                  image={project.image}
+                  alt={project.alt}
+                  sizes="263px"
+                  frame="brand-500"
+                  mobileFrame="scaled"
+                  height="natural"
+                  partnerTag={project.partnerTag}
+                  partnerLink={project.partnerLink}
+                  footer="when-partner"
+                  class="w-[305px] [zoom:0.9564]"
+                />
+              </li>
+            ))}
+          </CardCarousel>
+        </div>
+      </section>
+    )}
   </main>
 </BaseLayout>
