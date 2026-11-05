@@ -5,6 +5,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 
+import { teamImportEndpoint } from './old-site-import/endpoint'
 import * as catalog from './areas/catalog'
 import * as events from './areas/events'
 import * as organization from './areas/organization'
