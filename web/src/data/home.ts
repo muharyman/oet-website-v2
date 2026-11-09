@@ -223,7 +223,10 @@ export const loadHomePage = async (locale: Locale): Promise<HomePage> => {
       groupsMobile: [
         {
           label: page.partners.trustedPartnersLabel,
-          logos: partners.map((partner) => partnerLogo(partner, 'logoMobile')),
+          logos: [
+            ...partners.filter((partner) => partner.group === 'trusted-partner'),
+            ...partners.filter((partner) => partner.group === 'network-affiliation'),
+          ].map((partner) => partnerLogo(partner, 'logoMobile')),
         },
       ],
     },
