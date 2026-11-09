@@ -59,7 +59,8 @@ const offsets = [
 const face = 'scene-face absolute'
 ---
 
-<oet-theory-scene id={id} class="block" data-header-theme="light">
+<oet-theory-scene id={id} class="relative block" data-header-theme="light">
+  <span class="scene-cue pointer-events-none absolute inset-x-0 h-px" aria-hidden="true"></span>
   {panels.map((panel) => (
     <div class="scene-panel relative h-[900px] overflow-clip" data-state={panel.state}>
       <div class="scene-stage absolute bottom-0 left-1/2 h-[900px] w-[1440px] origin-bottom">
@@ -153,18 +154,6 @@ const face = 'scene-face absolute'
 </oet-theory-scene>
 
 <style>
-  @property --p1 {
-    syntax: '<number>';
-    inherits: true;
-    initial-value: 0;
-  }
-
-  @property --p2 {
-    syntax: '<number>';
-    inherits: true;
-    initial-value: 0;
-  }
-
   .scene-panel[data-state='transition'] {
     --p1: 1;
   }
@@ -175,12 +164,17 @@ const face = 'scene-face absolute'
   }
 
   .scene-panel {
+    --p1: 0;
+    --p2: 0;
+    --t1: 0s;
+    --t2: 0s;
     --lift: 160px;
     --spread: 150px;
     --scene-scale: 1;
     --scene-fill: color-mix(in srgb, #191918 calc((1 - var(--p1)) * 100%), #bf1534);
     --scene-line: color-mix(in srgb, #5d5b59 calc((1 - var(--p1)) * 100%), #fffefb);
     background-color: var(--scene-fill);
+    transition: background-color var(--t1);
   }
 
   @media (width >= 64rem) {
@@ -191,6 +185,7 @@ const face = 'scene-face absolute'
 
     .scene-value {
       translate: calc(-50% + var(--from) + var(--p2) * var(--shift)) 0;
+      transition: translate var(--t2);
     }
   }
 
@@ -202,14 +197,17 @@ const face = 'scene-face absolute'
   .scene-line,
   .scene-face {
     color: var(--scene-line);
+    transition: color var(--t1);
   }
 
   .scene-face :global(path) {
     fill: var(--scene-fill);
+    transition: fill var(--t1);
   }
 
   .scene-values {
     opacity: var(--p2);
+    transition: opacity var(--t2);
   }
 
   .scene-wall-right {
@@ -224,6 +222,12 @@ const face = 'scene-face absolute'
     translate: 0 calc(var(--p2) * var(--lift) * -1);
   }
 
+  .scene-wall-right,
+  .scene-wall-left,
+  .scene-lid {
+    transition: translate var(--t2);
+  }
+
   .scene-trail-right {
     opacity: var(--p2);
     translate: calc(var(--p2) * 20px) 0;
@@ -234,6 +238,17 @@ const face = 'scene-face absolute'
     translate: calc(var(--p2) * -20px) 0;
   }
 
+  .scene-trail-right,
+  .scene-trail-left {
+    transition:
+      opacity var(--t2),
+      translate var(--t2);
+  }
+
+  .scene-caption {
+    transition: translate var(--t1);
+  }
+
   .scene-caption[data-scene='challenge'] {
     translate: 0 calc(var(--p1) * -100%);
   }
@@ -242,8 +257,17 @@ const face = 'scene-face absolute'
     translate: 0 calc((1 - var(--p1)) * 100%);
   }
 
+  .scene-cue {
+    display: none;
+  }
+
   oet-theory-scene[data-enhanced] {
     height: calc(100svh + 800px);
+  }
+
+  oet-theory-scene[data-enhanced] .scene-cue {
+    display: block;
+    top: 120px;
   }
 
   oet-theory-scene[data-enhanced] .scene-panel {
@@ -255,17 +279,15 @@ const face = 'scene-face absolute'
     top: 0;
     display: block;
     height: 100svh;
-    transition:
-      --p1 0.5s ease-out,
-      --p2 0.5s ease-out;
+    --t1: 0.5s ease-out;
+    --t2: 0.5s ease-out;
   }
 
   oet-theory-scene[data-enhanced]:is([data-phase='1'], [data-phase='2'])
     .scene-panel[data-state='initial'] {
     --p1: 1;
-    transition:
-      --p1 0.3s ease-out,
-      --p2 0.6s cubic-bezier(0.45, 1.45, 0.8, 1);
+    --t1: 0.3s ease-out;
+    --t2: 0.6s cubic-bezier(0.45, 1.45, 0.8, 1);
   }
 
   oet-theory-scene[data-enhanced][data-phase='2'] .scene-panel[data-state='initial'] {
@@ -285,16 +307,13 @@ const face = 'scene-face absolute'
       const panel = this.querySelector<HTMLElement>('[data-state="initial"]')
       const goal = this.querySelector<HTMLElement>('[data-state="initial"] [data-scene="goal"]')
       const words = this.querySelector<HTMLElement>('[data-state="initial"] [data-scene="values"]')
-      if (!panel || !goal || !words) throw new Error('TheoryScrollScene: missing initial panel')
+      const cue = this.querySelector<HTMLElement>('.scene-cue')
+      if (!panel || !goal || !words || !cue)
+        throw new Error('TheoryScrollScene: missing initial panel')
       const still = window.matchMedia('(prefers-reduced-motion: reduce)')
-      let frame = 0
       let timer = 0
 
-      const update = () => {
-        frame = 0
-        const rect = this.getBoundingClientRect()
-        const entered = -rect.top / (rect.height - window.innerHeight) > 0.15
-        panel.style.setProperty('--scene-scale', String(Math.min(1, window.innerHeight / 900)))
+      const enter = (entered: boolean) => {
         if (entered === this.hasAttribute('data-phase')) return
         window.clearTimeout(timer)
         if (!entered) {
@@ -306,36 +325,26 @@ const face = 'scene-face absolute'
           this.dataset.phase = '2'
         }, 1300)
       }
-      const request = () => {
-        if (frame === 0) frame = requestAnimationFrame(update)
-      }
-      const listen = (active: boolean) => {
-        if (active) {
-          window.addEventListener('scroll', request, { passive: true })
-          window.addEventListener('resize', request)
-          request()
-          return
-        }
-        window.removeEventListener('scroll', request)
-        window.removeEventListener('resize', request)
-      }
-      const observer = new IntersectionObserver((entries) =>
-        listen(entries.some((entry) => entry.isIntersecting)),
-      )
+      const passed = new IntersectionObserver((entries) => {
+        const entry = entries[entries.length - 1]
+        enter(!entry.isIntersecting && entry.boundingClientRect.top < 0)
+      })
+      const sized = new ResizeObserver(() => {
+        panel.style.setProperty('--scene-scale', String(Math.min(1, panel.clientHeight / 900)))
+      })
       const apply = () => {
         const animated = !still.matches
         this.toggleAttribute('data-enhanced', animated)
         goal.hidden = !animated
         words.ariaHidden = animated ? null : 'true'
         if (animated) {
-          observer.observe(this)
+          passed.observe(cue)
+          sized.observe(panel)
           return
         }
-        observer.disconnect()
-        listen(false)
-        cancelAnimationFrame(frame)
+        passed.disconnect()
+        sized.disconnect()
         window.clearTimeout(timer)
-        frame = 0
         this.removeAttribute('data-phase')
         panel.style.setProperty('--scene-scale', '1')
       }
