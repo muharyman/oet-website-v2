@@ -78,6 +78,7 @@ const rule = 'pointer-events-none absolute inset-x-0 h-[2px] bg-neutral-100'
 <script>
   class OutcomeMatrix extends HTMLElement {
     connectedCallback() {
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
       this.setAttribute('data-collapsed', '')
       const expand = () => {
