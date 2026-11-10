@@ -6,7 +6,8 @@ The OET website is two applications in one repository:
 | --- | --- | --- |
 | [`cms/`](cms) | Payload 3 on Next.js 16 with Postgres. Admin panel and REST API only; no public pages | [`cms/README.md`](cms/README.md) |
 | [`web/`](web) | Public site. Astro 7 static build with a few on-demand preview routes, Tailwind 4, TypeScript strict, no client framework | [`web/README.md`](web/README.md) |
-| [`legacy/`](legacy) | The previous Next.js + Payload app. Read-only reference; it is not built or deployed from this branch | [`legacy/README.md`](legacy/README.md) |
+
+The previous Next.js + Payload app has been removed from the tree. Its last version is `main` at commit `bec3fc3`, tagged `legacy-final`. Content from the live site is imported through its public REST API (see [`cms/README.md`](cms/README.md#old-site-import)), not from that code.
 
 ## How the pieces fit
 
