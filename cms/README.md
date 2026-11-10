@@ -120,7 +120,7 @@ Other rules:
 
 ### Old-site import
 
-`pnpm import:old-site` reads partners, projects, publications and team members from the public REST API of the current live site (`www.openenergytransition.org`), not from `legacy/`. It is idempotent: imported media are named `old-site-<id>-…`. It writes a report to `../docs/reports/old-site-import.md`. Documents missing required fields are saved as drafts.
+`pnpm import:old-site` reads partners, projects, publications and team members from the public REST API of the current live site (`www.openenergytransition.org`), not from the old codebase. It is idempotent: imported media are named `old-site-<id>-…`. It writes a report to `../docs/reports/old-site-import.md`. Documents missing required fields are saved as drafts.
 
 On staging the import has already run, and editors have since completed some of the imported documents. Running it again would overwrite their edits.
 
