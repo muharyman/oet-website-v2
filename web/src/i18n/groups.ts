@@ -37,6 +37,7 @@ export const eventLabels = (locale: Locale) => ({
 export const sidebarLabels = (locale: Locale) => ({
   contact: t(locale, 'sidebar.contact'),
   partners: t(locale, 'sidebar.partners'),
+  funders: t(locale, 'sidebar.funders'),
   authors: t(locale, 'sidebar.authors'),
   tableOfContents: t(locale, 'sidebar.tableOfContents'),
   relatedProjects: t(locale, 'sidebar.relatedProjects'),

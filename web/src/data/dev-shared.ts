@@ -666,9 +666,9 @@ export const contact = {
   photo: personPhoto,
   role: 'Project Lead',
   links: [
-    { kind: 'profile' as const, href: '#profile', label: 'Profile of Dr. Markus Groissbock' },
-    { kind: 'github' as const, href: '#github', label: 'GitHub of Dr. Markus Groissbock' },
-    { kind: 'linkedin' as const, href: '#linkedin', label: 'LinkedIn of Dr. Markus Groissbock' },
+    { kind: 'email' as const, href: '#email', label: 'Email: Dr. Markus Groissbock' },
+    { kind: 'github' as const, href: '#github', label: 'GitHub: Dr. Markus Groissbock' },
+    { kind: 'linkedin' as const, href: '#linkedin', label: 'LinkedIn: Dr. Markus Groissbock' },
   ],
 }
 

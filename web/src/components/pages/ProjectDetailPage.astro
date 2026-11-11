@@ -113,7 +113,12 @@ const groups = [
           </section>
           {detail.partners.length > 0 && (
             <div class="pr-3 pl-5">
-              <PartnerLogoList title={sidebar.partners} logos={detail.partners} />
+              <PartnerLogoList title={sidebar.partners} partners={detail.partners} />
+            </div>
+          )}
+          {detail.funders.length > 0 && (
+            <div class="pr-3 pl-5">
+              <PartnerLogoList title={sidebar.funders} partners={detail.funders} />
             </div>
           )}
         </aside>
