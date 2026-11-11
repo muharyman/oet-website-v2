@@ -5,6 +5,7 @@ import { t } from '../i18n/ui'
 import { findAll, findGlobal, required, texts, type Doc } from '../lib/cms'
 import { facet } from '../lib/listing'
 import { icon, image } from '../lib/media'
+import { logoBox, logoFits } from '../lib/logoSize'
 import { routes } from './routes'
 
 export interface PartnerLogo {
@@ -24,12 +25,11 @@ export interface PartnerStat {
 const logoColumns = 4
 
 const toLogo = (partner: Doc<'partners'>): PartnerLogo => {
-  const size = required(partner.logoDesktop, `partner ${partner.name} logo size`)
+  const logo = image(partner.logo, `partner ${partner.name} logo`)
   return {
     name: partner.name,
-    image: image(partner.logo, `partner ${partner.name} logo`),
-    width: size.width,
-    height: size.height,
+    image: logo,
+    ...logoBox(partner.logoDesktop, logo, logoFits.desktop, `partner ${partner.name} logo size`),
   }
 }
 

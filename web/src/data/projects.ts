@@ -13,6 +13,7 @@ import {
 } from '../lib/cms'
 import { facet, type PageSize } from '../lib/listing'
 import { altOf, image } from '../lib/media'
+import { logoBox, logoFits } from '../lib/logoSize'
 import {
   articleHtml,
   ctaContent,
@@ -81,12 +82,11 @@ const listingId = 'success-stories'
 export const partnerTag = (source: ProjectDoc['partnerTag'], what: string): PartnerTag | null => {
   if (source === null || source === undefined) return null
   const partner = resolved(source, what)
-  const size = required(partner.tagSize, `${what} tag size`)
+  const logo = image(partner.tagLogo, `${what} tag logo`)
   return {
     name: partner.name,
-    logo: image(partner.tagLogo, `${what} tag logo`),
-    width: size.width,
-    height: size.height,
+    logo,
+    ...logoBox(partner.tagSize, logo, logoFits.tag, `${what} tag size`),
   }
 }
 
