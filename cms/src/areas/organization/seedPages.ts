@@ -228,6 +228,7 @@ const seedAbout = async (payload: Payload) => {
     slug: 'about-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: about.hero.title,
         links: about.hero.links.map(linkOf),
@@ -259,6 +260,7 @@ const seedDepartmentsPage = async (payload: Payload) => {
     slug: 'departments-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: departmentsIndex.hero.title,
         lead: departmentsIndex.hero.lead,
@@ -284,6 +286,7 @@ const seedTeamPage = async (payload: Payload) => {
     slug: 'team-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: hero.title,
         lead: rows(hero.lead),
@@ -322,6 +325,7 @@ const seedPartnersPage = async (payload: Payload) => {
     slug: 'partners-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: partners.hero.title,
         stats: partners.hero.stats.map((stat) => ({
@@ -370,6 +374,7 @@ const seedCareer = async (payload: Payload) => {
     slug: 'career-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: career.hero.title,
         lead: rows(career.hero.lead),
@@ -407,6 +412,7 @@ const seedTheory = async (payload: Payload) => {
     slug: 'theory-of-change-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: hero.title,
         lead: rows(hero.lead),

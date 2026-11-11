@@ -112,6 +112,7 @@ export const seedHome = async (payload: Payload) => {
     slug: 'home-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         primaryAction: linkOf(home.hero.actions.primary),
         secondaryAction: linkOf(home.hero.actions.secondary),

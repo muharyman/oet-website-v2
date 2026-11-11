@@ -104,6 +104,7 @@ export const seedTools = async (payload: Payload) => {
     slug: 'tools-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         eyebrow: hero.eyebrow.label,
         title: hero.title,

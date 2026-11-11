@@ -176,6 +176,7 @@ export const seedPublications = async (payload: Payload) => {
     slug: 'publications-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: hero.title,
         chips: labelsByType(

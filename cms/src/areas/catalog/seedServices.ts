@@ -303,6 +303,7 @@ export const seedServices = async (payload: Payload) => {
     slug: 'services-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: servicesPage.hero.title,
         linkLabel: chip.label,

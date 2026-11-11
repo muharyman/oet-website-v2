@@ -249,6 +249,7 @@ export const seedProjects = async (payload: Payload) => {
     slug: 'success-stories-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: successStories.hero.title,
         linkLabel: chip.label,

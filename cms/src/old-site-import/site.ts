@@ -80,7 +80,7 @@ export const migrateSite = async (payload: Payload, footer: LegacyFooter) => {
     await payload.updateGlobal({
       context: quiet(),
       slug: 'partners-page',
-      data: { meta: { ...page.meta, title } },
+      data: { _status: 'published', meta: { ...page.meta, title } },
       depth: 0,
     })
     record({
