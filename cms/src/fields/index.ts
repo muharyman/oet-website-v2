@@ -1,6 +1,7 @@
 import { lexicalHTMLField } from '@payloadcms/richtext-lexical'
 import type {
   ArrayField,
+  Condition,
   Field,
   GroupField,
   RichTextField,
@@ -185,5 +186,61 @@ export const seo = (): GroupField => ({
   fields: [
     text('title', { required: true, description: 'Browser tab and search result title.' }),
     textarea('description', { required: true, description: 'Search result description.' }),
+  ],
+})
+
+export const personSocialKinds = [
+  'email',
+  'github',
+  'linkedin',
+  'message',
+  'x',
+  'youtube',
+  'bluesky',
+  'mastodon',
+  'eventbrite',
+  'newsletter',
+] as const
+
+const personSocialLabels: Record<(typeof personSocialKinds)[number], string> = {
+  email: 'Email',
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  message: 'Message',
+  x: 'X',
+  youtube: 'YouTube',
+  bluesky: 'Bluesky',
+  mastodon: 'Mastodon',
+  eventbrite: 'Eventbrite',
+  newsletter: 'Newsletter',
+}
+
+export const socialLinks = (options: {
+  description: string
+  condition?: Condition
+}): ArrayField => ({
+  name: 'socialLinks',
+  type: 'array',
+  label: 'Social links',
+  labels: { singular: 'Social link', plural: 'Social links' },
+  admin: { description: options.description, condition: options.condition },
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'kind',
+          type: 'select',
+          required: true,
+          label: 'Network',
+          options: personSocialKinds.map((value) => ({ label: personSocialLabels[value], value })),
+        },
+        href('href', {
+          required: true,
+          label: 'Target',
+          description: 'Full URL (https://…) or mailto: address for email.',
+        }),
+      ],
+    },
   ],
 })
