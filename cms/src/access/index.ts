@@ -31,3 +31,8 @@ export const globalRead = {
   read: anyone,
   update: editor,
 }
+
+export const draftGlobalRead = {
+  read: publishedOrAuthenticated,
+  update: editor,
+}

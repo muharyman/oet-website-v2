@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { icon, seo, textarea } from '../../fields'
 import { count, heading, responsiveImage, tab } from './fields'
 
 export const DepartmentsPage: GlobalConfig = {
   slug: 'departments-page',
   label: 'Departments page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/organization/departments'),
     group: 'Organization',
     description:
       'Content of /organization/departments. The cards are all published departments in their order.',

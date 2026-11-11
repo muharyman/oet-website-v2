@@ -1,8 +1,19 @@
-import type { CollectionAdminOptions } from 'payload'
+import type { CollectionAdminOptions, GlobalAdminOptions } from 'payload'
 
 import { env } from './env'
 
 type PreviewDoc = Record<string, unknown>
+
+const breakpoints = [
+  { name: 'desktop', label: 'Desktop', width: 1440, height: 900 },
+  { name: 'mobile', label: 'Mobile', width: 412, height: 900 },
+]
+
+const pathUrl = (path: string) => {
+  const url = new URL(`/preview${path}`, env('WEB_URL'))
+  url.searchParams.set('secret', env('PREVIEW_SECRET'))
+  return url.href
+}
 
 const previewUrl = (
   path: (slug: string) => string,
@@ -11,9 +22,7 @@ const previewUrl = (
 ) => {
   const { slug } = doc
   if (typeof slug !== 'string' || slug === '' || !hasPage(doc)) return null
-  const url = new URL(`/preview${path(slug)}`, env('WEB_URL'))
-  url.searchParams.set('secret', env('PREVIEW_SECRET'))
-  return url.href
+  return pathUrl(path(slug))
 }
 
 export const previewOptions = (
@@ -23,10 +32,17 @@ export const previewOptions = (
   preview: (doc) => previewUrl(path, hasPage, doc),
   livePreview: {
     url: ({ data }) => previewUrl(path, hasPage, data),
-    breakpoints: [
-      { name: 'desktop', label: 'Desktop', width: 1440, height: 900 },
-      { name: 'mobile', label: 'Mobile', width: 412, height: 900 },
-    ],
+    breakpoints,
+  },
+})
+
+export const globalPreviewOptions = (
+  path: string,
+): Pick<GlobalAdminOptions, 'preview' | 'livePreview'> => ({
+  preview: () => pathUrl(path),
+  livePreview: {
+    url: () => pathUrl(path),
+    breakpoints,
   },
 })
 

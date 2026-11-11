@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { seo, text, textarea } from '../../fields'
 import { heroImages, typeLabels } from './fields'
 
 export const PublicationsPage: GlobalConfig = {
   slug: 'publications-page',
   label: 'Publications page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/outputs/publications'),
     group: 'Outputs',
     description:
       'Fixed content of /outputs/publications and the listings per type (/outputs/blogs, /outputs/policy-briefs, /outputs/reports). The cards come from Publications; the filter options from Regions and Tags.',

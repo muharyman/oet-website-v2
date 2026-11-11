@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { seo, text, textarea } from '../../fields'
 import { heroImages, relations } from './fields'
 
 export const SuccessStoriesPage: GlobalConfig = {
   slug: 'success-stories-page',
   label: 'Success stories page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/outputs/success-stories'),
     group: 'Outputs',
     description:
       'Fixed content of /outputs/success-stories. The cards come from Success stories; the filter options from Regions, Services, Tools and Tags.',

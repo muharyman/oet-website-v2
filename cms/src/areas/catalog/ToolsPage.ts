@@ -1,13 +1,16 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { image, paragraphs, seo, text, textarea } from '../../fields'
 
 export const ToolsPage: GlobalConfig = {
   slug: 'tools-page',
   label: 'Tools and Data page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/tools-and-data'),
     group: 'Catalog',
     description:
       'Fixed content of /tools-and-data and its category pages. The cards come from Tools, the tabs from Tool categories.',

@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { icon, link, paragraphs, richText, seo, text, textarea } from '../../fields'
 import { count, responsiveImage, tab } from './fields'
 
 export const CareerPage: GlobalConfig = {
   slug: 'career-page',
   label: 'Career page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/organization/career'),
     group: 'Organization',
     description: 'Content of /organization/career. The job cards are the Jobs collection.',
   },

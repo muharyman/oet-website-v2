@@ -1,14 +1,20 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { image, link, links, paragraphs, seo, text, textarea } from '../../fields'
 import { actions, heading, responsiveImage, tab } from './fields'
 
 export const AboutPage: GlobalConfig = {
   slug: 'about-page',
   label: 'About page',
-  access: globalRead,
-  admin: { group: 'Organization', description: 'Content of /organization/about.' },
+  access: draftGlobalRead,
+  versions: draftVersions,
+  admin: {
+    ...globalPreviewOptions('/organization/about'),
+    group: 'Organization',
+    description: 'Content of /organization/about.',
+  },
   fields: [
     {
       type: 'tabs',

@@ -1,6 +1,7 @@
 import type { GlobalConfig, RelationshipField } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { image, seo, text, textarea } from '../../fields'
 
 const banner = (name: string, label: string, description: string): RelationshipField => ({
@@ -15,8 +16,10 @@ const banner = (name: string, label: string, description: string): RelationshipF
 export const NewsEventsPage: GlobalConfig = {
   slug: 'news-events-page',
   label: 'News and Events page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/organization/news-and-events'),
     group: 'Events',
     description:
       'Fixed content of /organization/news-and-events. The cards come from Events, the type tabs from Event types. The banners also close every event page.',

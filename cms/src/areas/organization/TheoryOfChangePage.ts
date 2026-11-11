@@ -1,6 +1,7 @@
 import type { GlobalConfig, GroupField } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { image, links, paragraphs, seo, text, textarea } from '../../fields'
 import { choice, coordinates, number, responsiveImage, tab } from './fields'
 
@@ -50,8 +51,13 @@ const caption = (name: string, label: string, description: string): GroupField =
 export const TheoryOfChangePage: GlobalConfig = {
   slug: 'theory-of-change-page',
   label: 'Theory of change page',
-  access: globalRead,
-  admin: { group: 'Organization', description: 'Content of /organization/theory-of-change.' },
+  access: draftGlobalRead,
+  versions: draftVersions,
+  admin: {
+    ...globalPreviewOptions('/organization/theory-of-change'),
+    group: 'Organization',
+    description: 'Content of /organization/theory-of-change.',
+  },
   fields: [
     {
       type: 'tabs',
