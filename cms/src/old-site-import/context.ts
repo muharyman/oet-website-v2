@@ -101,8 +101,10 @@ export const personFrom = async (
       name,
       title: member.jobTitle,
       photo: member.image ? await importMedia(payload, member.image, name) : null,
-      linkedinHref: urlOf(member.linkedIn),
-      githubHref: urlOf(member.github),
+      socialLinks: [
+        { kind: 'linkedin' as const, href: urlOf(member.linkedIn) },
+        { kind: 'github' as const, href: urlOf(member.github) },
+      ].flatMap((link) => (link.href === null ? [] : [{ kind: link.kind, href: link.href }])),
     },
     missing,
   }

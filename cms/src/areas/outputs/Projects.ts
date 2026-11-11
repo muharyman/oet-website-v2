@@ -231,14 +231,16 @@ export const Projects: CollectionConfig = {
               ...personFields({ completeRow: true }),
             ],
           },
-          {
-            ...relations('partners', 'partners', {
-              label: 'Partner logos',
-              description:
-                'Logos in the "Partners" box next to the article, in this order. Only partners with a logo can be chosen. Leave empty for a page without the box.',
-            }),
-            filterOptions: { logo: { exists: true } },
-          },
+          relations('partners', 'partners', {
+            label: 'Partners',
+            description:
+              '"Partners" box next to the article, in this order. An organisation with a logo shows its logo, one without shows its name, linked to its website when it has one. Use "Create new" to add an organisation that is not in Partners and funders yet. Leave empty for a page without the box.',
+          }),
+          relations('funders', 'partners', {
+            label: 'Funders',
+            description:
+              '"Funders" box under the partners, in this order, shown the same way. Leave empty for a page without the box.',
+          }),
         ]),
         tab('Call to action', serviceCta('project')),
         tab('Home page', [

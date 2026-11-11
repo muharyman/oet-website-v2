@@ -1,15 +1,8 @@
 import type { CollectionConfig, GroupField } from 'payload'
 
 import { publicRead } from '../../access'
-import { href, image, plainText, richText, text } from '../../fields'
+import { image, plainText, richText, socialLinks, text } from '../../fields'
 import { checkbox, choice, number, tab } from './fields'
-
-export const socialKinds = [
-  { label: 'Email', value: 'email' },
-  { label: 'GitHub', value: 'github' },
-  { label: 'LinkedIn', value: 'linkedin' },
-  { label: 'Message', value: 'message' },
-] as const
 
 export const educationKinds = [
   { label: 'Doctorate', value: 'doctorate' },
@@ -96,21 +89,10 @@ export const TeamMembers: CollectionConfig = {
           },
         ]),
         tab('Links', [
-          {
-            name: 'socialLinks',
-            type: 'array',
-            label: 'Social links',
-            admin: { description: 'Icon buttons on the team card, in this order.' },
-            fields: [
-              {
-                type: 'row',
-                fields: [
-                  choice('kind', socialKinds, { required: true, label: 'Icon' }),
-                  href('href', { required: true, label: 'Target' }),
-                ],
-              },
-            ],
-          },
+          socialLinks({
+            description:
+              'Icon buttons on the team card and in the contact box of a success story, in this order.',
+          }),
         ]),
         tab('Profile', [
           plainText('profileLabel', {

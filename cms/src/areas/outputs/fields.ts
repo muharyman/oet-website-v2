@@ -10,7 +10,7 @@ import type {
   Tab,
 } from 'payload'
 
-import { href, image, links, plainText, text, textarea } from '../../fields'
+import { href, image, links, plainText, socialLinks, text, textarea } from '../../fields'
 
 export const frameTones = [
   { label: 'Bright red', value: 'bright' },
@@ -182,27 +182,10 @@ export const personFields = (options: { completeRow: boolean }): Field[] => {
         description: `Square head photo, shown at 44 px.${rowDescription}`,
       },
     },
-    {
-      type: 'row',
-      admin: { condition: isExternal },
-      fields: [
-        href('profileHref', {
-          required: false,
-          label: 'Profile link',
-          description: 'Target of the profile icon. Leave empty for no icon.',
-        }),
-        href('githubHref', {
-          required: false,
-          label: 'GitHub link',
-          description: 'Target of the GitHub icon. Leave empty for no icon.',
-        }),
-        href('linkedinHref', {
-          required: false,
-          label: 'LinkedIn link',
-          description: 'Target of the LinkedIn icon. Leave empty for no icon.',
-        }),
-      ],
-    },
+    socialLinks({
+      description: 'Icons under the name, in this order. Leave empty for none.',
+      condition: isExternal,
+    }),
   ]
 }
 

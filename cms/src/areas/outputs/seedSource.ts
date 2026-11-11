@@ -157,9 +157,11 @@ export const teamMemberWithPhoto = async (payload: Payload, name: string) => {
   return found.docs.length === 1 ? found.docs[0].id : null
 }
 
-const hrefOfKind = (person: PersonSource, kind: PersonSource['links'][number]['kind']) => {
-  const link = person.links.find((candidate) => candidate.kind === kind)
-  return link ? link.href : null
+const socialKindOf = (link: PersonSource['links'][number]) => {
+  if (link.kind !== 'profile') return link.kind
+  if (!link.href.startsWith('mailto:'))
+    throw new Error(`Profile link ${link.href} is not an email address`)
+  return 'email' as const
 }
 
 export const externalPerson = async (payload: Payload, person: PersonSource) => ({
@@ -167,7 +169,5 @@ export const externalPerson = async (payload: Payload, person: PersonSource) => 
   name: person.name,
   title: person.title,
   photo: await upload(payload, person.photo, person.name),
-  profileHref: hrefOfKind(person, 'profile'),
-  githubHref: hrefOfKind(person, 'github'),
-  linkedinHref: hrefOfKind(person, 'linkedin'),
+  socialLinks: person.links.map((link) => ({ kind: socialKindOf(link), href: link.href })),
 })
