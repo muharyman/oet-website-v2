@@ -162,6 +162,7 @@ export const seedEvents = async (payload: Payload) => {
     slug: 'news-events-page',
     depth: 0,
     data: {
+      _status: 'published',
       hero: {
         title: hero.title,
         linkLabel: hero.link.label,
