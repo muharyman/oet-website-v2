@@ -94,7 +94,7 @@ const burgerCell = `group w-[38px] rounded-r-sm text-(--h-burger) shadow-[inset_
                 <a
                   href={group.more.href}
                   class:list={[
-                    'flex-1 justify-end pr-[5px] text-(--h-fg) group-has-[>[aria-expanded=true]]/cell:text-(--h-active)',
+                    'flex-auto justify-end pr-[5px] text-(--h-fg) group-has-[>[aria-expanded=true]]/cell:text-(--h-active)',
                     barCell,
                   ]}
                 >
@@ -104,8 +104,10 @@ const burgerCell = `group w-[38px] rounded-r-sm text-(--h-burger) shadow-[inset_
               <button
                 type="button"
                 class:list={[
-                  'peer flex-1 text-(--h-fg)',
-                  group.kind === 'mega' ? 'justify-start pl-[5px]' : `gap-[10px] ${cellLines}`,
+                  'peer text-(--h-fg)',
+                  group.kind === 'mega'
+                    ? 'flex-auto justify-start pl-[5px]'
+                    : `flex-1 gap-[10px] ${cellLines}`,
                   barCell,
                 ]}
                 aria-expanded="false"
