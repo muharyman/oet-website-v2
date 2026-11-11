@@ -392,22 +392,37 @@ export interface Project {
      */
     photo?: (number | null) | Media;
     /**
-     * Target of the profile icon. Leave empty for no icon.
+     * Icons under the name, in this order. Leave empty for none.
      */
-    profileHref?: string | null;
-    /**
-     * Target of the GitHub icon. Leave empty for no icon.
-     */
-    githubHref?: string | null;
-    /**
-     * Target of the LinkedIn icon. Leave empty for no icon.
-     */
-    linkedinHref?: string | null;
+    socialLinks?:
+      | {
+          kind:
+            | 'email'
+            | 'github'
+            | 'linkedin'
+            | 'message'
+            | 'x'
+            | 'youtube'
+            | 'bluesky'
+            | 'mastodon'
+            | 'eventbrite'
+            | 'newsletter';
+          /**
+           * Full URL (https://…) or mailto: address for email.
+           */
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
   };
   /**
-   * Logos in the "Partners" box next to the article, in this order. Only partners with a logo can be chosen. Leave empty for a page without the box.
+   * "Partners" box next to the article, in this order. An organisation with a logo shows its logo, one without shows its name, linked to its website when it has one. Use "Create new" to add an organisation that is not in Partners and funders yet. Leave empty for a page without the box.
    */
   partners?: (number | Partner)[] | null;
+  /**
+   * "Funders" box under the partners, in this order, shown the same way. Leave empty for a page without the box.
+   */
+  funders?: (number | Partner)[] | null;
   /**
    * Red band at the end of the project page, left of the service card.
    */
@@ -1604,13 +1619,23 @@ export interface TeamMember {
    */
   country?: (number | null) | Country;
   /**
-   * Icon buttons on the team card, in this order.
+   * Icon buttons on the team card and in the contact box of a success story, in this order.
    */
   socialLinks?:
     | {
-        kind: 'email' | 'github' | 'linkedin' | 'message';
+        kind:
+          | 'email'
+          | 'github'
+          | 'linkedin'
+          | 'message'
+          | 'x'
+          | 'youtube'
+          | 'bluesky'
+          | 'mastodon'
+          | 'eventbrite'
+          | 'newsletter';
         /**
-         * Site path (/services), anchor (#team), full URL (https://…) or mailto: address.
+         * Full URL (https://…) or mailto: address for email.
          */
         href: string;
         id?: string | null;
@@ -1882,17 +1907,28 @@ export interface Publication {
      */
     photo?: (number | null) | Media;
     /**
-     * Target of the profile icon. Leave empty for no icon.
+     * Icons under the name, in this order. Leave empty for none.
      */
-    profileHref?: string | null;
-    /**
-     * Target of the GitHub icon. Leave empty for no icon.
-     */
-    githubHref?: string | null;
-    /**
-     * Target of the LinkedIn icon. Leave empty for no icon.
-     */
-    linkedinHref?: string | null;
+    socialLinks?:
+      | {
+          kind:
+            | 'email'
+            | 'github'
+            | 'linkedin'
+            | 'message'
+            | 'x'
+            | 'youtube'
+            | 'bluesky'
+            | 'mastodon'
+            | 'eventbrite'
+            | 'newsletter';
+          /**
+           * Full URL (https://…) or mailto: address for email.
+           */
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
     id?: string | null;
   }[];
   /**
@@ -2837,11 +2873,16 @@ export interface ProjectsSelect<T extends boolean = true> {
         name?: T;
         title?: T;
         photo?: T;
-        profileHref?: T;
-        githubHref?: T;
-        linkedinHref?: T;
+        socialLinks?:
+          | T
+          | {
+              kind?: T;
+              href?: T;
+              id?: T;
+            };
       };
   partners?: T;
+  funders?: T;
   cta?:
     | T
     | {
@@ -2897,9 +2938,13 @@ export interface PublicationsSelect<T extends boolean = true> {
         name?: T;
         title?: T;
         photo?: T;
-        profileHref?: T;
-        githubHref?: T;
-        linkedinHref?: T;
+        socialLinks?:
+          | T
+          | {
+              kind?: T;
+              href?: T;
+              id?: T;
+            };
         id?: T;
       };
   hero?: T;
