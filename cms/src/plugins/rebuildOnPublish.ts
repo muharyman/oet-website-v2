@@ -5,6 +5,7 @@ import type {
   CollectionSlug,
   GlobalAfterChangeHook,
   GlobalConfig,
+  GlobalSlug,
   PayloadRequest,
   Plugin,
 } from 'payload'
@@ -65,9 +66,22 @@ const withCollectionHooks = (url: string, collection: CollectionConfig): Collect
   }
 }
 
+const isGlobalSlug = (req: PayloadRequest, slug: string): slug is GlobalSlug =>
+  req.payload.globals.config.some((global) => global.slug === slug)
+
 const withGlobalHooks = (url: string, global: GlobalConfig): GlobalConfig => {
-  const afterChange: GlobalAfterChangeHook = ({ doc, req }) => {
-    schedule(url, req)
+  const drafts = typeof global.versions === 'object' && Boolean(global.versions.drafts)
+  const afterChange: GlobalAfterChangeHook = async ({ doc, previousDoc, req }) => {
+    if (!drafts || doc._status === 'published') {
+      schedule(url, req)
+      return doc
+    }
+    if (previousDoc?._status === 'published') {
+      const slug = global.slug
+      if (!isGlobalSlug(req, slug)) throw new Error(`Unknown global ${slug}`)
+      const current = await req.payload.findGlobal({ slug, draft: false, depth: 0, req })
+      if (!('_status' in current) || current._status !== 'published') schedule(url, req)
+    }
     return doc
   }
   return {

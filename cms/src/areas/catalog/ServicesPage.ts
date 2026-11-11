@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { image, paragraphs, seo, text, textarea } from '../../fields'
 import { actions, closingCta, valueItems } from './fields'
 
 export const ServicesPage: GlobalConfig = {
   slug: 'services-page',
   label: 'Services page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/services'),
     group: 'Catalog',
     description:
       'Fixed content of /services and the parts every service page shares. The service cards come from Services.',

@@ -1,6 +1,7 @@
 import type { CheckboxField, GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import {
   image,
   link,
@@ -39,8 +40,10 @@ const sectionVisible = (what: string): CheckboxField => ({
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/'),
     group: 'Site',
     description:
       'Fixed content of the home page. The service accordion comes from Services, the partner logos from Partners, the project cards from Projects.',

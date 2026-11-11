@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { paragraphs, seo, text, textarea } from '../../fields'
 import { actions, coordinates, responsiveImage, stats, tab } from './fields'
 
 export const TeamPage: GlobalConfig = {
   slug: 'team-page',
   label: 'Team page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/organization/team'),
     group: 'Organization',
     description:
       'Content of /organization/team. The cards are all team members; the filter tabs are senior leadership and the departments.',

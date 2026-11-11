@@ -1,14 +1,17 @@
 import type { GlobalConfig } from 'payload'
 
-import { globalRead } from '../../access'
+import { draftGlobalRead } from '../../access'
+import { draftVersions, globalPreviewOptions } from '../../preview'
 import { paragraphs, seo, text, textarea } from '../../fields'
 import { responsiveImage, stats, tab } from './fields'
 
 export const PartnersPage: GlobalConfig = {
   slug: 'partners-page',
   label: 'Partners and funders page',
-  access: globalRead,
+  access: draftGlobalRead,
+  versions: draftVersions,
   admin: {
+    ...globalPreviewOptions('/organization/partners-and-funders'),
     group: 'Organization',
     description:
       'Content of /organization/partners-and-funders. The logos are the partners and funders marked "Show on the partners page".',
