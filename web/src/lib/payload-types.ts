@@ -3944,6 +3944,7 @@ export interface HomePage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4257,6 +4258,7 @@ export interface SuccessStoriesPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4326,6 +4328,7 @@ export interface PublicationsPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4478,6 +4481,7 @@ export interface ServicesPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4540,6 +4544,7 @@ export interface ToolsPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4611,6 +4616,7 @@ export interface NewsEventsPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4767,6 +4773,7 @@ export interface AboutPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4925,6 +4932,7 @@ export interface DepartmentsPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -5160,6 +5168,7 @@ export interface TeamPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -5330,6 +5339,7 @@ export interface PartnersPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -5642,6 +5652,7 @@ export interface CareerPage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -5863,6 +5874,7 @@ export interface TheoryOfChangePage {
      */
     description: string;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -6010,6 +6022,7 @@ export interface HomePageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6201,6 +6214,7 @@ export interface SuccessStoriesPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6250,6 +6264,7 @@ export interface PublicationsPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6332,6 +6347,7 @@ export interface ServicesPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6368,6 +6384,7 @@ export interface ToolsPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6411,6 +6428,7 @@ export interface NewsEventsPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6507,6 +6525,7 @@ export interface AboutPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6547,6 +6566,7 @@ export interface DepartmentsPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6634,6 +6654,7 @@ export interface TeamPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6686,6 +6707,7 @@ export interface PartnersPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6762,6 +6784,7 @@ export interface CareerPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6892,6 +6915,7 @@ export interface TheoryOfChangePageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
