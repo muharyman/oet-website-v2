@@ -118,7 +118,7 @@ export const Partners: CollectionConfig = {
             admin: {
               condition: inLogoGrid,
               description:
-                'The design sets the box of every logo by hand so that the logos look equally heavy. Sizes are in CSS pixels; the logo keeps its proportions.',
+                'Optional. Leave both sizes empty and the site sizes the logo from its proportions so that all logos look equally heavy. Fill in a width and height in CSS pixels only to override that for one logo; the logo keeps its proportions.',
             },
             fields: [
               size('logoDesktop', {
@@ -144,7 +144,8 @@ export const Partners: CollectionConfig = {
           }),
           size('tagSize', {
             label: 'Tag logo display size',
-            description: 'Box of the tag logo in CSS pixels, set by hand per logo in the design.',
+            description:
+              'Optional. Leave empty and the tag logo is sized from its proportions. Fill in a width and height in CSS pixels to override that.',
             condition: hasTagLogo,
           }),
         ]),

@@ -103,12 +103,24 @@ export const size = (
     {
       type: 'row',
       fields: [
-        number('width', { required: true, label: 'Width (px)' }),
-        number('height', { required: true, label: 'Height (px)' }),
+        {
+          ...number('width', { required: false, label: 'Width (px)' }),
+          validate: (value: unknown, { siblingData }: SizeSibling) =>
+            unset(value) === unset(siblingData.height) ? true : 'Fill in both sizes or neither',
+        },
+        {
+          ...number('height', { required: false, label: 'Height (px)' }),
+          validate: (value: unknown, { siblingData }: SizeSibling) =>
+            unset(value) === unset(siblingData.width) ? true : 'Fill in both sizes or neither',
+        },
       ],
     },
   ],
 })
+
+type SizeSibling = { siblingData: { width?: number | null; height?: number | null } }
+
+const unset = (value: unknown) => value === null || value === undefined
 
 export const heading = (
   name: string,
