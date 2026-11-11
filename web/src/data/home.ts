@@ -3,6 +3,7 @@ import type { PartnerTag, TitleLines } from '../components/cards/types'
 import type { Locale } from '../i18n/config'
 import { findAll, findGlobal, required, texts, type Doc } from '../lib/cms'
 import { altOf, image } from '../lib/media'
+import { logoBox, logoFits } from '../lib/logoSize'
 import { partnerLink, partnerTag, projectPeriod } from './projects'
 import { routes } from './routes'
 
@@ -110,13 +111,14 @@ const pair = (values: string[], what: string): [string, string] => {
   return [values[0], values[1]]
 }
 
+const partnerFits = { logoDesktop: logoFits.desktop, logoMobile: logoFits.mobile }
+
 const partnerLogo = (partner: Partner, box: PartnerBox): Logo => {
-  const { width, height } = required(partner[box], `partner "${partner.name}" ${box}`)
+  const logo = image(partner.logo, `partner "${partner.name}" logo`)
   return {
     name: partner.name,
-    image: image(partner.logo, `partner "${partner.name}" logo`),
-    width,
-    height,
+    image: logo,
+    ...logoBox(partner[box], logo, partnerFits[box], `partner "${partner.name}" ${box}`),
   }
 }
 

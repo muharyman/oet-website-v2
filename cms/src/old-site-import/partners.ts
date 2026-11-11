@@ -14,25 +14,6 @@ const aliases: Record<string, string> = {
   'Google.com': 'Google',
 }
 
-const desktopArea = 4200
-const desktopBox = { width: 145, height: 70 }
-const mobileScale = 0.6
-const mobileBox = { width: 81, height: 44 }
-
-const fit = (ratio: number, area: number, box: { width: number; height: number }) => {
-  const width = Math.sqrt(area * ratio)
-  const scale = Math.min(1, box.width / width, box.height / (width / ratio))
-  return { width: Math.round(width * scale), height: Math.round((width / ratio) * scale) }
-}
-
-const logoSizes = (width: number, height: number) => {
-  const ratio = width / height
-  return {
-    logoDesktop: fit(ratio, desktopArea, desktopBox),
-    logoMobile: fit(ratio, desktopArea * mobileScale * mobileScale, mobileBox),
-  }
-}
-
 export type PartnerIds = Map<number, { id: number; hasLogo: boolean }>
 
 export const migratePartners = async (
@@ -91,12 +72,10 @@ export const migratePartners = async (
               showOnPartnersPage: true,
               order: nextOrder++,
               logo: await importMedia(payload, logo, name),
-              ...logoSizes(logo.width, logo.height),
             }
           : { showOnPartnersPage: false }),
       },
     })
-    if (logo) notes.push('logo size set from its proportions; check it on the partners page')
     ids.set(source.id, { id: created.id, hasLogo: logo !== null })
     record({ area: 'Partners and funders', title: name, action: 'created', status: 'none', notes })
   }

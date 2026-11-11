@@ -567,26 +567,26 @@ export interface Partner {
    * Home page and partners page from 1024 px. The partners page also uses this size on mobile, limited to the cell width.
    */
   logoDesktop?: {
-    width: number;
-    height: number;
+    width?: number | null;
+    height?: number | null;
   };
   /**
    * Home page below 1024 px, where the cells are narrower.
    */
   logoMobile?: {
-    width: number;
-    height: number;
+    width?: number | null;
+    height?: number | null;
   };
   /**
    * Small logo in the tag on project and publication cards that name this organisation as partner.
    */
   tagLogo?: (number | null) | Media;
   /**
-   * Box of the tag logo in CSS pixels, set by hand per logo in the design.
+   * Optional. Leave empty and the tag logo is sized from its proportions. Fill in a width and height in CSS pixels to override that.
    */
   tagSize?: {
-    width: number;
-    height: number;
+    width?: number | null;
+    height?: number | null;
   };
   updatedAt: string;
   createdAt: string;
