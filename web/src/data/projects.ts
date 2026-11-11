@@ -12,7 +12,7 @@ import {
   type GlobalDoc,
 } from '../lib/cms'
 import { facet, type PageSize } from '../lib/listing'
-import { altOf, image } from '../lib/media'
+import { altOf, image, optionalImage } from '../lib/media'
 import { logoBox, logoFits } from '../lib/logoSize'
 import {
   articleHtml,
@@ -26,7 +26,7 @@ import {
   testimonial,
   type CtaContent,
   type LinkGroup,
-  type PartnerLogo,
+  type SidebarPartner,
   type Person,
   type ServiceCta,
   type Testimonial,
@@ -50,7 +50,8 @@ export interface ProjectDetail {
   body: string
   linkGroups: LinkGroup[]
   contact: Person
-  partners: PartnerLogo[]
+  partners: SidebarPartner[]
+  funders: SidebarPartner[]
   testimonialHeading: string
   testimonial: Testimonial[]
   related: string[]
@@ -101,9 +102,13 @@ export const partnerLink = (
 export const projectPeriod = (doc: ProjectDoc): string =>
   `${monthOfYear(doc.startDate)} - ${monthOfYear(doc.endDate)}`
 
-const partnerLogo = (source: number | Doc<'partners'>, what: string): PartnerLogo => {
+const sidebarPartner = (source: number | Doc<'partners'>, what: string): SidebarPartner => {
   const partner = resolved(source, what)
-  return { name: partner.name, image: image(partner.logo, `${what} logo`) }
+  return {
+    name: partner.name,
+    logo: optionalImage(partner.logo, `${what} logo`),
+    href: partner.website === null || partner.website === undefined ? null : partner.website,
+  }
 }
 
 const project = (
@@ -172,7 +177,10 @@ const project = (
         `${what} contact photo`,
       ),
       partners: required(doc.partners, `${what} partners`).map((partner) =>
-        partnerLogo(partner, `${what} partner`),
+        sidebarPartner(partner, `${what} partner`),
+      ),
+      funders: required(doc.funders, `${what} funders`).map((funder) =>
+        sidebarPartner(funder, `${what} funder`),
       ),
       testimonialHeading: page.testimonials.heading,
       testimonial:

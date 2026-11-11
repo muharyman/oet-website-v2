@@ -6,6 +6,7 @@ import { t, type UiKey } from '../i18n/ui'
 import { findAll, required, resolved, richHtml, texts, type Doc } from '../lib/cms'
 import { icon, image, optionalImage } from '../lib/media'
 import { routes } from './routes'
+import { personSocialLabels, type PersonSocialKind } from './socials'
 
 export interface Testimonial {
   quote: string
@@ -33,21 +34,18 @@ export interface LinkGroup {
   }[]
 }
 
-const personLinkKinds = ['profile', 'github', 'linkedin'] as const
-
-type PersonLinkKind = (typeof personLinkKinds)[number]
-
 export interface Person {
   name: string
   title: string | null
   photo: ImageMetadata
   role: string | null
-  links: { kind: PersonLinkKind; href: string; label: string }[]
+  links: { kind: PersonSocialKind; href: string; label: string }[]
 }
 
-export interface PartnerLogo {
+export interface SidebarPartner {
   name: string
-  image: ImageMetadata
+  logo: ImageMetadata | null
+  href: string | null
 }
 
 export type ServiceSlug = string
@@ -212,29 +210,17 @@ export const serviceCta = (source: number | Doc<'services'>, what: string): Serv
   }
 }
 
-const personLinkLabels: Record<PersonLinkKind, UiKey> = {
-  profile: 'person.profile',
-  github: 'person.github',
-  linkedin: 'person.linkedin',
+interface PersonLink {
+  kind: PersonSocialKind
+  href: string
 }
 
-interface PersonTarget {
-  kind: string
-  href: string | null | undefined
-}
-
-const personLinks = (locale: Locale, name: string, targets: PersonTarget[]): Person['links'] =>
-  personLinkKinds.flatMap((kind) =>
-    targets
-      .filter((target) => target.kind === kind)
-      .flatMap(({ href }) => (href ? [href] : []))
-      .slice(0, 1)
-      .map((href) => ({
-        kind,
-        href,
-        label: t(locale, personLinkLabels[kind]).replace('{name}', name),
-      })),
-  )
+const personLinks = (locale: Locale, name: string, links: PersonLink[]): Person['links'] =>
+  links.map(({ kind, href }) => ({
+    kind,
+    href,
+    label: `${t(locale, personSocialLabels[kind])}: ${name}`,
+  }))
 
 const present = <Value>(value: Value | null | undefined): Value | null =>
   value === undefined ? null : value
@@ -270,10 +256,6 @@ export const person = (
     title: present(source.title),
     photo,
     role,
-    links: personLinks(locale, name, [
-      { kind: 'profile', href: source.profileHref },
-      { kind: 'github', href: source.githubHref },
-      { kind: 'linkedin', href: source.linkedinHref },
-    ]),
+    links: personLinks(locale, name, required(source.socialLinks, `${what} social links`)),
   }
 }

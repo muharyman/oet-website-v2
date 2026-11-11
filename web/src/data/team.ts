@@ -7,8 +7,7 @@ import { findAll, findGlobal, required, resolved, richHtml, texts, type Doc } fr
 import { facet, type PageSize } from '../lib/listing'
 import { altOf, icon, image } from '../lib/media'
 import { routes } from './routes'
-
-export type SocialKind = 'email' | 'github' | 'linkedin' | 'message'
+import type { PersonSocialKind } from './socials'
 
 export interface PortraitBox {
   x: number
@@ -36,7 +35,7 @@ export interface TeamMember {
   role: string
   portrait: Portrait
   glow: 'center' | 'right'
-  links: { kind: SocialKind; href: string }[]
+  links: { kind: PersonSocialKind; href: string }[]
   profile: TeamProfile
   tags: string[]
 }

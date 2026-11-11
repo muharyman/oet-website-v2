@@ -1,12 +1,18 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
-import CircleUser from '../../icons/circle-user.svg'
+import type { PersonSocialKind } from '../../data/socials'
+import Bluesky from '../../icons/bluesky.svg'
+import CommentHeart from '../../icons/comment-heart.svg'
+import Envelope from '../../icons/envelope.svg'
+import Eventbrite from '../../icons/eventbrite.svg'
 import Github from '../../icons/github.svg'
 import Linkedin from '../../icons/linkedin.svg'
+import Mastodon from '../../icons/mastodon.svg'
+import X from '../../icons/x.svg'
+import Youtube from '../../icons/youtube.svg'
 
-type LinkKind = 'profile' | 'github' | 'linkedin'
-type Link = { kind: LinkKind; href: string; label: string }
+type Link = { kind: PersonSocialKind; href: string; label: string }
 
 interface Props {
   name: string
@@ -18,10 +24,17 @@ interface Props {
 
 const { name, title, photo, role, links } = Astro.props
 
-const icons: Record<LinkKind, typeof CircleUser> = {
-  profile: CircleUser,
+const icons: Record<PersonSocialKind, typeof Envelope> = {
+  email: Envelope,
   github: Github,
   linkedin: Linkedin,
+  message: CommentHeart,
+  x: X,
+  youtube: Youtube,
+  bluesky: Bluesky,
+  mastodon: Mastodon,
+  eventbrite: Eventbrite,
+  newsletter: Envelope,
 }
 ---
 
