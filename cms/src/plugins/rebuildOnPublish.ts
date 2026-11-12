@@ -11,7 +11,7 @@ import type {
 } from 'payload'
 import { waitUntil } from '@vercel/functions'
 
-const ignored = new Set(['users', 'form-submissions'])
+const ignored = new Set(['users', 'form-submissions', 'media'])
 
 const trigger = async (url: string, req: PayloadRequest) => {
   const response = await fetch(url, { method: 'POST' })

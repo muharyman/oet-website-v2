@@ -142,7 +142,7 @@ When `WEB_DEPLOY_HOOK_URL` is set, `plugins/rebuildOnPublish.ts` calls it once p
 - a document is deleted
 - a global is saved
 
-Draft saves and autosave never trigger a rebuild, and neither do changes to `users` or `form-submissions`. The call runs after the response (`waitUntil`). If it fails, the error is logged and the save still succeeds. Vercel queues the website builds.
+Draft saves and autosave never trigger a rebuild, and neither do changes to `users`, `form-submissions` or `media`. A new upload only appears on the site once a published document uses it, and that publish triggers the rebuild. Replacing a file or editing alt text of an image already on the site shows up with the next publish. The call runs after the response (`waitUntil`). If it fails, the error is logged and the save still succeeds. Vercel queues the website builds.
 
 ## Preview
 
